@@ -8,11 +8,13 @@ const StyledPetList = styled.div`
 `;
 
 export default function PetList() {
-  return (
+  return pets.length > 0 ? (
     <StyledPetList>
       {pets.map((pet, index) => {
         return <Pet key={index} petData={pet} />;
       })}
     </StyledPetList>
+  ) : (
+    <h1>The Pet is a lie</h1>
   );
 }

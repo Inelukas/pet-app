@@ -6,10 +6,20 @@ const StyledPet = styled.div`
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  max-width: 250;
+  background-color: var(--secondary-color);
   span {
-    font-size: 50px;
+    font-size: 20vw;
+    position: absolute;
+  }
+  .portrait {
+    width: 45vw;
+    height: 30vh;
+    border-radius: 100%;
+    background: hotpink;
+    position: relative;
   }
 `;
 
@@ -21,11 +31,13 @@ const StyledPetData = styled.div`
 export default function Pet({ petData }) {
   return (
     <StyledPet>
-      <span>{petData.picture}</span>
+      <div className="portrait">
+        <span>{petData.picture}</span>
+      </div>
       <StyledPetData>
-        <h2>Name:{petData.name}</h2>
-        <h2>Type:{petData.type}</h2>
-        <h2>Characteristics:{...petData.characteristics}</h2>
+        <h2>Name: {petData.name}</h2>
+        <h2>Type: {petData.type}</h2>
+        <h2>Characteristics: {...petData.characteristics}</h2>
       </StyledPetData>
     </StyledPet>
   );

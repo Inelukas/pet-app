@@ -4,7 +4,7 @@ const pets = [
     name: "Johnny",
     type: "Turtle",
     picture: "🐢",
-    characteristics: ["smart", "joyful"],
+    characteristics: ["smart ", "joyful"],
     status: {
       hunger: 30,
       happiness: 85,
@@ -17,7 +17,7 @@ const pets = [
     name: "Samantha",
     type: "Camel",
     picture: "🐪",
-    characteristics: ["curious", "piggish"],
+    characteristics: ["curious ", "piggish"],
     status: {
       hunger: 50,
       happiness: 60,
@@ -30,7 +30,7 @@ const pets = [
     name: "Jürgen",
     type: "Unicorn",
     picture: "🦄",
-    characteristics: ["stupid", "picky"],
+    characteristics: ["stupid ", "picky"],
     status: {
       hunger: 40,
       happiness: 95,
@@ -43,7 +43,7 @@ const pets = [
     name: "Jeremiah",
     type: "Owl",
     picture: "🦉",
-    characteristics: ["lazy", "smart"],
+    characteristics: ["lazy ", "smart"],
     status: {
       hunger: 40,
       happiness: 95,
