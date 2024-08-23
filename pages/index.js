@@ -1,7 +1,9 @@
+import PetList from "@/Component/PetList/PetList";
+
 export default function HomePage() {
   return (
     <div>
-      <h1>Hello from Next.js</h1>
+      <PetList />
     </div>
   );
 }
