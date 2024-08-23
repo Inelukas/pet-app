@@ -15,7 +15,7 @@
     "next": "13.4.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "styled-components": "^6.0.2"
+    "styled-components": "^6.1.12"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",
