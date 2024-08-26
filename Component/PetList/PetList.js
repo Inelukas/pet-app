@@ -12,8 +12,8 @@ const StyledPetList = styled.div`
 export default function PetList() {
   return pets.length > 0 ? (
     <StyledPetList>
-      {pets.map((pet, index) => {
-        return <Pet key={index} petData={pet} />;
+      {pets.map((pet) => {
+        return <Pet key={pet.id} petData={pet} />;
       })}
     </StyledPetList>
   ) : (

@@ -45,7 +45,7 @@ const StyledPet = styled.div`
   }
 `;
 
-const StyledPetData = styled.div`
+const StyledPetData = styled.section`
   display: flex;
   flex-direction: column;
   margin-right: 5%;
