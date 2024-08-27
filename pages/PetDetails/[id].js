@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import pets from "@/Lib/Data";
 
 const DetailsContainer = styled.section`
   display: flex;
@@ -129,25 +130,15 @@ const BackToListButton = styled.button`
   }
 `;
 
-const pets = [
-  {
-    id: 1,
-    name: "Johnny",
-    type: "Turtle",
-    picture: "🐢",
-    characteristics: ["smart", "joyful"],
-    status: {
-      health: 100,
-      hunger: 30,
-      happiness: 85,
-      energy: 30,
-      intelligence: 100,
-    },
-  },
-];
-
 export default function PetDetails() {
   const router = useRouter();
+  const { id } = router.query;
+
+  const pet = pets.find((pet) => pet.id === parseInt(id));
+
+  if (!pet) {
+    return <p>No pet found!</p>;
+  }
 
   const handleBackToList = () => {
     router.push("/");
@@ -155,40 +146,37 @@ export default function PetDetails() {
   return (
     <DetailsContainer>
       <Header>Pet Details</Header>
-      {pets.map((pet) => (
-        <section key={pet.id}>
-          <PetPictureContainer>
-            <PetPicture>{pet.picture}</PetPicture>
-            <PetName>{pet.name}</PetName>
-          </PetPictureContainer>
-          <PetCharContainer>
-            Personality: {pet.characteristics.join(", ")}
-          </PetCharContainer>
-          <PetStatusContainer>
-            <PetStatus>
-              <Label>Health</Label>
-              <ValueBar>{pet.status.health}</ValueBar>
-            </PetStatus>
-            <PetStatus>
-              <Label>Hunger</Label>
-              <ValueBar>{pet.status.hunger}</ValueBar>
-            </PetStatus>
-            <PetStatus>
-              <Label>Happiness</Label>
-              <ValueBar>{pet.status.happiness}</ValueBar>
-            </PetStatus>
-            <PetStatus>
-              <Label>Energy</Label>
-              <ValueBar>{pet.status.energy}</ValueBar>
-            </PetStatus>
-            <PetStatus>
-              <Label>Intelligence</Label>
-              <ValueBar>{pet.status.intelligence}</ValueBar>
-            </PetStatus>
-            <BackToListButton onClick={handleBackToList}>Back</BackToListButton>
-          </PetStatusContainer>
-        </section>
-      ))}
+      <PetPictureContainer>
+        <PetPicture>{pet.picture}</PetPicture>
+        <PetName>{pet.name}</PetName>
+      </PetPictureContainer>
+      <PetCharContainer>
+        Personality: {pet.characteristics.join(", ")}
+      </PetCharContainer>
+      <PetStatusContainer>
+        <PetStatus>
+          <Label>Health</Label>
+          <ValueBar>{pet.status.health}</ValueBar>
+        </PetStatus>
+        <PetStatus>
+          <Label>Hunger</Label>
+          <ValueBar>{pet.status.hunger}</ValueBar>
+        </PetStatus>
+        <PetStatus>
+          <Label>Happiness</Label>
+          <ValueBar>{pet.status.happiness}</ValueBar>
+        </PetStatus>
+        <PetStatus>
+          <Label>Energy</Label>
+          <ValueBar>{pet.status.energy}</ValueBar>
+        </PetStatus>
+        <PetStatus>
+          <Label>Intelligence</Label>
+          <ValueBar>{pet.status.intelligence}</ValueBar>
+        </PetStatus>
+        <BackToListButton onClick={handleBackToList}>Back</BackToListButton>
+      </PetStatusContainer>
     </DetailsContainer>
   );
 }
+// componenten die redundant sind mapen
