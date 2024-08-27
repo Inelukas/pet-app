@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 const DetailsContainer = styled.section`
   display: flex;
@@ -88,46 +89,39 @@ const PetStatus = styled.aside`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 10px 0;
+  margin: 10px;
 `;
 
 const Label = styled.p`
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 50px;
 `;
 
 const ValueBar = styled.div`
-  width: 100%;
+  width: 20vh;
   height: 2vh;
   background-color: var(--signal-color);
   border-radius: 5px;
-
-  &::after {
-    display: block;
-    height: 100%;
-    background-color: var(--primary-color);
-    width: ${({ value }) => `${value}%`};
-    transition: width 0.3s ease;
-  }
 `;
 
-/* button button {
-    width: 10vw;
-    height: 5vh;
-    border-radius: 10px;
-    margin: 0 20px;
-    box-shadow: 2px 2px black;
-    cursor: pointer;
+const BackToListButton = styled.button`
+  width: 50px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid black;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--signal-color);
+  cursor: pointer;
 
-    &:hover {
-      transform: scale(1.2);
-    }
-
-    &:active {
-      background-color: var(--secondary-color);
-    }
+  &:hover {
+    transform: scale(1.1);
   }
-*/
+
+  &:active {
+    background-color: var(--secondary-color);
+  }
+`;
 
 const pets = [
   {
@@ -147,6 +141,11 @@ const pets = [
 ];
 
 export default function PetDetails() {
+  const router = useRouter();
+
+  const handleBackToList = () => {
+    router.push("/");
+  };
   return (
     <DetailsContainer>
       <Header>Pet Details</Header>
@@ -183,6 +182,7 @@ export default function PetDetails() {
           </PetStatusContainer>
         </section>
       ))}
+      <BackToListButton onClick={handleBackToList}>Back</BackToListButton>
     </DetailsContainer>
   );
 }
