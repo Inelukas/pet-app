@@ -166,9 +166,18 @@ export default function PetDetails() {
     return <p>No pet found!</p>;
   }
 
+  const petStatus = [
+    { label: "Health", value: pet.status.health },
+    { label: "Hunger", value: pet.status.hunger },
+    { label: "Happiness", value: pet.status.happiness },
+    { label: "Energy", value: pet.status.energy },
+    { label: "Intelligence", value: pet.status.intelligence },
+  ];
+
   const handleBackToList = () => {
     router.push("/");
   };
+
   return (
     <DetailsContainer>
       <Header>Pet Details</Header>
@@ -180,26 +189,12 @@ export default function PetDetails() {
         Personality: {pet.characteristics.join(", ")}
       </PetCharContainer>
       <PetStatusContainer>
-        <PetStatus>
-          <Label>Health</Label>
-          <ValueBar>{pet.status.health}</ValueBar>
-        </PetStatus>
-        <PetStatus>
-          <Label>Hunger</Label>
-          <ValueBar>{pet.status.hunger}</ValueBar>
-        </PetStatus>
-        <PetStatus>
-          <Label>Happiness</Label>
-          <ValueBar>{pet.status.happiness}</ValueBar>
-        </PetStatus>
-        <PetStatus>
-          <Label>Energy</Label>
-          <ValueBar>{pet.status.energy}</ValueBar>
-        </PetStatus>
-        <PetStatus>
-          <Label>Intelligence</Label>
-          <ValueBar>{pet.status.intelligence}</ValueBar>
-        </PetStatus>
+        {petStatus.map((status, index) => (
+          <PetStatus key={index}>
+            <Label>{status.label}</Label>
+            <ValueBar>{status.value}</ValueBar>
+          </PetStatus>
+        ))}
         <BackToListButton onClick={handleBackToList}>Back</BackToListButton>
       </PetStatusContainer>
     </DetailsContainer>
