@@ -33,18 +33,18 @@ const PetPictureContainer = styled.section`
   border: 1.5px solid black;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
 
-  .portrait {
-    width: 10vh;
-    height: 10vh;
-    border-radius: 50%;
-    background: var(--secondary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 5vh;
-    margin-bottom: 10px;
-  }
+const Portrait = styled.div`
+  width: 10vh;
+  height: 10vh;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5vh;
+  margin-bottom: 10px;
 `;
 
 const PetName = styled.p`
@@ -87,7 +87,7 @@ const PetStatusContainer = styled.section`
 
 const StatusBar = styled.aside`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   font-size: 15px;
   color: var(--primary-color);
@@ -129,9 +129,7 @@ export default function PetDetails() {
       {pets.map((pet) => (
         <section key={pet.id}>
           <PetPictureContainer>
-            <section className="portrait">
-              <span>{pet.picture}</span>
-            </section>
+            <Portrait>{pet.picture}</Portrait>
             <PetName>{pet.name}</PetName>
           </PetPictureContainer>
           <PetCharContainer>
