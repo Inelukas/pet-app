@@ -16,9 +16,8 @@ const Header = styled.header`
   font-size: 15px;
   font-weight: bold;
   color: var(--text-color);
-  margin: 10px;
+  margin: 20px;
   padding: 10px;
-  margin-bottom: 20px;
   border-radius: 10px;
   border: 1.5px solid black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -38,7 +37,8 @@ const PetPictureContainer = styled.section`
 const PetPicture = styled.section`
   width: 8vh;
   height: 8vh;
-  border-radius: 50%;
+  border-radius: 10px;
+  border: 1.5px solid black;
   background: var(--secondary-color);
   display: flex;
   align-items: center;
