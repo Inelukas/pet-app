@@ -9,20 +9,25 @@ const DetailsContainer = styled.section`
   max-width: 300px;
   background-color: var(--neutral-color);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-const Header = styled.h1`
+const Header = styled.header`
   font-size: 1.5rem;
   color: var(--primary-color);
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
   margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-const PetPictureContainer = styled.div`
+const PetPictureContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   .portrait {
     width: 10vh;
@@ -37,16 +42,17 @@ const PetPictureContainer = styled.div`
   }
 `;
 
-const PetName = styled.h2`
+const PetName = styled.p`
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary-color);
   text-align: center;
   margin: 0;
   padding: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-const PetCharContainer = styled.div`
+const PetCharContainer = styled.section`
   display: flex;
   justify-content: center;
   background-color: var(--secondary-color);
@@ -54,18 +60,20 @@ const PetCharContainer = styled.div`
   padding: 10px;
   margin: 10px 0;
   width: fit-content;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-const PetStatusContainer = styled.div`
+const PetStatusContainer = styled.section`
   display: flex;
   justify-content: space-around;
   background-color: var(--secondary-color);
   border-radius: 5px;
   padding: 10px;
   width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-const StatusBox = styled.div`
+const StatusBar = styled.aside`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,22 +123,22 @@ export default function PetDetails() {
             Personality: {pet.characteristics.join(", ")}
           </PetCharContainer>
           <PetStatusContainer>
-            <StatusBox>
+            <StatusBar>
               <div className="label">Hunger</div>
               <div className="value">{pet.status.hunger}</div>
-            </StatusBox>
-            <StatusBox>
+            </StatusBar>
+            <StatusBar>
               <div className="label">Happiness</div>
               <div className="value">{pet.status.happiness}</div>
-            </StatusBox>
-            <StatusBox>
+            </StatusBar>
+            <StatusBar>
               <div className="label">Energy</div>
               <div className="value">{pet.status.energy}</div>
-            </StatusBox>
-            <StatusBox>
+            </StatusBar>
+            <StatusBar>
               <div className="label">Intelligence</div>
               <div className="value">{pet.status.intelligence}</div>
-            </StatusBox>
+            </StatusBar>
           </PetStatusContainer>
         </div>
       ))}
