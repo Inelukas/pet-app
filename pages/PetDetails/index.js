@@ -6,7 +6,6 @@ const DetailsContainer = styled.section`
   align-items: center;
   margin: 20px;
   padding: 20px;
-  max-width: 300px;
   background-color: var(--neutral-color);
   border: 1.5px solid black;
   border-radius: 10px;
@@ -14,8 +13,9 @@ const DetailsContainer = styled.section`
 `;
 
 const Header = styled.header`
-  font-size: 1.5rem;
-  color: var(--primary-color);
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--text-color);
   margin: 10px;
   padding: 10px;
   margin-bottom: 20px;
@@ -35,9 +35,9 @@ const PetPictureContainer = styled.section`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-const Portrait = styled.div`
-  width: 10vh;
-  height: 10vh;
+const PetPicture = styled.section`
+  width: 8vh;
+  height: 8vh;
   border-radius: 50%;
   background: var(--secondary-color);
   display: flex;
@@ -48,9 +48,9 @@ const Portrait = styled.div`
 `;
 
 const PetName = styled.p`
-  font-size: 1.5rem;
+  font-size: 15px;
   font-weight: bold;
-  color: var(--primary-color);
+  color: var(--text-color);
   text-align: center;
   margin: 5px;
   padding: 5px;
@@ -65,8 +65,7 @@ const PetCharContainer = styled.section`
   background-color: var(--secondary-color);
   border-radius: 5px;
   padding: 10px;
-  margin: 10px 0;
-  width: fit-content;
+  margin: 10px;
   border: 1.5px solid black;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -88,22 +87,22 @@ const PetStatusContainer = styled.section`
 const StatusBar = styled.aside`
   display: flex;
   flex-direction: row;
+  width: 40vh;
+  height: 10vh;
+  margin: 20px;
+  padding: 10px;
   align-items: center;
   font-size: 15px;
-  color: var(--primary-color);
+  color: var(--text-color);
+  background-color: var(--signal-color);
 `;
 
 const Label = styled(StatusBar)`
   font-weight: bold;
-  margin-bottom: 5px;
-  font-size: inherit;
-  color: inherit;
 `;
 
 const Value = styled(StatusBar)`
-  font-size: 15px;
   color: var(--signal-color);
-  margin-bottom: 0;
 `;
 
 const pets = [
@@ -114,6 +113,7 @@ const pets = [
     picture: "🐢",
     characteristics: ["smart", "joyful"],
     status: {
+      health: 100,
       hunger: 30,
       happiness: 85,
       energy: 30,
@@ -129,13 +129,17 @@ export default function PetDetails() {
       {pets.map((pet) => (
         <section key={pet.id}>
           <PetPictureContainer>
-            <Portrait>{pet.picture}</Portrait>
+            <PetPicture>{pet.picture}</PetPicture>
             <PetName>{pet.name}</PetName>
           </PetPictureContainer>
           <PetCharContainer>
             Personality: {pet.characteristics.join(", ")}
           </PetCharContainer>
           <PetStatusContainer>
+            <StatusBar>
+              <Label>Health</Label>
+              <Value>{pet.status.health}</Value>
+            </StatusBar>
             <StatusBar>
               <Label>Hunger</Label>
               <Value>{pet.status.hunger}</Value>
