@@ -35,7 +35,18 @@ export default function Indicator({ data }) {
     <StyledIndicator>
       <h3>{data.name}:</h3>
       <StyledBarContainer>
-        <StyledBar style={{ background: data.color, width: `${data.count}%` }}>
+        <StyledBar
+          style={{
+            background: `${
+              data.name === "Happiness"
+                ? "pink"
+                : data.name === "Energy"
+                ? "yellow"
+                : "lightblue"
+            }`,
+            width: `${data.count}%`,
+          }}
+        >
           {data.count}/100&nbsp;
         </StyledBar>
       </StyledBarContainer>

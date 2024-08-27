@@ -5,9 +5,11 @@ const StyledPetSelection = styled.div`
   justify-content: center;
   align-items: center;
   gap: 5%;
+  width: 100vw;
 
   button {
     width: 10vw;
+    min-width: 60px;
     height: 5vh;
     border-radius: 10px;
     margin: 0 20px;
@@ -27,8 +29,8 @@ const StyledPetSelection = styled.div`
 `;
 
 const StyledPetIcon = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   display: grid;
   place-content: center;
   border-radius: 20px;
@@ -41,11 +43,15 @@ const StyledPetIcon = styled.div`
 export default function PetSelection({ onChangePet, animalList, currentPet }) {
   return (
     <StyledPetSelection>
-      <button onClick={() => onChangePet("back")}>←</button>
+      <button type="button" onClick={() => onChangePet("back")}>
+        ←
+      </button>
       <StyledPetIcon onClick={() => onChangePet("next")}>
         {animalList[currentPet].icon}
       </StyledPetIcon>
-      <button onClick={() => onChangePet("next")}>→</button>
+      <button type="button" onClick={() => onChangePet("next")}>
+        →
+      </button>
     </StyledPetSelection>
   );
 }

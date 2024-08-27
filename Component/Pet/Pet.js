@@ -9,9 +9,10 @@ const StyledPet = styled.li`
   align-items: center;
   background-color: var(--secondary-color);
   width: 50vw;
+  max-width: 600px;
   height: 20vh;
   min-height: 150px;
-  gap: 3%;
+  gap: 5%;
 
   @media screen and (max-width: 1000px) {
     width: 70vw;
@@ -21,10 +22,11 @@ const StyledPet = styled.li`
 const StyledPetData = styled.section`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   margin-right: 5%;
   font-size: 18px;
   margin: 5px;
-  line-height: 1.2;
+  line-height: 1.5;
 
   @media screen and (max-width: 700px) {
     font-size: 16px;
@@ -65,7 +67,7 @@ const StyledPortrait = styled.section`
 
 const StyledList = styled.ul`
   display: flex;
-  gap: 1vw;
+  gap: 5px;
   list-style-type: none;
   li {
   }
