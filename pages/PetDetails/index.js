@@ -8,6 +8,7 @@ const DetailsContainer = styled.section`
   padding: 20px;
   max-width: 300px;
   background-color: var(--neutral-color);
+  border: 1.5px solid black;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
@@ -17,8 +18,9 @@ const Header = styled.header`
   color: var(--primary-color);
   margin: 10px;
   padding: 10px;
-  border-radius: 10px;
   margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1.5px solid black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
@@ -26,7 +28,10 @@ const PetPictureContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 10px;
+  padding: 10px;
+  border: 1.5px solid black;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   .portrait {
@@ -47,8 +52,10 @@ const PetName = styled.p`
   font-weight: bold;
   color: var(--primary-color);
   text-align: center;
-  margin: 0;
-  padding: 0;
+  margin: 5px;
+  padding: 5px;
+  border: 1.5px solid black;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
@@ -60,16 +67,21 @@ const PetCharContainer = styled.section`
   padding: 10px;
   margin: 10px 0;
   width: fit-content;
+  border: 1.5px solid black;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 const PetStatusContainer = styled.section`
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   background-color: var(--secondary-color);
   border-radius: 5px;
   padding: 10px;
   width: 100%;
+  border: 1.5px solid black;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
@@ -77,7 +89,7 @@ const StatusBar = styled.aside`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 12px;
   color: var(--primary-color);
 
   .label {
@@ -86,7 +98,7 @@ const StatusBar = styled.aside`
   }
 
   .value {
-    font-size: 1.2rem;
+    font-size: 12px;
     color: var(--signal-color);
   }
 `;
@@ -112,11 +124,11 @@ export default function PetDetails() {
     <DetailsContainer>
       <Header>Pet Details</Header>
       {pets.map((pet) => (
-        <div key={pet.id}>
+        <section key={pet.id}>
           <PetPictureContainer>
-            <div className="portrait">
+            <section className="portrait">
               <span>{pet.picture}</span>
-            </div>
+            </section>
             <PetName>{pet.name}</PetName>
           </PetPictureContainer>
           <PetCharContainer>
@@ -124,23 +136,23 @@ export default function PetDetails() {
           </PetCharContainer>
           <PetStatusContainer>
             <StatusBar>
-              <div className="label">Hunger</div>
-              <div className="value">{pet.status.hunger}</div>
+              <aside className="label">Hunger</aside>
+              <aside className="value">{pet.status.hunger}</aside>
             </StatusBar>
             <StatusBar>
-              <div className="label">Happiness</div>
-              <div className="value">{pet.status.happiness}</div>
+              <aside className="label">Happiness</aside>
+              <aside className="value">{pet.status.happiness}</aside>
             </StatusBar>
             <StatusBar>
-              <div className="label">Energy</div>
-              <div className="value">{pet.status.energy}</div>
+              <aside className="label">Energy</aside>
+              <aside className="value">{pet.status.energy}</aside>
             </StatusBar>
             <StatusBar>
-              <div className="label">Intelligence</div>
-              <div className="value">{pet.status.intelligence}</div>
+              <aside className="label">Intelligence</aside>
+              <aside className="value">{pet.status.intelligence}</aside>
             </StatusBar>
           </PetStatusContainer>
-        </div>
+        </section>
       ))}
     </DetailsContainer>
   );
