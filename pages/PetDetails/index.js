@@ -28,6 +28,7 @@ const PetPictureContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: var(--secondary-color);
   margin: 10px;
   padding: 10px;
   border: 1.5px solid black;
@@ -40,7 +41,7 @@ const PetPicture = styled.section`
   height: 8vh;
   border-radius: 10px;
   border: 1.5px solid black;
-  background: var(--secondary-color);
+  background-color: var(--neutral-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,12 +50,14 @@ const PetPicture = styled.section`
 `;
 
 const PetName = styled.p`
+  display: flex;
   font-size: 15px;
   font-weight: bold;
   color: var(--text-color);
   text-align: center;
   margin: 5px;
   padding: 5px;
+  background-color: var(--neutral-color);
   border: 1.5px solid black;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -93,6 +96,8 @@ const PetStatus = styled.aside`
 `;
 
 const Label = styled.p`
+  display: flex;
+  border: 1.5px solid black; //MARK
   font-weight: bold;
   margin-right: 50px;
 `;
@@ -100,7 +105,8 @@ const Label = styled.p`
 const ValueBar = styled.div`
   width: 20vh;
   height: 2vh;
-  background-color: var(--signal-color);
+  background-color: var(--neutral-color);
+  border: 1.5px solid black;
   border-radius: 5px;
 `;
 
@@ -179,10 +185,10 @@ export default function PetDetails() {
               <Label>Intelligence</Label>
               <ValueBar>{pet.status.intelligence}</ValueBar>
             </PetStatus>
+            <BackToListButton onClick={handleBackToList}>Back</BackToListButton>
           </PetStatusContainer>
         </section>
       ))}
-      <BackToListButton onClick={handleBackToList}>Back</BackToListButton>
     </DetailsContainer>
   );
 }
