@@ -84,26 +84,50 @@ const PetStatusContainer = styled.section`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-const StatusBar = styled.aside`
+const PetStatus = styled.aside`
   display: flex;
   flex-direction: row;
-  width: 40vh;
-  height: 10vh;
-  margin: 20px;
-  padding: 10px;
   align-items: center;
-  font-size: 15px;
-  color: var(--text-color);
-  background-color: var(--signal-color);
+  margin: 10px 0;
 `;
 
-const Label = styled(StatusBar)`
+const Label = styled.p`
   font-weight: bold;
+  margin-right: 10px;
 `;
 
-const Value = styled(StatusBar)`
-  color: var(--signal-color);
+const ValueBar = styled.div`
+  width: 100%;
+  height: 2vh;
+  background-color: var(--signal-color);
+  border-radius: 5px;
+
+  &::after {
+    display: block;
+    height: 100%;
+    background-color: var(--primary-color);
+    width: ${({ value }) => `${value}%`};
+    transition: width 0.3s ease;
+  }
 `;
+
+/* button button {
+    width: 10vw;
+    height: 5vh;
+    border-radius: 10px;
+    margin: 0 20px;
+    box-shadow: 2px 2px black;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    &:active {
+      background-color: var(--secondary-color);
+    }
+  }
+*/
 
 const pets = [
   {
@@ -136,26 +160,26 @@ export default function PetDetails() {
             Personality: {pet.characteristics.join(", ")}
           </PetCharContainer>
           <PetStatusContainer>
-            <StatusBar>
+            <PetStatus>
               <Label>Health</Label>
-              <Value>{pet.status.health}</Value>
-            </StatusBar>
-            <StatusBar>
+              <ValueBar>{pet.status.health}</ValueBar>
+            </PetStatus>
+            <PetStatus>
               <Label>Hunger</Label>
-              <Value>{pet.status.hunger}</Value>
-            </StatusBar>
-            <StatusBar>
+              <ValueBar>{pet.status.hunger}</ValueBar>
+            </PetStatus>
+            <PetStatus>
               <Label>Happiness</Label>
-              <Value>{pet.status.happiness}</Value>
-            </StatusBar>
-            <StatusBar>
+              <ValueBar>{pet.status.happiness}</ValueBar>
+            </PetStatus>
+            <PetStatus>
               <Label>Energy</Label>
-              <Value>{pet.status.energy}</Value>
-            </StatusBar>
-            <StatusBar>
+              <ValueBar>{pet.status.energy}</ValueBar>
+            </PetStatus>
+            <PetStatus>
               <Label>Intelligence</Label>
-              <Value>{pet.status.intelligence}</Value>
-            </StatusBar>
+              <ValueBar>{pet.status.intelligence}</ValueBar>
+            </PetStatus>
           </PetStatusContainer>
         </section>
       ))}
