@@ -89,18 +89,21 @@ const StatusBar = styled.aside`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 12px;
+  font-size: 15px;
   color: var(--primary-color);
+`;
 
-  .label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
+const Label = styled(StatusBar)`
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: inherit;
+  color: inherit;
+`;
 
-  .value {
-    font-size: 12px;
-    color: var(--signal-color);
-  }
+const Value = styled(StatusBar)`
+  font-size: 15px;
+  color: var(--signal-color);
+  margin-bottom: 0;
 `;
 
 const pets = [
@@ -136,20 +139,20 @@ export default function PetDetails() {
           </PetCharContainer>
           <PetStatusContainer>
             <StatusBar>
-              <aside className="label">Hunger</aside>
-              <aside className="value">{pet.status.hunger}</aside>
+              <Label>Hunger</Label>
+              <Value>{pet.status.hunger}</Value>
             </StatusBar>
             <StatusBar>
-              <aside className="label">Happiness</aside>
-              <aside className="value">{pet.status.happiness}</aside>
+              <Label>Happiness</Label>
+              <Value>{pet.status.happiness}</Value>
             </StatusBar>
             <StatusBar>
-              <aside className="label">Energy</aside>
-              <aside className="value">{pet.status.energy}</aside>
+              <Label>Energy</Label>
+              <Value>{pet.status.energy}</Value>
             </StatusBar>
             <StatusBar>
-              <aside className="label">Intelligence</aside>
-              <aside className="value">{pet.status.intelligence}</aside>
+              <Label>Intelligence</Label>
+              <Value>{pet.status.intelligence}</Value>
             </StatusBar>
           </PetStatusContainer>
         </section>

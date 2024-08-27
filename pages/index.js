@@ -5,7 +5,6 @@ export default function HomePage() {
   return (
     <div>
       <PetList />
-      <PetDetails />
     </div>
   );
 }
