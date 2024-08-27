@@ -200,4 +200,3 @@ export default function PetDetails() {
     </DetailsContainer>
   );
 }
-// componenten die redundant sind mapen
