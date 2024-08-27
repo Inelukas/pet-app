@@ -2,7 +2,7 @@ import styled from "styled-components";
 import pets from "@/Lib/Data";
 import Pet from "../Pet/Pet";
 
-const StyledPetList = styled.div`
+const StyledPetList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,6 +17,6 @@ export default function PetList() {
       })}
     </StyledPetList>
   ) : (
-    <h1>The Pet is a lie</h1>
+    <h1>You don&apos;t have any pets.</h1>
   );
 }
