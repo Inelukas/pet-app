@@ -1,8 +1,8 @@
 import Form from "@/Component/Form/Form";
-import Indicator from "@/Component/Indicator/Indicator";
 import PetSelection from "@/Component/PetSelection/PetSelection";
 import { useState } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 const StyledCreatePetPage = styled.div`
   display: flex;
@@ -13,25 +13,6 @@ const StyledCreatePetPage = styled.div`
   width: 100vw;
   gap: 30px;
   background-image: var(--create-image);
-
-  button {
-    width: 10vw;
-    height: 5vh;
-    border-radius: 10px;
-    margin: 0 20px;
-    box-shadow: 2px 2px black;
-    cursor: pointer;
-    background-color: var(--signal-color);
-    background-image: var(--button-image);
-
-    &:hover {
-      transform: scale(1.2);
-    }
-
-    &:active {
-      background-color: var(--secondary-color);
-    }
-  }
 `;
 
 const animalList = [
@@ -40,10 +21,12 @@ const animalList = [
   { type: "Mouse", icon: "🐭" },
   { type: "Fox", icon: "🦊" },
   { type: "Frog", icon: "🐸" },
+  { type: "Capybara", icon: "𐃶" },
 ];
 
 export default function CreatePetPage() {
   const [currentPet, setCurrentPet] = useState(0);
+  const router = useRouter();
 
   function handleChangePet(direction) {
     setCurrentPet(
@@ -57,6 +40,16 @@ export default function CreatePetPage() {
     );
   }
 
+  function handleCreatePet(petData) {
+    console.log(petData);
+    // go to PetList and implement the add pet logic there
+    // router.push("/");
+  }
+
+  function handleCancel() {
+    router.push("/");
+  }
+
   return (
     <StyledCreatePetPage>
       <PetSelection
@@ -64,7 +57,12 @@ export default function CreatePetPage() {
         animalList={animalList}
         currentPet={currentPet}
       />
-      <Form animalList={animalList} currentPet={currentPet} />
+      <Form
+        animalList={animalList}
+        currentPet={currentPet}
+        onCreatePet={handleCreatePet}
+        onCancel={handleCancel}
+      />
     </StyledCreatePetPage>
   );
 }

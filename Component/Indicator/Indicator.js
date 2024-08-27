@@ -9,24 +9,36 @@ const StyledIndicator = styled.div`
   h3 {
     width: 30%;
   }
+`;
 
-  .bar {
-    width: 60%;
-    height: 25px;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: right;
-    padding: 1px 5px;
-  }
+const StyledBarContainer = styled.div`
+  width: 60%;
+  height: 25px;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: right;
+  padding: 1px 5px;
+  background-color: #ffffff;
+  position: relative;
+`;
+
+const StyledBar = styled.div`
+  height: 21px;
+  border-radius: 8px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
 `;
 
 export default function Indicator({ data }) {
   return (
     <StyledIndicator>
       <h3>{data.name}:</h3>
-      <div className="bar" style={{ background: data.color }}>
-        100/100
-      </div>
+      <StyledBarContainer>
+        <StyledBar style={{ background: data.color, width: `${data.count}%` }}>
+          {data.count}/100&nbsp;
+        </StyledBar>
+      </StyledBarContainer>
     </StyledIndicator>
   );
 }

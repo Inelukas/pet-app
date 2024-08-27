@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Indicator from "../Indicator/Indicator";
+import { useState } from "react";
 
 const StyledForm = styled.form`
   display: flex;
@@ -16,14 +17,34 @@ const StyledForm = styled.form`
   }
 `;
 
-const StyledConfirmButton = styled.div`
+const StyledConfirmButtonContainer = styled.section`
+  display: flex;
+`;
+
+const StyledConfirmButton = styled.button`
+  display: grid;
+  place-content: center;
   width: 25vw;
   height: 10vh;
   max-width: 200px;
   font-size: 20px;
+  border-radius: 10px;
+  margin: 0 20px;
+  box-shadow: 2px 2px black;
+  cursor: pointer;
+  background-color: var(--signal-color);
+  background-image: var(--button-image);
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:active {
+    background-color: var(--secondary-color);
+  }
 `;
 
-const StyledIndicatorContainer = styled.div`
+const StyledIndicatorContainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -37,7 +58,7 @@ const StyledIndicatorContainer = styled.div`
   box-shadow: 5px 5px 5px 5px black;
 `;
 
-const StyledMainField = styled.div`
+const StyledMainField = styled.section`
   display: flex;
   flex-direction: column;
   width: 80vw;
@@ -51,19 +72,20 @@ const StyledMainField = styled.div`
   box-shadow: 5px 5px 5px 5px black;
   font-size: 18px;
   font-weight: 800;
+`;
 
-  .characteristics {
-    display: flex;
-    gap: 10px;
+const StyledCharacteristicsContainer = styled.section`
+  display: flex;
+  gap: 10px;
 
-    select {
-      width: 20vw;
-      max-width: 240px;
-    }
+  select {
+    width: 20vw;
+    max-width: 240px;
+    border-radius: 5px;
   }
 `;
 
-const StyledFormElement = styled.div`
+const StyledFormElement = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -86,17 +108,43 @@ const StyledFormElement = styled.div`
 `;
 
 const data = [
-  { name: "Happiness", color: "pink" },
-  { name: "Energy", color: "yellow" },
-  { name: "Intelligence", color: "lightblue" },
+  { name: "Happiness", color: "pink", count: 100 },
+  { name: "Energy", color: "yellow", count: 80 },
+  { name: "Intelligence", color: "lightblue", count: 60 },
 ];
 
-export default function Form({ animalList, currentPet }) {
+const characteristicOptions = [
+  "smart",
+  "stupid",
+  "hyperactive",
+  "lazy",
+  "gluttonous",
+  "picky",
+  "cheerful",
+  "depressed",
+];
+
+export default function Form({
+  animalList,
+  currentPet,
+  onCreatePet,
+  onCancel,
+}) {
+  const [characteristics, setCharacteristics] = useState({
+    characteristic1: "",
+    characteristic2: "",
+  });
+
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    console.log(data);
+    event.target.reset();
+    setCharacteristics({
+      characteristic1: "",
+      characteristic2: "",
+    });
+    onCreatePet(data);
   }
 
   return (
@@ -118,34 +166,52 @@ export default function Form({ animalList, currentPet }) {
         </StyledFormElement>
         <StyledFormElement>
           <label htmlFor="characteristic">Characteristics:</label>
-          <div className="characteristics">
+          <StyledCharacteristicsContainer>
             1:{" "}
-            <select name="characteristic" id="characteristic" required>
-              <option disabled hidden>
-                Choose Nr.1
+            <select
+              name="characteristic"
+              id="characteristic"
+              value={characteristics.characteristic1}
+              onChange={(event) =>
+                setCharacteristics({
+                  ...characteristics,
+                  characteristic1: event.target.value,
+                })
+              }
+              required
+            >
+              <option value="" disabled>
+                Choose Nr. 1
               </option>
-              <option>smart</option>
-              <option>stupid</option>
-              <option>hyperactive</option>
-              <option>lazy</option>
-              <option>gluttonous</option>
-              <option>picky</option>
-              <option>cheerful</option>
-              <option>depressed</option>
+              {characteristicOptions.map((characteristic) => (
+                <option
+                  disabled={characteristics.characteristic2 === characteristic}
+                >
+                  {characteristic}
+                </option>
+              ))}
             </select>
             2:{" "}
-            <select name="type-2" required>
-              <option value="">Choose Nr.2</option>
-              <option>smart</option>
-              <option>stupid</option>
-              <option>hyperactive</option>
-              <option>lazy</option>
-              <option>gluttonous</option>
-              <option>picky</option>
-              <option>cheerful</option>
-              <option>depressed</option>
+            <select
+              name="characteristic-2"
+              value={characteristics.characteristic2}
+              onChange={(event) =>
+                setCharacteristics({
+                  ...characteristics,
+                  characteristic2: event.target.value,
+                })
+              }
+            >
+              <option value="">*none*</option>
+              {characteristicOptions.map((characteristic) => (
+                <option
+                  disabled={characteristics.characteristic1 === characteristic}
+                >
+                  {characteristic}
+                </option>
+              ))}
             </select>
-          </div>
+          </StyledCharacteristicsContainer>
         </StyledFormElement>
       </StyledMainField>
       <StyledIndicatorContainer>
@@ -153,10 +219,12 @@ export default function Form({ animalList, currentPet }) {
           <Indicator key={index} data={indicator} />
         ))}
       </StyledIndicatorContainer>
-      <div>
-        <StyledConfirmButton type="button">Cancel</StyledConfirmButton>
+      <StyledConfirmButtonContainer>
+        <StyledConfirmButton onClick={onCancel} type="button">
+          Cancel
+        </StyledConfirmButton>
         <StyledConfirmButton type="submit">Create</StyledConfirmButton>
-      </div>
+      </StyledConfirmButtonContainer>
     </StyledForm>
   );
 }
