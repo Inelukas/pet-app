@@ -97,7 +97,7 @@ const PetStatus = styled.aside`
 
 const Label = styled.p`
   display: flex;
-  border: 1.5px solid black; //MARK
+  min-width: 80px;
   font-weight: bold;
   margin-right: 50px;
 `;
