@@ -17,10 +17,19 @@ const DetailsContainer = styled.section`
   width: 90vw;
   max-width: 600px;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     margin: 20px;
     padding: 20px;
-    max-width: 800px;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin: 15px;
+    padding: 15px;
+  }
+
+  @media screen and (min-width: 676px) {
+    margin: 10px;
+    padding: 10px;
   }
 `;
 
@@ -113,13 +122,10 @@ const PetStatusContainer = styled.section`
   @media screen and (min-width: 768px) {
     padding: 20px;
   }
-`;
 
-const PetStatus = styled.aside`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 10px;
+  & > div {
+    min-width: 75%;
+  }
 `;
 
 const BackToListButton = styled.button`
