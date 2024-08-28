@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import pets from "@/Lib/Data";
-import Indicator from "@/Component/Indicator/Indicator";
+import Indicator from "@/components/Indicator/Indicator";
 
 const DetailsContainer = styled.section`
   display: flex;
