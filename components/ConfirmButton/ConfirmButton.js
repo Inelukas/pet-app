@@ -26,5 +26,5 @@ const StyledConfirmButton = styled.button`
 `;
 
 export default function ConfirmButton({ children }) {
-  return <StyledConfirmButton>{children}</StyledConfirmButton>;
+  return <StyledConfirmButton type="button">{children}</StyledConfirmButton>;
 }

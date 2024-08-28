@@ -37,7 +37,7 @@ const StyledForm = styled.form`
   font-size: 18px;
   font-weight: 800;
 
-  @media screen and (max-width: 667px) {
+  @media screen and (min-width: 667px) {
     font-size: 13px;
   }
 `;
@@ -59,7 +59,7 @@ const StyledIndicatorContainer = styled.article`
   border-radius: 20px;
   box-shadow: 5px 5px 5px 5px black;
 
-  @media screen and (max-width: 667px) {
+  @media screen and (min-width: 667px) {
     font-size: 12px;
   }
 `;
@@ -73,7 +73,7 @@ const StyledCharacteristicsContainer = styled.section`
     max-width: 240px;
     border-radius: 5px;
 
-    @media screen and (max-width: 667px) {
+    @media screen and (min-width: 667px) {
       font-size: 12px;
     }
   }
@@ -244,7 +244,7 @@ export default function CreatePetPage({ onCreatePet }) {
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
         <StyledLink targetSource="/">Cancel</StyledLink>
-        <ConfirmButton type="submit" onClick={handleExternalButtonClick}>
+        <ConfirmButton type="button" onClick={handleExternalButtonClick}>
           Create
         </ConfirmButton>
       </StyledConfirmButtonContainer>
