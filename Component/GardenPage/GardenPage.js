@@ -1,7 +1,40 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
 import petsData from "@/Lib/Data";
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const bounce = keyframes`
+  0%, 35%, 55%, 80%, 100% {
+    transform: translateY(0);
+  }
+  5% {
+    transform: translateY(-45px);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+`;
+
+const grow = keyframes`
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+`;
 
 const GardenContainer = styled.div`
   position: relative;
@@ -13,12 +46,31 @@ const GardenContainer = styled.div`
   background-repeat: no-repeat;
 `;
 
-const PetDisplay = styled.div`
-  position: relative;
-  left: 30%;
+const PetWrapper = styled.div`
+  position: absolute;
+  left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const PetDisplay = styled.div`
   font-size: 8em;
   color: var(--text-color);
+  transform-origin: center;
+  animation: ${({ $rotating, $bouncing, $growing }) =>
+    $rotating
+      ? css`
+          ${rotate} 1s linear
+        `
+      : $bouncing
+      ? css`
+          ${bounce} 1s ease infinite
+        `
+      : $growing
+      ? css`
+          ${grow} 0.5s ease
+        `
+      : "none"};
 `;
 
 const NavbarContainer = styled.div`
@@ -161,6 +213,9 @@ const ListPageLink = styled.div`
 const GardenPage = () => {
   const [pets, setPets] = useState(petsData);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
+  const [isRotating, setIsRotating] = useState(false);
+  const [isBouncing, setIsBouncing] = useState(false);
+  const [isGrowing, setIsGrowing] = useState(false);
 
   const handlePrevPet = () => {
     setCurrentPetIndex((prevIndex) =>
@@ -180,6 +235,25 @@ const GardenPage = () => {
       100
     );
     setPets(updatedPets);
+
+    if (statusKey === "energy") {
+      setIsRotating(true);
+      setTimeout(() => {
+        setIsRotating(false);
+      }, 1000); // Dauer der Animation
+    }
+    if (statusKey === "happiness") {
+      setIsBouncing(true);
+      setTimeout(() => {
+        setIsBouncing(false);
+      }, 1000); // Dauer der Hüpfen-Animation
+    }
+    if (statusKey === "hunger") {
+      setIsGrowing(true);
+      setTimeout(() => {
+        setIsGrowing(false);
+      }, 500); // Dauer der Vergrößerungs-Animation
+    }
   };
 
   const currentPet = pets[currentPetIndex];
@@ -224,7 +298,15 @@ const GardenPage = () => {
             Increase Energy
           </StatusButton>
         </ButtonContainer>
-        <PetDisplay>{currentPet.picture}</PetDisplay>
+        <PetWrapper>
+          <PetDisplay
+            $rotating={isRotating}
+            $bouncing={isBouncing}
+            $growing={isGrowing}
+          >
+            {currentPet.picture}
+          </PetDisplay>
+        </PetWrapper>
         <ListPageLink>
           <Link href="/">Home</Link>
           {/*placeholder - link to list page once implemented required */}
