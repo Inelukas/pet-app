@@ -40,16 +40,21 @@ const StyledPetIcon = styled.div`
   cursor: pointer;
 `;
 
-export default function PetSelection({ onChangePet, animalList, currentPet }) {
+export default function PetSelection({
+  onPreviousPet,
+  onNextPet,
+  animalList,
+  currentPet,
+}) {
   return (
     <StyledPetSelection>
-      <button type="button" onClick={() => onChangePet("back")}>
+      <button type="button" onClick={onPreviousPet}>
         ←
       </button>
-      <StyledPetIcon onClick={() => onChangePet("next")}>
+      <StyledPetIcon onClick={onNextPet}>
         {animalList[currentPet].icon}
       </StyledPetIcon>
-      <button type="button" onClick={() => onChangePet("next")}>
+      <button type="button" onClick={onNextPet}>
         →
       </button>
     </StyledPetSelection>

@@ -1,17 +1,15 @@
-import PetSelection from "@/Component/PetSelection/PetSelection";
-import { indicatorData, characteristicOptions, animalList } from "@/lib/Data";
-import { useState } from "react";
+import PetSelection from "@/components/PetSelection/PetSelection";
+import { characteristicOptions, animalList } from "@/lib/Data";
+import { useRef, useState } from "react";
 import styled from "styled-components";
-import Indicator from "@/Component/Indicator/Indicator";
-import Link from "next/link";
+import Indicator from "@/components/Indicator/Indicator";
+import StyledLink from "@/components/StyledLink/StyledLink";
+import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
 
 const StyledCreatePage = styled.main`
   background-image: var(--create-image);
   height: 100%;
   width: 100%;
-`;
-
-const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,85 +22,7 @@ const StyledForm = styled.form`
   }
 `;
 
-const StyledConfirmButtonContainer = styled.section`
-  display: flex;
-
-  a {
-    display: grid;
-    place-content: center;
-    width: 25vw;
-    height: 10vh;
-    max-width: 200px;
-    font-size: 20px;
-    border-radius: 10px;
-    margin: 0 20px;
-    box-shadow: 2px 2px black;
-    cursor: pointer;
-    background-color: var(--signal-color);
-    background-image: var(--button-image);
-    color: #000000;
-    text-decoration: none;
-    font-family: sans-serif;
-    border: 1px solid #000000;
-
-    &:hover {
-      transform: scale(1.2);
-    }
-
-    &:active {
-      background-color: var(--secondary-color);
-    }
-  }
-`;
-
-const StyledReturnButton = styled.button`
-  display: grid;
-  place-content: center;
-  width: 25vw;
-  height: 10vh;
-  max-width: 200px;
-  font-size: 20px;
-  border-radius: 10px;
-  margin: 0 20px;
-  box-shadow: 2px 2px black;
-  cursor: pointer;
-  background-color: var(--signal-color);
-  background-image: var(--button-image);
-  border: 1px solid #000000;
-
-  a {
-    color: #000000;
-    text-decoration: none;
-  }
-
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  &:active {
-    background-color: var(--secondary-color);
-  }
-`;
-
-const StyledIndicatorContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: 70%;
-  max-width: 600px;
-  height: 30%;
-  min-height: 200px;
-  border: 2px solid black;
-  background: var(--secondary-color);
-  border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px black;
-
-  @media screen and (max-width: 667px) {
-    font-size: 12px;
-  }
-`;
-
-const StyledMainField = styled.section`
+const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 80vw;
@@ -122,6 +42,28 @@ const StyledMainField = styled.section`
   }
 `;
 
+const StyledConfirmButtonContainer = styled.section`
+  display: flex;
+`;
+
+const StyledIndicatorContainer = styled.article`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 70%;
+  max-width: 600px;
+  height: 30%;
+  min-height: 200px;
+  border: 2px solid black;
+  background: var(--secondary-color);
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px 5px black;
+
+  @media screen and (max-width: 667px) {
+    font-size: 12px;
+  }
+`;
+
 const StyledCharacteristicsContainer = styled.section`
   display: flex;
   gap: 10px;
@@ -137,7 +79,7 @@ const StyledCharacteristicsContainer = styled.section`
   }
 `;
 
-const StyledFormElement = styled.section`
+const StyledFormArticle = styled.article`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -161,35 +103,21 @@ const StyledFormElement = styled.section`
 
 export default function CreatePetPage({ onCreatePet }) {
   const [currentPet, setCurrentPet] = useState(0);
+  const formRef = useRef(null);
 
   const [characteristics, setCharacteristics] = useState({
     characteristic1: "",
     characteristic2: "",
   });
 
-  function handleChangePet(direction) {
-    // setCurrentPet(
-    //   direction === "back"
-    //     ? currentPet === 0
-    //       ? animalList.length - 1
-    //       : currentPet - 1
-    //     : currentPet === animalList.length - 1
-    //     ? 0
-    //     : currentPet + 1
-    // );
+  function handlePreviousPet() {
+    const prevPetId = currentPet > 0 ? currentPet - 1 : animalList.length - 1;
+    setCurrentPet(prevPetId);
+  }
 
-    let newPetIndex;
-    direction === "back" &&
-      currentPet === 0 &&
-      (newPetIndex = animalList.length - 1);
-    direction === "back" && currentPet !== 0 && (newPetIndex = currentPet - 1);
-    direction !== "back" &&
-      currentPet === animalList.length - 1 &&
-      (newPetIndex = 0);
-    direction !== "back" &&
-      currentPet !== animalList.length - 1 &&
-      (newPetIndex = currentPet + 1);
-    setCurrentPet(newPetIndex);
+  function handleNextPet() {
+    const nextPetId = (currentPet + 1) % animalList.length;
+    setCurrentPet(nextPetId);
   }
 
   function handleSubmit(event) {
@@ -209,103 +137,117 @@ export default function CreatePetPage({ onCreatePet }) {
     onCreatePet(petData);
   }
 
+  const handleExternalButtonClick = () => {
+    if (formRef.current) {
+      formRef.current.requestSubmit();
+    }
+  };
+
   return (
     <StyledCreatePage>
-      <StyledForm onSubmit={handleSubmit}>
-        <PetSelection
-          onChangePet={handleChangePet}
-          animalList={animalList}
-          currentPet={currentPet}
-          name="type"
-        />
-        <StyledMainField>
-          <StyledFormElement>
-            <label htmlFor="type">Type:</label>
-            <input
-              name="type"
-              id="type"
-              value={animalList[currentPet].type}
-              disabled
-            />
-          </StyledFormElement>
-          <StyledFormElement>
-            <label htmlFor="name">Name:</label>
-            <input
-              name="name"
-              id="name"
-              placeholder="Samantha"
-              maxLength={30}
+      <PetSelection
+        onPreviousPet={handlePreviousPet}
+        onNextPet={handleNextPet}
+        animalList={animalList}
+        currentPet={currentPet}
+        name="type"
+      />
+      <StyledForm ref={formRef} onSubmit={handleSubmit}>
+        <StyledFormArticle>
+          <label htmlFor="type">Type:</label>
+          <input
+            name="type"
+            id="type"
+            value={animalList[currentPet].type}
+            disabled
+          />
+        </StyledFormArticle>
+        <StyledFormArticle>
+          <label htmlFor="name">Name:</label>
+          <input
+            name="name"
+            id="name"
+            placeholder="Samantha"
+            maxLength={30}
+            required
+          />
+        </StyledFormArticle>
+        <StyledFormArticle>
+          <label htmlFor="characteristic">Characteristics:</label>
+          <StyledCharacteristicsContainer>
+            <select
+              name="characteristic1"
+              id="characteristic"
+              value={characteristics.characteristic1}
+              onChange={(event) =>
+                setCharacteristics({
+                  ...characteristics,
+                  characteristic1: event.target.value,
+                })
+              }
               required
-            />
-          </StyledFormElement>
-          <StyledFormElement>
-            <label htmlFor="characteristic">Characteristics:</label>
-            <StyledCharacteristicsContainer>
-              <select
-                name="characteristic1"
-                id="characteristic"
-                value={characteristics.characteristic1}
-                onChange={(event) =>
-                  setCharacteristics({
-                    ...characteristics,
-                    characteristic1: event.target.value,
-                  })
-                }
-                required
-              >
-                <option value="" disabled>
-                  Choose Nr. 1
+            >
+              <option value="" disabled>
+                Choose Nr. 1
+              </option>
+              {characteristicOptions.map((option, index) => (
+                <option
+                  key={index}
+                  disabled={
+                    characteristics.characteristic2 === option.characteristic ||
+                    characteristics.characteristic2 === option.opposite
+                  }
+                >
+                  {option.characteristic}
                 </option>
-                {characteristicOptions.map((option, index) => (
-                  <option
-                    key={index}
-                    disabled={
-                      characteristics.characteristic2 ===
-                        option.characteristic ||
-                      characteristics.characteristic2 === option.opposite
-                    }
-                  >
-                    {option.characteristic}
-                  </option>
-                ))}
-              </select>
-              <select
-                name="characteristic2"
-                value={characteristics.characteristic2}
-                onChange={(event) =>
-                  setCharacteristics({
-                    ...characteristics,
-                    characteristic2: event.target.value,
-                  })
-                }
-              >
-                <option value="">*none*</option>
-                {characteristicOptions.map((option, index) => (
-                  <option
-                    key={index}
-                    disabled={
-                      characteristics.characteristic1 ===
-                        option.characteristic ||
-                      characteristics.characteristic1 === option.opposite
-                    }
-                  >
-                    {option.characteristic}
-                  </option>
-                ))}
-              </select>
-            </StyledCharacteristicsContainer>
-          </StyledFormElement>
-        </StyledMainField>
-        <StyledIndicatorContainer>
-          {animalList[currentPet].indicators.map((indicator, index) => (
-            <Indicator key={index} data={indicator} />
-          ))}
-        </StyledIndicatorContainer>
-        <StyledConfirmButtonContainer>
-          <Link href="/">Cancel</Link>
-          <StyledReturnButton type="submit">Create</StyledReturnButton>
-        </StyledConfirmButtonContainer>
+              ))}
+            </select>
+            <label
+              htmlFor="characteristic2"
+              style={{
+                display: "none",
+              }}
+            >
+              Characteristic 2
+            </label>
+            <select
+              name="characteristic2"
+              id="characteristic2"
+              value={characteristics.characteristic2}
+              onChange={(event) =>
+                setCharacteristics({
+                  ...characteristics,
+                  characteristic2: event.target.value,
+                })
+              }
+            >
+              <option value="">*none*</option>
+              {characteristicOptions.map((option, index) => (
+                <option
+                  key={index}
+                  disabled={
+                    characteristics.characteristic1 === option.characteristic ||
+                    characteristics.characteristic1 === option.opposite
+                  }
+                >
+                  {option.characteristic}
+                </option>
+              ))}
+            </select>
+          </StyledCharacteristicsContainer>
+        </StyledFormArticle>
       </StyledForm>
+      <StyledIndicatorContainer>
+        {animalList[currentPet].indicators.map((indicator, index) => (
+          <Indicator key={index} data={indicator} />
+        ))}
+      </StyledIndicatorContainer>
+      <StyledConfirmButtonContainer>
+        <StyledLink targetSource="/">Cancel</StyledLink>
+        <ConfirmButton type="submit" onClick={handleExternalButtonClick}>
+          Create
+        </ConfirmButton>
+      </StyledConfirmButtonContainer>
     </StyledCreatePage>
   );
 }
