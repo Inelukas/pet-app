@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import pets from "@/Lib/Data";
+import Indicator from "@/Component/Indicator/Indicator";
 
 const DetailsContainer = styled.section`
   display: flex;
@@ -121,21 +122,6 @@ const PetStatus = styled.aside`
   margin: 10px;
 `;
 
-const Label = styled.p`
-  display: flex;
-  min-width: 80px;
-  font-weight: bold;
-  margin-right: 50px;
-`;
-
-const ValueBar = styled.aside`
-  width: 20vh;
-  height: 2vh;
-  background-color: var(--neutral-color);
-  border: 1.5px solid black;
-  border-radius: 5px;
-`;
-
 const BackToListButton = styled.button`
   width: 50px;
   height: 40px;
@@ -167,11 +153,11 @@ export default function PetDetails() {
   }
 
   const petStatus = [
-    { label: "Health", value: pet.status.health },
-    { label: "Hunger", value: pet.status.hunger },
-    { label: "Happiness", value: pet.status.happiness },
-    { label: "Energy", value: pet.status.energy },
-    { label: "Intelligence", value: pet.status.intelligence },
+    { name: "Health", count: pet.status.health },
+    { name: "Happiness", count: pet.status.happiness },
+    { name: "Hunger", count: pet.status.hunger },
+    { name: "Energy", count: pet.status.energy },
+    { name: "Intelligence", count: pet.status.intelligence },
   ];
 
   const handleBackToList = () => {
@@ -190,10 +176,7 @@ export default function PetDetails() {
       </PetCharContainer>
       <PetStatusContainer>
         {petStatus.map((status, index) => (
-          <PetStatus key={index}>
-            <Label>{status.label}</Label>
-            <ValueBar>{status.value}</ValueBar>
-          </PetStatus>
+          <Indicator key={index} data={status} />
         ))}
         <BackToListButton onClick={handleBackToList}>Back</BackToListButton>
       </PetStatusContainer>
