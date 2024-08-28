@@ -48,7 +48,57 @@ const NavButton = styled.button`
     background-color: var(--signal-color);
   }
 `;
+const StatusContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
+const VerticalBarContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-top: 10px;
+`;
+
+const VerticalBar = styled.div`
+  width: 20px;
+  height: 100px;
+  background-color: var(--neutral-color);
+  margin-right: 5px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+`;
+
+const VerticalBarFill = styled.div`
+  width: 100%;
+  background-color: var(--primary-color);
+  height: ${({ value }) => value}%;
+  position: absolute;
+  bottom: 0;
+`;
+
+const HorizontalBar = styled.div`
+  width: 100px;
+  height: 20px;
+  background-color: var(--neutral-color);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+`;
+
+const HorizontalBarFill = styled.div`
+  width: ${({ value }) => value}%;
+  height: 100%;
+  background-color: var(--primary-color);
+  position: absolute;
+  left: 0;
+`;
 const GardenPage = () => {
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
 
@@ -64,9 +114,35 @@ const GardenPage = () => {
 
   const currentPet = pets[currentPetIndex];
 
+  const healthValue = Math.round(
+    (currentPet.status.hunger +
+      currentPet.status.happiness +
+      currentPet.status.energy) /
+      3
+  );
+
   return (
     <>
       <GardenContainer>
+        <StatusContainer>
+          <HorizontalBar>
+            <HorizontalBarFill value={healthValue} />
+          </HorizontalBar>
+          <VerticalBarContainer>
+            <VerticalBar>
+              <VerticalBarFill value={currentPet.status.hunger} />
+            </VerticalBar>
+            <VerticalBar>
+              <VerticalBarFill value={currentPet.status.happiness} />
+            </VerticalBar>
+            <VerticalBar>
+              <VerticalBarFill value={currentPet.status.energy} />
+            </VerticalBar>
+            <VerticalBar>
+              <VerticalBarFill value={currentPet.status.intelligence} />
+            </VerticalBar>
+          </VerticalBarContainer>
+        </StatusContainer>
         <PetDisplay>{currentPet.picture}</PetDisplay>
       </GardenContainer>
       <NavbarContainer>
