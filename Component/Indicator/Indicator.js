@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledIndicator = styled.div`
+const StyledIndicator = styled.article`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,8 +26,8 @@ const StyledBar = styled.div`
   height: 21px;
   border-radius: 8px;
   position: absolute;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
 `;
 
 export default function Indicator({ data }) {
