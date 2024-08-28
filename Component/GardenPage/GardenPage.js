@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import pets from "@/Lib/Data";
+import Link from "next/link";
+import petsData from "@/Lib/Data";
 
 const GardenContainer = styled.div`
   position: relative;
@@ -48,6 +49,24 @@ const NavButton = styled.button`
     background-color: var(--signal-color);
   }
 `;
+
+const StyledLink = styled.div`
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--signal-color);
+  }
+`;
+
 const StatusContainer = styled.div`
   position: absolute;
   top: 10px;
@@ -99,7 +118,48 @@ const HorizontalBarFill = styled.div`
   position: absolute;
   left: 0;
 `;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const StatusButton = styled.button`
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--signal-color);
+  }
+`;
+
+const ListPageLink = styled.div`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--text-color);
+  cursor: pointer;
+`;
+
 const GardenPage = () => {
+  const [pets, setPets] = useState(petsData);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
 
   const handlePrevPet = () => {
@@ -110,6 +170,16 @@ const GardenPage = () => {
 
   const handleNextPet = () => {
     setCurrentPetIndex((prevIndex) => (prevIndex + 1) % pets.length);
+  };
+
+  const increaseStatus = (statusKey) => {
+    const updatedPets = [...pets];
+    const currentStatus = updatedPets[currentPetIndex].status[statusKey];
+    updatedPets[currentPetIndex].status[statusKey] = Math.min(
+      currentStatus + 5,
+      100
+    );
+    setPets(updatedPets);
   };
 
   const currentPet = pets[currentPetIndex];
@@ -143,11 +213,29 @@ const GardenPage = () => {
             </VerticalBar>
           </VerticalBarContainer>
         </StatusContainer>
+        <ButtonContainer>
+          <StatusButton onClick={() => increaseStatus("hunger")}>
+            Increase Hunger
+          </StatusButton>
+          <StatusButton onClick={() => increaseStatus("happiness")}>
+            Increase Happiness
+          </StatusButton>
+          <StatusButton onClick={() => increaseStatus("energy")}>
+            Increase Energy
+          </StatusButton>
+        </ButtonContainer>
         <PetDisplay>{currentPet.picture}</PetDisplay>
+        <ListPageLink>
+          <Link href="/">Home</Link>
+          {/*placeholder - link to list page once implemented required */}
+        </ListPageLink>
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={handlePrevPet}>Prev Pet</NavButton>
-        <NavButton>{currentPet.picture}</NavButton>
+        <Link href="/" passHref>
+          {/*placeholder - link to detail page once implemented required */}
+          <StyledLink>{currentPet.picture}</StyledLink>
+        </Link>
         <NavButton onClick={handleNextPet}>Next Pet</NavButton>
       </NavbarContainer>
     </>
