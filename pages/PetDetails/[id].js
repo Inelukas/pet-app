@@ -6,30 +6,36 @@ import Indicator from "@/Component/Indicator/Indicator";
 const DetailsContainer = styled.section`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 15px;
   padding: 15px;
-  background-color: var(--neutral-color);
-  border-radius: 10px;
-  box-shadow: 0px 12px 28px 0px rgba(0, 0, 0, 0.2),
-    0px 2px 4px 0px rgba(0, 0, 0, 0.1),
-    0px 0px 0px 1px rgba(255, 255, 255, 0.05) inset;
   width: 90vw;
   max-width: 600px;
+  height: auto;
+  min-height: 60vh;
+  background-color: var(--neutral-color);
+  border: 3px solid black;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 
   @media screen and (min-width: 1024px) {
-    margin: 20px;
+    margin: 20px auto;
     padding: 20px;
+    max-width: 800px;
   }
 
   @media screen and (min-width: 768px) {
-    margin: 15px;
-    padding: 15px;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 700px;
   }
 
-  @media screen and (min-width: 676px) {
-    margin: 10px;
+  @media screen and (max-width: 676px) {
+    margin: 10px auto;
     padding: 10px;
+    width: 90vw;
+    max-width: none;
   }
 `;
 
@@ -41,7 +47,7 @@ const Header = styled.header`
   padding: 10px;
   border-radius: 10px;
   border: 1.5px solid black;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 `;
 
 const PetPictureContainer = styled.section`
@@ -51,9 +57,7 @@ const PetPictureContainer = styled.section`
   background-color: var(--secondary-color);
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0px 12px 28px 0px rgba(0, 0, 0, 0.2),
-    0px 2px 4px 0px rgba(0, 0, 0, 0.1),
-    0px 0px 0px 1px rgba(255, 255, 255, 0.05) inset;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
   width: 100%;
 `;
@@ -82,7 +86,7 @@ const PetName = styled.p`
   background-color: var(--neutral-color);
   border: 1.5px solid black;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 `;
 
 const PetCharContainer = styled.section`
@@ -96,35 +100,23 @@ const PetCharContainer = styled.section`
   text-align: center;
   font-size: 16px;
   color: var(--text-color);
-  box-shadow: 0px 12px 28px 0px rgba(0, 0, 0, 0.2),
-    0px 2px 4px 0px rgba(0, 0, 0, 0.1),
-    0px 0px 0px 1px rgba(255, 255, 255, 0.05) inset;
-
-  @media screen and (min-width: 768px) {
-    padding: 15px;
-    font-size: 18px;
-  }
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 `;
 
 const PetStatusContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 5px;
   background-color: var(--secondary-color);
   border-radius: 10px;
   padding: 15px;
   width: 100%;
-  box-shadow: 0px 12px 28px 0px rgba(0, 0, 0, 0.2),
-    0px 2px 4px 0px rgba(0, 0, 0, 0.1),
-    0px 0px 0px 1px rgba(255, 255, 255, 0.05) inset;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
 
-  @media screen and (min-width: 768px) {
-    padding: 20px;
-  }
-
   & > div {
-    min-width: 75%;
+    min-width: 320px;
   }
 `;
 
@@ -134,7 +126,7 @@ const BackToListButton = styled.button`
   border-radius: 10px;
   border: 1.5px solid black;
   margin-top: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   background-color: var(--signal-color);
   transition: transform 0.2 ease;
   cursor: pointer;
@@ -144,7 +136,7 @@ const BackToListButton = styled.button`
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(1);
   }
 `;
 
