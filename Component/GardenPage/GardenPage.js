@@ -240,19 +240,19 @@ const GardenPage = () => {
       setIsRotating(true);
       setTimeout(() => {
         setIsRotating(false);
-      }, 1000); // Dauer der Animation
+      }, 1000);
     }
     if (statusKey === "happiness") {
       setIsBouncing(true);
       setTimeout(() => {
         setIsBouncing(false);
-      }, 1000); // Dauer der Hüpfen-Animation
+      }, 1000);
     }
     if (statusKey === "hunger") {
       setIsGrowing(true);
       setTimeout(() => {
         setIsGrowing(false);
-      }, 500); // Dauer der Vergrößerungs-Animation
+      }, 500);
     }
   };
 
