@@ -14,8 +14,12 @@ const StyledPet = styled.li`
   min-height: 150px;
   gap: 5%;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 1024px) {
     width: 70vw;
+  }
+
+  @media screen and (max-width: 667px) {
+    width: 80%;
   }
 `;
 
@@ -28,12 +32,20 @@ const StyledPetData = styled.section`
   margin: 5px;
   line-height: 1.5;
 
-  @media screen and (max-width: 700px) {
-    font-size: 16px;
+  span {
+    font-weight: bold;
   }
 
-  @media screen and (max-width: 1000px) {
-    margin-right: 0%;
+  @media screen and (max-width: 1024px) {
+    margin-right: 10%;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
+
+  @media screen and (max-width: 667px) {
+    font-size: 16px;
   }
 `;
 
@@ -42,8 +54,12 @@ const StyledSpan = styled.span`
   position: absolute;
   left: 20px;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 1024px) {
     font-size: 10vh;
+  }
+
+  @media screen and (max-width: 667px) {
+    font-size: 8vh;
   }
 `;
 
@@ -59,9 +75,14 @@ const StyledPortrait = styled.section`
   background: var(--signal-color);
   position: relative;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 1024px) {
     width: 15vh;
     height: 15vh;
+  }
+
+  @media screen and (max-width: 667px) {
+    width: 12vh;
+    height: 12vh;
   }
 `;
 
@@ -69,7 +90,15 @@ const StyledList = styled.ul`
   display: flex;
   gap: 5px;
   list-style-type: none;
+
   li {
+    @media screen and (max-width: 768px) {
+      font-size: 16px;
+    }
+
+    @media screen and (max-width: 667px) {
+      font-size: 12px;
+    }
   }
 `;
 
@@ -80,10 +109,16 @@ export default function Pet({ petData }) {
         <StyledSpan>{petData.picture}</StyledSpan>
       </StyledPortrait>
       <StyledPetData>
-        <p>Name: {petData.name}</p>
-        <p>Type: {petData.type}</p>
+        <p>
+          <span>Name:</span> {petData.name}
+        </p>
+        <p>
+          <span>Type:</span> {petData.type}
+        </p>
         <StyledList>
-          Characteristics:{" "}
+          <p>
+            <span>Characteristics:</span>
+          </p>
           {petData.characteristics.map((characteristic, index) =>
             index < petData.characteristics.length - 1 ? (
               <li key={index}>{characteristic + ", "}</li>

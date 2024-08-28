@@ -1,5 +1,5 @@
 import PetSelection from "@/Component/PetSelection/PetSelection";
-import { indicatorData, characteristicOptions, animalList } from "@/Lib/Data";
+import { indicatorData, characteristicOptions, animalList } from "@/lib/Data";
 import { useState } from "react";
 import styled from "styled-components";
 import Indicator from "@/Component/Indicator/Indicator";
