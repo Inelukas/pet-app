@@ -56,11 +56,6 @@ const StyledSpan = styled.span`
     font-size: 10vh;
   }
 
-  /* @media screen and (max-width: 768px) {
-    left: 14px;
-    font-size: 8vh;
-  } */
-
   @media screen and (max-width: 667px) {
     font-size: 8vh;
   }
@@ -90,10 +85,7 @@ const StyledPortrait = styled.section`
 `;
 
 const StyledList = styled.ul`
-  /* display: flex; */
-  /* gap: 1vw; */
   list-style-type: none;
-  /* flex-wrap: wrap; */
 
   li {
     @media screen and (max-width: 768px) {
