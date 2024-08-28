@@ -43,6 +43,11 @@ const StyledSpan = styled.span`
   @media screen and (max-width: 1000px) {
     font-size: 10vh;
   }
+
+  @media screen and (max-width: 700px) {
+    font-size: 8vh;
+    left: 14px;
+  }
 `;
 
 const StyledPortrait = styled.section`
@@ -60,6 +65,11 @@ const StyledPortrait = styled.section`
   @media screen and (max-width: 1000px) {
     width: 15vh;
     height: 15vh;
+  }
+
+  @media screen and (max-width: 700px) {
+    width: 12vh;
+    height: 12vh;
   }
 `;
 
