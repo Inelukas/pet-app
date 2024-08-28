@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import pets from "@/Lib/Data";
 import Indicator from "@/Component/Indicator/Indicator";
 
@@ -120,7 +121,8 @@ const PetStatusContainer = styled.section`
   }
 `;
 
-const BackToListButton = styled.button`
+const StyledLink = styled(Link)`
+  display: inline-block;
   width: 50px;
   height: 40px;
   border-radius: 10px;
@@ -128,8 +130,12 @@ const BackToListButton = styled.button`
   margin-top: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   background-color: var(--signal-color);
-  transition: transform 0.2 ease;
+  transition: transform 0.2s ease;
+  text-align: center;
+  line-height: 40px;
   cursor: pointer;
+  text-decoration: none;
+  color: black;
 
   &:hover {
     transform: scale(1.05);
@@ -158,10 +164,6 @@ export default function PetDetails() {
     { name: "Intelligence", count: pet.status.intelligence },
   ];
 
-  const handleBackToList = () => {
-    router.push("/");
-  };
-
   return (
     <DetailsContainer>
       <Header>Pet Details</Header>
@@ -176,7 +178,7 @@ export default function PetDetails() {
         {petStatus.map((status, index) => (
           <Indicator key={index} data={status} />
         ))}
-        <BackToListButton onClick={handleBackToList}>Back</BackToListButton>
+        <StyledLink href="/">Back</StyledLink>
       </PetStatusContainer>
     </DetailsContainer>
   );
