@@ -158,7 +158,7 @@ const HorizontalBar = styled.div`
 const HorizontalBarFill = styled.div`
   width: ${({ value }) => value}%;
   height: 100%;
-  background-color: hotpink;
+  background-color: hotpink; //color is a placeholder
   position: absolute;
   left: 0;
 `;
@@ -262,24 +262,28 @@ const GardenPage = () => {
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
+              {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="red"
                 value={currentPet.status.hunger}
               />
             </VerticalBar>
             <VerticalBar>
+              {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="green"
                 value={currentPet.status.happiness}
               />
             </VerticalBar>
             <VerticalBar>
+              {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="yellow"
                 value={currentPet.status.energy}
               />
             </VerticalBar>
             <VerticalBar>
+              {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="blue"
                 value={currentPet.status.intelligence}
@@ -288,15 +292,18 @@ const GardenPage = () => {
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
+          {/* color is a placeholder */}
           <StatusButton $bgcolor="red" onClick={() => increaseStatus("hunger")}>
             Feed
           </StatusButton>
+          {/* color is a placeholder */}
           <StatusButton
             $bgcolor="green"
             onClick={() => increaseStatus("happiness")}
           >
             Play
           </StatusButton>
+          {/* color is a placeholder */}
           <StatusButton
             $bgcolor="yellow"
             onClick={() => increaseStatus("energy")}
@@ -315,7 +322,7 @@ const GardenPage = () => {
         </PetWrapper>
         <ListPageLink>
           <Link href="/">Home</Link>
-          {/*placeholder - link to list page once implemented required */}
+          {/* update link to list page once moved from mainpage required */}
         </ListPageLink>
       </GardenContainer>
       <NavbarContainer>
