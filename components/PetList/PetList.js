@@ -24,7 +24,7 @@ export default function PetList({ petCollection }) {
           return <Pet key={pet.id} petData={pet} />;
         })}
       </StyledPetList>
-      <StyledLink targetSource="/create">Create Pet</StyledLink>
+      <StyledLink targetSource="/create">Create</StyledLink>
     </StyledMain>
   ) : (
     <h1>You don&apos;t have any pets.</h1>

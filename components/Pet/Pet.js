@@ -87,8 +87,6 @@ const StyledPortrait = styled.section`
 `;
 
 const StyledList = styled.ul`
-  display: flex;
-  gap: 5px;
   list-style-type: none;
 
   li {
