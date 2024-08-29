@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import pets from "@/Lib/Data";
+import pets from "@/lib/Data";
 import Indicator from "@/components/Indicator/Indicator";
 
 const DetailsContainer = styled.section`
