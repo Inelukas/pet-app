@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import pets from "@/Lib/Data";
+import pets from "@/lib/Data";
 import Pet from "../Pet/Pet";
 
 const StyledPetList = styled.ul`
