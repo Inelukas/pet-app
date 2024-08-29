@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import pets from "@/lib/Data";
 import Indicator from "@/components/Indicator/Indicator";
 
 const DetailsContainer = styled.section`
@@ -145,11 +144,11 @@ const StyledLink = styled(Link)`
   }
 `;
 
-export default function PetDetails() {
+export default function PetDetails({ petCollection }) {
   const router = useRouter();
   const { id } = router.query;
 
-  const pet = pets.find((pet) => pet.id === parseInt(id));
+  const pet = petCollection.find((pet) => pet.id === parseInt(id));
 
   if (!pet) {
     return <p>No pet found!</p>;

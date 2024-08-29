@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }) {
     setPetCollection((prevData) => [
       {
         ...restPetData,
-        id: uid(),
+        id: parseInt(uid()),
         characteristics: [characteristic1, characteristic2].filter(Boolean),
       },
       ...prevData,
