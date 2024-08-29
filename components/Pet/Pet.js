@@ -72,6 +72,7 @@ const StyledPortrait = styled.section`
   border-radius: 100%;
   background: var(--signal-color);
   position: relative;
+  cursor: pointer;
 
   @media screen and (max-width: 1024px) {
     width: 15vh;
