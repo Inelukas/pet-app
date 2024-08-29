@@ -34,19 +34,19 @@ const StyledForm = styled.form`
   background: var(--secondary-color);
   border-radius: 20px;
   box-shadow: 5px 5px 5px 5px black;
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: 800;
 
-  @media screen and (min-width: 667px) {
-    font-size: 13px;
+  @media screen and (min-width: 375px) {
+    font-size: 0.8rem;
   }
 `;
 
-const StyledConfirmButtonContainer = styled.section`
+const StyledConfirmButtonContainer = styled.div`
   display: flex;
 `;
 
-const StyledIndicatorContainer = styled.article`
+const StyledIndicatorContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -59,12 +59,12 @@ const StyledIndicatorContainer = styled.article`
   border-radius: 20px;
   box-shadow: 5px 5px 5px 5px black;
 
-  @media screen and (min-width: 667px) {
-    font-size: 12px;
+  @media screen and (min-width: 375px) {
+    font-size: 0.8rem;
   }
 `;
 
-const StyledCharacteristicsContainer = styled.section`
+const StyledCharacteristicsContainer = styled.div`
   display: flex;
   gap: 10px;
 
@@ -73,8 +73,8 @@ const StyledCharacteristicsContainer = styled.section`
     max-width: 240px;
     border-radius: 5px;
 
-    @media screen and (min-width: 667px) {
-      font-size: 12px;
+    @media screen and (min-width: 375px) {
+      font-size: 0.7rem;
     }
   }
 `;
@@ -137,11 +137,11 @@ export default function CreatePetPage({ onCreatePet }) {
     onCreatePet(petData);
   }
 
-  const handleExternalButtonClick = () => {
+  function handleExternalButtonClick() {
     if (formRef.current) {
       formRef.current.requestSubmit();
     }
-  };
+  }
 
   return (
     <StyledCreatePage>
@@ -178,6 +178,7 @@ export default function CreatePetPage({ onCreatePet }) {
             <select
               name="characteristic1"
               id="characteristic"
+              aria-label="Characteristic 1"
               value={characteristics.characteristic1}
               onChange={(event) =>
                 setCharacteristics({
@@ -202,17 +203,9 @@ export default function CreatePetPage({ onCreatePet }) {
                 </option>
               ))}
             </select>
-            <label
-              htmlFor="characteristic2"
-              style={{
-                display: "none",
-              }}
-            >
-              Characteristic 2
-            </label>
             <select
               name="characteristic2"
-              id="characteristic2"
+              aria-label="Characteristic 2"
               value={characteristics.characteristic2}
               onChange={(event) =>
                 setCharacteristics({
@@ -244,7 +237,7 @@ export default function CreatePetPage({ onCreatePet }) {
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
         <StyledLink targetSource="/">Cancel</StyledLink>
-        <ConfirmButton type="button" onClick={handleExternalButtonClick}>
+        <ConfirmButton onClick={handleExternalButtonClick}>
           Create
         </ConfirmButton>
       </StyledConfirmButtonContainer>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-const StyledAnchor = styled.div`
+const StyledLinkElement = styled(Link)`
   display: grid;
   place-content: center;
   width: 25vw;
@@ -16,11 +16,8 @@ const StyledAnchor = styled.div`
   background-image: var(--button-image);
   font-family: sans-serif;
   border: 1px solid #000000;
-
-  a {
-    color: #000000;
-    text-decoration: none;
-  }
+  color: #000000;
+  text-decoration: none;
 
   &:hover {
     transform: scale(1.2);
@@ -32,11 +29,5 @@ const StyledAnchor = styled.div`
 `;
 
 export default function StyledLink({ targetSource, children }) {
-  return (
-    <StyledAnchor>
-      <Link href={targetSource}>{children}</Link>
-    </StyledAnchor>
-  );
+  return <StyledLinkElement href={targetSource}>{children}</StyledLinkElement>;
 }
-
-// style={{ textDecoration: "none" }}

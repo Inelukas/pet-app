@@ -25,6 +25,10 @@ const StyledConfirmButton = styled.button`
   }
 `;
 
-export default function ConfirmButton({ children }) {
-  return <StyledConfirmButton type="button">{children}</StyledConfirmButton>;
+export default function ConfirmButton({ children, onClick }) {
+  return (
+    <StyledConfirmButton onClick={onClick} type="button">
+      {children}
+    </StyledConfirmButton>
+  );
 }
