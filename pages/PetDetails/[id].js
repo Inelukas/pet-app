@@ -32,11 +32,10 @@ const DetailsContainer = styled.section`
     max-width: 700px;
   }
 
-  @media screen and (max-width: 676px) {
+  @media screen and (min-width: 676px) {
     margin: 10px auto;
     padding: 10px;
-    width: 90vw;
-    max-width: none;
+    max-width: 600px;
   }
 `;
 
@@ -117,7 +116,7 @@ const PetStatusContainer = styled.section`
   margin-bottom: 20px;
 
   & > div {
-    min-width: 320px;
+    min-width: 310px;
   }
 `;
 
