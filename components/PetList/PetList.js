@@ -17,16 +17,18 @@ const StyledPetList = styled.ul`
 `;
 
 export default function PetList({ petCollection }) {
-  return petCollection.length > 0 ? (
+  return (
     <StyledMain>
-      <StyledPetList>
-        {petCollection.map((pet) => {
-          return <Pet key={pet.id} petData={pet} />;
-        })}
-      </StyledPetList>
-      <StyledLink targetSource="/create">Create</StyledLink>
+      {petCollection.length > 0 ? (
+        <StyledPetList>
+          {petCollection.map((pet) => {
+            return <Pet key={pet.id} petData={pet} />;
+          })}
+        </StyledPetList>
+      ) : (
+        <h1>You don&apos;t have any pets.</h1>
+      )}
+      <StyledLink href="/create">Create</StyledLink>
     </StyledMain>
-  ) : (
-    <h1>You don&apos;t have any pets.</h1>
   );
 }

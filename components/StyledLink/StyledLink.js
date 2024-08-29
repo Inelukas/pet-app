@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-const StyledLinkElement = styled(Link)`
+export default styled(Link)`
   display: grid;
   place-content: center;
   width: 25vw;
@@ -27,7 +27,3 @@ const StyledLinkElement = styled(Link)`
     background-color: var(--secondary-color);
   }
 `;
-
-export default function StyledLink({ targetSource, children }) {
-  return <StyledLinkElement href={targetSource}>{children}</StyledLinkElement>;
-}

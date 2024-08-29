@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-const StyledConfirmButton = styled.button`
-  display: grid;
+export default styled.button`
   display: grid;
   place-content: center;
   width: 25vw;
@@ -24,11 +23,3 @@ const StyledConfirmButton = styled.button`
     background-color: var(--secondary-color);
   }
 `;
-
-export default function ConfirmButton({ children, onClick }) {
-  return (
-    <StyledConfirmButton onClick={onClick} type="button">
-      {children}
-    </StyledConfirmButton>
-  );
-}

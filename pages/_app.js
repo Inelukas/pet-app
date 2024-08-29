@@ -9,22 +9,12 @@ export default function App({ Component, pageProps }) {
   const router = useRouter();
 
   function handleCreatePet(petData) {
+    const { characteristic1, characteristic2, ...restPetData } = petData;
     setPetCollection((prevData) => [
       {
+        ...restPetData,
         id: uid(),
-        name: petData.name,
-        type: petData.type,
-        picture: petData.picture,
-        characteristics: [
-          petData.characteristic1,
-          petData.characteristic2,
-        ].filter(Boolean),
-        status: {
-          hunger: 80,
-          happiness: 80,
-          energy: 80,
-          intelligence: 80,
-        },
+        characteristics: [characteristic1, characteristic2].filter(Boolean),
       },
       ...prevData,
     ]);
