@@ -96,10 +96,6 @@ const NavButton = styled.button`
   margin: 4px;
   cursor: pointer;
   border-radius: 4px;
-
-  &:hover {
-    background-color: var(--signal-color);
-  }
 `;
 
 const StyledLink = styled.div`
@@ -113,10 +109,6 @@ const StyledLink = styled.div`
   margin: 4px;
   cursor: pointer;
   border-radius: 4px;
-
-  &:hover {
-    background-color: var(--signal-color);
-  }
 `;
 
 const StatusContainer = styled.div`
@@ -147,7 +139,7 @@ const VerticalBar = styled.div`
 
 const VerticalBarFill = styled.div`
   width: 100%;
-  background-color: var(--primary-color);
+  background-color: ${(props) => props.$bgcolor};
   height: ${({ value }) => value}%;
   position: absolute;
   bottom: 0;
@@ -166,7 +158,7 @@ const HorizontalBar = styled.div`
 const HorizontalBarFill = styled.div`
   width: ${({ value }) => value}%;
   height: 100%;
-  background-color: var(--primary-color);
+  background-color: hotpink;
   position: absolute;
   left: 0;
 `;
@@ -181,17 +173,13 @@ const ButtonContainer = styled.div`
 `;
 
 const StatusButton = styled.button`
-  background-color: var(--primary-color);
+  background-color: ${(props) => props.$bgcolor};
   color: var(--text-color);
   border: none;
   padding: 8px 16px;
   margin-bottom: 8px;
   border-radius: 4px;
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--signal-color);
-  }
 `;
 
 const ListPageLink = styled.div`
@@ -274,28 +262,46 @@ const GardenPage = () => {
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
-              <VerticalBarFill value={currentPet.status.hunger} />
+              <VerticalBarFill
+                $bgcolor="red"
+                value={currentPet.status.hunger}
+              />
             </VerticalBar>
             <VerticalBar>
-              <VerticalBarFill value={currentPet.status.happiness} />
+              <VerticalBarFill
+                $bgcolor="green"
+                value={currentPet.status.happiness}
+              />
             </VerticalBar>
             <VerticalBar>
-              <VerticalBarFill value={currentPet.status.energy} />
+              <VerticalBarFill
+                $bgcolor="yellow"
+                value={currentPet.status.energy}
+              />
             </VerticalBar>
             <VerticalBar>
-              <VerticalBarFill value={currentPet.status.intelligence} />
+              <VerticalBarFill
+                $bgcolor="blue"
+                value={currentPet.status.intelligence}
+              />
             </VerticalBar>
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
-          <StatusButton onClick={() => increaseStatus("hunger")}>
-            Increase Hunger
+          <StatusButton $bgcolor="red" onClick={() => increaseStatus("hunger")}>
+            Feed
           </StatusButton>
-          <StatusButton onClick={() => increaseStatus("happiness")}>
-            Increase Happiness
+          <StatusButton
+            $bgcolor="green"
+            onClick={() => increaseStatus("happiness")}
+          >
+            Play
           </StatusButton>
-          <StatusButton onClick={() => increaseStatus("energy")}>
-            Increase Energy
+          <StatusButton
+            $bgcolor="yellow"
+            onClick={() => increaseStatus("energy")}
+          >
+            Train
           </StatusButton>
         </ButtonContainer>
         <PetWrapper>
