@@ -64,7 +64,7 @@ const PetDisplay = styled.div`
         `
       : $bouncing
       ? css`
-          ${bounce} 1s ease infinite
+          ${bounce} 1s ease
         `
       : $growing
       ? css`
