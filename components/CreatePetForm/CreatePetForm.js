@@ -59,87 +59,88 @@ const StyledCharacteristicsContainer = styled.div`
   }
 `;
 
-export const CreatePetForm = forwardRef(
-  ({ onSubmit, currentPet, characteristics, setCharacteristics }, ref) => {
-    return (
-      <StyledForm onSubmit={onSubmit} ref={ref}>
-        <StyledFormArticle>
-          <label htmlFor="type">Type:</label>
-          <input
-            name="type"
-            id="type"
-            value={animalList[currentPet].type}
-            disabled
-          />
-        </StyledFormArticle>
-        <StyledFormArticle>
-          <label htmlFor="name">Name:</label>
-          <input
-            name="name"
-            id="name"
-            placeholder="Samantha"
-            maxLength={30}
+export const CreatePetForm = forwardRef(function Form(
+  { onSubmit, currentPet, characteristics, setCharacteristics },
+  ref
+) {
+  return (
+    <StyledForm onSubmit={onSubmit} ref={ref}>
+      <StyledFormArticle>
+        <label htmlFor="type">Type:</label>
+        <input
+          name="type"
+          id="type"
+          value={animalList[currentPet].type}
+          disabled
+        />
+      </StyledFormArticle>
+      <StyledFormArticle>
+        <label htmlFor="name">Name:</label>
+        <input
+          name="name"
+          id="name"
+          placeholder="Samantha"
+          maxLength={30}
+          required
+        />
+      </StyledFormArticle>
+      <StyledFormArticle>
+        <label htmlFor="characteristic">Characteristics:</label>
+        <StyledCharacteristicsContainer>
+          <select
+            name="characteristic1"
+            id="characteristic"
+            aria-label="Characteristic 1"
+            value={characteristics.characteristic1}
+            onChange={(event) =>
+              setCharacteristics({
+                ...characteristics,
+                characteristic1: event.target.value,
+              })
+            }
             required
-          />
-        </StyledFormArticle>
-        <StyledFormArticle>
-          <label htmlFor="characteristic">Characteristics:</label>
-          <StyledCharacteristicsContainer>
-            <select
-              name="characteristic1"
-              id="characteristic"
-              aria-label="Characteristic 1"
-              value={characteristics.characteristic1}
-              onChange={(event) =>
-                setCharacteristics({
-                  ...characteristics,
-                  characteristic1: event.target.value,
-                })
-              }
-              required
-            >
-              <option value="" disabled>
-                Choose Nr. 1
+          >
+            <option value="" disabled>
+              Choose Nr. 1
+            </option>
+            {characteristicOptions.map((option, index) => (
+              <option
+                key={index}
+                disabled={
+                  characteristics.characteristic2 === option.characteristic ||
+                  characteristics.characteristic2 === option.opposite
+                }
+              >
+                {option.characteristic}
               </option>
-              {characteristicOptions.map((option, index) => (
-                <option
-                  key={index}
-                  disabled={
-                    characteristics.characteristic2 === option.characteristic ||
-                    characteristics.characteristic2 === option.opposite
-                  }
-                >
-                  {option.characteristic}
-                </option>
-              ))}
-            </select>
-            <select
-              name="characteristic2"
-              aria-label="Characteristic 2"
-              value={characteristics.characteristic2}
-              onChange={(event) =>
-                setCharacteristics({
-                  ...characteristics,
-                  characteristic2: event.target.value,
-                })
-              }
-            >
-              <option value="">*none*</option>
-              {characteristicOptions.map((option, index) => (
-                <option
-                  key={index}
-                  disabled={
-                    characteristics.characteristic1 === option.characteristic ||
-                    characteristics.characteristic1 === option.opposite
-                  }
-                >
-                  {option.characteristic}
-                </option>
-              ))}
-            </select>
-          </StyledCharacteristicsContainer>
-        </StyledFormArticle>
-      </StyledForm>
-    );
-  }
-);
+            ))}
+          </select>
+          <select
+            name="characteristic2"
+            aria-label="Characteristic 2"
+            value={characteristics.characteristic2}
+            onChange={(event) =>
+              setCharacteristics({
+                ...characteristics,
+                characteristic2: event.target.value,
+              })
+            }
+          >
+            <option value="">*none*</option>
+            {characteristicOptions.map((option, index) => (
+              <option
+                key={index}
+                disabled={
+                  characteristics.characteristic1 === option.characteristic ||
+                  characteristics.characteristic1 === option.opposite
+                }
+              >
+                {option.characteristic}
+              </option>
+            ))}
+          </select>
+        </StyledCharacteristicsContainer>
+      </StyledFormArticle>
+    </StyledForm>
+  );
+});
