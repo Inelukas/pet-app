@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
-import petsData from "@/Lib/Data";
+import petsData from "@/lib/Data";
 
 const rotate = keyframes`
   from {
