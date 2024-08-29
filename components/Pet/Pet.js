@@ -8,19 +8,11 @@ const StyledPet = styled.li`
   padding: 10px 3%;
   align-items: center;
   background-color: var(--secondary-color);
-  width: 50vw;
+  width: 80vw;
   max-width: 600px;
   height: 20vh;
   min-height: 150px;
   gap: 5%;
-
-  @media screen and (max-width: 1024px) {
-    width: 70vw;
-  }
-
-  @media screen and (max-width: 667px) {
-    width: 80%;
-  }
 `;
 
 const StyledPetData = styled.section`
@@ -74,7 +66,6 @@ const StyledPortrait = styled.section`
   border-radius: 100%;
   background: var(--signal-color);
   position: relative;
-  cursor: pointer;
 
   @media screen and (max-width: 1024px) {
     width: 15vh;

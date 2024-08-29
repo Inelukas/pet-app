@@ -2,16 +2,26 @@ import styled from "styled-components";
 
 const StyledIndicator = styled.article`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 5px;
+  width: 100%;
+  max-width: 500px;
+  font-size: 0.8rem;
+
+  @media screen and (min-width: 600px) {
+    gap: 30px;
+    font-size: 1rem;
+  }
   h3 {
-    width: 30%;
+    width: 25%;
+    @media screen and (min-width: 600px) {
+      width: 30%;
+    }
   }
 `;
 
 const StyledBarContainer = styled.div`
-  width: 60%;
+  width: 55%;
   height: 25px;
   border-radius: 10px;
   border: 2px solid black;
@@ -19,7 +29,19 @@ const StyledBarContainer = styled.div`
   padding: 1px 5px;
   background-color: #ffffff;
   position: relative;
+
+  @media screen and (min-width: 600px) {
+    width: 60%;
+  }
 `;
+
+const colorMap = {
+  health: "green",
+  happiness: "pink",
+  hunger: "orange",
+  energy: "yellow",
+  intelligence: "lightblue",
+};
 
 const StyledBar = styled.div`
   height: 21px;
@@ -27,6 +49,8 @@ const StyledBar = styled.div`
   position: absolute;
   left: 0;
   top: 0;
+  width: ${({ width }) => width};
+  background: ${({ name }) => colorMap[name] || "gray"};
 `;
 
 export default function Indicator({ data }) {
@@ -34,24 +58,7 @@ export default function Indicator({ data }) {
     <StyledIndicator>
       <h3>{data.name}:</h3>
       <StyledBarContainer>
-        <StyledBar
-          style={{
-            background: `${
-              data.name === "Health"
-                ? "green"
-                : data.name === "Happiness"
-                ? "pink"
-                : data.name === "Hunger"
-                ? "orange"
-                : data.name === "Energy"
-                ? "yellow"
-                : data.name === "Intelligence"
-                ? "lightblue"
-                : "gray"
-            }`,
-            width: `${data.count}%`,
-          }}
-        >
+        <StyledBar width={`${data.count}%`} name={data.name}>
           {data.count}/100&nbsp;
         </StyledBar>
       </StyledBarContainer>

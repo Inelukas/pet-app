@@ -1,6 +1,29 @@
-import { animalList, characteristicOptions } from "@/lib/Data";
-import { forwardRef } from "react";
+import { useState } from "react";
 import styled from "styled-components";
+import PetSelection from "../PetSelection/PetSelection";
+import Indicator from "../Indicator/Indicator";
+import StyledLink from "../StyledLink/StyledLink";
+import ConfirmButton from "../ConfirmButton/ConfirmButton";
+import { animalList, characteristicOptions } from "@/lib/Data";
+
+const StyledConfirmButtonContainer = styled.div`
+  display: flex;
+`;
+
+const StyledIndicatorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 70%;
+  max-width: 600px;
+  height: 30%;
+  min-height: 200px;
+  border: 2px solid black;
+  background: var(--secondary-color);
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px 5px black;
+  padding: 0 15px;
+`;
 
 const StyledForm = styled.form`
   display: flex;
@@ -14,11 +37,11 @@ const StyledForm = styled.form`
   background: var(--secondary-color);
   border-radius: 20px;
   box-shadow: 5px 5px 5px 5px black;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 800;
 
-  @media screen and (min-width: 375px) {
-    font-size: 0.8rem;
+  @media screen and (min-width: 600px) {
+    font-size: 1rem;
   }
 `;
 
@@ -59,88 +82,147 @@ const StyledCharacteristicsContainer = styled.div`
   }
 `;
 
-export const CreatePetForm = forwardRef(function Form(
-  { onSubmit, currentPet, characteristics, setCharacteristics },
-  ref
-) {
+export default function CreatePetForm({ onCreatePet }) {
+  const [currentPet, setCurrentPet] = useState(0);
+  const [characteristics, setCharacteristics] = useState({
+    characteristic1: "",
+    characteristic2: "",
+  });
+
+  function handlePreviousPet() {
+    const prevPetId = currentPet > 0 ? currentPet - 1 : animalList.length - 1;
+    setCurrentPet(prevPetId);
+  }
+
+  function handleNextPet() {
+    const nextPetId = (currentPet + 1) % animalList.length;
+    setCurrentPet(nextPetId);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    const petInfo = animalList[currentPet];
+    const [happiness, energy, intelligence] = petInfo.indicators;
+    const petData = {
+      ...data,
+      type: petInfo.type,
+      picture: petInfo.icon,
+      status: {
+        [happiness.name]: happiness.count,
+        [energy.name]: energy.count,
+        [intelligence.name]: intelligence.count,
+        health: 100,
+        hunger: 50,
+      },
+    };
+    event.target.reset();
+    setCharacteristics({
+      characteristic1: "",
+      characteristic2: "",
+    });
+    onCreatePet(petData);
+  }
+
   return (
-    <StyledForm onSubmit={onSubmit} ref={ref}>
-      <StyledFormArticle>
-        <label htmlFor="type">Type:</label>
-        <input
-          name="type"
-          id="type"
-          value={animalList[currentPet].type}
-          disabled
-        />
-      </StyledFormArticle>
-      <StyledFormArticle>
-        <label htmlFor="name">Name:</label>
-        <input
-          name="name"
-          id="name"
-          placeholder="Samantha"
-          maxLength={30}
-          required
-        />
-      </StyledFormArticle>
-      <StyledFormArticle>
-        <label htmlFor="characteristic">Characteristics:</label>
-        <StyledCharacteristicsContainer>
-          <select
-            name="characteristic1"
-            id="characteristic"
-            aria-label="Characteristic 1"
-            value={characteristics.characteristic1}
-            onChange={(event) =>
-              setCharacteristics({
-                ...characteristics,
-                characteristic1: event.target.value,
-              })
-            }
+    <>
+      <PetSelection
+        onPreviousPet={handlePreviousPet}
+        onNextPet={handleNextPet}
+        animalList={animalList}
+        currentPet={currentPet}
+        name="type"
+      />
+      <StyledForm onSubmit={handleSubmit} id="create-pet">
+        <StyledFormArticle>
+          <label htmlFor="type">Type:</label>
+          <input
+            name="type"
+            id="type"
+            value={animalList[currentPet].type}
+            disabled
+          />
+        </StyledFormArticle>
+        <StyledFormArticle>
+          <label htmlFor="name">Name:</label>
+          <input
+            name="name"
+            id="name"
+            placeholder="Samantha"
+            maxLength={30}
             required
-          >
-            <option value="" disabled>
-              Choose Nr. 1
-            </option>
-            {characteristicOptions.map((option, index) => (
-              <option
-                key={index}
-                disabled={
-                  characteristics.characteristic2 === option.characteristic ||
-                  characteristics.characteristic2 === option.opposite
-                }
-              >
-                {option.characteristic}
+          />
+        </StyledFormArticle>
+        <StyledFormArticle>
+          <label htmlFor="characteristic">Characteristics:</label>
+          <StyledCharacteristicsContainer>
+            <select
+              name="characteristic1"
+              id="characteristic"
+              aria-label="Characteristic 1"
+              value={characteristics.characteristic1}
+              onChange={(event) =>
+                setCharacteristics({
+                  ...characteristics,
+                  characteristic1: event.target.value,
+                })
+              }
+              required
+            >
+              <option value="" disabled>
+                Choose Nr. 1
               </option>
-            ))}
-          </select>
-          <select
-            name="characteristic2"
-            aria-label="Characteristic 2"
-            value={characteristics.characteristic2}
-            onChange={(event) =>
-              setCharacteristics({
-                ...characteristics,
-                characteristic2: event.target.value,
-              })
-            }
-          >
-            <option value="">*none*</option>
-            {characteristicOptions.map((option, index) => (
-              <option
-                key={index}
-                disabled={
-                  characteristics.characteristic1 === option.characteristic ||
-                  characteristics.characteristic1 === option.opposite
-                }
-              >
-                {option.characteristic}
-              </option>
-            ))}
-          </select>
-        </StyledCharacteristicsContainer>
-      </StyledFormArticle>
-    </StyledForm>
+              {characteristicOptions.map((option, index) => (
+                <option
+                  key={index}
+                  disabled={
+                    characteristics.characteristic2 === option.characteristic ||
+                    characteristics.characteristic2 === option.opposite
+                  }
+                >
+                  {option.characteristic}
+                </option>
+              ))}
+            </select>
+            <select
+              name="characteristic2"
+              aria-label="Characteristic 2"
+              value={characteristics.characteristic2}
+              onChange={(event) =>
+                setCharacteristics({
+                  ...characteristics,
+                  characteristic2: event.target.value,
+                })
+              }
+            >
+              <option value="">*none*</option>
+              {characteristicOptions.map((option, index) => (
+                <option
+                  key={index}
+                  disabled={
+                    characteristics.characteristic1 === option.characteristic ||
+                    characteristics.characteristic1 === option.opposite
+                  }
+                >
+                  {option.characteristic}
+                </option>
+              ))}
+            </select>
+          </StyledCharacteristicsContainer>
+        </StyledFormArticle>
+      </StyledForm>
+      <StyledIndicatorContainer>
+        {animalList[currentPet].indicators.map((indicator, index) => (
+          <Indicator key={index} data={indicator} />
+        ))}
+      </StyledIndicatorContainer>
+      <StyledConfirmButtonContainer>
+        <StyledLink href="/">Cancel</StyledLink>
+        <ConfirmButton type="submit" form="create-pet">
+          Create
+        </ConfirmButton>
+      </StyledConfirmButtonContainer>
+    </>
   );
-});
+}

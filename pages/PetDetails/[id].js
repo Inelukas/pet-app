@@ -113,10 +113,6 @@ const PetStatusContainer = styled.section`
   width: 100%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
-
-  & > div {
-    min-width: 310px;
-  }
 `;
 
 const StyledLink = styled(Link)`
@@ -148,18 +144,18 @@ export default function PetDetails({ petCollection }) {
   const router = useRouter();
   const { id } = router.query;
 
-  const pet = petCollection.find((pet) => pet.id === parseInt(id));
+  const pet = petCollection.find((pet) => pet.id == id);
 
   if (!pet) {
     return <p>No pet found!</p>;
   }
 
   const petStatus = [
-    { name: "Health", count: pet.status.health },
-    { name: "Happiness", count: pet.status.happiness },
-    { name: "Hunger", count: pet.status.hunger },
-    { name: "Energy", count: pet.status.energy },
-    { name: "Intelligence", count: pet.status.intelligence },
+    { name: "health", count: pet.status.health },
+    { name: "happiness", count: pet.status.happiness },
+    { name: "hunger", count: pet.status.hunger },
+    { name: "energy", count: pet.status.energy },
+    { name: "intelligence", count: pet.status.intelligence },
   ];
 
   return (
