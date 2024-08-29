@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Pet from "../Pet/Pet";
-<<<<<<< HEAD
 import StyledLink from "@/components/StyledLink/StyledLink";
 
 const StyledMain = styled.main`
@@ -9,9 +8,6 @@ const StyledMain = styled.main`
   align-items: center;
   margin: 5% 0;
 `;
-=======
-import Link from "next/link";
->>>>>>> main
 
 const StyledPetList = styled.ul`
   display: flex;
