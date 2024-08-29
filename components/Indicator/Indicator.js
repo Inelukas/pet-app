@@ -5,7 +5,6 @@ const StyledIndicator = styled.article`
   justify-content: center;
   align-items: center;
   gap: 5px;
-
   h3 {
     width: 30%;
   }
@@ -38,11 +37,17 @@ export default function Indicator({ data }) {
         <StyledBar
           style={{
             background: `${
-              data.name === "Happiness"
+              data.name === "Health"
+                ? "green"
+                : data.name === "Happiness"
                 ? "pink"
+                : data.name === "Hunger"
+                ? "orange"
                 : data.name === "Energy"
                 ? "yellow"
-                : "lightblue"
+                : data.name === "Intelligence"
+                ? "lightblue"
+                : "gray"
             }`,
             width: `${data.count}%`,
           }}
