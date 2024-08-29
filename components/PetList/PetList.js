@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import pets from "@/lib/Data";
 import Pet from "../Pet/Pet";
 import StyledLink from "@/components/StyledLink/StyledLink";
 
