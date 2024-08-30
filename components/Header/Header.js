@@ -9,7 +9,7 @@ const StyledHeader = styled.header`
   border-radius: 10px;
   border: 5px solid #000000;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08);
-  background-color: var(--secondary-color);
+  background-color: var(--neutral-color);
   width: 60vw;
   text-align: center;
   @media screen and (max-width: 1024px) {
