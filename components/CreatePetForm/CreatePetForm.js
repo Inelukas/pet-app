@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import PetSelection from "../PetSelection/PetSelection";
 import Indicator from "../Indicator/Indicator";
 import StyledLink from "../StyledLink/StyledLink";
 import ConfirmButton from "../ConfirmButton/ConfirmButton";
 import { animalList, characteristicOptions } from "@/lib/Data";
-import { useEffect } from "react";
 
 const StyledConfirmButtonContainer = styled.div`
   display: flex;
