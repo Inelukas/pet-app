@@ -22,6 +22,10 @@ export default function App({ Component, pageProps }) {
     router.push("/");
   }
 
+  function handleDeletePet(id) {
+    setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
+  }
+
   return (
     <>
       <GlobalStyle />
@@ -29,6 +33,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         petCollection={petCollection}
         onCreatePet={handleCreatePet}
+        onDeletePet={handleDeletePet}
       />
     </>
   );
