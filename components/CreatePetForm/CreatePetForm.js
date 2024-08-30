@@ -5,6 +5,7 @@ import Indicator from "../Indicator/Indicator";
 import StyledLink from "../StyledLink/StyledLink";
 import ConfirmButton from "../ConfirmButton/ConfirmButton";
 import { animalList, characteristicOptions } from "@/lib/Data";
+import { useEffect } from "react";
 
 const StyledConfirmButtonContainer = styled.div`
   display: flex;
@@ -82,12 +83,34 @@ const StyledCharacteristicsContainer = styled.div`
   }
 `;
 
-export default function CreatePetForm({ onCreatePet }) {
+export default function CreatePetForm({
+  initialData,
+  onCreatePet,
+  buttonLabel = "Create",
+  hideButtons = false,
+  onUpdatePet,
+}) {
   const [currentPet, setCurrentPet] = useState(0);
   const [characteristics, setCharacteristics] = useState({
     characteristic1: "",
     characteristic2: "",
   });
+
+  const [petName, setPetName] = useState("");
+
+  useEffect(() => {
+    if (initialData) {
+      const petIndex = animalList.findIndex(
+        (animal) => animal.type === initialData.type
+      );
+      setCurrentPet(petIndex);
+      setCharacteristics({
+        characteristic1: initialData.characteristics[0] || "",
+        characteristic2: initialData.characteristics[1] || "",
+      });
+      setPetName(initialData.name);
+    }
+  }, [initialData]);
 
   function handlePreviousPet() {
     const prevPetId = currentPet > 0 ? currentPet - 1 : animalList.length - 1;
@@ -107,8 +130,13 @@ export default function CreatePetForm({ onCreatePet }) {
     const [happiness, energy, intelligence] = petInfo.indicators;
     const petData = {
       ...data,
+      id: initialData?.id,
       type: petInfo.type,
       picture: petInfo.icon,
+      characteristics: [
+        characteristics.characteristic1,
+        characteristics.characteristic2,
+      ],
       status: {
         [happiness.name]: happiness.count,
         [energy.name]: energy.count,
@@ -117,12 +145,19 @@ export default function CreatePetForm({ onCreatePet }) {
         hunger: 50,
       },
     };
+
+    if (initialData) {
+      onUpdatePet(petData);
+    } else {
+      onCreatePet(petData);
+    }
+
     event.target.reset();
     setCharacteristics({
       characteristic1: "",
       characteristic2: "",
     });
-    onCreatePet(petData);
+    setPetName("");
   }
 
   return (
@@ -132,7 +167,7 @@ export default function CreatePetForm({ onCreatePet }) {
         onNextPet={handleNextPet}
         animalList={animalList}
         currentPet={currentPet}
-        name="type"
+        hideButtons={hideButtons}
       />
       <StyledForm onSubmit={handleSubmit} id="create-pet">
         <StyledFormArticle>
@@ -149,9 +184,11 @@ export default function CreatePetForm({ onCreatePet }) {
           <input
             name="name"
             id="name"
+            value={petName}
             placeholder="Samantha"
             maxLength={30}
             required
+            onChange={(e) => setPetName(e.target.value)}
           />
         </StyledFormArticle>
         <StyledFormArticle>
@@ -220,7 +257,7 @@ export default function CreatePetForm({ onCreatePet }) {
       <StyledConfirmButtonContainer>
         <StyledLink href="/">Cancel</StyledLink>
         <ConfirmButton type="submit" form="create-pet">
-          Create
+          {buttonLabel}
         </ConfirmButton>
       </StyledConfirmButtonContainer>
     </>

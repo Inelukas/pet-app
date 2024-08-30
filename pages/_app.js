@@ -22,6 +22,15 @@ export default function App({ Component, pageProps }) {
     router.push("/");
   }
 
+  function handleUpdatePet(updatedPetData) {
+    setPetCollection((prevData) =>
+      prevData.map((pet) =>
+        pet.id === updatedPetData.id ? { ...pet, ...updatedPetData } : pet
+      )
+    );
+    router.push("/");
+  }
+
   return (
     <>
       <GlobalStyle />
@@ -29,6 +38,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         petCollection={petCollection}
         onCreatePet={handleCreatePet}
+        onUpdatePet={handleUpdatePet}
       />
     </>
   );
