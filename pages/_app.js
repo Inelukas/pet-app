@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }) {
   function handleCreatePet(petData) {
     const { characteristic1, characteristic2, ...restPetData } = petData;
     const petId = uid();
+    console.log(petId);
     setPetCollection((prevData) => [
       {
         ...restPetData,
