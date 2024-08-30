@@ -330,7 +330,7 @@ const GardenPage = () => {
           </PetDisplay>
         </PetWrapper>
         <ListPageLink>
-          <Link href="/">Home</Link>
+          <Link href="/">List</Link>
           {/* update link to list page once replaced as mainpage required */}
         </ListPageLink>
       </GardenContainer>
