@@ -8,27 +8,21 @@ const StyledPet = styled.li`
   padding: 10px 3%;
   align-items: center;
   background-color: var(--secondary-color);
-  width: 50vw;
+  width: 80vw;
+  max-width: 600px;
   height: 20vh;
   min-height: 150px;
-  gap: 3%;
-
-  @media screen and (max-width: 1024px) {
-    width: 70vw;
-  }
-
-  @media screen and (max-width: 667px) {
-    width: 80%;
-  }
+  gap: 5%;
 `;
 
 const StyledPetData = styled.section`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   margin-right: 5%;
   font-size: 18px;
   margin: 5px;
-  line-height: 1.2;
+  line-height: 1.5;
 
   span {
     font-weight: bold;
@@ -72,7 +66,6 @@ const StyledPortrait = styled.section`
   border-radius: 100%;
   background: var(--signal-color);
   position: relative;
-  cursor: pointer;
 
   @media screen and (max-width: 1024px) {
     width: 15vh;
