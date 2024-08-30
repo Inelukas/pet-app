@@ -218,10 +218,17 @@ const GardenPage = () => {
   const increaseStatus = (statusKey) => {
     const updatedPets = [...pets];
     const currentStatus = updatedPets[currentPetIndex].status[statusKey];
-    updatedPets[currentPetIndex].status[statusKey] = Math.min(
-      currentStatus + 5,
-      100
-    );
+    if (statusKey === "hunger") {
+      updatedPets[currentPetIndex].status[statusKey] = Math.max(
+        currentStatus - 5,
+        0
+      );
+    } else {
+      updatedPets[currentPetIndex].status[statusKey] = Math.min(
+        currentStatus + 5,
+        100
+      );
+    }
     setPets(updatedPets);
 
     if (statusKey === "energy") {
@@ -247,7 +254,8 @@ const GardenPage = () => {
   const currentPet = pets[currentPetIndex];
 
   const healthValue = Math.round(
-    (currentPet.status.hunger +
+    (100 -
+      currentPet.status.hunger +
       currentPet.status.happiness +
       currentPet.status.energy) /
       3
@@ -322,13 +330,23 @@ const GardenPage = () => {
         </PetWrapper>
         <ListPageLink>
           <Link href="/">Home</Link>
-          {/* update link to list page once moved from mainpage required */}
+          {/* update link to list page once replaced as mainpage required */}
         </ListPageLink>
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={handlePrevPet}>Prev Pet</NavButton>
-        <Link href="/" passHref>
-          {/*placeholder - link to detail page once implemented required */}
+        <Link
+          href={{
+            pathname: `/PetDetails/${currentPet.id}`,
+            query: {
+              health: currentPet.status.health,
+              happiness: currentPet.status.happiness,
+              hunger: currentPet.status.hunger,
+              energy: currentPet.status.energy,
+              intelligence: currentPet.status.intelligence,
+            },
+          }}
+        >
           <StyledLink>{currentPet.picture}</StyledLink>
         </Link>
         <NavButton onClick={handleNextPet}>Next Pet</NavButton>
