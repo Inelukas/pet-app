@@ -19,6 +19,7 @@ export default function App({ Component, pageProps }) {
       },
       ...prevData,
     ]);
+
     router.push("/");
   }
 
@@ -28,7 +29,7 @@ export default function App({ Component, pageProps }) {
         pet.id === updatedPetData.id ? { ...pet, ...updatedPetData } : pet
       )
     );
-    router.push("/");
+    router.push(`/PetDetails/${updatedPetData.id}`);
   }
 
   return (

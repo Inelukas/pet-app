@@ -4,9 +4,9 @@ import { StyledCreatePage } from "../create";
 
 export default function UpdatePetPage({ petCollection, onUpdatePet }) {
   const router = useRouter();
-  const { id, hideButtons } = router.query;
+  const { id } = router.query;
 
-  const petToUpdate = petCollection.find((pet) => pet.id === id);
+  const petToUpdate = petCollection.find((pet) => pet.id == id);
 
   if (!petToUpdate) {
     return <p>Pet not found!</p>;
@@ -18,7 +18,7 @@ export default function UpdatePetPage({ petCollection, onUpdatePet }) {
         initialData={petToUpdate}
         onUpdatePet={onUpdatePet}
         buttonLabel="Update"
-        hideButtons={hideButtons === "true"}
+        hideButtons={true}
       />
     </StyledCreatePage>
   );
