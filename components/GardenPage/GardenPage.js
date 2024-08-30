@@ -176,10 +176,11 @@ const StatusButton = styled.button`
   background-color: ${(props) => props.$bgcolor};
   color: var(--text-color);
   border: none;
-  padding: 8px 16px;
+  padding: 16px;
   margin-bottom: 8px;
   border-radius: 4px;
   cursor: pointer;
+  width: 75px;
 `;
 
 const ListPageLink = styled.div`
