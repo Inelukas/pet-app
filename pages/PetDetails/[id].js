@@ -164,6 +164,9 @@ export default function PetDetails({ petCollection }) {
       <PetPictureContainer>
         <PetPicture>{pet.picture}</PetPicture>
         <PetName>{pet.name}</PetName>
+        <StyledLink href={`/update?id=${pet.id}&hideButtons=true`}>
+          Update
+        </StyledLink>
       </PetPictureContainer>
       <PetCharContainer>
         Personality: {pet.characteristics.join(", ")}
