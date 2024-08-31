@@ -9,7 +9,7 @@ const StyledHeader = styled.header`
   border-radius: 10px;
   border: 5px solid #000000;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08);
-  background-color: var(--neutral-color);
+  background-color: var(--secondary-color);
   width: 60vw;
   text-align: center;
   @media screen and (max-width: 1024px) {
@@ -26,17 +26,21 @@ const HeaderContainer = styled.section`
 `;
 export default function Header() {
   const router = useRouter();
-  let title;
+  let pageTitle;
   if (router.pathname === "/") {
-    title = "Your Pet Garden";
-  } else if (router.pathname === "/PetList") {
-    title = "Pet List";
-  } else if (router.pathname === "/CreatePet") {
-    title = "Create your Pet";
+    pageTitle = "Your Pet List";
+  } else if (router.pathname.startsWith("/PetDetails")) {
+    pageTitle = "Pet Details";
+  } else if (router.pathname === "/create") {
+    pageTitle = "Create Your Pet";
+  } else if (router.pathname === "/update") {
+    pageTitle = "Update Your Pet";
+  } else {
+    pageTitle = "Your Pet App";
   }
   return (
     <HeaderContainer>
-      <StyledHeader>{title}</StyledHeader>
+      <StyledHeader>{pageTitle}</StyledHeader>
     </HeaderContainer>
   );
 }
