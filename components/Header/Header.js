@@ -28,7 +28,7 @@ export default function Header() {
   const router = useRouter();
   let pageTitle;
   if (router.pathname === "/") {
-    pageTitle = "Your Pet List";
+    pageTitle = "Welcome to your Pet App";
   } else if (router.pathname.startsWith("/PetDetails")) {
     pageTitle = "Pet Details";
   } else if (router.pathname === "/create") {
