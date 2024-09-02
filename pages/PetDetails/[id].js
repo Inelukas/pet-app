@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Indicator from "@/components/Indicator/Indicator";
+import { useState } from "react";
 
 const DetailsContainer = styled.section`
   display: flex;
@@ -140,11 +141,71 @@ const StyledLink = styled(Link)`
   }
 `;
 
-export default function PetDetails({ petCollection }) {
+const StyledDeleteContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 350px;
+  padding: 20px;
+  background-color: var(--primary-color);
+  border-radius: 15px;
+  box-shadow: 2px 2px black;
+  z-index: 1000;
+  cursor: pointer;
+
+  @media screen and (min-width: 768px) {
+    width: 30vw;
+    max-width: 400px;
+  }
+`;
+
+const StyledDeleteButton = styled.button`
+  width: 10vw;
+  height: 5vh;
+  border-radius: 10px;
+  margin: 0 20px;
+  box-shadow: 2px 2px black;
+  cursor: pointer;
+  background-color: var(--signal-color);
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:active {
+    background-color: var(--secondary-color);
+  }
+`;
+
+const PictureAndDeleteContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+export default function PetDetails({ petCollection, onDeletePet }) {
   const router = useRouter();
   const { id } = router.query;
 
   const pet = petCollection.find((pet) => pet.id == id);
+
+  const [isDelete, setIsDelete] = useState(false);
+
+  const handleDelete = () => {
+    setIsDelete(!isDelete);
+  };
+
+  const confirmDelete = () => {
+    onDeletePet(id);
+    setIsDelete(false);
+    router.push("/");
+  };
 
   if (!pet) {
     return <p>No pet found!</p>;
@@ -162,7 +223,24 @@ export default function PetDetails({ petCollection }) {
     <DetailsContainer>
       <Header>Pet Details</Header>
       <PetPictureContainer>
-        <PetPicture>{pet.picture}</PetPicture>
+        <PictureAndDeleteContainer>
+          <PetPicture>{pet.picture}</PetPicture>
+
+          {isDelete && (
+            <StyledDeleteContainer>
+              <p>Are you sure you want to delete your Pet?</p>
+              <PictureAndDeleteContainer>
+                <StyledDeleteButton onClick={confirmDelete}>
+                  Yes
+                </StyledDeleteButton>
+                <StyledDeleteButton onClick={handleDelete}>
+                  No
+                </StyledDeleteButton>
+              </PictureAndDeleteContainer>
+            </StyledDeleteContainer>
+          )}
+          <StyledDeleteButton onClick={handleDelete}>Delete</StyledDeleteButton>
+        </PictureAndDeleteContainer>
         <PetName>{pet.name}</PetName>
         <StyledLink href={`/update?id=${pet.id}&hideButtons=true`}>
           Update
