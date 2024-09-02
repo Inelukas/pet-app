@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
-import petsData from "@/lib/Data";
+//import petsData from "@/lib/Data";
 
 const rotate = keyframes`
   from {
@@ -99,7 +99,7 @@ const NavButton = styled.button`
 `;
 
 const StyledLink = styled.div`
-  background-color: var(--primary-color);
+  background-color: var(--signal-color);
   color: var(--text-color);
   padding: 10px;
   text-align: center;
@@ -135,6 +135,7 @@ const VerticalBar = styled.div`
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  //z-index: 4;
 `;
 
 const VerticalBarFill = styled.div`
@@ -158,7 +159,7 @@ const HorizontalBar = styled.div`
 const HorizontalBarFill = styled.div`
   width: ${({ value }) => value}%;
   height: 100%;
-  background-color: hotpink; //color is a placeholder
+  background-color: green; //color is a placeholder
   position: absolute;
   left: 0;
 `;
@@ -189,7 +190,7 @@ const ListPageLink = styled.div`
   right: 10px;
   width: 50px;
   height: 50px;
-  background-color: var(--primary-color);
+  background-color: var(--signal-color);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -199,38 +200,43 @@ const ListPageLink = styled.div`
   cursor: pointer;
 `;
 
-const GardenPage = () => {
-  const [pets, setPets] = useState(petsData);
+const GardenPage = ({ petCollection, onInteractPet }) => {
+  // const [pets, setPets] = useState(petsData);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
   const [isBouncing, setIsBouncing] = useState(false);
   const [isGrowing, setIsGrowing] = useState(false);
+  // console.log(petCollection);
+  if (!petCollection || petCollection.length === 0) {
+    return <p>No pets available</p>;
+  }
 
   const handlePrevPet = () => {
     setCurrentPetIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : pets.length - 1
+      prevIndex > 0 ? prevIndex - 1 : petCollection.length - 1
     );
   };
 
   const handleNextPet = () => {
-    setCurrentPetIndex((prevIndex) => (prevIndex + 1) % pets.length);
+    setCurrentPetIndex((prevIndex) => (prevIndex + 1) % petCollection.length);
   };
 
   const increaseStatus = (statusKey) => {
-    const updatedPets = [...pets];
-    const currentStatus = updatedPets[currentPetIndex].status[statusKey];
+    const interactedPets = [...petCollection];
+    const currentStatus = interactedPets[currentPetIndex].status[statusKey];
     if (statusKey === "hunger") {
-      updatedPets[currentPetIndex].status[statusKey] = Math.max(
+      interactedPets[currentPetIndex].status[statusKey] = Math.max(
         currentStatus - 5,
         0
       );
     } else {
-      updatedPets[currentPetIndex].status[statusKey] = Math.min(
+      interactedPets[currentPetIndex].status[statusKey] = Math.min(
         currentStatus + 5,
         100
       );
     }
-    setPets(updatedPets);
+    // setPets(interactedPets);
+    onInteractPet(interactedPets[currentPetIndex]);
 
     if (statusKey === "energy") {
       setIsRotating(true);
@@ -252,7 +258,7 @@ const GardenPage = () => {
     }
   };
 
-  const currentPet = pets[currentPetIndex];
+  const currentPet = petCollection[currentPetIndex];
 
   const healthValue = Math.round(
     (100 -
@@ -271,20 +277,23 @@ const GardenPage = () => {
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
+              🍨
               {/* color is a placeholder */}
               <VerticalBarFill
-                $bgcolor="red"
+                $bgcolor="orange"
                 value={currentPet.status.hunger}
               />
             </VerticalBar>
             <VerticalBar>
+              🎉
               {/* color is a placeholder */}
               <VerticalBarFill
-                $bgcolor="green"
+                $bgcolor="pink"
                 value={currentPet.status.happiness}
               />
             </VerticalBar>
             <VerticalBar>
+              🔋
               {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="yellow"
@@ -292,9 +301,10 @@ const GardenPage = () => {
               />
             </VerticalBar>
             <VerticalBar>
+              <span style={{ zIndex: "3" }}>💡</span>;
               {/* color is a placeholder */}
               <VerticalBarFill
-                $bgcolor="blue"
+                $bgcolor="lightblue"
                 value={currentPet.status.intelligence}
               />
             </VerticalBar>
@@ -336,6 +346,7 @@ const GardenPage = () => {
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={handlePrevPet}>Prev Pet</NavButton>
+
         <Link
           href={{
             pathname: `/PetDetails/${currentPet.id}`,
