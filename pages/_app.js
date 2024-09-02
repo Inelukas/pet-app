@@ -23,6 +23,9 @@ export default function App({ Component, pageProps }) {
     router.push("/");
   }
 
+  function handleDeletePet(id) {
+    setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
+  }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
       prevData.map((pet) =>
@@ -39,6 +42,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         petCollection={petCollection}
         onCreatePet={handleCreatePet}
+        onDeletePet={handleDeletePet}
         onUpdatePet={handleUpdatePet}
       />
     </>
