@@ -40,7 +40,7 @@ const GardenContainer = styled.div`
   position: relative;
   width: 100%;
   height: 90vh;
-  background-image: url("Background/pet-app-background-dalle.jpg");
+  background-image: url("/Background/pet-app-background-dalle.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -135,7 +135,6 @@ const VerticalBar = styled.div`
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-  //z-index: 4;
 `;
 
 const VerticalBarFill = styled.div`
@@ -144,6 +143,12 @@ const VerticalBarFill = styled.div`
   height: ${({ value }) => value}%;
   position: absolute;
   bottom: 0;
+  z-index: 1;
+`;
+
+const Icon = styled.span`
+  z-index: 2;
+  position: absolute;
 `;
 
 const HorizontalBar = styled.div`
@@ -273,11 +278,12 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
       <GardenContainer>
         <StatusContainer>
           <HorizontalBar>
+            <Icon>❤️</Icon>
             <HorizontalBarFill value={healthValue} />
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
-              🍨
+              <Icon>🍨</Icon>
               {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="orange"
@@ -285,7 +291,7 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
               />
             </VerticalBar>
             <VerticalBar>
-              🎉
+              <Icon> 🎉</Icon>
               {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="pink"
@@ -293,7 +299,7 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
               />
             </VerticalBar>
             <VerticalBar>
-              🔋
+              <Icon>🔋</Icon>
               {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="yellow"
@@ -301,8 +307,7 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
               />
             </VerticalBar>
             <VerticalBar>
-              <span style={{ zIndex: "3" }}>💡</span>;
-              {/* color is a placeholder */}
+              <Icon>💡</Icon>;{/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="lightblue"
                 value={currentPet.status.intelligence}
