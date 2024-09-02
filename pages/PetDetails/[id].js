@@ -15,7 +15,7 @@ const DetailsContainer = styled.section`
   max-width: 600px;
   height: auto;
   min-height: 60vh;
-  background-color: var(--neutral-color);
+  background-color: var(--secondary-color);
   border: 3px solid black;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -39,17 +39,6 @@ const DetailsContainer = styled.section`
   }
 `;
 
-const Header = styled.header`
-  font-size: 15px;
-  font-weight: bold;
-  color: var(--text-color);
-  margin: 20px;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1.5px solid black;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-`;
-
 const PetPictureContainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -57,6 +46,7 @@ const PetPictureContainer = styled.section`
   background-color: var(--secondary-color);
   padding: 15px;
   border-radius: 10px;
+  border: 3px solid black;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
   width: 100%;
@@ -99,6 +89,7 @@ const PetCharContainer = styled.section`
   width: 100%;
   text-align: center;
   font-size: 16px;
+  border: 3px solid black;
   color: var(--text-color);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 `;
@@ -112,6 +103,7 @@ const PetStatusContainer = styled.section`
   border-radius: 10px;
   padding: 15px;
   width: 100%;
+  border: 3px solid black;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
 `;
@@ -221,7 +213,6 @@ export default function PetDetails({ petCollection, onDeletePet }) {
 
   return (
     <DetailsContainer>
-      <Header>Pet Details</Header>
       <PetPictureContainer>
         <PictureAndDeleteContainer>
           <PetPicture>{pet.picture}</PetPicture>
