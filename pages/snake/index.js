@@ -60,17 +60,6 @@ const StyledButtonContainer = styled.div`
   height: 100px;
 `;
 
-// const StyledButton = styled.button`
-//   display: grid;
-//   place-content: center;
-//   width: 80px;
-//   height: 50px;
-//   background: lightgreen;
-//   border-radius: 20px;
-//   border: none;
-//   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
-// `;
-
 const StyledIndicatorContainer = styled.div`
   position: absolute;
   left: -175px;
