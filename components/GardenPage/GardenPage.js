@@ -307,7 +307,8 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
               />
             </VerticalBar>
             <VerticalBar>
-              <Icon>💡</Icon>;{/* color is a placeholder */}
+              <Icon>💡</Icon>
+              {/* color is a placeholder */}
               <VerticalBarFill
                 $bgcolor="lightblue"
                 value={currentPet.status.intelligence}
@@ -317,12 +318,15 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
         </StatusContainer>
         <ButtonContainer>
           {/* color is a placeholder */}
-          <StatusButton $bgcolor="red" onClick={() => increaseStatus("hunger")}>
+          <StatusButton
+            $bgcolor="orange"
+            onClick={() => increaseStatus("hunger")}
+          >
             Feed
           </StatusButton>
           {/* color is a placeholder */}
           <StatusButton
-            $bgcolor="green"
+            $bgcolor="pink"
             onClick={() => increaseStatus("happiness")}
           >
             Play
