@@ -242,6 +242,9 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           <StyledDeleteButton onClick={handleDelete}>Delete</StyledDeleteButton>
         </PictureAndDeleteContainer>
         <PetName>{pet.name}</PetName>
+        <StyledLink href={`/update?id=${pet.id}&hideButtons=true`}>
+          Update
+        </StyledLink>
       </PetPictureContainer>
       <PetCharContainer>
         Personality: {pet.characteristics.join(", ")}

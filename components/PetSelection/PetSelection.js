@@ -45,18 +45,23 @@ export default function PetSelection({
   onNextPet,
   animalList,
   currentPet,
+  hideButtons = false,
 }) {
   return (
     <StyledPetSelection>
-      <button type="button" onClick={onPreviousPet}>
-        ←
-      </button>
-      <StyledPetIcon onClick={onNextPet}>
+      {!hideButtons && (
+        <button type="button" onClick={onPreviousPet}>
+          ←
+        </button>
+      )}
+      <StyledPetIcon onClick={hideButtons ? null : onNextPet}>
         {animalList[currentPet].icon}
       </StyledPetIcon>
-      <button type="button" onClick={onNextPet}>
-        →
-      </button>
+      {!hideButtons && (
+        <button type="button" onClick={onNextPet}>
+          →
+        </button>
+      )}
     </StyledPetSelection>
   );
 }

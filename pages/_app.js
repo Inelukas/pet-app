@@ -19,11 +19,20 @@ export default function App({ Component, pageProps }) {
       },
       ...prevData,
     ]);
+
     router.push("/");
   }
 
   function handleDeletePet(id) {
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
+  }
+  function handleUpdatePet(updatedPetData) {
+    setPetCollection((prevData) =>
+      prevData.map((pet) =>
+        pet.id === updatedPetData.id ? { ...pet, ...updatedPetData } : pet
+      )
+    );
+    router.push(`/PetDetails/${updatedPetData.id}`);
   }
 
   return (
@@ -34,6 +43,7 @@ export default function App({ Component, pageProps }) {
         petCollection={petCollection}
         onCreatePet={handleCreatePet}
         onDeletePet={handleDeletePet}
+        onUpdatePet={handleUpdatePet}
       />
     </>
   );
