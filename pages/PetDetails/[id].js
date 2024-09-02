@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Indicator from "@/components/Indicator/Indicator";
-import Header from "@/components/Header/Header";
 
 const DetailsContainer = styled.section`
   display: flex;
