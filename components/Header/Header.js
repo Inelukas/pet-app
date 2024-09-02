@@ -36,7 +36,7 @@ export default function Header() {
   } else if (router.pathname === "/update") {
     pageTitle = "Update Your Pet";
   } else {
-    pageTitle = "Your Pet App";
+    pageTitle = "Hyper Pet Garden";
   }
   return (
     <HeaderContainer>
