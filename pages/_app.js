@@ -1,4 +1,5 @@
 import { GlobalStyle } from "@/GlobalStyles";
+import Header from "@/components/Header/Header";
 import { useState } from "react";
 import { pets } from "@/lib/Data";
 import { useRouter } from "next/router";
@@ -23,6 +24,9 @@ export default function App({ Component, pageProps }) {
     router.push("/");
   }
 
+  function handleDeletePet(id) {
+    setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
+  }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
       prevData.map((pet) =>
@@ -35,10 +39,12 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
+      <Header />
       <Component
         {...pageProps}
         petCollection={petCollection}
         onCreatePet={handleCreatePet}
+        onDeletePet={handleDeletePet}
         onUpdatePet={handleUpdatePet}
       />
     </>
