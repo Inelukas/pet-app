@@ -29,7 +29,7 @@ export default function Header() {
   let pageTitle;
   if (router.pathname === "/") {
     pageTitle = "Your Pet List";
-  } else if (router.pathname.startsWith("/PetDetails")) {
+  } else if (router.pathname.startsWith("/pet-details")) {
     pageTitle = "Pet Details";
   } else if (router.pathname === "/create") {
     pageTitle = "Create Your Pet";

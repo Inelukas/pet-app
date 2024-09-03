@@ -9,11 +9,7 @@ export const StyledCreatePage = styled.main`
   justify-content: center;
   align-items: center;
   gap: 30px;
-  padding: 10% 0;
-
-  @media screen and (min-width: 1024px) {
-    padding: 5% 0;
-  }
+  padding: 5vh 0;
 `;
 
 export default function CreatePetPage({ onCreatePet }) {

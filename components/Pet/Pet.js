@@ -37,7 +37,7 @@ const StyledPetData = styled.section`
 `;
 
 const StyledSpan = styled.span`
-  font-size: 8vh; //has to be adjusted when we implement real pics
+  font-size: 8vh; //has to be adjusted when we implement real images in another story
   position: absolute;
   left: 20px;
 

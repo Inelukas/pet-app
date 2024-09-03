@@ -9,7 +9,7 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 3% 0;
+  margin: 3vh 0;
   gap: 20px;
 `;
 
@@ -32,7 +32,7 @@ export default function PetList({ petCollection }) {
         <StyledPetList>
           {petCollection.map((pet) => {
             return (
-              <StyledPet key={pet.id} href={`/PetDetails/${pet.id}`}>
+              <StyledPet key={pet.id} href={`/pet-details/${pet.id}`}>
                 <Pet petData={pet} />
               </StyledPet>
             );
