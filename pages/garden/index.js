@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
-//import petsData from "@/lib/Data";
 
 const rotate = keyframes`
   from {
@@ -57,16 +56,16 @@ const PetDisplay = styled.div`
   font-size: 8em;
   color: var(--text-color);
   transform-origin: center;
-  animation: ${({ $rotating, $bouncing, $growing }) =>
-    $rotating
+  animation: ${({ $animationtype }) =>
+    $animationtype === "rotating"
       ? css`
           ${rotate} 1s linear
         `
-      : $bouncing
+      : $animationtype === "bouncing"
       ? css`
           ${bounce} 1s ease
         `
-      : $growing
+      : $animationtype === "growing"
       ? css`
           ${grow} 0.5s ease
         `
@@ -107,7 +106,6 @@ const StyledLink = styled.div`
   display: inline-block;
   font-size: 16px;
   margin: 4px;
-  cursor: pointer;
   border-radius: 4px;
 `;
 
@@ -146,11 +144,6 @@ const VerticalBarFill = styled.div`
   z-index: 1;
 `;
 
-const Icon = styled.span`
-  z-index: 2;
-  position: absolute;
-`;
-
 const HorizontalBar = styled.div`
   width: 100px;
   height: 20px;
@@ -164,7 +157,7 @@ const HorizontalBar = styled.div`
 const HorizontalBarFill = styled.div`
   width: ${({ value }) => value}%;
   height: 100%;
-  background-color: green; //color is a placeholder
+  background-color: green;
   position: absolute;
   left: 0;
 `;
@@ -202,31 +195,26 @@ const ListPageLink = styled.div`
   align-items: center;
   text-align: center;
   color: var(--text-color);
-  cursor: pointer;
 `;
 
-const GardenPage = ({ petCollection, onInteractPet }) => {
-  // const [pets, setPets] = useState(petsData);
+function Garden({ petCollection, onInteractPet }) {
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
-  const [isRotating, setIsRotating] = useState(false);
-  const [isBouncing, setIsBouncing] = useState(false);
-  const [isGrowing, setIsGrowing] = useState(false);
-  // console.log(petCollection);
+  const [animationState, setAnimationState] = useState(null);
   if (!petCollection || petCollection.length === 0) {
     return <p>No pets available</p>;
   }
 
-  const handlePrevPet = () => {
+  function handlePrevPet() {
     setCurrentPetIndex((prevIndex) =>
       prevIndex > 0 ? prevIndex - 1 : petCollection.length - 1
     );
-  };
+  }
 
-  const handleNextPet = () => {
+  function handleNextPet() {
     setCurrentPetIndex((prevIndex) => (prevIndex + 1) % petCollection.length);
-  };
+  }
 
-  const increaseStatus = (statusKey) => {
+  function increaseStatus(statusKey) {
     const interactedPets = [...petCollection];
     const currentStatus = interactedPets[currentPetIndex].status[statusKey];
     if (statusKey === "hunger") {
@@ -240,28 +228,28 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
         100
       );
     }
-    // setPets(interactedPets);
+
     onInteractPet(interactedPets[currentPetIndex]);
 
     if (statusKey === "energy") {
-      setIsRotating(true);
+      setAnimationState("rotating");
       setTimeout(() => {
-        setIsRotating(false);
+        setAnimationState(null);
       }, 1000);
     }
     if (statusKey === "happiness") {
-      setIsBouncing(true);
+      setAnimationState("bouncing");
       setTimeout(() => {
-        setIsBouncing(false);
+        setAnimationState(null);
       }, 1000);
     }
     if (statusKey === "hunger") {
-      setIsGrowing(true);
+      setAnimationState("growing");
       setTimeout(() => {
-        setIsGrowing(false);
+        setAnimationState(null);
       }, 500);
     }
-  };
+  }
 
   const currentPet = petCollection[currentPetIndex];
 
@@ -278,60 +266,84 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
       <GardenContainer>
         <StatusContainer>
           <HorizontalBar>
-            <Icon>❤️</Icon>
+            <span
+              role="img"
+              aria-label="A heart indicating Health"
+              style={{
+                zIndex: 2,
+                position: "absolute",
+              }}
+            >
+              ❤️
+            </span>
             <HorizontalBarFill value={healthValue} />
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
-              <Icon>🍨</Icon>
-              {/* color is a placeholder */}
+              <span
+                role="img"
+                aria-label="A bowl of ice-cream indicating hunger"
+                style={{
+                  zIndex: 2,
+                  position: "absolute",
+                }}
+              >
+                🍨
+              </span>
               <VerticalBarFill
                 $bgcolor="orange"
                 value={currentPet.status.hunger}
               />
             </VerticalBar>
             <VerticalBar>
-              <Icon> 🎉</Icon>
-              {/* color is a placeholder */}
+              <span
+                role="img"
+                aria-label="Some confetti indicating happiness"
+                style={{
+                  zIndex: 2,
+                  position: "absolute",
+                }}
+              >
+                🎉
+              </span>
               <VerticalBarFill
                 $bgcolor="pink"
                 value={currentPet.status.happiness}
               />
             </VerticalBar>
             <VerticalBar>
-              <Icon>🔋</Icon>
-              {/* color is a placeholder */}
+              <span
+                role="img"
+                aria-label="A battery indicating energy"
+                style={{
+                  zIndex: 2,
+                  position: "absolute",
+                }}
+              >
+                🔋
+              </span>
               <VerticalBarFill
                 $bgcolor="yellow"
                 value={currentPet.status.energy}
               />
             </VerticalBar>
-            <VerticalBar>
-              <Icon>💡</Icon>
-              {/* color is a placeholder */}
-              <VerticalBarFill
-                $bgcolor="lightblue"
-                value={currentPet.status.intelligence}
-              />
-            </VerticalBar>
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
-          {/* color is a placeholder */}
           <StatusButton
             $bgcolor="orange"
             onClick={() => increaseStatus("hunger")}
           >
             Feed
           </StatusButton>
-          {/* color is a placeholder */}
+
           <StatusButton
             $bgcolor="pink"
             onClick={() => increaseStatus("happiness")}
           >
             Play
           </StatusButton>
-          {/* color is a placeholder */}
+
           <StatusButton
             $bgcolor="yellow"
             onClick={() => increaseStatus("energy")}
@@ -340,11 +352,7 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
           </StatusButton>
         </ButtonContainer>
         <PetWrapper>
-          <PetDisplay
-            $rotating={isRotating}
-            $bouncing={isBouncing}
-            $growing={isGrowing}
-          >
+          <PetDisplay $animationtype={animationState}>
             {currentPet.picture}
           </PetDisplay>
         </PetWrapper>
@@ -374,6 +382,6 @@ const GardenPage = ({ petCollection, onInteractPet }) => {
       </NavbarContainer>
     </>
   );
-};
+}
 
-export default GardenPage;
+export default Garden;
