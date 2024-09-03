@@ -244,7 +244,7 @@ export default function PetDetails({ petCollection, onDeletePet }) {
         {petStatus.map((status, index) => (
           <Indicator key={index} data={status} />
         ))}
-        <StyledLink href="/">Back</StyledLink>
+        <StyledLink href="/pet-list">Back</StyledLink>
       </PetStatusContainer>
     </DetailsContainer>
   );
