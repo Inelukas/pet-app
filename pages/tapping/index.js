@@ -46,36 +46,57 @@ const TappingButtonContainer = styled.section`
 `;
 
 export default function TappingGame() {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeCircle, setActiveCircle] = useState(null);
   const [currentScore, setCurrentScore] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * 16);
-      setActiveIndex(randomIndex);
+    let interval;
+    if (gameStarted) {
+      interval = setInterval(() => {
+        const randomCircle = Math.floor(Math.random() * 16);
+        setActiveCircle(randomCircle);
 
-      setTimeout(() => {
-        setActiveIndex(null);
-      }, 1000);
-    }, 1500);
+        setTimeout(() => {
+          setActiveCircle(null);
+        }, 1000);
+      }, 1500);
+    }
 
     return () => clearInterval(interval);
-  }, []);
+  }, [gameStarted]);
 
   const handleCircleClick = (index) => {
-    if (index === activeIndex) {
+    if (!gameStarted) return;
+
+    if (index === activeCircle) {
       setCurrentScore((prevScore) => prevScore + 1);
     } else {
       setCurrentScore((prevScore) => prevScore - 1);
     }
   };
+
+  const handleStart = () => {
+    setGameStarted(true);
+  };
+
+  const handlePause = () => {
+    setGameStarted(false);
+  };
+
+  const handleReset = () => {
+    setGameStarted(false);
+    setActiveCircle(null);
+    setCurrentScore(0);
+  };
+
   return (
     <>
       <TappingContainer>
         {Array.from({ length: 16 }).map((_, index) => (
           <TappingCircle
             key={index}
-            isActive={index === activeIndex}
+            isActive={index === activeCircle}
             onClick={() => handleCircleClick(index)}
           />
         ))}
@@ -86,7 +107,12 @@ export default function TappingGame() {
       </TappingSpanContainer>
       <TappingButtonContainer>
         <StyledLink href="/create">Back</StyledLink>
-        <StyledLink href="/create">Play again!</StyledLink>
+        {gameStarted ? (
+          <button onClick={handlePause}>Pause</button>
+        ) : (
+          <button onClick={handleStart}>Start</button>
+        )}
+        <button onClick={handleReset}>Reset</button>
       </TappingButtonContainer>
     </>
   );
