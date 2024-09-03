@@ -15,6 +15,7 @@ const TappingContainer = styled.section`
 const TappingCircle = styled.span`
   background-color: ${({ isActive }) =>
     isActive ? "var(--signal-color)" : "var(--neutral-color)"};
+
   border: 2px solid #ccc;
   display: flex;
   align-items: center;
@@ -49,39 +50,38 @@ export default function TappingGame() {
   const [activeCircle, setActiveCircle] = useState(null);
   const [currentScore, setCurrentScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
+  const [intervalTime, setIntervalTime] = useState(2000);
 
-  useEffect(
-    function () {
-      let interval;
-      if (gameStarted) {
-        interval = setInterval(function () {
-          const randomCircle = Math.floor(Math.random() * 16);
-          setActiveCircle(randomCircle);
+  useEffect(() => {
+    let interval;
 
-          setTimeout(function () {
-            setActiveCircle(null);
-          }, 1000);
-        }, 1500);
-      }
+    if (gameStarted) {
+      interval = setInterval(() => {
+        const randomCircle = Math.floor(Math.random() * 16);
+        setActiveCircle(randomCircle);
 
-      return function () {
-        clearInterval(interval);
-      };
-    },
-    [gameStarted]
-  );
+        setTimeout(() => {
+          setActiveCircle(null);
+        }, 1000);
+      }, intervalTime);
+    }
+
+    return () => clearInterval(interval);
+  }, [gameStarted, intervalTime]);
+
+  useEffect(() => {
+    if (currentScore > 0 && currentScore % 10 === 0) {
+      setIntervalTime((prevTime) => Math.max(prevTime - 100, 500));
+    }
+  }, [currentScore]);
 
   function handleCircleClick(index) {
     if (!gameStarted) return;
 
     if (index === activeCircle) {
-      setCurrentScore(function (prevScore) {
-        return prevScore + 1;
-      });
+      setCurrentScore((prevScore) => prevScore + 1);
     } else {
-      setCurrentScore(function (prevScore) {
-        return prevScore - 1;
-      });
+      setCurrentScore((prevScore) => prevScore - 1);
     }
   }
 
@@ -97,22 +97,19 @@ export default function TappingGame() {
     setGameStarted(false);
     setActiveCircle(null);
     setCurrentScore(0);
+    setIntervalTime(1500);
   }
 
   return (
     <>
       <TappingContainer>
-        {Array.from({ length: 16 }).map(function (_, index) {
-          return (
-            <TappingCircle
-              key={index}
-              isActive={index === activeCircle}
-              onClick={function () {
-                handleCircleClick(index);
-              }}
-            />
-          );
-        })}
+        {Array.from({ length: 16 }).map((_, index) => (
+          <TappingCircle
+            key={index}
+            isActive={index === activeCircle}
+            onClick={() => handleCircleClick(index)}
+          />
+        ))}
       </TappingContainer>
       <TappingSpanContainer>
         <span>Current Score: {currentScore}</span>
@@ -189,3 +186,15 @@ Rendering the Current Score:
 
 The current score is displayed in the TappingSpanContainer alongside the placeholder for the high score.
 This will give you a basic tapping game where the score increases every time the user clicks on an active circle. You can further extend this by adding a high score feature, game-over conditions, and other game mechanics as needed. */
+
+/* How intervall works:
+
+Key Points:
+Managing Interval Timing Directly: The interval variable is declared inside the useEffect and used to store the interval ID. This ID is used to clear the interval when needed.
+Cleanup Function: The clearInterval(interval) call in the cleanup function ensures that the interval is cleared properly when the game is paused or reset.
+This approach achieves the desired functionality without using useRef, managing everything through state and effect hooks directly.
+ 
+intervalTime State: Keeps track of the interval time. This time decreases as the score reaches new milestones.
+useEffect for Interval Timing: Updates the interval timing when the currentScore is a multiple of 10.
+Cleanup of Intervals: The clearInterval(interval) call ensures that previous intervals are cleaned up properly whenever the gameStarted state changes or when the component is unmounted.
+With this setup, the game will progressively increase the speed at which circles light up as the player’s score increases, making the game more challenging over time.*/
