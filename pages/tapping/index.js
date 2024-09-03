@@ -50,56 +50,69 @@ export default function TappingGame() {
   const [currentScore, setCurrentScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
 
-  useEffect(() => {
-    let interval;
-    if (gameStarted) {
-      interval = setInterval(() => {
-        const randomCircle = Math.floor(Math.random() * 16);
-        setActiveCircle(randomCircle);
+  useEffect(
+    function () {
+      let interval;
+      if (gameStarted) {
+        interval = setInterval(function () {
+          const randomCircle = Math.floor(Math.random() * 16);
+          setActiveCircle(randomCircle);
 
-        setTimeout(() => {
-          setActiveCircle(null);
-        }, 1000);
-      }, 1500);
-    }
+          setTimeout(function () {
+            setActiveCircle(null);
+          }, 1000);
+        }, 1500);
+      }
 
-    return () => clearInterval(interval);
-  }, [gameStarted]);
+      return function () {
+        clearInterval(interval);
+      };
+    },
+    [gameStarted]
+  );
 
-  const handleCircleClick = (index) => {
+  function handleCircleClick(index) {
     if (!gameStarted) return;
 
     if (index === activeCircle) {
-      setCurrentScore((prevScore) => prevScore + 1);
+      setCurrentScore(function (prevScore) {
+        return prevScore + 1;
+      });
     } else {
-      setCurrentScore((prevScore) => prevScore - 1);
+      setCurrentScore(function (prevScore) {
+        return prevScore - 1;
+      });
     }
-  };
+  }
 
-  const handleStart = () => {
+  function handleStart() {
     setGameStarted(true);
-  };
+  }
 
-  const handlePause = () => {
+  function handlePause() {
     setGameStarted(false);
-  };
+  }
 
-  const handleReset = () => {
+  function handleReset() {
     setGameStarted(false);
     setActiveCircle(null);
     setCurrentScore(0);
-  };
+  }
 
   return (
     <>
       <TappingContainer>
-        {Array.from({ length: 16 }).map((_, index) => (
-          <TappingCircle
-            key={index}
-            isActive={index === activeCircle}
-            onClick={() => handleCircleClick(index)}
-          />
-        ))}
+        {Array.from({ length: 16 }).map(function (_, index) {
+          return (
+            <TappingCircle
+              key={index}
+              isActive={index === activeCircle}
+              onClick={function () {
+                handleCircleClick(index);
+              }}
+            />
+          );
+        })}
       </TappingContainer>
       <TappingSpanContainer>
         <span>Current Score: {currentScore}</span>
