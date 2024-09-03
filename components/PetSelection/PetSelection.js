@@ -6,25 +6,28 @@ const StyledPetSelection = styled.div`
   align-items: center;
   gap: 5%;
   width: 100vw;
+`;
 
-  button {
-    width: 10vw;
-    min-width: 60px;
-    height: 5vh;
-    border-radius: 10px;
-    margin: 0 20px;
-    box-shadow: 2px 2px black;
-    cursor: pointer;
-    background-color: var(--signal-color);
-    background-image: var(--button-image);
+const StyledSelectionButton = styled.div`
+  display: grid;
+  place-content: center;
+  width: 4rem;
+  max-width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  margin: 0 20px;
+  box-shadow: 2px 2px #000000;
+  cursor: pointer;
+  background-color: var(--signal-color);
+  background-image: var(--button-image);
+  font-size: 2rem;
 
-    &:hover {
-      transform: scale(1.2);
-    }
+  &:hover {
+    transform: scale(1.2);
+  }
 
-    &:active {
-      background-color: var(--secondary-color);
-    }
+  &:active {
+    background-color: var(--secondary-color);
   }
 `;
 
@@ -36,7 +39,7 @@ const StyledPetIcon = styled.div`
   border-radius: 20px;
   background: var(--secondary-color);
   font-size: 80px;
-  box-shadow: 3px 3px 3px 3px black;
+  box-shadow: 3px 3px 3px 3px #000000;
   cursor: pointer;
 `;
 
@@ -50,17 +53,17 @@ export default function PetSelection({
   return (
     <StyledPetSelection>
       {!hideButtons && (
-        <button type="button" onClick={onPreviousPet}>
+        <StyledSelectionButton type="button" onClick={onPreviousPet}>
           ←
-        </button>
+        </StyledSelectionButton>
       )}
       <StyledPetIcon onClick={hideButtons ? null : onNextPet}>
         {animalList[currentPet].icon}
       </StyledPetIcon>
       {!hideButtons && (
-        <button type="button" onClick={onNextPet}>
+        <StyledSelectionButton type="button" onClick={onNextPet}>
           →
-        </button>
+        </StyledSelectionButton>
       )}
     </StyledPetSelection>
   );

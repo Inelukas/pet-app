@@ -30,7 +30,7 @@ const StyledGameField = styled.div`
   place-content: center;
   width: 300px;
   height: 300px;
-  background: lightgreen;
+  background: #90ee90;
   border: 2px solid #000000;
   border-radius: 20px;
   position: relative;

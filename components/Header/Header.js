@@ -1,7 +1,14 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
+
+const HeaderContainer = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const StyledHeader = styled.h1`
-  font-size: 35px;
+  font-size: 1.5rem;
   font-weight: bold;
   color: var(--text-color);
   margin: 20px;
@@ -10,19 +17,12 @@ const StyledHeader = styled.h1`
   border: 5px solid #000000;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08);
   background-color: var(--secondary-color);
-  width: 60vw;
+  width: 80vw;
   text-align: center;
-  @media screen and (max-width: 1024px) {
-    width: 70vw;
+  @media screen and (min-width: 600px) {
+    width: 60vw;
+    font-size: 2rem;
   }
-  @media screen and (max-width: 667px) {
-    width: 80%;
-  }
-`;
-const HeaderContainer = styled.header`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 export default function Header() {
   const router = useRouter();

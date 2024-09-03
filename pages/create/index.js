@@ -2,7 +2,6 @@ import styled from "styled-components";
 import CreatePetForm from "@/components/CreatePetForm/CreatePetForm";
 
 export const StyledCreatePage = styled.main`
-  background-image: var(--create-image);
   height: 100%;
   width: 100%;
   display: flex;

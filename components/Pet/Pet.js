@@ -4,62 +4,57 @@ const StyledPet = styled.li`
   display: flex;
   border: 5px solid #000000;
   border-radius: 10px;
-  margin: 2%;
-  padding: 10px 3%;
+  margin: 10px 0;
+  padding: 10px 20px;
   align-items: center;
   background-color: var(--secondary-color);
   width: 80vw;
   max-width: 600px;
   height: 20vh;
   min-height: 150px;
-  gap: 5%;
+  gap: 10%;
+
+  @media screen and (min-width: 600px) {
+    margin-right: 10%;
+    gap: 15%;
+  }
 `;
 
 const StyledPetData = styled.section`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  margin-right: 5%;
-  font-size: 18px;
-  margin: 5px;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.8;
 
   span {
     font-weight: bold;
   }
 
-  @media screen and (max-width: 1024px) {
-    margin-right: 10%;
-  }
-
-  @media screen and (max-width: 768px) {
-    font-size: 18px;
-  }
-
-  @media screen and (max-width: 667px) {
-    font-size: 16px;
+  @media screen and (min-width: 600px) {
+    font-size: 1.2rem;
   }
 `;
 
 const StyledSpan = styled.span`
-  font-size: 12vh;
+  font-size: 8vh; //has to be adjusted when we implement real pics
   position: absolute;
   left: 20px;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (min-width: 600px) {
     font-size: 10vh;
   }
 
-  @media screen and (max-width: 667px) {
-    font-size: 8vh;
+  @media screen and (min-width: 900px) {
+    font-size: 12vh;
   }
 `;
 
 const StyledPortrait = styled.section`
-  width: 18vh;
+  width: 12vh;
   max-width: 150px;
   min-width: 80px;
-  height: 18vh;
+  height: 12vh;
   max-height: 150px;
   min-height: 80px;
   margin-right: auto;
@@ -67,29 +62,22 @@ const StyledPortrait = styled.section`
   background: var(--signal-color);
   position: relative;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (min-width: 600px) {
     width: 15vh;
     height: 15vh;
   }
 
-  @media screen and (max-width: 667px) {
-    width: 12vh;
-    height: 12vh;
+  @media screen and (min-width: 900px) {
+    width: 18vh;
+    height: 18vh;
   }
 `;
 
 const StyledList = styled.ul`
   list-style-type: none;
-
-  li {
-    @media screen and (max-width: 768px) {
-      font-size: 16px;
-    }
-
-    @media screen and (max-width: 667px) {
-      font-size: 12px;
-    }
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
 `;
 
 export default function Pet({ petData }) {
@@ -106,9 +94,7 @@ export default function Pet({ petData }) {
           <span>Type:</span> {petData.type}
         </p>
         <StyledList>
-          <p>
-            <span>Characteristics:</span>
-          </p>
+          <span>Characteristics:</span>
           {petData.characteristics.map((characteristic, index) =>
             index < petData.characteristics.length - 1 ? (
               <li key={index}>{characteristic + ", "}</li>
