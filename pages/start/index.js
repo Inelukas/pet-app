@@ -10,7 +10,7 @@ export const StyledStartPage = styled.section`
   justify-content: center;
   padding: 20px;
   margin: 15px;
-  gap: 100px;
+  gap: 75px;
 `;
 
 export const StyledStartSpan = styled.span`
@@ -20,7 +20,10 @@ export const StyledStartSpan = styled.span`
   -webkit-text-fill-color: transparent;
   font-weight: 900;
 `;
-export default function StartPage() {
+
+export default function StartPage({ petCollection }) {
+  const buttonText = petCollection.length > 0 ? "Go to Garden" : "Create Pet";
+  const buttonLink = petCollection.length > 0 ? "/update" : "/create";
   return (
     <StyledStartPage>
       <Image
@@ -29,7 +32,7 @@ export default function StartPage() {
         width={500}
         height={500}
       />
-      <StyledLink href="/create">Create Pet</StyledLink>
+      <StyledLink href={buttonLink}>{buttonText}</StyledLink>
       <StyledStartSpan>
         Create your own Pet - Feed it, train it, keep it happy!
       </StyledStartSpan>
