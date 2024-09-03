@@ -196,7 +196,7 @@ export default function PetDetails({ petCollection, onDeletePet }) {
   const confirmDelete = () => {
     onDeletePet(id);
     setIsDelete(false);
-    router.push("/");
+    router.push("/pet-list/");
   };
 
   if (!pet) {

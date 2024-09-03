@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Pet from "../Pet/Pet";
+import Pet from "@/components/Pet/Pet";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ export default function PetList({ petCollection }) {
         <StyledPetList>
           {petCollection.map((pet) => {
             return (
-              <Link key={pet.id} href={`/PetDetails/${pet.id}`}>
+              <Link key={pet.id} href={`/pet-details/${pet.id}`}>
                 <Pet petData={pet} />
               </Link>
             );
