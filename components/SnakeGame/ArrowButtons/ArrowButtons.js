@@ -11,8 +11,8 @@ const StyledMoveButtonBox = styled.div`
 
 const StyledMoveButton = styled.button`
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 30px;
   background: lightgreen;
   border-radius: 20px;
   font-size: 20px;
@@ -24,25 +24,25 @@ export default function ArrowButtons({ onDirection }) {
       <StyledMoveButtonBox>
         <StyledMoveButton
           onClick={() => onDirection("ArrowUp")}
-          style={{ top: "-60px", left: "-15px" }}
+          style={{ top: "-30px", left: "-25px" }}
         >
           ↑
         </StyledMoveButton>
         <StyledMoveButton
           onClick={() => onDirection("ArrowRight")}
-          style={{ top: "-20px", right: "-70px" }}
+          style={{ top: "0px", left: "10px" }}
         >
           →
         </StyledMoveButton>
         <StyledMoveButton
           onClick={() => onDirection("ArrowLeft")}
-          style={{ top: "-20px", left: "-60px" }}
+          style={{ top: "0px", left: "-60px" }}
         >
           ←
         </StyledMoveButton>
         <StyledMoveButton
           onClick={() => onDirection("ArrowDown")}
-          style={{ bottom: "-60px", left: "-15px" }}
+          style={{ bottom: "-60px", left: "-25px" }}
         >
           ↓
         </StyledMoveButton>

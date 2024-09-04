@@ -1,6 +1,6 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { pets } from "@/lib/Data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
@@ -61,18 +61,22 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleUpdatePetIndicator(score) {
-    console.log("Score:", score, "happiness:", currentPet.status.happiness);
     setCurrentPet((prevPetData) => ({
       ...prevPetData,
       status: {
         ...prevPetData.status,
-        happiness: Math.min(
-          parseInt(prevPetData.status.happiness) + score,
-          100
-        ),
+        happiness: score,
       },
     }));
   }
+
+  useEffect(() => {
+    setPetCollection(
+      petCollection.map((pet) => {
+        return pet.id === currentPet.id ? currentPet : pet;
+      })
+    );
+  }, [currentPet]);
 
   return (
     <>

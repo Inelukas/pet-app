@@ -29,7 +29,7 @@ const StyledGameField = styled.div`
   display: grid;
   place-content: center;
   width: 300px;
-  height: 300px;
+  min-height: 300px;
   background: lightgreen;
   border: 2px solid #000000;
   border-radius: 20px;
@@ -56,14 +56,13 @@ const StyledScoreContainer = styled.div`
 const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 300px;
-  height: 100px;
+  margin-top: 40px;
 `;
 
 const StyledIndicatorContainer = styled.div`
   position: absolute;
   left: -175px;
-  top: 20vh;
+  top: 100px;
 
   @media screen and (min-width: 600px) {
     left: -200px;
@@ -131,6 +130,16 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
   useEffect(() => {
     setFoodPosition(generateNewFoodPosition());
   }, []);
+
+  useEffect(() => {
+    if (!gameOn) {
+      const newHappinessValue = Math.min(
+        currentPet.status.happiness + score,
+        100
+      );
+      onUpdatePetIndicator(newHappinessValue);
+    }
+  }, [gameOn]);
 
   useEffect(() => {
     function movePlayer() {
@@ -229,7 +238,6 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
       })
     ) {
       setGameOn(false);
-      onUpdatePetIndicator(score);
       return true;
     }
     return false;
@@ -291,10 +299,9 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
             showBarName={false}
             data={{
               name: "happiness",
-              count:
-                currentPet.status.happiness < 100
-                  ? currentPet.status.happiness + score
-                  : 100,
+              count: gameOn
+                ? Math.min(currentPet.status.happiness + score, 100)
+                : currentPet.status.happiness,
             }}
           />
         </StyledIndicatorContainer>
