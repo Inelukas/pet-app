@@ -1,7 +1,5 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import capybara from "../capybara.png";
-import Image from "next/image";
 
 const StyledPlayer = styled.div`
   position: absolute;

@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import capybara from "../capybara.png";
-import Image from "next/image";
 
 const StyledFood = styled.div`
   position: absolute;

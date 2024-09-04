@@ -1,6 +1,4 @@
-import Image from "next/image";
 import styled from "styled-components";
-import capybara from "../capybara.png";
 
 const StyledChild = styled.div`
   position: absolute;
