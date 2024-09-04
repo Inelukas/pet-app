@@ -28,7 +28,7 @@ export default function PetList({ petCollection }) {
         <StyledPetList>
           {petCollection.map((pet) => {
             return (
-              <Link key={pet.id} href={`/PetDetails/${pet.id}`}>
+              <Link key={pet.id} href={`/pet-details/${pet.id}`}>
                 <Pet petData={pet} />
               </Link>
             );
