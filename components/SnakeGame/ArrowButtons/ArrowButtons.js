@@ -3,6 +3,10 @@ import styled from "styled-components";
 const StyledArrowButtons = styled.div`
   position: absolute;
   bottom: 25vh;
+
+  @media screen and (min-width: 900px) {
+    bottom: 20vh;
+  }
 `;
 
 const StyledMoveButtonBox = styled.div`
@@ -24,25 +28,25 @@ export default function ArrowButtons({ onDirection }) {
       <StyledMoveButtonBox>
         <StyledMoveButton
           onClick={() => onDirection("ArrowUp")}
-          style={{ top: "-30px", left: "-25px" }}
+          style={{ top: "-40px", left: "-25px" }}
         >
           ↑
         </StyledMoveButton>
         <StyledMoveButton
           onClick={() => onDirection("ArrowRight")}
-          style={{ top: "0px", left: "10px" }}
+          style={{ top: "0px", left: "30px" }}
         >
           →
         </StyledMoveButton>
         <StyledMoveButton
           onClick={() => onDirection("ArrowLeft")}
-          style={{ top: "0px", left: "-60px" }}
+          style={{ top: "0px", left: "-80px" }}
         >
           ←
         </StyledMoveButton>
         <StyledMoveButton
           onClick={() => onDirection("ArrowDown")}
-          style={{ bottom: "-60px", left: "-25px" }}
+          style={{ bottom: "-70px", left: "-25px" }}
         >
           ↓
         </StyledMoveButton>
