@@ -97,6 +97,7 @@ export default function GameContainer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameTime, setGameTime] = useState(0);
   const [gameEnded, setGameEnded] = useState(false);
+  const [startTime, setStartTime] = useState(null);
 
   const startGame = () => {
     setIsPlaying(true);
@@ -104,6 +105,7 @@ export default function GameContainer() {
     setCounter(0);
     setItems([]);
     setGameEnded(false);
+    setStartTime(Date.now());
   };
 
   useEffect(() => {
@@ -170,10 +172,12 @@ export default function GameContainer() {
 
   useEffect(() => {
     if (counter >= 10) {
+      const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
+      setGameTime(timeElapsed);
       setGameEnded(true);
       setIsPlaying(false);
     }
-  }, [counter]);
+  }, [counter, startTime]);
 
   if (gameEnded) {
     return <SummaryScreen itemsCaught={counter} timeTaken={gameTime} />;
