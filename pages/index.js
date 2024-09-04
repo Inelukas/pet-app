@@ -3,7 +3,6 @@ import StyledLink from "@/components/StyledLink/StyledLink";
 import Image from "next/image";
 
 export const StyledStartPage = styled.section`
-  background-image: var(--create-image);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,43 +25,45 @@ export const StyledStartPage = styled.section`
 `;
 
 export const StyledImage = styled(Image)`
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
 
   @media (min-width: 600px) {
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
   }
 
   @media (min-width: 900px) {
-    width: 550px;
-    height: 550px;
+    width: 600px;
+    height: 600px;
   }
 
   @media (min-width: 1200px) {
-    width: 600px;
-    height: 600px;
+    width: 700px;
+    height: 700px;
   }
 `;
 
 export const StyledButtonLink = styled(StyledLink)`
+  border-radius: 10px;
+
   font-size: small;
-  padding: 2px 2px;
+  padding: 20px 50px;
   white-space: nowrap;
 
   @media (min-width: 600px) {
     font-size: 1.5rem;
-    padding: 10px 15px;
+    padding: 35px 80px;
   }
 
   @media (min-width: 900px) {
     font-size: 1.75rem;
-    padding: 14px 28px;
+    padding: 50px 100px;
   }
 
   @media (min-width: 1200px) {
     font-size: 2rem;
-    padding: 16px 32px;
+    padding: 50px 120px;
   }
 `;
 
