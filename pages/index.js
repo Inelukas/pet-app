@@ -23,7 +23,7 @@ export const StyledStartSpan = styled.span`
 
 export default function StartPage({ petCollection }) {
   const buttonText = petCollection.length > 0 ? "Go to Garden" : "Create Pet";
-  const buttonLink = petCollection.length > 0 ? "/pet-list" : "/create"; // Link to Pet Garden will be inserted here later
+  const buttonLink = petCollection.length > 0 ? "/garden" : "/create"; // Link to Pet Garden will be inserted here later
 
   console.log(petCollection.length);
 
