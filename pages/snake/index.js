@@ -1,7 +1,7 @@
 import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
 import Indicator from "@/components/Indicator/Indicator";
 import ArrowButtons from "@/components/SnakeGame/ArrowButtons/ArrowButtons";
-import Child from "@/components/SnakeGame/Child/Child";
+import PetChild from "@/components/SnakeGame/PetChild/PetChild";
 import Food from "@/components/SnakeGame/Food/Food";
 import Player from "@/components/SnakeGame/Player/Player";
 import StyledLink from "@/components/StyledLink/StyledLink";
@@ -35,7 +35,6 @@ const StyledGameField = styled.div`
   border-radius: 20px;
   position: relative;
   border: 5px solid #000000;
-
   @media screen and (min-width: 600px) {
     transform: scale(1.2);
   }
@@ -62,20 +61,12 @@ const StyledButtonContainer = styled.div`
 const StyledIndicatorContainer = styled.div`
   position: absolute;
   left: -175px;
-  top: 100px;
+  top: 60px;
+  transform: rotate(270deg);
+  width: 300px;
 
   @media screen and (min-width: 600px) {
     left: -200px;
-  }
-
-  h3 {
-    rotate: calc(90deg);
-  }
-
-  article {
-    rotate: calc(270deg);
-    width: 300px;
-    justify-content: center;
   }
 `;
 
@@ -97,7 +88,6 @@ const StyledHowToPlay = styled.div`
   position: absolute;
   top: -20px;
   z-index: 2;
-
   @media screen and (min-width: 900px) {
     display: block;
     width: 120px;
@@ -108,7 +98,6 @@ const StyledHowToPlay = styled.div`
     padding: 0;
     line-height: 1.5;
   }
-
   @media screen and (min-width: 1200px) {
     width: 200px;
     font-size: 0.8rem;
@@ -121,12 +110,12 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
   const [playerPosition, setPlayerPosition] = useState({ x: 140, y: 140 });
   const [children, setChildren] = useState([]);
   const [foodPosition, setFoodPosition] = useState({});
-  const [direction, setDirection] = useState("");
-  const [prevDirection, setPrevDirection] = useState("");
-  const [score, setScore] = useState(0);
-  const [highscore, setHighscore] = useState(0);
+  const [directions, setDirections] = useState({
+    currentDirection: "",
+    prevDirection: "",
+  });
+  const [scores, setScores] = useState({ score: 0, highscore: 0 });
   const [instructions, setInstructions] = useState(false);
-
   useEffect(() => {
     setFoodPosition(generateNewFoodPosition());
   }, []);
@@ -134,7 +123,7 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
   useEffect(() => {
     if (!gameOn) {
       const newHappinessValue = Math.min(
-        currentPet.status.happiness + score,
+        currentPet.status.happiness + scores.score,
         100
       );
       onUpdatePetIndicator(newHappinessValue);
@@ -147,13 +136,13 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
       setPlayerPosition((prevPosition) => {
         let newPosition = { ...prevPosition };
 
-        if (direction === "ArrowUp") {
+        if (directions.direction === "ArrowUp") {
           newPosition.y -= 20;
-        } else if (direction === "ArrowDown") {
+        } else if (directions.direction === "ArrowDown") {
           newPosition.y += 20;
-        } else if (direction === "ArrowLeft") {
+        } else if (directions.direction === "ArrowLeft") {
           newPosition.x -= 20;
-        } else if (direction === "ArrowRight") {
+        } else if (directions.direction === "ArrowRight") {
           newPosition.x += 20;
         }
 
@@ -166,10 +155,13 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
             newFoodPosition = generateNewFoodPosition();
           }
           setFoodPosition(newFoodPosition);
-          setScore(score + 1);
-          if (score >= highscore) {
-            setHighscore(score + 1);
-          }
+          setScores(() => ({
+            score: scores.score + 1,
+            highscore:
+              scores.score >= scores.highscore
+                ? scores.highscore + 1
+                : scores.highscore,
+          }));
 
           setChildren((prevChildren) => [
             ...prevChildren,
@@ -182,26 +174,38 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
           return prevPosition;
         }
         moveChildren();
-        setPrevDirection(direction);
+        setDirections((prevVal) => ({
+          ...prevVal,
+          prevDirection: prevVal.direction,
+        }));
         return newPosition;
       });
     }
 
     const moveInterval = setInterval(movePlayer, 100);
     return () => clearInterval(moveInterval);
-  }, [direction, playerPosition, foodPosition]);
+  }, [directions, playerPosition, foodPosition]);
 
   function handleDirection(event) {
     const currentKey = typeof event === "string" ? event : event.key;
 
-    if (currentKey === "ArrowUp" && prevDirection !== "ArrowDown") {
-      setDirection("ArrowUp");
-    } else if (currentKey === "ArrowDown" && prevDirection !== "ArrowUp") {
-      setDirection("ArrowDown");
-    } else if (currentKey === "ArrowLeft" && prevDirection !== "ArrowRight") {
-      setDirection("ArrowLeft");
-    } else if (currentKey === "ArrowRight" && prevDirection !== "ArrowLeft") {
-      setDirection("ArrowRight");
+    if (currentKey === "ArrowUp" && directions.prevDirection !== "ArrowDown") {
+      setDirections((prevVal) => ({ ...prevVal, direction: "ArrowUp" }));
+    } else if (
+      currentKey === "ArrowDown" &&
+      directions.prevDirection !== "ArrowUp"
+    ) {
+      setDirections((prevVal) => ({ ...prevVal, direction: "ArrowDown" }));
+    } else if (
+      currentKey === "ArrowLeft" &&
+      directions.prevDirection !== "ArrowRight"
+    ) {
+      setDirections((prevVal) => ({ ...prevVal, direction: "ArrowLeft" }));
+    } else if (
+      currentKey === "ArrowRight" &&
+      directions.prevDirection !== "ArrowLeft"
+    ) {
+      setDirections((prevVal) => ({ ...prevVal, direction: "ArrowRight" }));
     }
   }
 
@@ -214,9 +218,8 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
 
   function newGame() {
     setPlayerPosition({ x: 140, y: 140 });
-    setDirection("");
-    setPrevDirection("");
-    setScore(0);
+    setDirections({ direction: "", prevDirection: "" });
+    setScores((prevVal) => ({ ...prevVal, score: 0 }));
     setFoodPosition(generateNewFoodPosition);
     setChildren([]);
     setGameOn(true);
@@ -286,7 +289,7 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
         <Food foodPosition={foodPosition} pet={currentPet} />
         {children
           ? children.map((child, index) => (
-              <Child
+              <PetChild
                 key={index}
                 childPosition={child}
                 gameOn={gameOn}
@@ -300,7 +303,7 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
             data={{
               name: "happiness",
               count: gameOn
-                ? Math.min(currentPet.status.happiness + score, 100)
+                ? Math.min(currentPet.status.happiness + scores.score, 100)
                 : currentPet.status.happiness,
             }}
           />
@@ -334,8 +337,8 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
         ) : null}
       </StyledGameField>
       <StyledScoreContainer>
-        <span>Current Score: {score}</span>
-        <span>Highscore: {highscore}</span>
+        <span>Current Score: {scores.score}</span>
+        <span>Highscore: {scores.highscore}</span>
       </StyledScoreContainer>
       {!gameOn ? (
         <StyledGameOver>Game Over</StyledGameOver>

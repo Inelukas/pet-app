@@ -1,11 +1,9 @@
 import styled from "styled-components";
-import capybara from "../capybara.png";
-import Image from "next/image";
 
 const StyledFood = styled.div`
   position: absolute;
-  top: ${({ $topcoor }) => $topcoor};
-  left: ${({ $leftcoor }) => $leftcoor};
+  top: ${({ $topPosition }) => $topPosition};
+  left: ${({ $leftPosition }) => $leftPosition};
   z-index: 2;
 `;
 
@@ -23,11 +21,11 @@ const StyledIcon = styled.span`
 export default function Food({ foodPosition, pet }) {
   return (
     <StyledFood
-      $topcoor={`${foodPosition.y}px`}
-      $leftcoor={`${foodPosition.x}px`}
+      $topPosition={`${foodPosition.y}px`}
+      $leftPosition={`${foodPosition.x}px`}
     >
       <StyledIconContainer>
-        <StyledIcon alt={pet.type}>{pet.picture}</StyledIcon>
+        <StyledIcon aria-label={pet.type}>{pet.picture}</StyledIcon>
       </StyledIconContainer>
     </StyledFood>
   );

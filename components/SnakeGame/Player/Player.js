@@ -1,12 +1,10 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import capybara from "../capybara.png";
-import Image from "next/image";
 
 const StyledPlayer = styled.div`
   position: absolute;
-  top: ${({ $topcoor }) => $topcoor};
-  left: ${({ $leftcoor }) => $leftcoor};
+  top: ${({ $topPosition }) => $topPosition};
+  left: ${({ $leftPosition }) => $leftPosition};
   font-size: 1.5rem;
   outline: none;
 `;
@@ -20,7 +18,7 @@ const StyledIconContainer = styled.div`
 
 const StyledIcon = styled.span`
   font-size: 25px;
-  rotate: ${(props) => (props.$gameOn ? "unset" : "calc(180deg)")};
+  transform: ${({ $gameOn }) => ($gameOn ? "rotate(0deg)" : "rotate(180deg)")};
 `;
 
 export default function Player({ onDirection, playerPosition, gameOn, pet }) {
@@ -32,35 +30,17 @@ export default function Player({ onDirection, playerPosition, gameOn, pet }) {
     }
   }, [playerPosition]);
 
-  useEffect(() => {
-    function handleBlur() {
-      if (playerRef.current) {
-        playerRef.current.focus();
-      }
-    }
-
-    const playerElement = playerRef.current;
-    if (playerElement) {
-      playerElement.addEventListener("blur", handleBlur);
-    }
-
-    return () => {
-      if (playerElement) {
-        playerElement.removeEventListener("blur", handleBlur);
-      }
-    };
-  }, []);
-
   return (
     <StyledPlayer
       ref={playerRef}
       tabIndex={0}
       onKeyDown={onDirection}
-      $topcoor={`${playerPosition.y}px`}
-      $leftcoor={`${playerPosition.x}px`}
+      onBlur={() => playerRef.current.focus()}
+      $topPosition={`${playerPosition.y}px`}
+      $leftPosition={`${playerPosition.x}px`}
     >
       <StyledIconContainer>
-        <StyledIcon alt={pet.type} $gameOn={gameOn}>
+        <StyledIcon aria-label={pet.type} $gameOn={gameOn}>
           {pet.picture}
         </StyledIcon>
       </StyledIconContainer>

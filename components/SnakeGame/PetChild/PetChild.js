@@ -1,11 +1,9 @@
-import Image from "next/image";
 import styled from "styled-components";
-import capybara from "../capybara.png";
 
 const StyledChild = styled.div`
   position: absolute;
-  top: ${({ $topcoor }) => $topcoor};
-  left: ${({ $leftcoor }) => $leftcoor};
+  top: ${({ $topPosition }) => $topPosition};
+  left: ${({ $leftPosition }) => $leftPosition};
   font-size: 1rem;
   border: black;
 `;
@@ -19,17 +17,17 @@ const StyledIconContainer = styled.div`
 
 const StyledIcon = styled.span`
   font-size: 15px;
-  rotate: ${(props) => (props.$gameOn ? "unset" : "calc(180deg)")};
+  transform: ${({ $gameOn }) => ($gameOn ? "rotate(0deg)" : "rotate(180deg)")};
 `;
 
-export default function Child({ childPosition, gameOn, pet }) {
+export default function PetChild({ childPosition, gameOn, pet }) {
   return (
     <StyledChild
-      $topcoor={`${childPosition.y}px`}
-      $leftcoor={`${childPosition.x}px`}
+      $topPosition={`${childPosition.y}px`}
+      $leftPosition={`${childPosition.x}px`}
     >
       <StyledIconContainer>
-        <StyledIcon alt={pet.type} $gameOn={gameOn}>
+        <StyledIcon aria-label={pet.type} $gameOn={gameOn}>
           {pet.picture}
         </StyledIcon>
       </StyledIconContainer>

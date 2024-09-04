@@ -1,16 +1,12 @@
 import styled from "styled-components";
 
-const StyledArrowButtons = styled.div`
+const StyledArrowContainer = styled.div`
   position: absolute;
   bottom: 25vh;
 
   @media screen and (min-width: 900px) {
     bottom: 20vh;
   }
-`;
-
-const StyledMoveButtonBox = styled.div`
-  position: relative;
 `;
 
 const StyledMoveButton = styled.button`
@@ -20,37 +16,41 @@ const StyledMoveButton = styled.button`
   background: lightgreen;
   border-radius: 20px;
   font-size: 20px;
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
 `;
 
 export default function ArrowButtons({ onDirection }) {
   return (
-    <StyledArrowButtons>
-      <StyledMoveButtonBox>
-        <StyledMoveButton
-          onClick={() => onDirection("ArrowUp")}
-          style={{ top: "-40px", left: "-25px" }}
-        >
-          ↑
-        </StyledMoveButton>
-        <StyledMoveButton
-          onClick={() => onDirection("ArrowRight")}
-          style={{ top: "0px", left: "30px" }}
-        >
-          →
-        </StyledMoveButton>
-        <StyledMoveButton
-          onClick={() => onDirection("ArrowLeft")}
-          style={{ top: "0px", left: "-80px" }}
-        >
-          ←
-        </StyledMoveButton>
-        <StyledMoveButton
-          onClick={() => onDirection("ArrowDown")}
-          style={{ bottom: "-70px", left: "-25px" }}
-        >
-          ↓
-        </StyledMoveButton>
-      </StyledMoveButtonBox>
-    </StyledArrowButtons>
+    <StyledArrowContainer>
+      <StyledMoveButton
+        onClick={() => onDirection("ArrowUp")}
+        top="-40px"
+        left="-25px"
+      >
+        ↑
+      </StyledMoveButton>
+      <StyledMoveButton
+        top="0px"
+        left="30px"
+        onClick={() => onDirection("ArrowRight")}
+      >
+        →
+      </StyledMoveButton>
+      <StyledMoveButton
+        top="0px"
+        left="-80px"
+        onClick={() => onDirection("ArrowLeft")}
+      >
+        ←
+      </StyledMoveButton>
+      <StyledMoveButton
+        top="40px"
+        left="-25px"
+        onClick={() => onDirection("ArrowDown")}
+      >
+        ↓
+      </StyledMoveButton>
+    </StyledArrowContainer>
   );
 }

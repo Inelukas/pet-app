@@ -318,7 +318,9 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           </StatusButton>
 
           <StatusLink href="/snake" $bgcolor="pink">
-            🎉
+            <span role="img" aria-label="celebration">
+              🎉
+            </span>
           </StatusLink>
 
           <StatusButton
