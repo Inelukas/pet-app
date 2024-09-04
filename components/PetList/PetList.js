@@ -38,6 +38,7 @@ export default function PetList({ petCollection }) {
         <h1>You don&apos;t have any pets.</h1>
       )}
       <StyledLink href="/create">Create</StyledLink>
+      <StyledLink href="/garden">Garden</StyledLink>
     </StyledMain>
   );
 }
