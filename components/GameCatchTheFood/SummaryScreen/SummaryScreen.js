@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 
-const SummaryContainer = styled.div`
+const SummaryContainer = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,7 +24,7 @@ export default function SummaryScreen({ itemsCaught, timeTaken }) {
     <Wrapper>
       <SummaryContainer>
         <h2>Your pet has been fed!</h2>
-        <p>Score {itemsCaught}</p>
+        <p>Score: {itemsCaught}</p>
         <p>Time taken: {timeTaken} seconds</p>
       </SummaryContainer>
     </Wrapper>

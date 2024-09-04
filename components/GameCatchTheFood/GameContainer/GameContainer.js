@@ -5,7 +5,7 @@ import FallingBlocks from "../FallingBlocks/FallingBlocks";
 import SummaryScreen from "../SummaryScreen/SummaryScreen";
 import { uid } from "uid";
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 
-const Container = styled.div`
+const Container = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -26,7 +26,7 @@ const Container = styled.div`
   background-color: var(--neutral-color);
 `;
 
-const GameFieldContainer = styled.div`
+const GameFieldContainer = styled.article`
   position: relative;
   display: flex;
   width: 400px;
