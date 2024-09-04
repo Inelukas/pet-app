@@ -44,6 +44,8 @@ export default function PetList({ petCollection }) {
       <StyledLink href="/create">
         <Image src={createIcon} alt="Create Icon" width={30} />
       </StyledLink>
+
+      <StyledLink href="/garden">Garden</StyledLink>
     </StyledMain>
   );
 }
