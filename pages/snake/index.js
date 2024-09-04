@@ -326,7 +326,7 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
               <li>
                 {" "}
                 More children = more happiness! Each child adds +1 to your
-                animal's happiness bar.{" "}
+                animal&apos;s happiness bar.{" "}
               </li>{" "}
               <li>Try to have a family of more than 100 children!</li>
             </ul>
