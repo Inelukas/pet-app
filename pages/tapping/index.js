@@ -2,18 +2,28 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import StyledLink from "@/components/StyledLink/StyledLink";
 
-const TappingContainer = styled.section`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+const TappingCirclesContainer = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   gap: 15px;
   width: 80vw;
   height: 80vh;
+  max-width: 1200px;
+  max-height: 900px;
   margin: 0 auto;
   padding: 20px;
+  margin-top: 10px;
   background-color: var(--secondary-color);
   border-radius: 20px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 90vw;
+    height: 75vh;
+  }
 `;
 
 const TappingCircle = styled.span`
@@ -27,17 +37,22 @@ const TappingCircle = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%;
+  width: calc(20% - 15px);
+  height: calc(20% - 15px);
   border-radius: 50%;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  box-sizing: border-box;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    width: calc(25% - 15px);
+    height: calc(25% - 15px);
   }
 `;
 
@@ -45,24 +60,26 @@ const TappingSpanContainer = styled.section`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   margin-top: 20px;
   font-size: 1.5rem;
   color: #333;
+  gap: 50px;
 `;
 
 const TappingButtonContainer = styled.section`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  padding: 100px;
+  justify-content: center;
+  padding: 20px;
   gap: 20px;
+  margin-top: 20px;
 `;
 
-const SpeedUpMessage = styled.div`
+const SpeedUpMessage = styled.span`
   position: absolute;
-  top: 50px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--signal-color);
@@ -107,13 +124,9 @@ export default function TappingGame() {
         const randomCircle = Math.floor(Math.random() * 20);
         setActiveCircle(randomCircle);
 
-        setTimeout(
-          () => {
-            setActiveCircle(null);
-          },
-          800,
-          intervalTime - 200
-        );
+        setTimeout(() => {
+          setActiveCircle(null);
+        }, 800);
       }, intervalTime);
     }
 
@@ -122,7 +135,7 @@ export default function TappingGame() {
 
   useEffect(() => {
     if (currentScore > 0 && currentScore % 10 === 0) {
-      setIntervalTime((prevTime) => Math.max(prevTime - 100, minIntervalTime));
+      setIntervalTime((prevTime) => Math.max(prevTime - 200, minIntervalTime));
       setSpeedUpMessage(true);
       setTimeout(() => setSpeedUpMessage(false), 2000);
     }
@@ -164,7 +177,7 @@ export default function TappingGame() {
   return (
     <>
       {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
-      <TappingContainer>
+      <TappingCirclesContainer>
         {Array.from({ length: 20 }).map((_, index) => (
           <TappingCircle
             key={index}
@@ -172,9 +185,9 @@ export default function TappingGame() {
             onClick={() => handleCircleClick(index)}
           />
         ))}
-      </TappingContainer>
+      </TappingCirclesContainer>
       <TappingSpanContainer>
-        <span>Current Score: {currentScore}</span>
+        <span>Current Score: {currentScore} </span>
         <span>Highscore: {highScore}</span>
       </TappingSpanContainer>
       <TappingButtonContainer>
@@ -191,6 +204,14 @@ export default function TappingGame() {
 }
 
 // How the Circles are rendered:
+
+/* Array.from({ length: 20 }): Creates an array with 20 undefined elements. This array is then mapped over to generate 20 TappingCircle components.
+
+map((_, index): Maps each element in the array to a TappingCircle component, where index represents the current circle's index.
+
+key={index}: Adds a unique key prop to each TappingCircle to help React manage the list efficiently.
+
+This approach keeps your component clean and makes it easy to adjust the number of circles if needed in the future. */
 
 /* {1. Array.from({ length: 12 }):
 Array.from(): This method creates a new array from an array-like or iterable object.
