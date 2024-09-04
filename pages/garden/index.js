@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
 
@@ -227,33 +227,43 @@ function Garden({
     return <p>No pets available</p>;
   }
 
-  setInterval(() => {
-    setCurrentPet((prevValues) => {
-      return {
-        ...currentPet,
-        status: {
-          hunger:
-            prevValues.status.hunger > 0
-              ? Math.max(prevValues.status.hunger - 5, 0)
-              : prevValues.status.hunger,
-          happiness:
-            prevValues.status.happiness > 0
-              ? Math.max(prevValues.status.happiness - 5, 0)
-              : prevValues.status.happiness,
-          energy:
-            prevValues.status.energy > 0
-              ? Math.max(prevValues.status.energy - 5, 0)
-              : prevValues.status.energy,
-          health:
-            prevValues.status.hunger <= 0 &&
-            prevValues.status.happiness <= 0 &&
-            prevValues.status.energy <= 0
-              ? Math.max(prevValues.status.health - 5, 0)
-              : prevValues.status.health,
-        },
-      };
-    });
-  }, 5000);
+  useEffect(() => {
+    const updateIndicatorsTimer = setInterval(() => {
+      setCurrentPet((prevValues) => {
+        return {
+          ...prevValues,
+          status: {
+            hunger:
+              prevValues.status.hunger < 100
+                ? Math.min(prevValues.status.hunger + 5, 100)
+                : 100,
+            happiness:
+              prevValues.status.happiness > 0
+                ? Math.max(prevValues.status.happiness - 5, 0)
+                : 0,
+            energy:
+              prevValues.status.energy > 0
+                ? Math.max(prevValues.status.energy - 5, 0)
+                : 0,
+            health:
+              prevValues.status.hunger === 100 &&
+              prevValues.status.happiness === 0 &&
+              prevValues.status.energy === 0
+                ? Math.max(prevValues.status.health - 5, 0)
+                : prevValues.status.health,
+          },
+        };
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(updateIndicatorsTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (currentPet.status.health === 0) currentPet.alive = false;
+  }, [currentPet.status.health]);
 
   function increaseStatus(statusKey) {
     const interactedPets = [...petCollection];
@@ -292,13 +302,13 @@ function Garden({
     }
   }
 
-  const healthValue = Math.round(
-    (100 -
-      currentPet.status.hunger +
-      currentPet.status.happiness +
-      currentPet.status.energy) /
-      3
-  );
+  // const healthValue = Math.round(
+  //   (100 -
+  //     currentPet.status.hunger +
+  //     currentPet.status.happiness +
+  //     currentPet.status.energy) /
+  //     3
+  // );
 
   return (
     <>
@@ -308,7 +318,7 @@ function Garden({
             <Icon role="img" aria-label="A heart indicating Health">
               ❤️
             </Icon>
-            <HorizontalBarFill value={healthValue} />
+            <HorizontalBarFill value={currentPet.status.health} />
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
@@ -351,7 +361,7 @@ function Garden({
             Feed
           </StatusButton>
 
-          <StatusLink href="/snake" $bgcolor="pink">
+          <StatusLink href="/" $bgcolor="pink">
             🎉
           </StatusLink>
 
@@ -364,7 +374,7 @@ function Garden({
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay $animationtype={animationState}>
-            {currentPet.picture}
+            {currentPet.alive ? currentPet.picture : "☠"}
           </PetDisplay>
         </PetWrapper>
         <ListPageLink>

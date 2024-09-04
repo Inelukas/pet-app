@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }) {
       ...restPetData,
       id: petId,
       characteristics: [characteristic1, characteristic2].filter(Boolean),
+      alive: true,
     };
     setPetCollection((prevData) => [newPet, ...prevData]);
 
