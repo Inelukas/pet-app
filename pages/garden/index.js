@@ -162,6 +162,11 @@ const HorizontalBarFill = styled.div`
   left: 0;
 `;
 
+const Icon = styled.span`
+  z-index: 2;
+  position: absolute;
+`;
+
 const ButtonContainer = styled.div`
   position: absolute;
   top: 10px;
@@ -266,62 +271,37 @@ function Garden({ petCollection, onInteractPet }) {
       <GardenContainer>
         <StatusContainer>
           <HorizontalBar>
-            <span
-              role="img"
-              aria-label="A heart indicating Health"
-              style={{
-                zIndex: 2,
-                position: "absolute",
-              }}
-            >
+            <Icon role="img" aria-label="A heart indicating Health">
               ❤️
-            </span>
+            </Icon>
             <HorizontalBarFill value={healthValue} />
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
-              <span
+              <Icon
                 role="img"
                 aria-label="A bowl of ice-cream indicating hunger"
-                style={{
-                  zIndex: 2,
-                  position: "absolute",
-                }}
               >
                 🍨
-              </span>
+              </Icon>
               <VerticalBarFill
                 $bgcolor="orange"
                 value={currentPet.status.hunger}
               />
             </VerticalBar>
             <VerticalBar>
-              <span
-                role="img"
-                aria-label="Some confetti indicating happiness"
-                style={{
-                  zIndex: 2,
-                  position: "absolute",
-                }}
-              >
+              <Icon role="img" aria-label="Some confetti indicating happiness">
                 🎉
-              </span>
+              </Icon>
               <VerticalBarFill
                 $bgcolor="pink"
                 value={currentPet.status.happiness}
               />
             </VerticalBar>
             <VerticalBar>
-              <span
-                role="img"
-                aria-label="A battery indicating energy"
-                style={{
-                  zIndex: 2,
-                  position: "absolute",
-                }}
-              >
+              <Icon role="img" aria-label="A battery indicating energy">
                 🔋
-              </span>
+              </Icon>
               <VerticalBarFill
                 $bgcolor="yellow"
                 value={currentPet.status.energy}
