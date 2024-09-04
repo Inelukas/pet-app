@@ -7,22 +7,41 @@ const TappingCirclesContainer = styled.section`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 15px;
-  width: 80vw;
+  gap: 10px;
+  width: 90vw;
   height: 80vh;
-  max-width: 1200px;
-  max-height: 900px;
+  max-width: 375px;
+
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
   margin-top: 10px;
   background-color: var(--secondary-color);
-  border-radius: 20px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
-    width: 90vw;
-    height: 75vh;
+  @media (min-width: 600px) {
+    gap: 15px;
+    width: 80vw;
+    height: 70vh;
+    max-width: 600px;
+    max-height: 600px;
+  }
+
+  @media (min-width: 900px) {
+    gap: 15px;
+    width: 70vw;
+    height: 70vh;
+    max-width: 900px;
+    max-height: 700px;
+  }
+
+  @media (min-width: 1200px) {
+    gap: 15px;
+    width: 60vw;
+    height: 80vh;
+    max-width: 1200px;
+    max-height: 900px;
   }
 `;
 
@@ -37,11 +56,11 @@ const TappingCircle = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 0.1rem;
   font-weight: bold;
   cursor: pointer;
-  width: calc(20% - 15px);
-  height: calc(20% - 15px);
+  width: calc(25% - 10px);
+  height: calc(15% - 10px);
   border-radius: 50%;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-sizing: border-box;
@@ -50,9 +69,22 @@ const TappingCircle = styled.span`
     transform: scale(1.05);
   }
 
-  @media (max-width: 768px) {
-    width: calc(25% - 15px);
-    height: calc(25% - 15px);
+  @media (min-width: 600px) {
+    width: calc(20% - 15px);
+    height: calc(20% - 15px);
+    font-size: 1rem;
+  }
+
+  @media (min-width: 900px) {
+    width: calc(18% - 15px);
+    height: calc(18% - 15px);
+    font-size: 1.2rem;
+  }
+
+  @media (min-width: 1200px) {
+    width: calc(16% - 15px);
+    height: calc(16% - 15px);
+    font-size: 1.2rem;
   }
 `;
 
@@ -61,10 +93,16 @@ const TappingSpanContainer = styled.section`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  font-size: 1.5rem;
+  margin-top: 10px;
+  font-size: 1.2rem;
   color: #333;
-  gap: 50px;
+  gap: 20px;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    font-size: 1.5rem;
+    gap: 50px;
+  }
 `;
 
 const TappingButtonContainer = styled.section`
@@ -72,20 +110,27 @@ const TappingButtonContainer = styled.section`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  gap: 20px;
-  margin-top: 20px;
+  padding: 10px;
+  gap: 10px;
+  margin-top: 15px;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    padding: 20px;
+    gap: 20px;
+    margin-top: 20px;
+  }
 `;
 
 const SpeedUpMessage = styled.span`
   position: absolute;
-  top: 20px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--signal-color);
   color: #fff;
-  font-size: 2rem;
-  padding: 15px 30px;
+  font-size: 1.5rem;
+  padding: 10px 20px;
   border-radius: 10px;
   animation: fadeInOut 2s ease;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -103,6 +148,12 @@ const SpeedUpMessage = styled.span`
     100% {
       opacity: 0;
     }
+  }
+
+  @media (min-width: 600px) {
+    top: 20px;
+    font-size: 2rem;
+    padding: 15px 30px;
   }
 `;
 
