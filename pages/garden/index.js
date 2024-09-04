@@ -187,6 +187,18 @@ const StatusButton = styled.button`
   width: 75px;
 `;
 
+const StatusLink = styled(Link)`
+  background-color: ${(props) => props.$bgcolor};
+  color: var(--text-color);
+  border: none;
+  padding: 16px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 75px;
+  text-decoration: none;
+`;
+
 const ListPageLink = styled.div`
   position: absolute;
   bottom: 10px;
@@ -202,21 +214,11 @@ const ListPageLink = styled.div`
   color: var(--text-color);
 `;
 
-function Garden({ petCollection, onInteractPet }) {
+function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [animationState, setAnimationState] = useState(null);
   if (!petCollection || petCollection.length === 0) {
     return <p>No pets available</p>;
-  }
-
-  function handlePrevPet() {
-    setCurrentPetIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : petCollection.length - 1
-    );
-  }
-
-  function handleNextPet() {
-    setCurrentPetIndex((prevIndex) => (prevIndex + 1) % petCollection.length);
   }
 
   function increaseStatus(statusKey) {
@@ -255,8 +257,6 @@ function Garden({ petCollection, onInteractPet }) {
       }, 500);
     }
   }
-
-  const currentPet = petCollection[currentPetIndex];
 
   const healthValue = Math.round(
     (100 -
@@ -317,12 +317,15 @@ function Garden({ petCollection, onInteractPet }) {
             Feed
           </StatusButton>
 
-          <StatusButton
+          <StatusLink href="/snake" $bgcolor="pink">
+            🎉
+          </StatusLink>
+          {/* <StatusButton
             $bgcolor="pink"
             onClick={() => increaseStatus("happiness")}
           >
             Play
-          </StatusButton>
+          </StatusButton> */}
 
           <StatusButton
             $bgcolor="yellow"
@@ -342,7 +345,7 @@ function Garden({ petCollection, onInteractPet }) {
         </ListPageLink>
       </GardenContainer>
       <NavbarContainer>
-        <NavButton onClick={handlePrevPet}>Prev Pet</NavButton>
+        <NavButton onClick={() => onCurrentPet("previous")}>Prev Pet</NavButton>
 
         <Link
           href={{
@@ -358,7 +361,7 @@ function Garden({ petCollection, onInteractPet }) {
         >
           <StyledLink>{currentPet.picture}</StyledLink>
         </Link>
-        <NavButton onClick={handleNextPet}>Next Pet</NavButton>
+        <NavButton onClick={() => onCurrentPet("next")}>Next Pet</NavButton>
       </NavbarContainer>
     </>
   );

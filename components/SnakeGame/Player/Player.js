@@ -18,10 +18,9 @@ const StyledIconContainer = styled.div`
   height: 30px;
 `;
 
-const StyledIcon = styled(Image)`
-  width: 35px;
-  height: 35px;
-  rotate: ${(props) => (props.gameOn ? "unset" : "calc(180deg)")};
+const StyledIcon = styled.span`
+  font-size: 25px;
+  rotate: ${(props) => (props.$gameOn ? "unset" : "calc(180deg)")};
 `;
 
 export default function Player({ onDirection, playerPosition, gameOn, pet }) {
@@ -61,7 +60,9 @@ export default function Player({ onDirection, playerPosition, gameOn, pet }) {
       $leftcoor={`${playerPosition.x}px`}
     >
       <StyledIconContainer>
-        <StyledIcon src={capybara} alt="Capybara" gameOn={gameOn} />
+        <StyledIcon alt={pet.type} $gameOn={gameOn}>
+          {pet.picture}
+        </StyledIcon>
       </StyledIconContainer>
     </StyledPlayer>
   );

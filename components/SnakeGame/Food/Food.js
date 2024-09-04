@@ -16,9 +16,8 @@ const StyledIconContainer = styled.div`
   height: 30px;
 `;
 
-const StyledIcon = styled(Image)`
-  width: 25px;
-  height: 25px;
+const StyledIcon = styled.span`
+  font-size: 20px;
 `;
 
 export default function Food({ foodPosition, pet }) {
@@ -28,7 +27,7 @@ export default function Food({ foodPosition, pet }) {
       $leftcoor={`${foodPosition.x}px`}
     >
       <StyledIconContainer>
-        <StyledIcon src={capybara} alt="Capybara Food" />
+        <StyledIcon alt={pet.type}>{pet.picture}</StyledIcon>
       </StyledIconContainer>
     </StyledFood>
   );

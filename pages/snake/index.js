@@ -117,7 +117,7 @@ const StyledHowToPlay = styled.div`
   }
 `;
 
-export default function SnakeGame({ pet }) {
+export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
   const [gameOn, setGameOn] = useState(true);
   const [playerPosition, setPlayerPosition] = useState({ x: 140, y: 140 });
   const [children, setChildren] = useState([]);
@@ -229,6 +229,7 @@ export default function SnakeGame({ pet }) {
       })
     ) {
       setGameOn(false);
+      onUpdatePetIndicator(score);
       return true;
     }
     return false;
@@ -272,23 +273,29 @@ export default function SnakeGame({ pet }) {
           onDirection={handleDirection}
           playerPosition={playerPosition}
           gameOn={gameOn}
-          pet={pet}
+          pet={currentPet}
         />
-        <Food foodPosition={foodPosition} pet={pet} />
+        <Food foodPosition={foodPosition} pet={currentPet} />
         {children
           ? children.map((child, index) => (
               <Child
                 key={index}
                 childPosition={child}
                 gameOn={gameOn}
-                pet={pet}
+                pet={currentPet}
               />
             ))
           : null}
         <StyledIndicatorContainer>
           <Indicator
             showBarName={false}
-            data={{ name: "happiness", count: score < 10 ? 90 + score : 100 }}
+            data={{
+              name: "happiness",
+              count:
+                currentPet.status.happiness < 100
+                  ? currentPet.status.happiness + score
+                  : 100,
+            }}
           />
         </StyledIndicatorContainer>
         {instructions ? (
@@ -329,7 +336,7 @@ export default function SnakeGame({ pet }) {
         <ArrowButtons onDirection={handleDirection} />
       )}
       <StyledButtonContainer>
-        <StyledLink href="/">Back </StyledLink>
+        <StyledLink href="/garden">Back </StyledLink>
         <ConfirmButton
           onClick={
             gameOn
