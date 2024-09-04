@@ -320,12 +320,6 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           <StatusLink href="/snake" $bgcolor="pink">
             🎉
           </StatusLink>
-          {/* <StatusButton
-            $bgcolor="pink"
-            onClick={() => increaseStatus("happiness")}
-          >
-            Play
-          </StatusButton> */}
 
           <StatusButton
             $bgcolor="yellow"
