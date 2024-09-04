@@ -24,7 +24,7 @@ const StyledBarContainer = styled.div`
   width: 55%;
   height: 25px;
   border-radius: 10px;
-  border: 2px solid black;
+  border: 2px solid #000000;
   text-align: right;
   padding: 1px 5px;
   background-color: #ffffff;
@@ -36,11 +36,11 @@ const StyledBarContainer = styled.div`
 `;
 
 const colorMap = {
-  health: "green",
-  happiness: "pink",
-  hunger: "orange",
-  energy: "yellow",
-  intelligence: "lightblue",
+  health: "#90ee90",
+  happiness: "#ffc0cb",
+  hunger: "#ffa500",
+  energy: "#ffff00",
+  intelligence: "#add8e6",
 };
 
 const StyledBar = styled.div`
@@ -50,13 +50,13 @@ const StyledBar = styled.div`
   left: 0;
   top: 0;
   width: ${({ width }) => width};
-  background: ${({ name }) => colorMap[name] || "gray"};
+  background: ${({ name }) => colorMap[name] || "#808080"};
 `;
 
 export default function Indicator({ data }) {
   return (
     <StyledIndicator>
-      <h3>{data.name}:</h3>
+      {<h3>{data.name}:</h3>}
       <StyledBarContainer>
         <StyledBar width={`${data.count}%`} name={data.name}>
           {data.count}/100&nbsp;
