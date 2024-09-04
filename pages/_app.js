@@ -35,7 +35,13 @@ export default function App({ Component, pageProps }) {
     );
     router.push(`/pet-details/${updatedPetData.id}`);
   }
-
+  function handleInteractPet(updatedPetData) {
+    setPetCollection((prevData) =>
+      prevData.map((pet) =>
+        pet.id === updatedPetData.id ? { ...pet, ...updatedPetData } : pet
+      )
+    );
+  }
   return (
     <>
       <GlobalStyle />
@@ -46,6 +52,7 @@ export default function App({ Component, pageProps }) {
         onCreatePet={handleCreatePet}
         onDeletePet={handleDeletePet}
         onUpdatePet={handleUpdatePet}
+        onInteractPet={handleInteractPet}
       />
     </>
   );
