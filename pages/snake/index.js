@@ -30,7 +30,8 @@ const StyledGameField = styled.div`
   place-content: center;
   width: 300px;
   min-height: 300px;
-  background: lightgreen;
+  background: #008000;
+  background-image: url("https://www.transparenttextures.com/patterns/checkered-light-emboss.png");
   border: 2px solid #000000;
   border-radius: 20px;
   position: relative;
@@ -41,6 +42,10 @@ const StyledGameField = styled.div`
   @media screen and (min-width: 900px) {
     transform: scale(1.5);
   }
+`;
+
+const StyledScoreAndButtonContainer = styled.div`
+  position: relative;
 `;
 
 const StyledScoreContainer = styled.div`
@@ -55,7 +60,7 @@ const StyledScoreContainer = styled.div`
 const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 10vh;
 `;
 
 const StyledIndicatorContainer = styled.div`
@@ -72,7 +77,8 @@ const StyledIndicatorContainer = styled.div`
 
 const StyledGameOver = styled.h1`
   position: absolute;
-  bottom: 25vh;
+  top: 30%;
+  left: 25%;
 `;
 
 const StyledHowToPlay = styled.div`
@@ -336,29 +342,31 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
           </StyledHowToPlay>
         ) : null}
       </StyledGameField>
-      <StyledScoreContainer>
-        <span>Current Score: {scores.score}</span>
-        <span>Highscore: {scores.highscore}</span>
-      </StyledScoreContainer>
-      {!gameOn ? (
-        <StyledGameOver>Game Over</StyledGameOver>
-      ) : (
-        <ArrowButtons onDirection={handleDirection} />
-      )}
-      <StyledButtonContainer>
-        <StyledLink href="/garden">Back </StyledLink>
-        <ConfirmButton
-          onClick={
-            gameOn
-              ? () => {
-                  setInstructions(!instructions);
-                }
-              : newGame
-          }
-        >
-          {gameOn ? "Instructions" : "Play Again"}
-        </ConfirmButton>
-      </StyledButtonContainer>
+      <StyledScoreAndButtonContainer>
+        <StyledScoreContainer>
+          <span>Current Score: {scores.score}</span>
+          <span>Highscore: {scores.highscore}</span>
+        </StyledScoreContainer>
+        {!gameOn ? (
+          <StyledGameOver>Game Over</StyledGameOver>
+        ) : (
+          <ArrowButtons onDirection={handleDirection} />
+        )}
+        <StyledButtonContainer>
+          <StyledLink href="/garden">Back </StyledLink>
+          <ConfirmButton
+            onClick={
+              gameOn
+                ? () => {
+                    setInstructions(!instructions);
+                  }
+                : newGame
+            }
+          >
+            {gameOn ? "Instructions" : "Play Again"}
+          </ConfirmButton>
+        </StyledButtonContainer>
+      </StyledScoreAndButtonContainer>
     </StyledSnakePage>
   );
 }
