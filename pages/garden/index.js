@@ -214,12 +214,46 @@ const ListPageLink = styled.div`
   color: var(--text-color);
 `;
 
-function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
+function Garden({
+  petCollection,
+  onInteractPet,
+  currentPet,
+  setCurrentPet,
+  onCurrentPet,
+}) {
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [animationState, setAnimationState] = useState(null);
   if (!petCollection || petCollection.length === 0) {
     return <p>No pets available</p>;
   }
+
+  setInterval(() => {
+    setCurrentPet((prevValues) => {
+      return {
+        ...currentPet,
+        status: {
+          hunger:
+            prevValues.status.hunger > 0
+              ? Math.max(prevValues.status.hunger - 5, 0)
+              : prevValues.status.hunger,
+          happiness:
+            prevValues.status.happiness > 0
+              ? Math.max(prevValues.status.happiness - 5, 0)
+              : prevValues.status.happiness,
+          energy:
+            prevValues.status.energy > 0
+              ? Math.max(prevValues.status.energy - 5, 0)
+              : prevValues.status.energy,
+          health:
+            prevValues.status.hunger <= 0 &&
+            prevValues.status.happiness <= 0 &&
+            prevValues.status.energy <= 0
+              ? Math.max(prevValues.status.health - 5, 0)
+              : prevValues.status.health,
+        },
+      };
+    });
+  }, 5000);
 
   function increaseStatus(statusKey) {
     const interactedPets = [...petCollection];

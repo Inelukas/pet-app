@@ -86,6 +86,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         petCollection={petCollection}
         currentPet={currentPet}
+        setCurrentPet={setCurrentPet}
         onCreatePet={handleCreatePet}
         onDeletePet={handleDeletePet}
         onUpdatePet={handleUpdatePet}
