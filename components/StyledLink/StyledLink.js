@@ -4,13 +4,12 @@ import styled from "styled-components";
 export default styled(Link)`
   display: grid;
   place-content: center;
-  width: 25vw;
-  height: 10vh;
-  max-width: 200px;
-  font-size: 20px;
-  border-radius: 10px;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  border-radius: 100px;
   margin: 0 20px;
-  box-shadow: 2px 2px black;
+  box-shadow: 2px 2px #000000;
   cursor: pointer;
   background-color: var(--signal-color);
   background-image: var(--button-image);
@@ -19,11 +18,13 @@ export default styled(Link)`
   color: #000000;
   text-decoration: none;
 
-  &:hover {
-    transform: scale(1.2);
-  }
+  @media screen and (min-width: 600px) {
+    &:hover {
+      transform: scale(1.2);
+    }
 
-  &:active {
-    background-color: var(--secondary-color);
+    &:active {
+      background-color: var(--secondary-color);
+    }
   }
 `;
