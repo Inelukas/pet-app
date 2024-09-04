@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
       ...prevData,
     ]);
 
-    router.push("/");
+    router.push("/pet-list");
   }
 
   function handleDeletePet(id) {

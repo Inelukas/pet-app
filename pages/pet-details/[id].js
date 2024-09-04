@@ -203,7 +203,7 @@ export default function PetDetails({ petCollection, onDeletePet }) {
   const confirmDelete = () => {
     onDeletePet(id);
     setIsDelete(false);
-    router.push("/");
+    router.push("/pet-list/");
   };
 
   if (!pet) {
@@ -256,7 +256,7 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           <Indicator key={index} data={status} />
         ))}
       </PetStatusContainer>
-      <StyledLink href="/" style={{ width: "80px", height: "40px" }}>
+      <StyledLink href="/pet-list" style={{ width: "80px", height: "40px" }}>
         <Image src={backIcon} alt="Back Icon" width={20} />
       </StyledLink>
     </DetailsContainer>
