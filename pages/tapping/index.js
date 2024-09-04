@@ -4,18 +4,25 @@ import StyledLink from "@/components/StyledLink/StyledLink";
 
 const TappingContainer = styled.section`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  gap: 10px;
-  width: 70vw;
-  height: 70vh;
+  gap: 15px;
+  width: 80vw;
+  height: 80vh;
   margin: 0 auto;
+  padding: 20px;
+  background-color: var(--secondary-color);
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 `;
 
 const TappingCircle = styled.span`
   background-color: ${({ isActive }) =>
     isActive ? "var(--signal-color)" : "var(--neutral-color)"};
-
+  background-image: ${({ isActive }) =>
+    isActive ? "url('capybara.png')" : "none"};
+  background-size: cover;
+  background-position: center;
   border: 2px solid #ccc;
   display: flex;
   align-items: center;
@@ -27,7 +34,11 @@ const TappingCircle = styled.span`
   height: 0;
   padding-bottom: 100%;
   border-radius: 50%;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const TappingSpanContainer = styled.section`
@@ -36,6 +47,8 @@ const TappingSpanContainer = styled.section`
   align-items: center;
   justify-content: space-evenly;
   margin-top: 20px;
+  font-size: 1.5rem;
+  color: #333;
 `;
 
 const TappingButtonContainer = styled.section`
@@ -44,6 +57,36 @@ const TappingButtonContainer = styled.section`
   align-items: center;
   justify-content: space-between;
   padding: 100px;
+  gap: 20px;
+`;
+
+const SpeedUpMessage = styled.div`
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--signal-color);
+  color: #fff;
+  font-size: 2rem;
+  padding: 15px 30px;
+  border-radius: 10px;
+  animation: fadeInOut 2s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 `;
 
 export default function TappingGame() {
@@ -51,18 +94,26 @@ export default function TappingGame() {
   const [currentScore, setCurrentScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [intervalTime, setIntervalTime] = useState(2000);
+  const [clickAllowed, setClickAllowed] = useState(true);
+  const [speedUpMessage, setSpeedUpMessage] = useState(false);
+  const [highScore, setHighScore] = useState(0);
+  const minIntervalTime = 500;
 
   useEffect(() => {
     let interval;
 
     if (gameStarted) {
       interval = setInterval(() => {
-        const randomCircle = Math.floor(Math.random() * 16);
+        const randomCircle = Math.floor(Math.random() * 20);
         setActiveCircle(randomCircle);
 
-        setTimeout(() => {
-          setActiveCircle(null);
-        }, 1000);
+        setTimeout(
+          () => {
+            setActiveCircle(null);
+          },
+          800,
+          intervalTime - 200
+        );
       }, intervalTime);
     }
 
@@ -71,17 +122,26 @@ export default function TappingGame() {
 
   useEffect(() => {
     if (currentScore > 0 && currentScore % 10 === 0) {
-      setIntervalTime((prevTime) => Math.max(prevTime - 100, 500));
+      setIntervalTime((prevTime) => Math.max(prevTime - 100, minIntervalTime));
+      setSpeedUpMessage(true);
+      setTimeout(() => setSpeedUpMessage(false), 2000);
     }
   }, [currentScore]);
 
+  useEffect(() => {
+    if (currentScore > highScore) {
+      setHighScore(currentScore);
+    }
+  }, [currentScore, highScore]);
+
   function handleCircleClick(index) {
-    if (!gameStarted) return;
+    if (!gameStarted || !clickAllowed) return;
+
+    setClickAllowed(false);
+    setTimeout(() => setClickAllowed(true), 300);
 
     if (index === activeCircle) {
       setCurrentScore((prevScore) => prevScore + 1);
-    } else {
-      setCurrentScore((prevScore) => prevScore - 1);
     }
   }
 
@@ -97,13 +157,15 @@ export default function TappingGame() {
     setGameStarted(false);
     setActiveCircle(null);
     setCurrentScore(0);
-    setIntervalTime(1500);
+    setIntervalTime(2000);
+    setSpeedUpMessage(false);
   }
 
   return (
     <>
+      {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
       <TappingContainer>
-        {Array.from({ length: 16 }).map((_, index) => (
+        {Array.from({ length: 20 }).map((_, index) => (
           <TappingCircle
             key={index}
             isActive={index === activeCircle}
@@ -113,7 +175,7 @@ export default function TappingGame() {
       </TappingContainer>
       <TappingSpanContainer>
         <span>Current Score: {currentScore}</span>
-        <span>Highscore:</span>
+        <span>Highscore: {highScore}</span>
       </TappingSpanContainer>
       <TappingButtonContainer>
         <StyledLink href="/create">Back</StyledLink>
@@ -127,6 +189,7 @@ export default function TappingGame() {
     </>
   );
 }
+
 // How the Circles are rendered:
 
 /* {1. Array.from({ length: 12 }):
