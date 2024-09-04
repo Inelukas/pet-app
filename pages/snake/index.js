@@ -85,6 +85,38 @@ const StyledGameOver = styled.h1`
   bottom: 25vh;
 `;
 
+const StyledHowToPlay = styled.div`
+  display: grid;
+  place-content: center;
+  gap: 20px;
+  background: var(--secondary-color);
+  font-size: 0.8rem;
+  line-height: 2;
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+  position: absolute;
+  top: -20px;
+  z-index: 2;
+
+  @media screen and (min-width: 900px) {
+    display: block;
+    width: 120px;
+    right: -140px;
+    top: 20px;
+    font-size: 0.6rem;
+    background: none;
+    padding: 0;
+    line-height: 1.5;
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 200px;
+    font-size: 0.8rem;
+    right: -230px;
+  }
+`;
+
 export default function SnakeGame({ pet }) {
   const [gameOn, setGameOn] = useState(true);
   const [playerPosition, setPlayerPosition] = useState({ x: 140, y: 140 });
@@ -94,6 +126,7 @@ export default function SnakeGame({ pet }) {
   const [prevDirection, setPrevDirection] = useState("");
   const [score, setScore] = useState(0);
   const [highscore, setHighscore] = useState(0);
+  const [instructions, setInstructions] = useState(false);
 
   useEffect(() => {
     setFoodPosition(generateNewFoodPosition());
@@ -135,65 +168,12 @@ export default function SnakeGame({ pet }) {
           ]);
         }
 
-        setPrevDirection(direction);
-
-        function moveChildren() {
-          setChildren((prevChildren) => {
-            const newChildren = prevChildren.map((child, index) => {
-              if (index === 0) {
-                return { ...playerPosition };
-              } else {
-                return { ...prevChildren[index - 1] };
-              }
-            });
-
-            return newChildren;
-          });
-        }
-
-        function checkNewFoodOverlap(food) {
-          if (
-            (food.x === foodPosition.x && food.y === foodPosition.y) ||
-            (food.x === playerPosition.x && food.y === playerPosition.y) ||
-            children.some((child) => {
-              if (food.x === child.x && food.y === child.y) {
-                return true;
-              }
-            })
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-
-        function checkGameLost() {
-          if (
-            playerPosition.x < 0 ||
-            playerPosition.x > 260 ||
-            playerPosition.y < 0 ||
-            playerPosition.y > 260 ||
-            children.some((child) => {
-              if (
-                playerPosition.x === child.x &&
-                playerPosition.y === child.y
-              ) {
-                return true;
-              }
-            })
-          ) {
-            setGameOn(false);
-            return true;
-          }
-          return false;
-        }
-
-        checkGameLost();
-
-        if (checkGameLost()) {
+        if (checkGameLost(newPosition, children)) {
+          setGameOn(false);
           return prevPosition;
         }
         moveChildren();
+        setPrevDirection(direction);
         return newPosition;
       });
     }
@@ -233,6 +213,57 @@ export default function SnakeGame({ pet }) {
     setGameOn(true);
   }
 
+  function checkGameLost(newPlayerPosition, children) {
+    if (
+      newPlayerPosition.x < 0 ||
+      newPlayerPosition.x > 260 ||
+      newPlayerPosition.y < 0 ||
+      newPlayerPosition.y > 260 ||
+      children.some((child) => {
+        if (
+          newPlayerPosition.x === child.x &&
+          newPlayerPosition.y === child.y
+        ) {
+          return true;
+        }
+      })
+    ) {
+      setGameOn(false);
+      return true;
+    }
+    return false;
+  }
+
+  function checkNewFoodOverlap(food) {
+    if (
+      (food.x === foodPosition.x && food.y === foodPosition.y) ||
+      (food.x === playerPosition.x && food.y === playerPosition.y) ||
+      children.some((child) => {
+        if (food.x === child.x && food.y === child.y) {
+          return true;
+        }
+      })
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function moveChildren() {
+    setChildren((prevChildren) => {
+      const newChildren = prevChildren.map((child, index) => {
+        if (index === 0) {
+          return { ...playerPosition };
+        } else {
+          return { ...prevChildren[index - 1] };
+        }
+      });
+
+      return newChildren;
+    });
+  }
+
   return (
     <StyledSnakePage>
       <h1>Happy Family Game</h1>
@@ -256,10 +287,37 @@ export default function SnakeGame({ pet }) {
           : null}
         <StyledIndicatorContainer>
           <Indicator
-            showBar={false}
-            data={{ name: "happiness", count: 80 + score }}
+            showBarName={false}
+            data={{ name: "happiness", count: score < 10 ? 90 + score : 100 }}
           />
         </StyledIndicatorContainer>
+        {instructions ? (
+          <StyledHowToPlay>
+            <h2>How To Play</h2>
+            <ul>
+              <li>
+                {" "}
+                Use the arrow keys or the on-screen buttons to move your animal.{" "}
+              </li>{" "}
+              <li>
+                {" "}
+                Collect the small animals on the screen; a child will be added
+                to your animal.{" "}
+              </li>{" "}
+              <li>
+                {" "}
+                Build a big capybara family without touching the walls or
+                running over your children.{" "}
+              </li>{" "}
+              <li>
+                {" "}
+                More children = more happiness! Each child adds +1 to your
+                animal's happiness bar.{" "}
+              </li>{" "}
+              <li>Try to have a family of more than 100 children!</li>
+            </ul>
+          </StyledHowToPlay>
+        ) : null}
       </StyledGameField>
       <StyledScoreContainer>
         <span>Current Score: {score}</span>
@@ -272,8 +330,16 @@ export default function SnakeGame({ pet }) {
       )}
       <StyledButtonContainer>
         <StyledLink href="/">Back </StyledLink>
-        <ConfirmButton onClick={newGame} disabled={gameOn}>
-          Play Again
+        <ConfirmButton
+          onClick={
+            gameOn
+              ? () => {
+                  setInstructions(!instructions);
+                }
+              : newGame
+          }
+        >
+          {gameOn ? "Instructions" : "Play Again"}
         </ConfirmButton>
       </StyledButtonContainer>
     </StyledSnakePage>

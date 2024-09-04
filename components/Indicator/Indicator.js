@@ -53,10 +53,10 @@ const StyledBar = styled.div`
   background: ${({ name }) => colorMap[name] || "gray"};
 `;
 
-export default function Indicator({ data, showBar = true }) {
+export default function Indicator({ data, showBarName = true }) {
   return (
     <StyledIndicator>
-      {showBar ? <h3>{data.name}:</h3> : null}
+      {showBarName ? <h3>{data.name}:</h3> : null}
       <StyledBarContainer>
         <StyledBar width={`${data.count}%`} name={data.name}>
           {data.count}/100&nbsp;
