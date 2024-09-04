@@ -91,8 +91,6 @@ export default function StartPage({ petCollection }) {
   const buttonText = petCollection.length > 0 ? "Go to Garden" : "Create Pet";
   const buttonLink = petCollection.length > 0 ? "/garden" : "/create";
 
-  console.log(petCollection.length);
-
   return (
     <StyledStartPage>
       <StyledImage
