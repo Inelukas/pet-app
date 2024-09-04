@@ -263,7 +263,7 @@ export default function CreatePetForm({
         ))}
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
-        <StyledLink href="/">
+        <StyledLink href="/pet-list">
           <Image src={cancelIcon} alt="Cancel Icon" width={40} />
         </StyledLink>
         <ConfirmButton type="submit" form="create-pet">

@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }) {
     };
     setPetCollection((prevData) => [newPet, ...prevData]);
 
-    router.push("/");
+    router.push("/pet-list");
     setCurrentPet(newPet);
   }
 

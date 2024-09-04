@@ -368,7 +368,7 @@ function Garden({
           </PetDisplay>
         </PetWrapper>
         <ListPageLink>
-          <Link href="/">List</Link>
+          <Link href="/pet-list">List</Link>
           {/* update link to list page once replaced as mainpage required */}
         </ListPageLink>
       </GardenContainer>
@@ -377,7 +377,7 @@ function Garden({
 
         <Link
           href={{
-            pathname: `/PetDetails/${currentPet.id}`,
+            pathname: `/pet-details/${currentPet.id}`,
             query: {
               health: currentPet.status.health,
               happiness: currentPet.status.happiness,

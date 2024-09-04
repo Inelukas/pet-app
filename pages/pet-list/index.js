@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Pet from "../Pet/Pet";
+import Pet from "@/components/Pet/Pet";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Link from "next/link";
 import createIcon from "../../public/assets/create.png";
