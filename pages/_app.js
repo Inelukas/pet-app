@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }) {
         pet.id === updatedPetData.id ? { ...pet, ...updatedPetData } : pet
       )
     );
-    router.push(`/PetDetails/${updatedPetData.id}`);
+    router.push(`/pet-details/${updatedPetData.id}`);
   }
   function handleInteractPet(updatedPetData) {
     setPetCollection((prevData) =>
