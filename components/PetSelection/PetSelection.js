@@ -8,13 +8,14 @@ const StyledPetSelection = styled.div`
   width: 100vw;
 `;
 
-const StyledSelectionButton = styled.div`
+const StyledSelectionButton = styled.button`
   display: grid;
   place-content: center;
   width: 4rem;
   max-width: 100px;
   height: 40px;
   border-radius: 10px;
+  border: none;
   margin: 0 20px;
   box-shadow: 2px 2px #000000;
   cursor: pointer;
