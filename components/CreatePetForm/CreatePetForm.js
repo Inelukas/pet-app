@@ -5,6 +5,9 @@ import Indicator from "../Indicator/Indicator";
 import StyledLink from "../StyledLink/StyledLink";
 import ConfirmButton from "../ConfirmButton/ConfirmButton";
 import { animalList, characteristicOptions } from "@/lib/Data";
+import cancelIcon from "../../public/assets/cancel.png";
+import confirmIcon from "../../public/assets/confirm.png";
+import Image from "next/image";
 
 const StyledConfirmButtonContainer = styled.div`
   display: flex;
@@ -18,10 +21,10 @@ const StyledIndicatorContainer = styled.div`
   max-width: 600px;
   height: 30%;
   min-height: 200px;
-  border: 2px solid black;
+  border: 2px solid #000000;
   background: var(--secondary-color);
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px black;
+  box-shadow: 5px 5px 5px 5px #000000;
   padding: 0 15px;
 `;
 
@@ -32,11 +35,11 @@ const StyledForm = styled.form`
   max-width: 800px;
   height: 30vh;
   min-height: 250px;
-  border: 3px solid black;
+  border: 3px solid #000000;
   padding: 10px;
   background: var(--secondary-color);
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px black;
+  box-shadow: 5px 5px 5px 5px #000000;
   font-size: 0.8rem;
   font-weight: 800;
 
@@ -52,10 +55,15 @@ const StyledFormArticle = styled.article`
   gap: 10px;
   height: 100%;
   width: 100%;
+  font-size: 0.8rem;
+
+  @media screen and (min-width: 600px) {
+    font-size: 1.5rem;
+  }
 
   label,
   input {
-    border: 2px solid black;
+    border: 2px solid #000000;
     padding: 5px;
     width: 70%;
     border-radius: 10px;
@@ -73,11 +81,13 @@ const StyledCharacteristicsContainer = styled.div`
 
   select {
     width: 22vw;
+    height: 30px;
     max-width: 240px;
     border-radius: 5px;
+    font-size: 0.7rem;
 
-    @media screen and (min-width: 375px) {
-      font-size: 0.7rem;
+    @media screen and (min-width: 600px) {
+      font-size: 1rem;
     }
   }
 `;
@@ -85,7 +95,6 @@ const StyledCharacteristicsContainer = styled.div`
 export default function CreatePetForm({
   initialData,
   onCreatePet,
-  buttonLabel = "Create",
   hideButtons = false,
   onUpdatePet,
 }) {
@@ -184,7 +193,7 @@ export default function CreatePetForm({
             name="name"
             id="name"
             value={petName}
-            placeholder="Samantha"
+            placeholder="Choose your pet name"
             maxLength={30}
             required
             onChange={(e) => setPetName(e.target.value)}
@@ -254,9 +263,11 @@ export default function CreatePetForm({
         ))}
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
-        <StyledLink href="/">Cancel</StyledLink>
+        <StyledLink href="/pet-list">
+          <Image src={cancelIcon} alt="Cancel Icon" width={40} />
+        </StyledLink>
         <ConfirmButton type="submit" form="create-pet">
-          {buttonLabel}
+          <Image src={confirmIcon} alt="Confirm Icon" width={40} />
         </ConfirmButton>
       </StyledConfirmButtonContainer>
     </>
