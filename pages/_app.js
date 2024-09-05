@@ -7,7 +7,7 @@ import { uid } from "uid";
 
 export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useState(pets);
-  const [currentPet, setCurrentPet] = useState(...pets);
+  const [currentPet, setCurrentPet] = useState(pets[0].id);
   const router = useRouter();
 
   function handleCreatePet(petData) {
@@ -20,9 +20,8 @@ export default function App({ Component, pageProps }) {
       alive: true,
     };
     setPetCollection((prevData) => [newPet, ...prevData]);
-
     router.push("/pet-list");
-    setCurrentPet(newPet);
+    setCurrentPet(newPet.id);
   }
 
   function handleDeletePet(id) {
@@ -46,38 +45,36 @@ export default function App({ Component, pageProps }) {
 
   function handleCurrentPet(direction) {
     const currentPetIndex = petCollection.findIndex(
-      (pet) => pet.id === currentPet.id
+      (pet) => pet.id === currentPet
     );
     if (direction === "next") {
       setCurrentPet(
-        petCollection[(currentPetIndex + 1) % petCollection.length]
+        petCollection[(currentPetIndex + 1) % petCollection.length].id
       );
     } else {
       setCurrentPet(
         petCollection[
           currentPetIndex > 0 ? currentPetIndex - 1 : petCollection.length - 1
-        ]
+        ].id
       );
     }
   }
 
   function handleUpdatePetIndicator(score) {
-    setCurrentPet((prevPetData) => ({
-      ...prevPetData,
-      status: {
-        ...prevPetData.status,
-        happiness: score,
-      },
-    }));
-  }
-
-  useEffect(() => {
     setPetCollection(
       petCollection.map((pet) => {
-        return pet.id === currentPet.id ? currentPet : pet;
+        return pet.id === currentPet
+          ? {
+              ...pet,
+              status: {
+                ...pet.status,
+                happiness: score,
+              },
+            }
+          : pet;
       })
     );
-  }, [currentPet]);
+  }
 
   return (
     <>
@@ -86,6 +83,7 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         petCollection={petCollection}
+        setPetCollection={setPetCollection}
         currentPet={currentPet}
         setCurrentPet={setCurrentPet}
         onCreatePet={handleCreatePet}

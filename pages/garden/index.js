@@ -216,12 +216,13 @@ const ListPageLink = styled.div`
 
 function Garden({
   petCollection,
+  setPetCollection,
+
   onInteractPet,
   currentPet,
   setCurrentPet,
   onCurrentPet,
 }) {
-  const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [animationState, setAnimationState] = useState(null);
   if (!petCollection || petCollection.length === 0) {
     return <p>No pets available</p>;
@@ -229,31 +230,27 @@ function Garden({
 
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
-      setCurrentPet((prevValues) => {
-        return {
-          ...prevValues,
-          status: {
-            hunger:
-              prevValues.status.hunger < 100
-                ? Math.min(prevValues.status.hunger + 5, 100)
-                : 100,
-            happiness:
-              prevValues.status.happiness > 0
-                ? Math.max(prevValues.status.happiness - 5, 0)
-                : 0,
-            energy:
-              prevValues.status.energy > 0
-                ? Math.max(prevValues.status.energy - 5, 0)
-                : 0,
-            health:
-              prevValues.status.hunger === 100 &&
-              prevValues.status.happiness === 0 &&
-              prevValues.status.energy === 0
-                ? Math.max(prevValues.status.health - 5, 0)
-                : prevValues.status.health,
-          },
-        };
-      });
+      setPetCollection((prevPets) =>
+        prevPets.map((pet) => {
+          if (pet.id === currentPet) {
+            const { hunger, happiness, energy, health } = pet.status;
+
+            return {
+              ...pet,
+              status: {
+                hunger: hunger < 100 ? Math.min(hunger + 5, 100) : 100,
+                happiness: happiness > 0 ? Math.max(happiness - 5, 0) : 0,
+                energy: energy > 0 ? Math.max(energy - 5, 0) : 0,
+                health:
+                  hunger === 100 && happiness === 0 && energy === 0
+                    ? Math.max(health - 5, 0)
+                    : health,
+              },
+            };
+          }
+          return pet;
+        })
+      );
     }, 1000);
 
     return () => {
@@ -261,26 +258,26 @@ function Garden({
     };
   }, []);
 
+  const activePet = petCollection.find((pet) => pet.id === currentPet);
+
   useEffect(() => {
-    if (currentPet.status.health === 0) currentPet.alive = false;
-  }, [currentPet.status.health]);
+    if (activePet.status.health === 0 && activePet.alive)
+      setPetCollection(
+        petCollection.map((pet) =>
+          pet.id === currentPet ? { ...pet, alive: false } : pet
+        )
+      );
+  }, [activePet]);
 
   function increaseStatus(statusKey) {
-    const interactedPets = [...petCollection];
-    const currentStatus = interactedPets[currentPetIndex].status[statusKey];
+    const currentStatus = activePet.status[statusKey];
     if (statusKey === "hunger") {
-      interactedPets[currentPetIndex].status[statusKey] = Math.max(
-        currentStatus - 5,
-        0
-      );
+      activePet.status[statusKey] = Math.max(currentStatus - 5, 0);
     } else {
-      interactedPets[currentPetIndex].status[statusKey] = Math.min(
-        currentStatus + 5,
-        100
-      );
+      activePet.status[statusKey] = Math.min(currentStatus + 5, 100);
     }
 
-    onInteractPet(interactedPets[currentPetIndex]);
+    onInteractPet(activePet);
 
     if (statusKey === "energy") {
       setAnimationState("rotating");
@@ -302,14 +299,6 @@ function Garden({
     }
   }
 
-  // const healthValue = Math.round(
-  //   (100 -
-  //     currentPet.status.hunger +
-  //     currentPet.status.happiness +
-  //     currentPet.status.energy) /
-  //     3
-  // );
-
   return (
     <>
       <GardenContainer>
@@ -318,7 +307,7 @@ function Garden({
             <Icon role="img" aria-label="A heart indicating Health">
               ❤️
             </Icon>
-            <HorizontalBarFill value={currentPet.status.health} />
+            <HorizontalBarFill value={activePet.status.health} />
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
@@ -330,7 +319,7 @@ function Garden({
               </Icon>
               <VerticalBarFill
                 $bgcolor="orange"
-                value={currentPet.status.hunger}
+                value={activePet.status.hunger}
               />
             </VerticalBar>
             <VerticalBar>
@@ -339,7 +328,7 @@ function Garden({
               </Icon>
               <VerticalBarFill
                 $bgcolor="pink"
-                value={currentPet.status.happiness}
+                value={activePet.status.happiness}
               />
             </VerticalBar>
             <VerticalBar>
@@ -348,7 +337,7 @@ function Garden({
               </Icon>
               <VerticalBarFill
                 $bgcolor="yellow"
-                value={currentPet.status.energy}
+                value={activePet.status.energy}
               />
             </VerticalBar>
           </VerticalBarContainer>
@@ -361,8 +350,10 @@ function Garden({
             Feed
           </StatusButton>
 
-          <StatusLink href="/" $bgcolor="pink">
-            🎉
+          <StatusLink href="/snake" $bgcolor="pink">
+            <span role="img" aria-label="celebration">
+              🎉
+            </span>
           </StatusLink>
 
           <StatusButton
@@ -374,7 +365,7 @@ function Garden({
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay $animationtype={animationState}>
-            {currentPet.alive ? currentPet.picture : "☠"}
+            {activePet.alive ? activePet.picture : "☠"}
           </PetDisplay>
         </PetWrapper>
         <ListPageLink>
@@ -384,20 +375,8 @@ function Garden({
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={() => onCurrentPet("previous")}>Prev Pet</NavButton>
-
-        <Link
-          href={{
-            pathname: `/pet-details/${currentPet.id}`,
-            query: {
-              health: currentPet.status.health,
-              happiness: currentPet.status.happiness,
-              hunger: currentPet.status.hunger,
-              energy: currentPet.status.energy,
-              intelligence: currentPet.status.intelligence,
-            },
-          }}
-        >
-          <StyledLink>{currentPet.picture}</StyledLink>
+        <Link href={`/pet-details/${currentPet}`}>
+          <StyledLink>{activePet.picture}</StyledLink>
         </Link>
         <NavButton onClick={() => onCurrentPet("next")}>Next Pet</NavButton>
       </NavbarContainer>
