@@ -2,18 +2,6 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { StyledButtonLink } from "..";
 
-const TappingGameContainer = styled.div`
-  background-image: url("/images/darkgreen.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const StyledTappingButtonLink = styled(StyledButtonLink)`
   background-image: url("/images/backbutton.png");
   background-color: transparent;
@@ -102,7 +90,7 @@ const TappingCirclesContainer = styled.section`
   margin-top: 10px;
   background-image: url("/images/green.jpg");
 
-  background-position: center; /* Adjust this */
+  background-position: center;
   background-repeat: no-repeat;
   border-radius: 15px;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
@@ -138,12 +126,12 @@ const TappingCircle = styled.span`
     isRedActive
       ? `url("/images/red.jpg")`
       : isActive
-      ? `url("/images/orange.jpg")`
+      ? `url("/images/capybara.png"), url("/images/orange.jpg")`
       : `url("/images/silver.avif")`};
 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
   border: 2px solid #ccc;
   display: flex;
   align-items: center;
@@ -185,7 +173,7 @@ const TappingSpanContainer = styled.section`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 15px;
   font-size: 1.2rem;
   color: #333;
   gap: 20px;
@@ -219,7 +207,8 @@ const SpeedUpMessage = styled.span`
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--signal-color);
+  background-image: url("/images/orange.jpg");
+  background-size: contain;
   color: #fff;
   font-size: 1.5rem;
   padding: 10px 20px;
@@ -343,7 +332,7 @@ export default function TappingGame({
   }
 
   return (
-    <TappingGameContainer>
+    <>
       {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
       <TappingCirclesContainer>
         {Array.from({ length: 20 }).map((_, index) => (
@@ -368,7 +357,7 @@ export default function TappingGame({
         )}
         <StyledResetButton onClick={handleReset}>Reset</StyledResetButton>
       </TappingButtonContainer>
-    </TappingGameContainer>
+    </>
   );
 }
 
