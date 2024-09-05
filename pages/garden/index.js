@@ -250,9 +250,6 @@ function Garden({
   onCurrentPet,
 }) {
   const [animationState, setAnimationState] = useState(null);
-  if (!petCollection || petCollection.length === 0) {
-    return <p>No pets available</p>;
-  }
 
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
@@ -284,6 +281,10 @@ function Garden({
       clearInterval(updateIndicatorsTimer);
     };
   }, []);
+
+  if (!petCollection || petCollection.length === 0) {
+    return <p>No pets available</p>;
+  }
 
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
