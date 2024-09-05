@@ -84,7 +84,7 @@ export default function Pet({ petData }) {
   return (
     <StyledPet>
       <StyledPortrait>
-        <StyledSpan>{petData.picture}</StyledSpan>
+        <StyledSpan>{petData.alive ? petData.picture : "☠"}</StyledSpan>
       </StyledPortrait>
       <StyledPetData>
         <p>

@@ -27,7 +27,7 @@ const StyledHeader = styled.h1`
 export default function Header() {
   const router = useRouter();
   let pageTitle;
-  if (router.pathname === "/") {
+  if (router.pathname === "/pet-list") {
     pageTitle = "Your Pet List";
   } else if (router.pathname.startsWith("/pet-details")) {
     pageTitle = "Pet Details";
