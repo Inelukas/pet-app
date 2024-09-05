@@ -122,9 +122,9 @@ const TappingCirclesContainer = styled.section`
 `;
 
 const TappingCircle = styled.span`
-  background-image: ${({ isActive, isRedActive }) =>
-    isRedActive
-      ? `url("/images/gollum.png"), url("/images/red.jpg")`
+  background-image: ${({ isActive, isWrongActive }) =>
+    isWrongActive
+      ? `url("/images/gollum.png"), url("/images/orange.jpg")`
       : isActive
       ? `url("/images/capybara.png"), url("/images/orange.jpg")`
       : `url("/images/silver.avif")`};
@@ -244,14 +244,13 @@ export default function TappingGame({
   onUpdatePetIndicator,
 }) {
   const [activeCircles, setActiveCircles] = useState([]);
-  const [activeRedCircles, setActiveRedCircles] = useState([]);
+  const [activeWrongCircles, setActiveWrongCircles] = useState([]);
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
-  const [intervalTime, setIntervalTime] = useState(1200);
+  const [intervalTime, setIntervalTime] = useState(1600);
   const [clickAllowed, setClickAllowed] = useState(true);
   const [speedUpMessage, setSpeedUpMessage] = useState(false);
   const [highScore, setHighScore] = useState(0);
-  const minIntervalTime = 600;
 
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
@@ -260,17 +259,17 @@ export default function TappingGame({
 
     if (gameStarted) {
       interval = setInterval(() => {
-        const isRedActive = Math.random() < 0.3;
+        const isWrongActive = Math.random() < 0.3;
         const randomCircles = generateRandomCircles(3);
-        const randomRedCircles = isRedActive ? generateRandomCircles(2) : [];
+        const randomRedCircles = isWrongActive ? generateRandomCircles(2) : [];
 
         setActiveCircles(randomCircles);
-        setActiveRedCircles(randomRedCircles);
+        setActiveWrongCircles(randomRedCircles);
 
-        const activeTime = Math.min(intervalTime * 0.9, 700);
+        const activeTime = Math.min(intervalTime * 0.9, 900);
         setTimeout(() => {
           setActiveCircles([]);
-          setActiveRedCircles([]);
+          setActiveWrongCircles([]);
         }, activeTime);
       }, intervalTime);
     }
@@ -280,7 +279,7 @@ export default function TappingGame({
 
   useEffect(() => {
     if (score > 0 && score % 10 === 0) {
-      setIntervalTime((prevTime) => Math.max(prevTime - 60, minIntervalTime));
+      setIntervalTime((prevTime) => Math.max(prevTime - 60, 600));
       setSpeedUpMessage(true);
 
       setTimeout(() => setSpeedUpMessage(false), 2000);
@@ -312,7 +311,7 @@ export default function TappingGame({
       setScore((prevScore) => prevScore + 1);
       const newEnergyValue = Math.min(activePet.status.energy + 1, 100);
       onUpdatePetIndicator(newEnergyValue, "energy");
-    } else if (activeRedCircles.includes(index)) {
+    } else if (activeWrongCircles.includes(index)) {
       setScore((prevScore) => prevScore - 1);
       const newEnergyValue = Math.min(activePet.status.energy - 1, 100);
       onUpdatePetIndicator(newEnergyValue, "energy");
@@ -330,9 +329,9 @@ export default function TappingGame({
   function handleReset() {
     setGameStarted(false);
     setActiveCircles([]);
-    setActiveRedCircles([]);
+    setActiveWrongCircles([]);
     setScore(0);
-    setIntervalTime(1200);
+    setIntervalTime(1600);
     setSpeedUpMessage(false);
   }
 
@@ -344,7 +343,7 @@ export default function TappingGame({
           <TappingCircle
             key={index}
             isActive={activeCircles.includes(index)}
-            isRedActive={activeRedCircles.includes(index)}
+            isWrongActive={activeWrongCircles.includes(index)}
             onClick={() => handleCircleClick(index)}
           />
         ))}
