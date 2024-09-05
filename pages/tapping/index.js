@@ -1,6 +1,45 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import StyledLink from "@/components/StyledLink/StyledLink";
+import { StyledButtonLink } from "..";
+
+const StyledTappingButton = styled.button`
+  display: grid;
+  place-content: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: small;
+  border-radius: 10px;
+  margin: 0 20px;
+  box-shadow: 2px 2px #000000;
+  cursor: pointer;
+  background-color: var(--signal-color);
+  background-image: var(--button-image);
+  font-family: sans-serif;
+  border: 1px solid #000000;
+  color: #000000;
+  text-decoration: none;
+  padding: 20px 50px;
+  white-space: nowrap;
+
+  @media (min-width: 600px) {
+    font-size: 1.5rem;
+    padding: 35px 80px;
+  }
+
+  @media (min-width: 900px) {
+    font-size: 1.75rem;
+    padding: 50px 100px;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 2rem;
+    padding: 50px 120px;
+  }
+
+  &:active {
+    background-color: var(--secondary-color);
+  }
+`;
 
 const TappingCirclesContainer = styled.section`
   display: flex;
@@ -77,14 +116,14 @@ const TappingCircle = styled.span`
 
   @media (min-width: 900px) {
     width: calc(18% - 15px);
-    height: calc(18% - 15px);
+    height: calc(23% - 15px);
     font-size: 1.2rem;
   }
 
   @media (min-width: 1200px) {
-    width: calc(16% - 15px);
-    height: calc(16% - 15px);
-    font-size: 1.2rem;
+    width: calc(18% - 15px);
+    height: calc(23% - 15px);
+    font-size: 1.5rem;
   }
 `;
 
@@ -161,7 +200,7 @@ export default function TappingGame() {
   const [activeCircle, setActiveCircle] = useState(null);
   const [currentScore, setCurrentScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
-  const [intervalTime, setIntervalTime] = useState(2000);
+  const [intervalTime, setIntervalTime] = useState(1500);
   const [clickAllowed, setClickAllowed] = useState(true);
   const [speedUpMessage, setSpeedUpMessage] = useState(false);
   const [highScore, setHighScore] = useState(0);
@@ -174,10 +213,10 @@ export default function TappingGame() {
       interval = setInterval(() => {
         const randomCircle = Math.floor(Math.random() * 20);
         setActiveCircle(randomCircle);
-
+        const activeTime = Math.min(intervalTime * 0.8);
         setTimeout(() => {
           setActiveCircle(null);
-        }, 800);
+        }, activeTime);
       }, intervalTime);
     }
 
@@ -186,8 +225,9 @@ export default function TappingGame() {
 
   useEffect(() => {
     if (currentScore > 0 && currentScore % 10 === 0) {
-      setIntervalTime((prevTime) => Math.max(prevTime - 200, minIntervalTime));
+      setIntervalTime((prevTime) => Math.max(prevTime - 100, minIntervalTime));
       setSpeedUpMessage(true);
+
       setTimeout(() => setSpeedUpMessage(false), 2000);
     }
   }, [currentScore]);
@@ -221,7 +261,7 @@ export default function TappingGame() {
     setGameStarted(false);
     setActiveCircle(null);
     setCurrentScore(0);
-    setIntervalTime(2000);
+    setIntervalTime(1500);
     setSpeedUpMessage(false);
   }
 
@@ -242,13 +282,13 @@ export default function TappingGame() {
         <span>Highscore: {highScore}</span>
       </TappingSpanContainer>
       <TappingButtonContainer>
-        <StyledLink href="/create">Back</StyledLink>
+        <StyledButtonLink href="/garden">Back</StyledButtonLink>
         {gameStarted ? (
-          <button onClick={handlePause}>Pause</button>
+          <StyledTappingButton onClick={handlePause}>Pause</StyledTappingButton>
         ) : (
-          <button onClick={handleStart}>Start</button>
+          <StyledTappingButton onClick={handleStart}>Start</StyledTappingButton>
         )}
-        <button onClick={handleReset}>Reset</button>
+        <StyledTappingButton onClick={handleReset}>Reset</StyledTappingButton>
       </TappingButtonContainer>
     </>
   );
