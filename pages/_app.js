@@ -59,7 +59,7 @@ export default function App({ Component, pageProps }) {
     }
   }
 
-  function handleUpdatePetIndicator(score) {
+  function handleUpdatePetIndicator(score, indicator) {
     setPetCollection(
       petCollection.map((pet) => {
         return pet.id === currentPet
@@ -67,7 +67,7 @@ export default function App({ Component, pageProps }) {
               ...pet,
               status: {
                 ...pet.status,
-                happiness: score,
+                [indicator]: score,
               },
             }
           : pet;

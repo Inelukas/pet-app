@@ -205,15 +205,21 @@ const SpeedUpMessage = styled.span`
   }
 `;
 
-export default function TappingGame() {
+export default function TappingGame({
+  petCollection,
+  currentPet,
+  onUpdatePetIndicator,
+}) {
   const [activeCircle, setActiveCircle] = useState(null);
-  const [currentScore, setCurrentScore] = useState(0);
+  const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
-  const [intervalTime, setIntervalTime] = useState(1500);
+  const [intervalTime, setIntervalTime] = useState(1200);
   const [clickAllowed, setClickAllowed] = useState(true);
   const [speedUpMessage, setSpeedUpMessage] = useState(false);
   const [highScore, setHighScore] = useState(0);
-  const minIntervalTime = 500;
+  const minIntervalTime = 600;
+
+  const activePet = petCollection.find((pet) => pet.id === currentPet);
 
   useEffect(() => {
     let interval;
@@ -223,7 +229,7 @@ export default function TappingGame() {
         const randomCircle = Math.floor(Math.random() * 20);
 
         setActiveCircle(randomCircle);
-        const activeTime = Math.min(intervalTime * 0.8);
+        const activeTime = Math.min(intervalTime * 0.9, 700);
         setTimeout(() => {
           setActiveCircle(null);
         }, activeTime);
@@ -234,19 +240,19 @@ export default function TappingGame() {
   }, [gameStarted, intervalTime]);
 
   useEffect(() => {
-    if (currentScore > 0 && currentScore % 10 === 0) {
-      setIntervalTime((prevTime) => Math.max(prevTime - 100, minIntervalTime));
+    if (score > 0 && score % 10 === 0) {
+      setIntervalTime((prevTime) => Math.max(prevTime - 60, minIntervalTime));
       setSpeedUpMessage(true);
 
       setTimeout(() => setSpeedUpMessage(false), 2000);
     }
-  }, [currentScore]);
+  }, [score]);
 
   useEffect(() => {
-    if (currentScore > highScore) {
-      setHighScore(currentScore);
+    if (score > highScore) {
+      setHighScore(score);
     }
-  }, [currentScore, highScore]);
+  }, [score, highScore]);
 
   function handleCircleClick(index) {
     if (!gameStarted || !clickAllowed) return;
@@ -255,7 +261,9 @@ export default function TappingGame() {
     setTimeout(() => setClickAllowed(true), 300);
 
     if (index === activeCircle) {
-      setCurrentScore((prevScore) => prevScore + 1);
+      setScore((prevScore) => prevScore + 1);
+      const newEnergyValue = Math.min(activePet.status.energy + score, 100);
+      onUpdatePetIndicator(newEnergyValue, "energy");
     }
   }
 
@@ -270,8 +278,8 @@ export default function TappingGame() {
   function handleReset() {
     setGameStarted(false);
     setActiveCircle(null);
-    setCurrentScore(0);
-    setIntervalTime(1500);
+    setScore(0);
+    setIntervalTime(1200);
     setSpeedUpMessage(false);
   }
 
@@ -288,7 +296,7 @@ export default function TappingGame() {
         ))}
       </TappingCirclesContainer>
       <TappingSpanContainer>
-        <span>Current Score: {currentScore} </span>
+        <span>Current Score: {score} </span>
         <span>Highscore: {highScore}</span>
       </TappingSpanContainer>
       <TappingButtonContainer>

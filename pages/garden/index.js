@@ -310,19 +310,17 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           >
             Feed
           </StatusButton>
-
           <StatusLink href="/snake" $bgcolor="pink">
             <span role="img" aria-label="celebration">
               🎉
             </span>
           </StatusLink>
 
-          <StatusButton
-            $bgcolor="yellow"
-            onClick={() => increaseStatus("energy")}
-          >
-            Train
-          </StatusButton>
+          <StatusLink href="/tapping" $bgcolor="yellow">
+            <span role="img" aria-label="celebration">
+              🔋
+            </span>
+          </StatusLink>
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay $animationtype={animationState}>
