@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect, useCallback, useRef } from "react";
+import PlayerAvatar from "@/components/GameCatchTheFood/PlayerAvatar/PlayerAvatar";
 import FallingBlocks from "@/components/GameCatchTheFood/FallingBlocks/FallingBlocks";
 import SummaryScreen from "@/components/GameCatchTheFood/SummaryScreen/SummaryScreen";
 import Indicator from "@/components/Indicator/Indicator";
@@ -111,20 +112,11 @@ const AvatarContainer = styled.div`
   bottom: 30px;
   z-index: 1;
 `;
-
-function PlayerAvatar({ x, picture }) {
-  return (
-    <AvatarContainer
-      style={{
-        transform: `translateX(${x}px)`,
-      }}
-    >
-      {picture}
-    </AvatarContainer>
-  );
-}
-
-export default function GamePage({ petCollection, currentPet }) {
+export default function GamePage({
+  petCollection,
+  currentPet,
+  onUpdatePetHunger,
+}) {
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
   const [items, setItems] = useState([]);
@@ -164,9 +156,9 @@ export default function GamePage({ petCollection, currentPet }) {
     (event) => {
       if (!isPlaying || gameEnded) return;
       if (event.key === "ArrowLeft") {
-        moveAvatar(-10);
+        moveAvatar(-5);
       } else if (event.key === "ArrowRight") {
-        moveAvatar(10);
+        moveAvatar(5);
       }
     },
     [isPlaying, gameEnded]
@@ -187,7 +179,7 @@ export default function GamePage({ petCollection, currentPet }) {
           prevItems
             .map((item) => ({
               ...item,
-              y: item.y + 5,
+              y: item.y + 10,
             }))
             .filter((item) => {
               let isCaught =
@@ -210,10 +202,10 @@ export default function GamePage({ petCollection, currentPet }) {
               return true;
             })
         );
-      }, 25);
+      }, 50);
       return () => clearInterval(interval);
     }
-  }, [isPlaying, gameEnded, avatarXRef]);
+  }, [isPlaying, gameEnded]);
 
   useEffect(() => {
     if (hunger === 0) {
@@ -221,8 +213,9 @@ export default function GamePage({ petCollection, currentPet }) {
       setGameTime(timeElapsed);
       setGameEnded(true);
       setIsPlaying(false);
+      onUpdatePetIndicator(hunger, "hunger");
     }
-  }, [hunger, startTime]);
+  }, [hunger, startTime, onUpdatePetIndicator]);
 
   if (gameEnded) {
     return <SummaryScreen itemsCaught={counter} timeTaken={gameTime} />;
@@ -232,6 +225,7 @@ export default function GamePage({ petCollection, currentPet }) {
     <Wrapper>
       <Container>
         <h1>Catch The Food</h1>
+        <br />
         <StyledIndicatorContainer>
           <Indicator
             data={{
@@ -245,7 +239,9 @@ export default function GamePage({ petCollection, currentPet }) {
           {items.map((item) => (
             <FallingBlocks key={item.id} item={item} />
           ))}
-          <PlayerAvatar x={avatarX} picture={activePet.picture} />
+          <PlayerAvatar x={avatarX} picture={activePet.picture}>
+            {picture}
+          </PlayerAvatar>
         </GameFieldContainer>
         <Counter>Items caught: {counter}</Counter>
         <div>

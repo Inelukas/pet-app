@@ -336,7 +336,7 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={() => onCurrentPet("previous")}>Prev Pet</NavButton>
-        <Link href={`/PetDetails/${currentPet}`}>
+        <Link href={`/pet-details/${currentPet}`}>
           <StyledLink>{activePet.picture}</StyledLink>
         </Link>
         <NavButton onClick={() => onCurrentPet("next")}>Next Pet</NavButton>
