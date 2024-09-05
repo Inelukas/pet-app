@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Pet from "../Pet/Pet";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Link from "next/link";
+import { GardenPageLink } from "@/components/LinkButtons/LinkButtons";
 
 const StyledMain = styled.main`
   display: flex;
@@ -38,7 +39,15 @@ export default function PetList({ petCollection }) {
         <h1>You don&apos;t have any pets.</h1>
       )}
       <StyledLink href="/create">Create</StyledLink>
-      <StyledLink href="/garden">Garden</StyledLink>
+      <GardenPageLink>
+        <Link
+          href="/garden"
+          role="img"
+          aria-label="A golf hole indicating the Garden"
+        >
+          ⛳
+        </Link>
+      </GardenPageLink>
     </StyledMain>
   );
 }

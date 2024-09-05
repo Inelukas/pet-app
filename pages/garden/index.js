@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
+import {
+  ListPageLink,
+  DetailPageLink,
+} from "@/components/LinkButtons/LinkButtons";
 
 const rotate = keyframes`
   from {
@@ -97,16 +101,58 @@ const NavButton = styled.button`
   border-radius: 4px;
 `;
 
-const StyledLink = styled.div`
+const DropdownButton = styled.button`
   background-color: var(--signal-color);
-  color: var(--text-color);
+  border: none;
   padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   margin: 4px;
+  cursor: pointer;
   border-radius: 4px;
+  position: relative;
+  z-index: 150;
+`;
+
+const DropdownMenu = styled.ul`
+  position: absolute;
+  bottom: 10%;
+  width: 30px;
+  background-color: var(--neutral-color);
+  border: 1px solid var(--text-color);
+  list-style: none;
+  text-align: center;
+  z-index: 9000;
+  overflow: visible;
+  right: calc(50%);
+  transform: translate(50%);
+  opacity: 75%;
+  li {
+    padding: 8px;
+    padding-left: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+`;
+
+const AdjustedListPageLink = styled(ListPageLink)`
+  bottom: 10%;
+  right: calc(50% - 45vw);
+`;
+
+const AdjustedDetailPageLink = styled(DetailPageLink)`
+  bottom: 10%;
+  left: calc(50% - 45vw);
+`;
+
+const DropdownItem = styled.li`
+  padding: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--primary-color);
+  }
 `;
 
 const StatusContainer = styled.div`
@@ -187,24 +233,10 @@ const StatusButton = styled.button`
   width: 75px;
 `;
 
-const ListPageLink = styled.div`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 50px;
-  height: 50px;
-  background-color: var(--signal-color);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: var(--text-color);
-`;
-
 function Garden({ petCollection, onInteractPet }) {
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [animationState, setAnimationState] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   if (!petCollection || petCollection.length === 0) {
     return <p>No pets available</p>;
   }
@@ -218,7 +250,7 @@ function Garden({ petCollection, onInteractPet }) {
   function handleNextPet() {
     setCurrentPetIndex((prevIndex) => (prevIndex + 1) % petCollection.length);
   }
-
+  console.log(isDropdownOpen);
   function increaseStatus(statusKey) {
     const interactedPets = [...petCollection];
     const currentStatus = interactedPets[currentPetIndex].status[statusKey];
@@ -265,6 +297,11 @@ function Garden({ petCollection, onInteractPet }) {
       currentPet.status.energy) /
       3
   );
+
+  const handlePetSelect = (index) => {
+    setCurrentPetIndex(index);
+    setIsDropdownOpen(false);
+  };
 
   return (
     <>
@@ -336,28 +373,49 @@ function Garden({ petCollection, onInteractPet }) {
             {currentPet.picture}
           </PetDisplay>
         </PetWrapper>
-        <ListPageLink>
-          <Link href="/">List</Link>
+        <AdjustedListPageLink>
+          <Link
+            href="/"
+            role="img"
+            aria-label="Staple of Books indicating List"
+          >
+            📚
+          </Link>
           {/* update link to list page once replaced as mainpage required */}
-        </ListPageLink>
+        </AdjustedListPageLink>
+        <AdjustedDetailPageLink>
+          <Link
+            href={{
+              pathname: `/PetDetails/${currentPet.id}`,
+              query: {
+                health: currentPet.status.health,
+                happiness: currentPet.status.happiness,
+                hunger: currentPet.status.hunger,
+                energy: currentPet.status.energy,
+                intelligence: currentPet.status.intelligence,
+              },
+            }}
+            role="img"
+            aria-label="A magnifying glass indicating Details"
+          >
+            🔎
+          </Link>
+        </AdjustedDetailPageLink>
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={handlePrevPet}>Prev Pet</NavButton>
-
-        <Link
-          href={{
-            pathname: `/PetDetails/${currentPet.id}`,
-            query: {
-              health: currentPet.status.health,
-              happiness: currentPet.status.happiness,
-              hunger: currentPet.status.hunger,
-              energy: currentPet.status.energy,
-              intelligence: currentPet.status.intelligence,
-            },
-          }}
-        >
-          <StyledLink>{currentPet.picture}</StyledLink>
-        </Link>
+        <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          {currentPet.picture}
+        </DropdownButton>
+        {isDropdownOpen && (
+          <DropdownMenu>
+            {petCollection.map((pet, index) => (
+              <DropdownItem key={pet.id} onClick={() => handlePetSelect(index)}>
+                {pet.picture}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        )}
         <NavButton onClick={handleNextPet}>Next Pet</NavButton>
       </NavbarContainer>
     </>

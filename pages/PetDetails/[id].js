@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Indicator from "@/components/Indicator/Indicator";
 import { useState } from "react";
+import {
+  ListPageLink,
+  GardenPageLink,
+} from "@/components/LinkButtons/LinkButtons";
 
 const DetailsContainer = styled.section`
   display: flex;
@@ -244,8 +248,23 @@ export default function PetDetails({ petCollection, onDeletePet }) {
         {petStatus.map((status, index) => (
           <Indicator key={index} data={status} />
         ))}
-        <StyledLink href="/">Back</StyledLink>
+        {/* <StyledLink href="/">Back</StyledLink> */}
       </PetStatusContainer>
+      <ListPageLink>
+        <Link href="/" role="img" aria-label="Staple of Books indicating List">
+          📚
+        </Link>
+        {/* update link to list page once replaced as mainpage required */}
+      </ListPageLink>
+      <GardenPageLink>
+        <Link
+          href="/garden"
+          role="img"
+          aria-label="A golf hole indicating the Garden"
+        >
+          ⛳
+        </Link>
+      </GardenPageLink>
     </DetailsContainer>
   );
 }
