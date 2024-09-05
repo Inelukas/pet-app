@@ -302,10 +302,6 @@ export default function Garden({
     };
   });
 
-  if (!activePet) {
-    return <p>No pets available</p>;
-  }
-
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
       setPetCollection((prevPets) =>
@@ -378,6 +374,10 @@ export default function Garden({
         setAnimationState(null);
       }, 500);
     }
+  }
+
+  if (!activePet) {
+    return <p>No pets available</p>;
   }
 
   return (
