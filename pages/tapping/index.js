@@ -266,7 +266,7 @@ export default function TappingGame({
         setActiveCircles(randomCircles);
         setActiveWrongCircles(randomRedCircles);
 
-        const activeTime = Math.min(intervalTime * 0.9, 900);
+        const activeTime = Math.min(intervalTime * 0.9, 1000);
         setTimeout(() => {
           setActiveCircles([]);
           setActiveWrongCircles([]);
@@ -351,6 +351,7 @@ export default function TappingGame({
       <TappingSpanContainer>
         <span>Current Score: {score} </span>
         <span>Highscore: {highScore}</span>
+        <span>Instructions </span>
       </TappingSpanContainer>
       <TappingButtonContainer>
         <StyledTappingButtonLink href="/garden">Back</StyledTappingButtonLink>

@@ -63,7 +63,7 @@ const StyledButtonContainer = styled.div`
   margin-top: 10vh;
 `;
 
-const StyledIndicatorContainer = styled.div`
+export const StyledIndicatorContainer = styled.div`
   position: absolute;
   left: -175px;
   top: 60px;
