@@ -111,7 +111,11 @@ const StyledHowToPlay = styled.div`
   }
 `;
 
-export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
+export default function SnakeGame({
+  petCollection,
+  currentPet,
+  onUpdatePetIndicator,
+}) {
   const [gameOn, setGameOn] = useState(true);
   const [playerPosition, setPlayerPosition] = useState({ x: 140, y: 140 });
   const [children, setChildren] = useState([]);
@@ -122,6 +126,9 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
   });
   const [scores, setScores] = useState({ score: 0, highscore: 0 });
   const [instructions, setInstructions] = useState(false);
+
+  const activePet = petCollection.find((pet) => pet.id === currentPet);
+
   useEffect(() => {
     setFoodPosition(generateNewFoodPosition());
   }, []);
@@ -129,7 +136,7 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
   useEffect(() => {
     if (!gameOn) {
       const newHappinessValue = Math.min(
-        currentPet.status.happiness + scores.score,
+        activePet.status.happiness + scores.score,
         100
       );
       onUpdatePetIndicator(newHappinessValue);
@@ -290,27 +297,26 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
           onDirection={handleDirection}
           playerPosition={playerPosition}
           gameOn={gameOn}
-          pet={currentPet}
+          pet={activePet}
         />
-        <Food foodPosition={foodPosition} pet={currentPet} />
-        {children
-          ? children.map((child, index) => (
-              <PetChild
-                key={index}
-                childPosition={child}
-                gameOn={gameOn}
-                pet={currentPet}
-              />
-            ))
-          : null}
+        <Food foodPosition={foodPosition} pet={activePet} />
+        {children &&
+          children.map((child, index) => (
+            <PetChild
+              key={index}
+              childPosition={child}
+              gameOn={gameOn}
+              pet={activePet}
+            />
+          ))}
         <StyledIndicatorContainer>
           <Indicator
             showBarName={false}
             data={{
               name: "happiness",
               count: gameOn
-                ? Math.min(currentPet.status.happiness + scores.score, 100)
-                : currentPet.status.happiness,
+                ? Math.min(activePet.status.happiness + scores.score, 100)
+                : activePet.status.happiness,
             }}
           />
         </StyledIndicatorContainer>
