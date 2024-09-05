@@ -15,8 +15,6 @@ export default function PlayerAvatar({ x }) {
     <AvatarContainer
       animate={{ x }}
       transition={{ type: "spring", stiffness: 200, damping: 20, mass: 0.5 }}
-    >
-      🐶
-    </AvatarContainer>
+    />
   );
 }
