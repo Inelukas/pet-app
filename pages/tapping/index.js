@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { StyledButtonLink } from "..";
 
+const StyledTappingButtonLink = styled(StyledButtonLink)`
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
 const StyledTappingButton = styled.button`
   display: grid;
   place-content: center;
@@ -20,6 +26,9 @@ const StyledTappingButton = styled.button`
   text-decoration: none;
   padding: 20px 50px;
   white-space: nowrap;
+  &:hover {
+    transform: scale(1.2);
+  }
 
   @media (min-width: 600px) {
     font-size: 1.5rem;
@@ -56,7 +65,7 @@ const TappingCirclesContainer = styled.section`
   margin-top: 10px;
   background-color: var(--secondary-color);
   border-radius: 15px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 
   @media (min-width: 600px) {
@@ -88,7 +97,7 @@ const TappingCircle = styled.span`
   background-color: ${({ isActive }) =>
     isActive ? "var(--signal-color)" : "var(--neutral-color)"};
   background-image: ${({ isActive }) =>
-    isActive ? "url('capybara.png')" : "none"};
+    isActive ? `url('/capybara.png') !important` : "none"};
   background-size: cover;
   background-position: center;
   border: 2px solid #ccc;
@@ -103,7 +112,7 @@ const TappingCircle = styled.span`
   border-radius: 50%;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-sizing: border-box;
-
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   &:hover {
     transform: scale(1.05);
   }
@@ -212,6 +221,7 @@ export default function TappingGame() {
     if (gameStarted) {
       interval = setInterval(() => {
         const randomCircle = Math.floor(Math.random() * 20);
+
         setActiveCircle(randomCircle);
         const activeTime = Math.min(intervalTime * 0.8);
         setTimeout(() => {
@@ -282,7 +292,7 @@ export default function TappingGame() {
         <span>Highscore: {highScore}</span>
       </TappingSpanContainer>
       <TappingButtonContainer>
-        <StyledButtonLink href="/garden">Back</StyledButtonLink>
+        <StyledTappingButtonLink href="/garden">Back</StyledTappingButtonLink>
         {gameStarted ? (
           <StyledTappingButton onClick={handlePause}>Pause</StyledTappingButton>
         ) : (
