@@ -4,6 +4,8 @@ import PlayerAvatar from "@/components/GameCatchTheFood/PlayerAvatar/PlayerAvata
 import FallingBlocks from "@/components/GameCatchTheFood/FallingBlocks/FallingBlocks";
 import SummaryScreen from "@/components/GameCatchTheFood/SummaryScreen/SummaryScreen";
 import Indicator from "@/components/Indicator/Indicator";
+import Link from "next/link";
+import GameButton from "@/components/GameButton/GameButton";
 import { uid } from "uid";
 
 const Wrapper = styled.section`
@@ -49,18 +51,6 @@ const GameFieldContainer = styled.article`
   overflow: hidden;
 `;
 
-const PlayButton = styled.button`
-  width: 80px;
-  height: 40px;
-  font-size: 14px;
-  cursor: pointer;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  margin-top: 20px;
-`;
-
 const Counter = styled.p`
   font-size: 18px;
   font-weight: bold;
@@ -81,6 +71,20 @@ const RightButton = styled.button`
   margin-left: 10px;
   cursor: pointer;
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+`;
+
+const ButtonContainer = styled.article`
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+`;
+
+const PlayButton = styled(GameButton)`
+  background-color: #4caf50;
+`;
+
+const BackButton = styled(GameButton)`
+  background-color: var(--signal-color);
 `;
 
 const getRandomItem = () => {
@@ -156,9 +160,9 @@ export default function GamePage({
     (event) => {
       if (!isPlaying || gameEnded) return;
       if (event.key === "ArrowLeft") {
-        moveAvatar(-5);
+        moveAvatar(-10);
       } else if (event.key === "ArrowRight") {
-        moveAvatar(5);
+        moveAvatar(10);
       }
     },
     [isPlaying, gameEnded]
@@ -239,10 +243,12 @@ export default function GamePage({
           {items.map((item) => (
             <FallingBlocks key={item.id} item={item} />
           ))}
-          <PlayerAvatar x={avatarX} picture={activePet.picture} />
+          <AvatarContainer>
+            <PlayerAvatar x={avatarX} picture={activePet.picture} />
+          </AvatarContainer>
         </GameFieldContainer>
         <Counter>Items caught: {counter}</Counter>
-        <div>
+        <ButtonContainer>
           <LeftButton
             onClick={() => moveAvatar(-10)}
             disabled={!isPlaying || gameEnded}
@@ -255,8 +261,13 @@ export default function GamePage({
           >
             Right
           </RightButton>
-        </div>
-        {!isPlaying && <PlayButton onClick={startGame}>Play</PlayButton>}
+        </ButtonContainer>
+        <ButtonContainer>
+          <Link href="/garden">
+            <BackButton>Back</BackButton>
+          </Link>
+          {!isPlaying && <PlayButton onClick={startGame}>Play</PlayButton>}
+        </ButtonContainer>
       </Container>
     </Wrapper>
   );
