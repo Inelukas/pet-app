@@ -330,13 +330,12 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           </PetDisplay>
         </PetWrapper>
         <ListPageLink>
-          <Link href="/">List</Link>
+          <Link href="/pet-list">List</Link>
           {/* update link to list page once replaced as mainpage required */}
         </ListPageLink>
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={() => onCurrentPet("previous")}>Prev Pet</NavButton>
-
         <Link href={`/PetDetails/${currentPet}`}>
           <StyledLink>{activePet.picture}</StyledLink>
         </Link>

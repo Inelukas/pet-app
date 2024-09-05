@@ -17,7 +17,6 @@ export default function UpdatePetPage({ petCollection, onUpdatePet }) {
       <CreatePetForm
         initialData={petToUpdate}
         onUpdatePet={onUpdatePet}
-        buttonLabel="Update"
         hideButtons={true}
       />
     </StyledCreatePage>
