@@ -24,7 +24,7 @@ export default function SummaryScreen({ itemsCaught, timeTaken }) {
     <Wrapper>
       <SummaryContainer>
         <h2>Your pet has been fed!</h2>
-        <p>Total items caught: {itemsCaught}</p>
+        <p>Items caught: {itemsCaught}</p>
         <p>Time taken: {timeTaken} seconds</p>
       </SummaryContainer>
     </Wrapper>

@@ -191,7 +191,7 @@ export default function GameContainer({ pet }) {
       }, 25);
       return () => clearInterval(interval);
     }
-  }, [isPlaying, gameEnded, avatarX]);
+  }, [isPlaying, gameEnded, avatarXRef]);
 
   useEffect(() => {
     if (hunger === 0) {
@@ -226,7 +226,7 @@ export default function GameContainer({ pet }) {
           ))}
           <PlayerAvatar x={avatarX} />
         </GameFieldContainer>
-        <Counter>Score: {counter}</Counter>
+        <Counter>Items caught: {counter}</Counter>
         <div>
           <LeftButton
             onClick={() => moveAvatar(-10)}
