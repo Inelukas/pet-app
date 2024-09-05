@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import PlayerAvatar from "../PlayerAvatar/PlayerAvatar";
 import FallingBlocks from "../FallingBlocks/FallingBlocks";
 import SummaryScreen from "../SummaryScreen/SummaryScreen";
+import Indicator from "@/components/Indicator/Indicator";
 import { uid } from "uid";
 
 const Wrapper = styled.section`
@@ -15,6 +16,7 @@ const Wrapper = styled.section`
 
 const Container = styled.section`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -24,6 +26,16 @@ const Container = styled.section`
   border: 2px solid black;
   box-sizing: border-box;
   background-color: var(--neutral-color);
+`;
+
+const StyledIndicatorContainer = styled.article`
+  position: absolute;
+  left: -250px;
+  top: 200px;
+  transform: rotate(270deg);
+  width: 100%;
+  justify-content: center;
+  z-index: 1;
 `;
 
 const GameFieldContainer = styled.article`
@@ -60,6 +72,7 @@ const LeftButton = styled.button`
   height: 50px;
   margin-right: 10px;
   cursor: pointer;
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 const RightButton = styled.button`
@@ -67,6 +80,7 @@ const RightButton = styled.button`
   height: 50px;
   margin-left: 10px;
   cursor: pointer;
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 const getRandomItem = () => {
@@ -90,7 +104,7 @@ const getRandomItem = () => {
   };
 };
 
-export default function GameContainer() {
+export default function GameContainer({ pet }) {
   const [items, setItems] = useState([]);
   const [avatarX, setAvatarX] = useState(180);
   const [counter, setCounter] = useState(0);
@@ -98,21 +112,24 @@ export default function GameContainer() {
   const [gameTime, setGameTime] = useState(0);
   const [gameEnded, setGameEnded] = useState(false);
   const [startTime, setStartTime] = useState(null);
+  const [hunger, setHunger] = useState(pet?.status.hunger);
 
   const startGame = () => {
-    setIsPlaying(true);
-    setGameTime(0);
-    setCounter(0);
-    setItems([]);
-    setGameEnded(false);
-    setStartTime(Date.now());
+    if (!isPlaying) {
+      setIsPlaying(true);
+      setGameTime(0);
+      setCounter(0);
+      setItems([]);
+      setGameEnded(false);
+      setStartTime(Date.now());
+    }
   };
 
   useEffect(() => {
     if (isPlaying && !gameEnded) {
       const interval = setInterval(() => {
         setItems((prevItems) => [...prevItems, getRandomItem()]);
-      }, 1500);
+      }, 1000);
       return () => clearInterval(interval);
     }
   }, [isPlaying, gameEnded]);
@@ -138,6 +155,9 @@ export default function GameContainer() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
+  const avatarXRef = useRef(avatarX);
+  avatarXRef.current = avatarX;
+
   useEffect(() => {
     if (isPlaying && !gameEnded) {
       const interval = setInterval(() => {
@@ -148,12 +168,15 @@ export default function GameContainer() {
               y: item.y + 5,
             }))
             .filter((item) => {
-              const isCaught = item.y >= 570 && Math.abs(item.x - avatarX) < 40;
+              let isCaught =
+                item.y >= 570 && Math.abs(item.x - avatarXRef.current) < 30;
               if (isCaught) {
                 if (item.type === "good") {
-                  setCounter((prev) => Math.min(10, prev + 0.5));
+                  setCounter((prev) => prev + 0.5);
+                  setHunger((prevHunger) => Math.max(0, prevHunger - 2.5));
                 } else if (item.type === "bad") {
-                  setCounter((prev) => Math.max(0, prev - 0.5));
+                  setCounter((prev) => prev + 0.5);
+                  setHunger((prevHunger) => Math.min(100, prevHunger + 2.5));
                 }
                 return false;
               }
@@ -165,19 +188,19 @@ export default function GameContainer() {
               return true;
             })
         );
-      }, 50);
+      }, 25);
       return () => clearInterval(interval);
     }
   }, [isPlaying, gameEnded, avatarX]);
 
   useEffect(() => {
-    if (counter >= 10) {
+    if (hunger === 0) {
       const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
       setGameTime(timeElapsed);
       setGameEnded(true);
       setIsPlaying(false);
     }
-  }, [counter, startTime]);
+  }, [hunger, startTime]);
 
   if (gameEnded) {
     return <SummaryScreen itemsCaught={counter} timeTaken={gameTime} />;
@@ -186,6 +209,17 @@ export default function GameContainer() {
   return (
     <Wrapper>
       <Container>
+        <h1>Catch The Food</h1>
+        <br />
+        <StyledIndicatorContainer>
+          <Indicator
+            data={{
+              name: "hunger",
+              count: hunger, // pet.status.hunger - counter * 5
+            }}
+            showBarName={false}
+          />
+        </StyledIndicatorContainer>
         <GameFieldContainer>
           {items.map((item) => (
             <FallingBlocks key={item.id} item={item} />
@@ -194,8 +228,18 @@ export default function GameContainer() {
         </GameFieldContainer>
         <Counter>Score: {counter}</Counter>
         <div>
-          <LeftButton onClick={() => moveAvatar(-10)}>Left</LeftButton>
-          <RightButton onClick={() => moveAvatar(10)}>Right</RightButton>
+          <LeftButton
+            onClick={() => moveAvatar(-10)}
+            disabled={!isPlaying || gameEnded}
+          >
+            Left
+          </LeftButton>
+          <RightButton
+            onClick={() => moveAvatar(10)}
+            disabled={!isPlaying || gameEnded}
+          >
+            Right
+          </RightButton>
         </div>
         {!isPlaying && <PlayButton onClick={startGame}>Play</PlayButton>}
       </Container>
