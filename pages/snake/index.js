@@ -314,7 +314,7 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
             }}
           />
         </StyledIndicatorContainer>
-        {instructions ? (
+        {instructions && (
           <StyledHowToPlay>
             <h2>How To Play</h2>
             <ul>
@@ -340,7 +340,7 @@ export default function SnakeGame({ currentPet, onUpdatePetIndicator }) {
               <li>Try to have a family of more than 100 children!</li>
             </ul>
           </StyledHowToPlay>
-        ) : null}
+        )}
       </StyledGameField>
       <StyledScoreAndButtonContainer>
         <StyledScoreContainer>
