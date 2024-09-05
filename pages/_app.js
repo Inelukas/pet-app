@@ -30,7 +30,16 @@ export default function App({ Component, pageProps }) {
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
       prevData.map((pet) =>
-        pet.id === updatedPetData.id ? { ...pet, ...updatedPetData } : pet
+        pet.id === updatedPetData.id
+          ? {
+              ...pet,
+              ...updatedPetData,
+              status: {
+                ...pet.status,
+                intelligence: updatedPetData.status.intelligence,
+              },
+            }
+          : pet
       )
     );
     router.push(`/pet-details/${updatedPetData.id}`);
@@ -76,6 +85,8 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  const activePet = petCollection.find((pet) => pet.id === currentPet);
+
   return (
     <>
       <GlobalStyle />
@@ -85,6 +96,7 @@ export default function App({ Component, pageProps }) {
         petCollection={petCollection}
         setPetCollection={setPetCollection}
         currentPet={currentPet}
+        activePet={activePet}
         setCurrentPet={setCurrentPet}
         onCreatePet={handleCreatePet}
         onDeletePet={handleDeletePet}

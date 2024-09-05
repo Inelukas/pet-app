@@ -111,11 +111,7 @@ const StyledHowToPlay = styled.div`
   }
 `;
 
-export default function SnakeGame({
-  petCollection,
-  currentPet,
-  onUpdatePetIndicator,
-}) {
+export default function SnakeGame({ onUpdatePetIndicator, activePet }) {
   const [gameOn, setGameOn] = useState(true);
   const [playerPosition, setPlayerPosition] = useState({ x: 140, y: 140 });
   const [children, setChildren] = useState([]);
@@ -126,8 +122,6 @@ export default function SnakeGame({
   });
   const [scores, setScores] = useState({ score: 0, highscore: 0 });
   const [instructions, setInstructions] = useState(false);
-
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
 
   useEffect(() => {
     setFoodPosition(generateNewFoodPosition());
