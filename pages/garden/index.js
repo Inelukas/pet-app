@@ -125,7 +125,7 @@ const VerticalBarContainer = styled.div`
   margin-top: 10px;
 `;
 
-const VerticalBar = styled.div`
+export const VerticalBar = styled.div`
   width: 20px;
   height: 100px;
   background-color: var(--neutral-color);
@@ -135,7 +135,7 @@ const VerticalBar = styled.div`
   position: relative;
 `;
 
-const VerticalBarFill = styled.div`
+export const VerticalBarFill = styled.div`
   width: 100%;
   background-color: ${(props) => props.$bgcolor};
   height: ${({ value }) => value}%;
@@ -162,7 +162,7 @@ const HorizontalBarFill = styled.div`
   left: 0;
 `;
 
-const Icon = styled.span`
+export const Icon = styled.span`
   z-index: 2;
   position: absolute;
 `;

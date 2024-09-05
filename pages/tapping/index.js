@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { StyledButtonLink } from "..";
+import { VerticalBar, VerticalBarFill, Icon } from "../garden";
 
 const StyledTappingButtonLink = styled(StyledButtonLink)`
   background-image: url("/images/backbutton.png");
@@ -192,7 +193,7 @@ const TappingButtonContainer = styled.section`
   justify-content: center;
   padding: 10px;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 5px;
 
   @media (min-width: 600px) {
     flex-direction: row;
@@ -215,6 +216,7 @@ const SpeedUpMessage = styled.span`
   border-radius: 10px;
   animation: fadeInOut 2s ease;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 
   @keyframes fadeInOut {
     0% {
@@ -238,6 +240,24 @@ const SpeedUpMessage = styled.span`
   }
 `;
 
+const CountdownMessage = styled(SpeedUpMessage)`
+  top: 275px;
+  z-index: 1000;
+  background-image: url("/images/red.jpg");
+  font-size: 4rem;
+`;
+
+const TappingVerticalBar = styled(VerticalBar)`
+  position: relative;
+  background: none;
+  background-image: url("/images/silver.avif");
+`;
+
+const TappingVerticalBarFill = styled(VerticalBarFill)`
+  background: none;
+  background-image: url("/images/yellow.avif");
+`;
+
 export default function TappingGame({
   petCollection,
   currentPet,
@@ -251,6 +271,8 @@ export default function TappingGame({
   const [clickAllowed, setClickAllowed] = useState(true);
   const [speedUpMessage, setSpeedUpMessage] = useState(false);
   const [highScore, setHighScore] = useState(0);
+  const [countdown, setCountdown] = useState(60);
+  const [timeUpMessage, setTimeUpMessage] = useState(false);
 
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
@@ -287,10 +309,28 @@ export default function TappingGame({
   }, [score]);
 
   useEffect(() => {
+    if (countdown === 0) {
+      setTimeUpMessage(true);
+      setTimeout(() => setTimeUpMessage(false), 1800);
+      handleReset();
+    }
+  }, [countdown]);
+
+  useEffect(() => {
     if (score > highScore) {
       setHighScore(score);
     }
   }, [score, highScore]);
+
+  useEffect(() => {
+    let timer;
+    if (gameStarted && countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prevTime) => prevTime - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [gameStarted, countdown]);
 
   function generateRandomCircles(max) {
     const numCircles = Math.floor(Math.random() * max) + 1;
@@ -320,6 +360,7 @@ export default function TappingGame({
 
   function handleStart() {
     setGameStarted(true);
+    setCountdown(60);
   }
 
   function handlePause() {
@@ -333,10 +374,21 @@ export default function TappingGame({
     setScore(0);
     setIntervalTime(1600);
     setSpeedUpMessage(false);
+    setCountdown(60);
   }
 
   return (
-    <>
+    <div>
+      <TappingVerticalBar>
+        <Icon role="img" aria-label="A battery indicating energy">
+          🔋
+        </Icon>
+        <TappingVerticalBarFill
+          $bgcolor="yellow"
+          value={activePet.status.energy}
+        />
+      </TappingVerticalBar>
+      {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
       {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
       <TappingCirclesContainer>
         {Array.from({ length: 20 }).map((_, index) => (
@@ -351,6 +403,7 @@ export default function TappingGame({
       <TappingSpanContainer>
         <span>Current Score: {score} </span>
         <span>Highscore: {highScore}</span>
+        <span>Time left: {countdown}s </span>
         <span>Instructions </span>
       </TappingSpanContainer>
       <TappingButtonContainer>
@@ -362,6 +415,6 @@ export default function TappingGame({
         )}
         <StyledResetButton onClick={handleReset}>Reset</StyledResetButton>
       </TappingButtonContainer>
-    </>
+    </div>
   );
 }
