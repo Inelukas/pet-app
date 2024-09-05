@@ -2,27 +2,51 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { StyledButtonLink } from "..";
 
+const TappingGameContainer = styled.div`
+  background-image: url("/images/darkgreen.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const StyledTappingButtonLink = styled(StyledButtonLink)`
+  background-image: url("/images/backbutton.png");
+  background-color: transparent;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: transparent;
+  border: none;
+  box-shadow: none;
   &:hover {
     transform: scale(1.2);
+  }
+  &:active {
+    background-color: transparent;
   }
 `;
 
 const StyledTappingButton = styled.button`
   display: grid;
+  background-color: transparent;
   place-content: center;
   width: 3rem;
   height: 3rem;
   font-size: small;
-  border-radius: 10px;
+  border: hidden;
+
   margin: 0 20px;
-  box-shadow: 2px 2px #000000;
+
   cursor: pointer;
-  background-color: var(--signal-color);
-  background-image: var(--button-image);
+
+  background-image: url("/images/orangebutton.png");
   font-family: sans-serif;
-  border: 1px solid #000000;
-  color: #000000;
+
   text-decoration: none;
   padding: 20px 50px;
   white-space: nowrap;
@@ -44,10 +68,23 @@ const StyledTappingButton = styled.button`
     font-size: 2rem;
     padding: 50px 120px;
   }
+`;
 
-  &:active {
-    background-color: var(--secondary-color);
-  }
+const StyledStartButton = styled(StyledTappingButton)`
+  background-image: url("/images/playbutton.png");
+  background-color: transparent;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: transparent;
+`;
+
+const StyledPauseButton = styled(StyledStartButton)`
+  background-image: url("/images/pausebutton.png");
+`;
+
+const StyledResetButton = styled(StyledStartButton)`
+  background-image: url("/images/resetbutton.png");
 `;
 
 const TappingCirclesContainer = styled.section`
@@ -63,7 +100,10 @@ const TappingCirclesContainer = styled.section`
   margin: 0 auto;
   padding: 10px;
   margin-top: 10px;
-  background-color: var(--secondary-color);
+  background-image: url("/images/green.jpg");
+
+  background-position: center; /* Adjust this */
+  background-repeat: no-repeat;
   border-radius: 15px;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
@@ -94,12 +134,16 @@ const TappingCirclesContainer = styled.section`
 `;
 
 const TappingCircle = styled.span`
-  background-color: ${({ isActive }) =>
-    isActive ? "var(--signal-color)" : "var(--neutral-color)"};
-  background-image: ${({ isActive }) =>
-    isActive ? `url('/capybara.png') !important` : "none"};
+  background-image: ${({ isActive, isRedActive }) =>
+    isRedActive
+      ? `url("/images/red.jpg")`
+      : isActive
+      ? `url("/images/orange.jpg")`
+      : `url("/images/silver.avif")`};
+
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   border: 2px solid #ccc;
   display: flex;
   align-items: center;
@@ -211,6 +255,7 @@ export default function TappingGame({
   onUpdatePetIndicator,
 }) {
   const [activeCircle, setActiveCircle] = useState(null);
+  const [activeRedCircle, setActiveRedCircle] = useState(null);
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [intervalTime, setIntervalTime] = useState(1200);
@@ -226,12 +271,21 @@ export default function TappingGame({
 
     if (gameStarted) {
       interval = setInterval(() => {
+        const isRedActive = Math.random() < 0.3;
         const randomCircle = Math.floor(Math.random() * 20);
 
-        setActiveCircle(randomCircle);
+        if (isRedActive) {
+          setActiveRedCircle(randomCircle);
+          setActiveCircle(null);
+        } else {
+          setActiveCircle(randomCircle);
+          setActiveRedCircle(null);
+        }
+
         const activeTime = Math.min(intervalTime * 0.9, 700);
         setTimeout(() => {
           setActiveCircle(null);
+          setActiveRedCircle(null);
         }, activeTime);
       }, intervalTime);
     }
@@ -262,7 +316,11 @@ export default function TappingGame({
 
     if (index === activeCircle) {
       setScore((prevScore) => prevScore + 1);
-      const newEnergyValue = Math.min(activePet.status.energy + score, 100);
+      const newEnergyValue = Math.min(activePet.status.energy + 1, 100);
+      onUpdatePetIndicator(newEnergyValue, "energy");
+    } else if (index === activeRedCircle) {
+      setScore((prevScore) => prevScore - 1);
+      const newEnergyValue = Math.min(activePet.status.energy - 1, 100);
       onUpdatePetIndicator(newEnergyValue, "energy");
     }
   }
@@ -278,19 +336,21 @@ export default function TappingGame({
   function handleReset() {
     setGameStarted(false);
     setActiveCircle(null);
+    setActiveRedCircle(null);
     setScore(0);
     setIntervalTime(1200);
     setSpeedUpMessage(false);
   }
 
   return (
-    <>
+    <TappingGameContainer>
       {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
       <TappingCirclesContainer>
         {Array.from({ length: 20 }).map((_, index) => (
           <TappingCircle
             key={index}
             isActive={index === activeCircle}
+            isRedActive={index === activeRedCircle}
             onClick={() => handleCircleClick(index)}
           />
         ))}
@@ -302,13 +362,13 @@ export default function TappingGame({
       <TappingButtonContainer>
         <StyledTappingButtonLink href="/garden">Back</StyledTappingButtonLink>
         {gameStarted ? (
-          <StyledTappingButton onClick={handlePause}>Pause</StyledTappingButton>
+          <StyledPauseButton onClick={handlePause}>Pause</StyledPauseButton>
         ) : (
-          <StyledTappingButton onClick={handleStart}>Start</StyledTappingButton>
+          <StyledStartButton onClick={handleStart}>Start</StyledStartButton>
         )}
-        <StyledTappingButton onClick={handleReset}>Reset</StyledTappingButton>
+        <StyledResetButton onClick={handleReset}>Reset</StyledResetButton>
       </TappingButtonContainer>
-    </>
+    </TappingGameContainer>
   );
 }
 
@@ -391,3 +451,9 @@ intervalTime State: Keeps track of the interval time. This time decreases as the
 useEffect for Interval Timing: Updates the interval timing when the currentScore is a multiple of 10.
 Cleanup of Intervals: The clearInterval(interval) call ensures that previous intervals are cleaned up properly whenever the gameStarted state changes or when the component is unmounted.
 With this setup, the game will progressively increase the speed at which circles light up as the player’s score increases, making the game more challenging over time.*/
+
+/* How Red Circle works:
+
+activeRedCircle State: A new state that tracks which circle is red.
+Random Red Circle Appearance: The red circle appears less frequently, with a 30% chance (Math.random() < 0.3).
+Score Decrease: When the red circle is clicked, the score decreases by 1 in the handleCircleClick function. */
