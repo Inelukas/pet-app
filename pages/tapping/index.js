@@ -404,7 +404,6 @@ export default function TappingGame({
         <span>Current Score: {score} </span>
         <span>Highscore: {highScore}</span>
         <span>Time left: {countdown}s </span>
-        <span>Instructions </span>
       </TappingSpanContainer>
       <TappingButtonContainer>
         <StyledTappingButtonLink href="/garden">Back</StyledTappingButtonLink>
