@@ -375,18 +375,17 @@ function Garden({ petCollection, onInteractPet }) {
         </PetWrapper>
         <AdjustedListPageLink>
           <Link
-            href="/"
+            href="/pet-list"
             role="img"
             aria-label="Staple of Books indicating List"
           >
             📚
           </Link>
-          {/* update link to list page once replaced as mainpage required */}
         </AdjustedListPageLink>
         <AdjustedDetailPageLink>
           <Link
             href={{
-              pathname: `/PetDetails/${currentPet.id}`,
+              pathname: `/pet-details/${currentPet.id}`,
               query: {
                 health: currentPet.status.health,
                 happiness: currentPet.status.happiness,
@@ -396,7 +395,7 @@ function Garden({ petCollection, onInteractPet }) {
               },
             }}
             role="img"
-            aria-label="A magnifying glass indicating Details"
+            aria-label="Magnifying Glass indicating Details"
           >
             🔎
           </Link>
