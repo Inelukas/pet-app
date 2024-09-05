@@ -304,12 +304,11 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
-          <StatusButton
-            $bgcolor="orange"
-            onClick={() => increaseStatus("hunger")}
-          >
-            Feed
-          </StatusButton>
+          <StatusLink href="/game-catch-the-food" $bgcolor="orange">
+            <span role="img" aria-label="feed">
+              🍽️
+            </span>
+          </StatusLink>
 
           <StatusLink href="/snake" $bgcolor="pink">
             <span role="img" aria-label="celebration">

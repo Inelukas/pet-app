@@ -115,7 +115,7 @@ const AvatarContainer = styled.div`
 export default function GamePage({
   petCollection,
   currentPet,
-  onUpdatePetHunger,
+  onUpdatePetIndicator,
 }) {
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
@@ -239,9 +239,7 @@ export default function GamePage({
           {items.map((item) => (
             <FallingBlocks key={item.id} item={item} />
           ))}
-          <PlayerAvatar x={avatarX} picture={activePet.picture}>
-            {picture}
-          </PlayerAvatar>
+          <PlayerAvatar x={avatarX} picture={activePet.picture} />
         </GameFieldContainer>
         <Counter>Items caught: {counter}</Counter>
         <div>
