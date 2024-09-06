@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 
+const TappingGameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const TappingCirclesContainer = styled.section`
   display: flex;
   flex-wrap: wrap;
@@ -68,6 +75,18 @@ const TappingCircle = styled.span`
   @media screen and (min-width: 1200px) {
     transform: scale(1.1);
   }
+`;
+
+const SpanContainer = styled.section`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+`;
+
+const ButtonsContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const StyledTappingButtonLink = styled(Link)`
@@ -272,9 +291,10 @@ export default function TappingGame({
   }
 
   return (
-    <>
+    <TappingGameContainer>
       {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
       {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
+
       <TappingCirclesContainer>
         {Array.from({ length: 20 }).map((_, index) => (
           <TappingCircle
@@ -286,18 +306,21 @@ export default function TappingGame({
         ))}
       </TappingCirclesContainer>
 
-      <span>Current Score: {score} </span>
-      <span>Highscore: {highScore}</span>
-      <span>Time left: {countdown}s </span>
-      <span>Instructions</span>
-
-      <StyledTappingButtonLink href="/garden">Back</StyledTappingButtonLink>
-      {gameStarted ? (
-        <StyledPauseButton onClick={handlePause}>Pause</StyledPauseButton>
-      ) : (
-        <StyledStartButton onClick={handleStart}>Start</StyledStartButton>
-      )}
-      <StyledResetButton onClick={handleReset}>Reset</StyledResetButton>
-    </>
+      <SpanContainer>
+        <span>Current Score: {score} </span>
+        <span>Highscore: {highScore}</span>
+        <span>Time left: {countdown}s </span>
+        <span>Instructions</span>
+      </SpanContainer>
+      <ButtonsContainer>
+        <StyledTappingButtonLink href="/garden">Back</StyledTappingButtonLink>
+        {gameStarted ? (
+          <StyledPauseButton onClick={handlePause}>Pause</StyledPauseButton>
+        ) : (
+          <StyledStartButton onClick={handleStart}>Start</StyledStartButton>
+        )}
+        <StyledResetButton onClick={handleReset}>Reset</StyledResetButton>
+      </ButtonsContainer>
+    </TappingGameContainer>
   );
 }
