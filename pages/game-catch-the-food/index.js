@@ -117,7 +117,7 @@ const getRandomItem = () => {
     { type: "bad", name: "Pool 8 Ball", icon: "🎱" },
   ];
 
-  const randomX = Math.floor(Math.random() * 260);
+  const randomX = Math.floor(Math.random() * 240);
 
   return {
     ...items[Math.floor(Math.random() * items.length)],
@@ -163,7 +163,7 @@ export default function GamePage({
   }, [isPlaying, gameEnded]);
 
   const moveAvatar = (direction) => {
-    setAvatarX((prevX) => Math.max(0, Math.min(234, prevX + direction)));
+    setAvatarX((prevX) => Math.max(0, Math.min(233, prevX + direction)));
   };
 
   const handleKeyDown = useCallback(
@@ -211,14 +211,14 @@ export default function GamePage({
                 return false;
               }
 
-              if (item.y >= 352) {
+              if (item.y >= 370) {
                 return false;
               }
 
               return true;
             })
         );
-      }, 100);
+      }, 50);
     }
 
     if (gameEnded) {
