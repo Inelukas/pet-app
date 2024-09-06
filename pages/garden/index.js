@@ -386,28 +386,17 @@ function Garden({
           >
             Feed
           </StatusButton>
-<<<<<<< HEAD
-          <StatusLink href="/snake" $bgcolor="pink">
-=======
 
           <StatusLink
             href={activePet.alive ? "/snake" : ""}
             $bgcolor="pink"
             disabled={!activePet.alive}
           >
->>>>>>> main
             <span role="img" aria-label="celebration">
               🎉
             </span>
           </StatusLink>
 
-<<<<<<< HEAD
-          <StatusLink href="/tapping" $bgcolor="yellow">
-            <span role="img" aria-label="celebration">
-              🔋
-            </span>
-          </StatusLink>
-=======
           <StatusButton
             $bgcolor="yellow"
             onClick={() => increaseStatus("energy")}
@@ -415,7 +404,6 @@ function Garden({
           >
             Train
           </StatusButton>
->>>>>>> main
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay $animationtype={animationState}>
