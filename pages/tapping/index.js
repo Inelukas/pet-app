@@ -145,10 +145,6 @@ const StyledResetButton = styled(StyledStartButton)`
   background-image: url("/images/resetbutton.png");
 `;
 
-const StyledInstructionsButton = styled(StyledStartButton)`
-  background-image: url("/images/instructionsbutton.png");
-`;
-
 const SpeedUpMessage = styled.span`
   position: absolute;
   top: 200px;
@@ -346,7 +342,6 @@ export default function TappingGame({
           <StyledStartButton onClick={handleStart}>Start</StyledStartButton>
         )}
         <StyledResetButton onClick={handleReset}>Reset</StyledResetButton>
-        <StyledInstructionsButton>Instructions</StyledInstructionsButton>
       </ButtonsContainer>
     </TappingGameContainer>
   );
