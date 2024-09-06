@@ -202,11 +202,11 @@ export default function GamePage({
                 item.y >= 340 && Math.abs(item.x - avatarXRef.current) < 20;
               if (isCaught) {
                 if (item.type === "good") {
-                  setCounter((prev) => prev + 0.5);
-                  setHunger((prevHunger) => Math.max(0, prevHunger - 2.5));
+                  setCounter((prev) => prev + 1);
+                  setHunger((prevHunger) => Math.max(0, prevHunger - 5));
                 } else if (item.type === "bad") {
-                  setCounter((prev) => prev + 0.5);
-                  setHunger((prevHunger) => Math.min(100, prevHunger + 2.5));
+                  setCounter((prev) => prev + 1);
+                  setHunger((prevHunger) => Math.min(100, prevHunger + 5));
                 }
                 return false;
               }
