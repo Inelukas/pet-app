@@ -1,7 +1,7 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
 import { useState } from "react";
-import { pets } from "@/lib/data";
+import { pets } from "@/lib/Data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
 
