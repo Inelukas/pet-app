@@ -10,11 +10,10 @@ const GameButton = styled.button`
   font-size: 16px;
   text-align: center;
   transition: all 0.3s ease;
-  background-color: ${({ bgColor }) => bgColor};
   border-radius: 10px;
 
   &:hover {
-    background-color: ${({ hoverBgColor }) => hoverBgColor};
+    background-color: var(--signal-color);
   }
 `;
 

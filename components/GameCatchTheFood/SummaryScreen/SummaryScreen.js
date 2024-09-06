@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import GameButton from "@/components/GameButton/GameButton";
+import Link from "next/link";
 
 const Wrapper = styled.section`
   display: flex;
@@ -19,6 +21,16 @@ const SummaryContainer = styled.article`
   background-color: var(--neutral-color);
 `;
 
+const ButtonContainer = styled.article`
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+`;
+
+const BackButton = styled(GameButton)`
+  background-color: var(--signal-color);
+`;
+
 export default function SummaryScreen({ itemsCaught, timeTaken }) {
   return (
     <Wrapper>
@@ -26,6 +38,11 @@ export default function SummaryScreen({ itemsCaught, timeTaken }) {
         <h2>Your pet has been fed!</h2>
         <p>Items caught: {itemsCaught}</p>
         <p>Time taken: {timeTaken} seconds</p>
+        <ButtonContainer>
+          <Link href="/garden">
+            <BackButton>Back</BackButton>
+          </Link>
+        </ButtonContainer>
       </SummaryContainer>
     </Wrapper>
   );

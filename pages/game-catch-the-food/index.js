@@ -51,6 +51,15 @@ const GameFieldContainer = styled.article`
   overflow: hidden;
 `;
 
+const AvatarContainer = styled.div`
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  bottom: 30px;
+  z-index: 1;
+`;
+
 const Counter = styled.p`
   font-size: 18px;
   font-weight: bold;
@@ -107,15 +116,6 @@ const getRandomItem = () => {
     id: uid(),
   };
 };
-
-const AvatarContainer = styled.div`
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  font-size: 30px;
-  bottom: 30px;
-  z-index: 1;
-`;
 export default function GamePage({
   petCollection,
   currentPet,
@@ -177,8 +177,10 @@ export default function GamePage({
   avatarXRef.current = avatarX;
 
   useEffect(() => {
+    let interval;
+
     if (isPlaying && !gameEnded) {
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         setItems((prevItems) =>
           prevItems
             .map((item) => ({
@@ -207,19 +209,33 @@ export default function GamePage({
             })
         );
       }, 50);
-      return () => clearInterval(interval);
     }
+
+    if (gameEnded) {
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
   }, [isPlaying, gameEnded]);
 
   useEffect(() => {
-    if (hunger === 0) {
-      const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
-      setGameTime(timeElapsed);
+    if (isPlaying && hunger === 0) {
       setGameEnded(true);
       setIsPlaying(false);
       onUpdatePetIndicator(hunger, "hunger");
     }
-  }, [hunger, startTime, onUpdatePetIndicator]);
+  }, [hunger, isPlaying, onUpdatePetIndicator]);
+
+  useEffect(() => {
+    if (isPlaying && !gameEnded) {
+      const timeInterval = setInterval(() => {
+        const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
+        setGameTime(timeElapsed);
+      }, 1000);
+
+      return () => clearInterval(timeInterval);
+    }
+  }, [isPlaying, gameEnded, startTime]);
 
   if (gameEnded) {
     return <SummaryScreen itemsCaught={counter} timeTaken={gameTime} />;
