@@ -4,7 +4,7 @@ import PetSelection from "../PetSelection/PetSelection";
 import Indicator from "../Indicator/Indicator";
 import StyledLink from "../StyledLink/StyledLink";
 import ConfirmButton from "../ConfirmButton/ConfirmButton";
-import { animalList, characteristicOptions } from "@/lib/Data";
+import { animalList, characteristicOptions } from "@/lib/data";
 import cancelIcon from "../../public/assets/cancel.png";
 import confirmIcon from "../../public/assets/confirm.png";
 import Image from "next/image";
