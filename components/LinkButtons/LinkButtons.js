@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ListPageLink = styled.div`
+export const ListPageWrapper = styled.div`
   position: fixed;
   bottom: 10px;
   right: calc(50% - 45vw);
@@ -33,7 +33,7 @@ export const ListPageLink = styled.div`
   }
 `;
 
-export const DetailPageLink = styled.div`
+export const DetailPageWrapper = styled.div`
   position: fixed;
   bottom: 10px;
   left: calc(50% - 45vw);
@@ -66,7 +66,7 @@ export const DetailPageLink = styled.div`
   }
 `;
 
-export const GardenPageLink = styled.div`
+export const GardenPageWrapper = styled.div`
   position: fixed;
   bottom: 10px;
   left: calc(50% - 45vw);

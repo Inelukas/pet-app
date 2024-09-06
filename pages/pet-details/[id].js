@@ -7,8 +7,8 @@ import Image from "next/image";
 import deleteIcon from "../../public/assets/delete.png";
 import updateIcon from "../../public/assets/edit.png";
 import {
-  ListPageLink,
-  GardenPageLink,
+  ListPageWrapper,
+  GardenPageWrapper,
 } from "@/components/LinkButtons/LinkButtons";
 
 const DetailsContainer = styled.section`
@@ -258,24 +258,16 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           <Indicator key={index} data={status} />
         ))}
       </PetStatusContainer>
-      <ListPageLink>
-        <Link
-          href="/pet-list"
-          role="img"
-          aria-label="Staple of Books indicating List"
-        >
+      <ListPageWrapper>
+        <Link href="/pet-list" aria-label="Staple of Books indicating List">
           📚
         </Link>
-      </ListPageLink>
-      <GardenPageLink>
-        <Link
-          href="/garden"
-          role="img"
-          aria-label="A golf hole indicating the Garden"
-        >
+      </ListPageWrapper>
+      <GardenPageWrapper>
+        <Link href="/garden" aria-label="A golf hole indicating the Garden">
           ⛳
         </Link>
-      </GardenPageLink>
+      </GardenPageWrapper>
     </DetailsContainer>
   );
 }

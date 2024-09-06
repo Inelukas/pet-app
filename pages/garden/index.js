@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
 import {
-  ListPageLink,
-  DetailPageLink,
+  ListPageWrapper,
+  DetailPageWrapper,
 } from "@/components/LinkButtons/LinkButtons";
 
 const rotate = keyframes`
@@ -110,7 +110,6 @@ const DropdownButton = styled.button`
   cursor: pointer;
   border-radius: 4px;
   position: relative;
-  z-index: 150;
 `;
 
 const DropdownMenu = styled.ul`
@@ -121,7 +120,6 @@ const DropdownMenu = styled.ul`
   border: 1px solid var(--text-color);
   list-style: none;
   text-align: center;
-  z-index: 9000;
   overflow: visible;
   right: calc(50%);
   transform: translate(50%);
@@ -130,19 +128,18 @@ const DropdownMenu = styled.ul`
     padding: 8px;
     padding-left: 4px;
     cursor: pointer;
-
     &:hover {
       background-color: var(--primary-color);
     }
   }
 `;
 
-const AdjustedListPageLink = styled(ListPageLink)`
+const AdjustedListPageWrapper = styled(ListPageWrapper)`
   bottom: 10%;
   right: calc(50% - 45vw);
 `;
 
-const AdjustedDetailPageLink = styled(DetailPageLink)`
+const AdjustedDetailPageWrapper = styled(DetailPageWrapper)`
   bottom: 10%;
   left: calc(50% - 45vw);
 `;
@@ -233,40 +230,34 @@ const StatusButton = styled.button`
   width: 75px;
 `;
 
-function Garden({ petCollection, onInteractPet }) {
-  const [currentPetIndex, setCurrentPetIndex] = useState(0);
+const StatusLink = styled(Link)`
+  background-color: ${(props) => props.$bgcolor};
+  color: var(--text-color);
+  border: none;
+  padding: 16px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 75px;
+  text-decoration: none;
+`;
+
+function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
   const [animationState, setAnimationState] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   if (!petCollection || petCollection.length === 0) {
     return <p>No pets available</p>;
   }
 
-  function handlePrevPet() {
-    setCurrentPetIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : petCollection.length - 1
-    );
-  }
-
-  function handleNextPet() {
-    setCurrentPetIndex((prevIndex) => (prevIndex + 1) % petCollection.length);
-  }
-  console.log(isDropdownOpen);
   function increaseStatus(statusKey) {
-    const interactedPets = [...petCollection];
-    const currentStatus = interactedPets[currentPetIndex].status[statusKey];
+    const currentStatus = activePet.status[statusKey];
     if (statusKey === "hunger") {
-      interactedPets[currentPetIndex].status[statusKey] = Math.max(
-        currentStatus - 5,
-        0
-      );
+      activePet.status[statusKey] = Math.max(currentStatus - 5, 0);
     } else {
-      interactedPets[currentPetIndex].status[statusKey] = Math.min(
-        currentStatus + 5,
-        100
-      );
+      activePet.status[statusKey] = Math.min(currentStatus + 5, 100);
     }
 
-    onInteractPet(interactedPets[currentPetIndex]);
+    onInteractPet(activePet);
 
     if (statusKey === "energy") {
       setAnimationState("rotating");
@@ -288,60 +279,50 @@ function Garden({ petCollection, onInteractPet }) {
     }
   }
 
-  const currentPet = petCollection[currentPetIndex];
+  const activePet = petCollection.find((pet) => pet.id === currentPet);
 
   const healthValue = Math.round(
     (100 -
-      currentPet.status.hunger +
-      currentPet.status.happiness +
-      currentPet.status.energy) /
+      activePet.status.hunger +
+      activePet.status.happiness +
+      activePet.status.energy) /
       3
   );
 
-  const handlePetSelect = (index) => {
-    setCurrentPetIndex(index);
+  function handlePetSelect(petId) {
+    console.log("Selected Pet ID:", petId);
+    onCurrentPet(petId);
     setIsDropdownOpen(false);
-  };
+  }
 
   return (
     <>
       <GardenContainer>
         <StatusContainer>
           <HorizontalBar>
-            <Icon role="img" aria-label="A heart indicating Health">
-              ❤️
-            </Icon>
+            <Icon aria-label="A heart indicating Health">❤️</Icon>
             <HorizontalBarFill value={healthValue} />
           </HorizontalBar>
           <VerticalBarContainer>
             <VerticalBar>
-              <Icon
-                role="img"
-                aria-label="A bowl of ice-cream indicating hunger"
-              >
-                🍨
-              </Icon>
+              <Icon aria-label="A bowl of ice-cream indicating hunger">🍨</Icon>
               <VerticalBarFill
                 $bgcolor="orange"
-                value={currentPet.status.hunger}
+                value={activePet.status.hunger}
               />
             </VerticalBar>
             <VerticalBar>
-              <Icon role="img" aria-label="Some confetti indicating happiness">
-                🎉
-              </Icon>
+              <Icon aria-label="Some confetti indicating happiness">🎉</Icon>
               <VerticalBarFill
                 $bgcolor="pink"
-                value={currentPet.status.happiness}
+                value={activePet.status.happiness}
               />
             </VerticalBar>
             <VerticalBar>
-              <Icon role="img" aria-label="A battery indicating energy">
-                🔋
-              </Icon>
+              <Icon aria-label="A battery indicating energy">🔋</Icon>
               <VerticalBarFill
                 $bgcolor="yellow"
-                value={currentPet.status.energy}
+                value={activePet.status.energy}
               />
             </VerticalBar>
           </VerticalBarContainer>
@@ -354,12 +335,9 @@ function Garden({ petCollection, onInteractPet }) {
             Feed
           </StatusButton>
 
-          <StatusButton
-            $bgcolor="pink"
-            onClick={() => increaseStatus("happiness")}
-          >
-            Play
-          </StatusButton>
+          <StatusLink href="/snake" $bgcolor="pink">
+            <span aria-label="celebration">🎉</span>
+          </StatusLink>
 
           <StatusButton
             $bgcolor="yellow"
@@ -370,41 +348,29 @@ function Garden({ petCollection, onInteractPet }) {
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay $animationtype={animationState}>
-            {currentPet.picture}
+            {activePet.picture}
           </PetDisplay>
         </PetWrapper>
-        <AdjustedListPageLink>
-          <Link
-            href="/pet-list"
-            role="img"
-            aria-label="Staple of Books indicating List"
-          >
+        <AdjustedListPageWrapper>
+          <Link href="/pet-list" aria-label="Staple of Books indicating List">
             📚
           </Link>
-        </AdjustedListPageLink>
-        <AdjustedDetailPageLink>
+        </AdjustedListPageWrapper>
+        <AdjustedDetailPageWrapper>
           <Link
             href={{
-              pathname: `/pet-details/${currentPet.id}`,
-              query: {
-                health: currentPet.status.health,
-                happiness: currentPet.status.happiness,
-                hunger: currentPet.status.hunger,
-                energy: currentPet.status.energy,
-                intelligence: currentPet.status.intelligence,
-              },
+              pathname: `/pet-details/${activePet.id}`,
             }}
-            role="img"
             aria-label="Magnifying Glass indicating Details"
           >
             🔎
           </Link>
-        </AdjustedDetailPageLink>
+        </AdjustedDetailPageWrapper>
       </GardenContainer>
       <NavbarContainer>
-        <NavButton onClick={handlePrevPet}>Prev Pet</NavButton>
+        <NavButton onClick={() => onCurrentPet("previous")}>Prev Pet</NavButton>
         <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-          {currentPet.picture}
+          {activePet.picture}
         </DropdownButton>
         {isDropdownOpen && (
           <DropdownMenu>
@@ -415,7 +381,7 @@ function Garden({ petCollection, onInteractPet }) {
             ))}
           </DropdownMenu>
         )}
-        <NavButton onClick={handleNextPet}>Next Pet</NavButton>
+        <NavButton onClick={() => onCurrentPet("next")}>Next Pet</NavButton>
       </NavbarContainer>
     </>
   );
