@@ -43,7 +43,7 @@ const TappingCirclesContainer = styled.section`
   height: 540px;
 
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 50px;
   background-image: url("/images/green.jpg");
 
   background-position: center;
@@ -151,7 +151,7 @@ const StyledInstructionsButton = styled(StyledStartButton)`
 
 const SpeedUpMessage = styled.span`
   position: absolute;
-  top: 10px;
+  top: 200px;
   left: 50%;
   transform: translateX(-50%);
   background-image: url("/images/orange.jpg");
@@ -309,6 +309,8 @@ export default function TappingGame({
 
   return (
     <TappingGameContainer>
+      {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
+      {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
       <BarAndCirclesContainer>
         <VerticalBar
           $critical={
@@ -321,8 +323,6 @@ export default function TappingGame({
           <VerticalBarFill $bgcolor="yellow" value={activePet.status.energy} />
         </VerticalBar>
         <TappingCirclesContainer>
-          {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
-          {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
           {Array.from({ length: 20 }).map((_, index) => (
             <TappingCircle
               key={index}

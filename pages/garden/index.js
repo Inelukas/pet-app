@@ -397,13 +397,15 @@ function Garden({
             </span>
           </StatusLink>
 
-          <StatusButton
+          <StatusLink
+            href={activePet.alive ? "/tapping" : ""}
             $bgcolor="yellow"
-            onClick={() => increaseStatus("energy")}
             disabled={!activePet.alive}
           >
-            Train
-          </StatusButton>
+            <span role="img" aria-label="energy">
+              🔋
+            </span>
+          </StatusLink>
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay $animationtype={animationState}>
