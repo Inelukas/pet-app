@@ -3,77 +3,22 @@ import styled from "styled-components";
 import { StyledButtonLink } from "..";
 import { VerticalBar, VerticalBarFill, Icon } from "../garden";
 
-const StyledTappingButtonLink = styled(StyledButtonLink)`
-  background-image: url("/images/backbutton.png");
-  background-color: transparent;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: transparent;
-  border: none;
-  box-shadow: none;
-  &:hover {
-    transform: scale(1.2);
-  }
-  &:active {
-    background-color: transparent;
-  }
+const FirstGameContainer = styled.section`
+  display: flex;
+  flex-direction: row;
 `;
 
-const StyledTappingButton = styled.button`
-  display: grid;
-  background-color: transparent;
-  place-content: center;
-  width: 3rem;
-  height: 3rem;
-  font-size: small;
-  border: hidden;
-
-  margin: 0 20px;
-
-  cursor: pointer;
-
-  background-image: url("/images/orangebutton.png");
-  font-family: sans-serif;
-
-  text-decoration: none;
-  padding: 20px 50px;
-  white-space: nowrap;
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  @media (min-width: 600px) {
-    font-size: 1.5rem;
-    padding: 35px 80px;
-  }
-
-  @media (min-width: 900px) {
-    font-size: 1.75rem;
-    padding: 50px 100px;
-  }
-
-  @media (min-width: 1200px) {
-    font-size: 2rem;
-    padding: 50px 120px;
-  }
+const TappingVerticalBar = styled(VerticalBar)`
+  position: relative;
+  background: none;
+  background-image: url("/images/silver.avif");
+  top: 100px;
+  left: 30px;
 `;
 
-const StyledStartButton = styled(StyledTappingButton)`
-  background-image: url("/images/playbutton.png");
-  background-color: transparent;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: transparent;
-`;
-
-const StyledPauseButton = styled(StyledStartButton)`
-  background-image: url("/images/pausebutton.png");
-`;
-
-const StyledResetButton = styled(StyledStartButton)`
-  background-image: url("/images/resetbutton.png");
+const TappingVerticalBarFill = styled(VerticalBarFill)`
+  background: none;
+  background-image: url("/images/yellow.avif");
 `;
 
 const TappingCirclesContainer = styled.section`
@@ -169,38 +114,84 @@ const TappingCircle = styled.span`
   }
 `;
 
-const TappingSpanContainer = styled.section`
+const SecondGameContainer = styled.section`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  font-size: 1.2rem;
-  color: #333;
-  gap: 20px;
+  flex-direction: column;
+`;
 
-  @media (min-width: 600px) {
-    flex-direction: row;
-    font-size: 1.5rem;
-    gap: 50px;
+const StyledTappingSpan = styled.span``;
+
+const StyledTappingButtonLink = styled(StyledButtonLink)`
+  background-image: url("/images/backbutton.png");
+  background-color: transparent;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: transparent;
+  border: none;
+  box-shadow: none;
+  &:hover {
+    transform: scale(1.2);
+  }
+  &:active {
+    background-color: transparent;
   }
 `;
 
-const TappingButtonContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  gap: 10px;
-  margin-top: 5px;
+const StyledTappingButton = styled.button`
+  display: grid;
+  background-color: transparent;
+  place-content: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: small;
+  border: hidden;
+
+  margin: 0 20px;
+
+  cursor: pointer;
+
+  background-image: url("/images/orangebutton.png");
+  font-family: sans-serif;
+
+  text-decoration: none;
+  padding: 20px 50px;
+  white-space: nowrap;
+  &:hover {
+    transform: scale(1.2);
+  }
 
   @media (min-width: 600px) {
-    flex-direction: row;
-    padding: 20px;
-    gap: 20px;
-    margin-top: 20px;
+    font-size: 1.5rem;
+    padding: 35px 80px;
   }
+
+  @media (min-width: 900px) {
+    font-size: 1.75rem;
+    padding: 50px 100px;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 2rem;
+    padding: 50px 120px;
+  }
+`;
+
+const StyledStartButton = styled(StyledTappingButton)`
+  background-image: url("/images/playbutton.png");
+  background-color: transparent;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: transparent;
+`;
+
+const StyledPauseButton = styled(StyledStartButton)`
+  background-image: url("/images/pausebutton.png");
+`;
+
+const StyledResetButton = styled(StyledStartButton)`
+  background-image: url("/images/resetbutton.png");
 `;
 
 const SpeedUpMessage = styled.span`
@@ -245,17 +236,6 @@ const CountdownMessage = styled(SpeedUpMessage)`
   z-index: 1000;
   background-image: url("/images/red.jpg");
   font-size: 4rem;
-`;
-
-const TappingVerticalBar = styled(VerticalBar)`
-  position: relative;
-  background: none;
-  background-image: url("/images/silver.avif");
-`;
-
-const TappingVerticalBarFill = styled(VerticalBarFill)`
-  background: none;
-  background-image: url("/images/yellow.avif");
 `;
 
 export default function TappingGame({
@@ -378,34 +358,36 @@ export default function TappingGame({
   }
 
   return (
-    <div>
-      <TappingVerticalBar>
-        <Icon role="img" aria-label="A battery indicating energy">
-          🔋
-        </Icon>
-        <TappingVerticalBarFill
-          $bgcolor="yellow"
-          value={activePet.status.energy}
-        />
-      </TappingVerticalBar>
-      {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
-      {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
-      <TappingCirclesContainer>
-        {Array.from({ length: 20 }).map((_, index) => (
-          <TappingCircle
-            key={index}
-            isActive={activeCircles.includes(index)}
-            isWrongActive={activeWrongCircles.includes(index)}
-            onClick={() => handleCircleClick(index)}
+    <>
+      <FirstGameContainer>
+        <TappingVerticalBar>
+          <Icon role="img" aria-label="A battery indicating energy">
+            🔋
+          </Icon>
+          <TappingVerticalBarFill
+            $bgcolor="yellow"
+            value={activePet.status.energy}
           />
-        ))}
-      </TappingCirclesContainer>
-      <TappingSpanContainer>
+        </TappingVerticalBar>
+        {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
+        {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
+        <TappingCirclesContainer>
+          {Array.from({ length: 20 }).map((_, index) => (
+            <TappingCircle
+              key={index}
+              isActive={activeCircles.includes(index)}
+              isWrongActive={activeWrongCircles.includes(index)}
+              onClick={() => handleCircleClick(index)}
+            />
+          ))}
+        </TappingCirclesContainer>
+      </FirstGameContainer>
+      <SecondGameContainer>
         <span>Current Score: {score} </span>
         <span>Highscore: {highScore}</span>
         <span>Time left: {countdown}s </span>
-      </TappingSpanContainer>
-      <TappingButtonContainer>
+        <span>Instructions</span>
+
         <StyledTappingButtonLink href="/garden">Back</StyledTappingButtonLink>
         {gameStarted ? (
           <StyledPauseButton onClick={handlePause}>Pause</StyledPauseButton>
@@ -413,7 +395,7 @@ export default function TappingGame({
           <StyledStartButton onClick={handleStart}>Start</StyledStartButton>
         )}
         <StyledResetButton onClick={handleReset}>Reset</StyledResetButton>
-      </TappingButtonContainer>
-    </div>
+      </SecondGameContainer>
+    </>
   );
 }
