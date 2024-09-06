@@ -275,6 +275,7 @@ function Garden({
   setPetCollection,
   onInteractPet,
   currentPet,
+  setCurrentPet,
   onCurrentPet,
 }) {
   const [animationState, setAnimationState] = useState(null);
@@ -309,7 +310,7 @@ function Garden({
     return () => {
       clearInterval(updateIndicatorsTimer);
     };
-  }, []);
+  }, [currentPet, setPetCollection]);
 
   if (!petCollection || petCollection.length === 0) {
     return <p>No pets available</p>;
@@ -348,8 +349,7 @@ function Garden({
   }
 
   function handlePetSelect(petId) {
-    console.log("Selected Pet ID:", petId);
-    onCurrentPet(petId);
+    setCurrentPet(petId);
     setIsDropdownOpen(false);
   }
 
@@ -362,9 +362,7 @@ function Garden({
               activePet.status.health <= 25 && activePet.status.health !== 0
             }
           >
-            <Icon role="img" aria-label="A heart indicating Health">
-              ❤️
-            </Icon>
+            <Icon aria-label="A heart indicating Health">❤️</Icon>
             <HorizontalBarFill value={activePet.status.health} />
           </HorizontalBar>
           <VerticalBarContainer>
@@ -373,12 +371,7 @@ function Garden({
                 activePet.status.hunger >= 75 && activePet.status.health !== 0
               }
             >
-              <Icon
-                role="img"
-                aria-label="A bowl of ice-cream indicating hunger"
-              >
-                🍨
-              </Icon>
+              <Icon aria-label="A bowl of ice-cream indicating hunger">🍨</Icon>
               <VerticalBarFill
                 $bgcolor="orange"
                 value={activePet.status.hunger}
@@ -390,9 +383,7 @@ function Garden({
                 activePet.status.health !== 0
               }
             >
-              <Icon role="img" aria-label="Some confetti indicating happiness">
-                🎉
-              </Icon>
+              <Icon aria-label="Some confetti indicating happiness">🎉</Icon>
               <VerticalBarFill
                 $bgcolor="pink"
                 value={activePet.status.happiness}
@@ -403,9 +394,7 @@ function Garden({
                 activePet.status.energy <= 25 && activePet.status.health !== 0
               }
             >
-              <Icon role="img" aria-label="A battery indicating energy">
-                🔋
-              </Icon>
+              <Icon aria-label="A battery indicating energy">🔋</Icon>
               <VerticalBarFill
                 $bgcolor="yellow"
                 value={activePet.status.energy}
@@ -427,9 +416,7 @@ function Garden({
             $bgcolor="pink"
             disabled={!activePet.alive}
           >
-            <span role="img" aria-label="celebration">
-              🎉
-            </span>
+            <span aria-label="celebration">🎉</span>
           </StatusLink>
 
           <StatusButton
@@ -468,8 +455,11 @@ function Garden({
         </DropdownButton>
         {isDropdownOpen && (
           <DropdownMenu>
-            {petCollection.map((pet, index) => (
-              <DropdownItem key={pet.id} onClick={() => handlePetSelect(index)}>
+            {petCollection.map((pet) => (
+              <DropdownItem
+                key={pet.id}
+                onClick={() => handlePetSelect(pet.id)}
+              >
                 {pet.picture}
               </DropdownItem>
             ))}
