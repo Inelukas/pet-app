@@ -139,7 +139,7 @@ export default function SnakeGame({
         activePet.status.happiness + scores.score,
         100
       );
-      onUpdatePetIndicator(newHappinessValue);
+      onUpdatePetIndicator(newHappinessValue, "happiness");
     }
   }, [gameOn]);
 
