@@ -344,7 +344,7 @@ export default function Garden({
     return () => {
       clearInterval(updateIndicatorsTimer);
     };
-  }, []);
+  }, [currentPet]);
 
   function increaseStatus(statusKey) {
     const currentStatus = activePet.status[statusKey];
