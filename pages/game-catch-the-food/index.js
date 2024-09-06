@@ -8,7 +8,7 @@ import Link from "next/link";
 import GameButton from "@/components/GameButton/GameButton";
 import { uid } from "uid";
 
-const Wrapper = styled.section`
+const MainPage = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,64 +22,52 @@ const Container = styled.section`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 600px;
-  height: 800px;
-  padding: 20px;
+  width: 300px;
+  height: 600px;
   border: 2px solid black;
   box-sizing: border-box;
   background-color: var(--neutral-color);
-`;
 
-const StyledIndicatorContainer = styled.article`
-  position: absolute;
-  left: -250px;
-  top: 200px;
-  transform: rotate(270deg);
-  width: 100%;
-  justify-content: center;
-  z-index: 1;
+  @media screen and (min-width: 600px) {
+    transform: scale(1.2);
+  }
+
+  @media screen and (min-width: 900px) {
+    transform: scale(1.5);
+  }
 `;
 
 const GameFieldContainer = styled.article`
-  position: relative;
   display: flex;
-  width: 400px;
-  height: 600px;
+  position: relative;
+  width: 90%;
+  height: 75%;
   border: 2px solid black;
   box-sizing: border-box;
   background-color: var(--secondary-color);
   overflow: hidden;
 `;
 
+const StyledIndicatorContainer = styled.article`
+  position: absolute;
+  left: -168px;
+  top: 150px;
+  transform: rotate(270deg);
+  width: 100%;
+  justify-content: center;
+`;
+
 const AvatarContainer = styled.div`
   position: absolute;
   width: 40px;
   height: 40px;
-  font-size: 30px;
   bottom: 30px;
-  z-index: 1;
 `;
 
 const Counter = styled.p`
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   margin: 10px 0;
-`;
-
-const LeftButton = styled.button`
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-  cursor: pointer;
-  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
-`;
-
-const RightButton = styled.button`
-  width: 50px;
-  height: 50px;
-  margin-left: 10px;
-  cursor: pointer;
-  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 const ButtonContainer = styled.article`
@@ -88,12 +76,34 @@ const ButtonContainer = styled.article`
   margin: 10px;
 `;
 
-const PlayButton = styled(GameButton)`
-  background-color: #4caf50;
+const LeftButton = styled.button`
+  width: 45px;
+  height: 45px;
+  margin-right: 6px;
+  cursor: pointer;
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+`;
+
+const RightButton = styled.button`
+  width: 45px;
+  height: 45px;
+  margin-left: 6px;
+  cursor: pointer;
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 const BackButton = styled(GameButton)`
+  width: 45px;
+  height: 30px;
   background-color: var(--signal-color);
+  margin-right: 6px;
+`;
+
+const PlayButton = styled(GameButton)`
+  width: 45px;
+  height: 30px;
+  background-color: #4caf50;
+  margin-left: 6px;
 `;
 
 const getRandomItem = () => {
@@ -107,7 +117,7 @@ const getRandomItem = () => {
     { type: "bad", name: "Pool 8 Ball", icon: "🎱" },
   ];
 
-  const randomX = Math.floor(Math.random() * 360);
+  const randomX = Math.floor(Math.random() * 260);
 
   return {
     ...items[Math.floor(Math.random() * items.length)],
@@ -147,13 +157,13 @@ export default function GamePage({
     if (isPlaying && !gameEnded) {
       const interval = setInterval(() => {
         setItems((prevItems) => [...prevItems, getRandomItem()]);
-      }, 1000);
+      }, 1500);
       return () => clearInterval(interval);
     }
   }, [isPlaying, gameEnded]);
 
   const moveAvatar = (direction) => {
-    setAvatarX((prevX) => Math.max(0, Math.min(360, prevX + direction)));
+    setAvatarX((prevX) => Math.max(0, Math.min(234, prevX + direction)));
   };
 
   const handleKeyDown = useCallback(
@@ -185,11 +195,11 @@ export default function GamePage({
           prevItems
             .map((item) => ({
               ...item,
-              y: item.y + 10,
+              y: item.y + 5,
             }))
             .filter((item) => {
               let isCaught =
-                item.y >= 570 && Math.abs(item.x - avatarXRef.current) < 30;
+                item.y >= 340 && Math.abs(item.x - avatarXRef.current) < 20;
               if (isCaught) {
                 if (item.type === "good") {
                   setCounter((prev) => prev + 0.5);
@@ -201,14 +211,14 @@ export default function GamePage({
                 return false;
               }
 
-              if (item.y >= 570) {
+              if (item.y >= 352) {
                 return false;
               }
 
               return true;
             })
         );
-      }, 50);
+      }, 100);
     }
 
     if (gameEnded) {
@@ -242,7 +252,7 @@ export default function GamePage({
   }
 
   return (
-    <Wrapper>
+    <MainPage>
       <Container>
         <h1>Catch The Food</h1>
         <br />
@@ -266,13 +276,13 @@ export default function GamePage({
         <Counter>Items caught: {counter}</Counter>
         <ButtonContainer>
           <LeftButton
-            onClick={() => moveAvatar(-10)}
+            onClick={() => moveAvatar(-15)}
             disabled={!isPlaying || gameEnded}
           >
             Left
           </LeftButton>
           <RightButton
-            onClick={() => moveAvatar(10)}
+            onClick={() => moveAvatar(15)}
             disabled={!isPlaying || gameEnded}
           >
             Right
@@ -285,6 +295,6 @@ export default function GamePage({
           {!isPlaying && <PlayButton onClick={startGame}>Play</PlayButton>}
         </ButtonContainer>
       </Container>
-    </Wrapper>
+    </MainPage>
   );
 }

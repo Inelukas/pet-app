@@ -7,7 +7,6 @@ const GameButton = styled.button`
   cursor: pointer;
   outline: none;
   border: none;
-  font-size: 16px;
   text-align: center;
   transition: all 0.3s ease;
   border-radius: 10px;
