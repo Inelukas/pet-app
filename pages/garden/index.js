@@ -273,27 +273,9 @@ export default function Garden({
 }) {
   const [animationState, setAnimationState] = useState(null);
   const [characteristicEffects, setCharacteristicEffects] = useState(() => {
-    const speedFactor = activePet.characteristics.includes("hyperactive")
-      ? 0.4
-      : activePet.characteristics.includes("lethargic")
-      ? 2
-      : 1;
-    const happinessFactor =
-      (activePet.characteristics.includes("cheerful")
-        ? 0.5
-        : activePet.characteristics.includes("melancholy")
-        ? 1.5
-        : 1) *
-      (activePet.characteristics.includes("foolish")
-        ? 0.5
-        : activePet.characteristics.includes("smart")
-        ? 1.5
-        : 1);
-    const hungerFactor = activePet.characteristics.includes("gluttonous")
-      ? 1.5
-      : activePet.characteristics.includes("temperate")
-      ? 0.5
-      : 1;
+    const speedFactor = getSpeedFactor(activePet.characteristics);
+    const happinessFactor = getHappinessFactor(activePet.characteristics);
+    const hungerFactor = getHungerFactor(activePet.characteristics);
 
     return {
       speedFactor: speedFactor,
@@ -374,6 +356,38 @@ export default function Garden({
         setAnimationState(null);
       }, 500);
     }
+  }
+
+  function getHappinessFactor(characteristics) {
+    const moodFactor = characteristics.includes("cheerful")
+      ? 0.5
+      : characteristics.includes("melancholy")
+      ? 1.5
+      : 1;
+    const intelligenceFactor = characteristics.includes("foolish")
+      ? 0.5
+      : characteristics.includes("smart")
+      ? 1.5
+      : 1;
+    return moodFactor * intelligenceFactor;
+  }
+
+  function getHungerFactor(characteristics) {
+    const hungerFactor = characteristics.includes("gluttonous")
+      ? 1.5
+      : characteristics.includes("temperate")
+      ? 0.5
+      : 1;
+    return hungerFactor;
+  }
+
+  function getSpeedFactor(characteristics) {
+    const speedFactor = characteristics.includes("hyperactive")
+      ? 0.4
+      : characteristics.includes("lethargic")
+      ? 2
+      : 1;
+    return speedFactor;
   }
 
   if (!activePet) {
