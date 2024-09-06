@@ -222,7 +222,7 @@ export default function PetDetails({ petCollection, onDeletePet }) {
     <DetailsContainer>
       <PetPictureContainer>
         <PictureAndDeleteContainer>
-          <PetPicture>{pet.picture}</PetPicture>
+          <PetPicture>{pet.alive ? pet.picture : "☠"}</PetPicture>
 
           {isDelete && (
             <StyledDeleteContainer>

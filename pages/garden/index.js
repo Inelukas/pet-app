@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
 
@@ -8,6 +8,18 @@ const rotate = keyframes`
   }
   to {
     transform: rotate(360deg);
+  }
+`;
+
+const zoom = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 `;
 
@@ -133,6 +145,13 @@ export const VerticalBar = styled.div`
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  border: ${({ $critical }) => ($critical ? "2px solid red" : "none")};
+  animation: ${({ $critical }) =>
+    $critical
+      ? css`
+          ${zoom} 1s ease-in-out infinite
+        `
+      : "none"};
 `;
 
 export const VerticalBarFill = styled.div`
@@ -152,6 +171,13 @@ const HorizontalBar = styled.div`
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
+  border: ${({ $critical }) => ($critical ? "2px solid red" : "none")};
+  animation: ${({ $critical }) =>
+    $critical
+      ? css`
+          ${zoom} 1s ease-in-out infinite
+        `
+      : "none"};
 `;
 
 const HorizontalBarFill = styled.div`
@@ -183,7 +209,8 @@ const StatusButton = styled.button`
   padding: 16px;
   margin-bottom: 8px;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   width: 75px;
 `;
 
@@ -194,7 +221,8 @@ const StatusLink = styled(Link)`
   padding: 16px;
   margin-bottom: 8px;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   width: 75px;
   text-decoration: none;
 `;
@@ -214,11 +242,51 @@ const ListPageLink = styled.div`
   color: var(--text-color);
 `;
 
-function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
+function Garden({
+  petCollection,
+  setPetCollection,
+  onInteractPet,
+  currentPet,
+  onCurrentPet,
+}) {
   const [animationState, setAnimationState] = useState(null);
+
+  useEffect(() => {
+    const updateIndicatorsTimer = setInterval(() => {
+      setPetCollection((prevPets) =>
+        prevPets.map((pet) => {
+          if (pet.id === currentPet) {
+            const { hunger, happiness, energy, health } = pet.status;
+
+            return {
+              ...pet,
+              status: {
+                hunger: hunger < 100 ? Math.min(hunger + 5, 100) : 100,
+                happiness: happiness > 0 ? Math.max(happiness - 5, 0) : 0,
+                energy: energy > 0 ? Math.max(energy - 5, 0) : 0,
+                health:
+                  hunger === 100 && happiness === 0 && energy === 0
+                    ? Math.max(health - 5, 0)
+                    : health,
+              },
+              alive: pet.status.health === 0 ? false : true,
+            };
+          }
+          return pet;
+        })
+      );
+    }, 1000);
+
+    return () => {
+      clearInterval(updateIndicatorsTimer);
+    };
+  }, []);
+
   if (!petCollection || petCollection.length === 0) {
     return <p>No pets available</p>;
   }
+
+  const activePet = petCollection.find((pet) => pet.id === currentPet);
 
   function increaseStatus(statusKey) {
     const currentStatus = activePet.status[statusKey];
@@ -250,28 +318,26 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
     }
   }
 
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
-
-  const healthValue = Math.round(
-    (100 -
-      activePet.status.hunger +
-      activePet.status.happiness +
-      activePet.status.energy) /
-      3
-  );
-
   return (
     <>
       <GardenContainer>
         <StatusContainer>
-          <HorizontalBar>
+          <HorizontalBar
+            $critical={
+              activePet.status.health <= 25 && activePet.status.health !== 0
+            }
+          >
             <Icon role="img" aria-label="A heart indicating Health">
               ❤️
             </Icon>
-            <HorizontalBarFill value={healthValue} />
+            <HorizontalBarFill value={activePet.status.health} />
           </HorizontalBar>
           <VerticalBarContainer>
-            <VerticalBar>
+            <VerticalBar
+              $critical={
+                activePet.status.hunger >= 75 && activePet.status.health !== 0
+              }
+            >
               <Icon
                 role="img"
                 aria-label="A bowl of ice-cream indicating hunger"
@@ -283,7 +349,12 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
                 value={activePet.status.hunger}
               />
             </VerticalBar>
-            <VerticalBar>
+            <VerticalBar
+              $critical={
+                activePet.status.happiness <= 25 &&
+                activePet.status.health !== 0
+              }
+            >
               <Icon role="img" aria-label="Some confetti indicating happiness">
                 🎉
               </Icon>
@@ -292,7 +363,11 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
                 value={activePet.status.happiness}
               />
             </VerticalBar>
-            <VerticalBar>
+            <VerticalBar
+              $critical={
+                activePet.status.energy <= 25 && activePet.status.health !== 0
+              }
+            >
               <Icon role="img" aria-label="A battery indicating energy">
                 🔋
               </Icon>
@@ -307,24 +382,44 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           <StatusButton
             $bgcolor="orange"
             onClick={() => increaseStatus("hunger")}
+            disabled={!activePet.alive}
           >
             Feed
           </StatusButton>
+<<<<<<< HEAD
           <StatusLink href="/snake" $bgcolor="pink">
+=======
+
+          <StatusLink
+            href={activePet.alive ? "/snake" : ""}
+            $bgcolor="pink"
+            disabled={!activePet.alive}
+          >
+>>>>>>> main
             <span role="img" aria-label="celebration">
               🎉
             </span>
           </StatusLink>
 
+<<<<<<< HEAD
           <StatusLink href="/tapping" $bgcolor="yellow">
             <span role="img" aria-label="celebration">
               🔋
             </span>
           </StatusLink>
+=======
+          <StatusButton
+            $bgcolor="yellow"
+            onClick={() => increaseStatus("energy")}
+            disabled={!activePet.alive}
+          >
+            Train
+          </StatusButton>
+>>>>>>> main
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay $animationtype={animationState}>
-            {activePet.picture}
+            {activePet.alive ? activePet.picture : "☠"}
           </PetDisplay>
         </PetWrapper>
         <ListPageLink>

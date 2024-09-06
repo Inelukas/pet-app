@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }) {
       ...restPetData,
       id: petId,
       characteristics: [characteristic1, characteristic2].filter(Boolean),
+      alive: true,
     };
     setPetCollection((prevData) => [newPet, ...prevData]);
     router.push("/pet-list");
@@ -82,7 +83,9 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         petCollection={petCollection}
+        setPetCollection={setPetCollection}
         currentPet={currentPet}
+        setCurrentPet={setCurrentPet}
         onCreatePet={handleCreatePet}
         onDeletePet={handleDeletePet}
         onUpdatePet={handleUpdatePet}
