@@ -252,6 +252,8 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
 
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
+  const checkHunger = activePet.status.hunger === 0;
+
   const healthValue = Math.round(
     (100 -
       activePet.status.hunger +
@@ -304,7 +306,11 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
-          <StatusLink href="/game-catch-the-food" $bgcolor="orange">
+          <StatusLink
+            href="/game-catch-the-food"
+            $bgcolor="orange"
+            disabled={checkHunger}
+          >
             <span role="img" aria-label="feed">
               🍽️
             </span>
