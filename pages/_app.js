@@ -26,6 +26,7 @@ export default function App({ Component, pageProps }) {
 
   function handleDeletePet(id) {
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
+    setCurrentPet(pets[0].id);
   }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
@@ -34,6 +35,10 @@ export default function App({ Component, pageProps }) {
           ? {
               ...pet,
               ...updatedPetData,
+              characteristics: [
+                updatedPetData.characteristic1,
+                updatedPetData.characteristic2,
+              ].filter(Boolean),
               status: {
                 ...pet.status,
                 intelligence: updatedPetData.status.intelligence,

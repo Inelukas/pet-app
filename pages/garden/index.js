@@ -288,6 +288,7 @@ const ListPageLink = styled.div`
 
 export default function Garden({
   activePet,
+  petCollection,
   setPetCollection,
   onInteractPet,
   currentPet,
@@ -296,15 +297,17 @@ export default function Garden({
 }) {
   const [animationState, setAnimationState] = useState(null);
   const [characteristicEffects, setCharacteristicEffects] = useState(() => {
-    const speedFactor = getSpeedFactor(activePet.characteristics);
-    const happinessFactor = getHappinessFactor(activePet.characteristics);
-    const hungerFactor = getHungerFactor(activePet.characteristics);
+    if (activePet) {
+      const speedFactor = getSpeedFactor(activePet.characteristics);
+      const happinessFactor = getHappinessFactor(activePet.characteristics);
+      const hungerFactor = getHungerFactor(activePet.characteristics);
 
-    return {
-      speedFactor: speedFactor,
-      happinessFactor: happinessFactor,
-      hungerFactor: hungerFactor,
-    };
+      return {
+        speedFactor: speedFactor,
+        happinessFactor: happinessFactor,
+        hungerFactor: hungerFactor,
+      };
+    }
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -414,12 +417,13 @@ export default function Garden({
     return speedFactor;
   }
 
+  function handlePetSelect(petId) {
+    setCurrentPet(petId);
+    setIsDropdownOpen(false);
+  }
+
   if (!activePet) {
     return <p>No pets available</p>;
-    function handlePetSelect(petId) {
-      setCurrentPet(petId);
-      setIsDropdownOpen(false);
-    }
   }
 
   return (
