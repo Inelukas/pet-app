@@ -6,8 +6,10 @@ import { useState } from "react";
 import Image from "next/image";
 import deleteIcon from "../../public/assets/delete.png";
 import updateIcon from "../../public/assets/edit.png";
-import backIcon from "../../public/assets/back.png";
-import StyledLink from "@/components/StyledLink/StyledLink";
+import {
+  ListPageWrapper,
+  GardenPageWrapper,
+} from "@/components/LinkButtons/LinkButtons";
 
 const DetailsContainer = styled.section`
   display: flex;
@@ -261,9 +263,16 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           <Indicator key={index} data={status} />
         ))}
       </PetStatusContainer>
-      <StyledLink href="/pet-list" style={{ width: "80px", height: "40px" }}>
-        <Image src={backIcon} alt="Back Icon" width={20} />
-      </StyledLink>
+      <ListPageWrapper>
+        <Link href="/pet-list" aria-label="Staple of Books indicating List">
+          📚
+        </Link>
+      </ListPageWrapper>
+      <GardenPageWrapper>
+        <Link href="/garden" aria-label="A golf hole indicating the Garden">
+          ⛳
+        </Link>
+      </GardenPageWrapper>
     </DetailsContainer>
   );
 }
