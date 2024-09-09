@@ -194,7 +194,8 @@ const StatusLink = styled(Link)`
   padding: 16px;
   margin-bottom: 8px;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   width: 75px;
   text-decoration: none;
 `;
@@ -304,7 +305,11 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
-          <StatusLink href="/game-catch-the-food" $bgcolor="orange">
+          <StatusLink
+            href={activePet.status.hunger !== 0 ? "/game-catch-the-food" : ""}
+            $bgcolor="orange"
+            disabled={activePet.status.hunger === 0}
+          >
             <span role="img" aria-label="feed">
               🍽️
             </span>
