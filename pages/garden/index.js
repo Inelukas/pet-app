@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
 import {
@@ -51,6 +51,24 @@ const grow = keyframes`
   }
 `;
 
+const walk = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(300px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-300px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
 const GardenContainer = styled.div`
   position: relative;
   width: 100%;
@@ -64,7 +82,7 @@ const GardenContainer = styled.div`
 const PetWrapper = styled.div`
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 65%;
   transform: translate(-50%, -50%);
 `;
 
@@ -72,18 +90,22 @@ const PetDisplay = styled.div`
   font-size: 8em;
   color: var(--text-color);
   transform-origin: center;
-  animation: ${({ $animationtype }) =>
-    $animationtype === "rotating"
+  animation: ${({ $animationtype, $alive, $movingSpeedFactor }) =>
+    $alive && $animationtype === "rotating"
       ? css`
-          ${rotate} 1s linear
+          ${rotate} ${1 * $movingSpeedFactor}s linear
         `
-      : $animationtype === "bouncing"
+      : $alive && $animationtype === "bouncing"
       ? css`
-          ${bounce} 1s ease
+          ${bounce} ${1 * $movingSpeedFactor}s ease
         `
-      : $animationtype === "growing"
+      : $alive && $animationtype === "growing"
       ? css`
-          ${grow} 0.5s ease
+          ${grow} ${0.5 * $movingSpeedFactor}s ease
+        `
+      : $alive
+      ? css`
+          ${walk} ${8 * $movingSpeedFactor}s infinite
         `
       : "none"};
 `;
@@ -270,8 +292,23 @@ const StatusLink = styled(Link)`
   text-decoration: none;
 `;
 
-function Garden({
-  petCollection,
+const ListPageLink = styled.div`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--signal-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--text-color);
+`;
+
+export default function Garden({
+  activePet,
   setPetCollection,
   onInteractPet,
   currentPet,
@@ -279,6 +316,17 @@ function Garden({
   onCurrentPet,
 }) {
   const [animationState, setAnimationState] = useState(null);
+  const [characteristicEffects, setCharacteristicEffects] = useState(() => {
+    const speedFactor = getSpeedFactor(activePet.characteristics);
+    const happinessFactor = getHappinessFactor(activePet.characteristics);
+    const hungerFactor = getHungerFactor(activePet.characteristics);
+
+    return {
+      speedFactor: speedFactor,
+      happinessFactor: happinessFactor,
+      hungerFactor: hungerFactor,
+    };
+  });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -291,13 +339,26 @@ function Garden({
             return {
               ...pet,
               status: {
-                hunger: hunger < 100 ? Math.min(hunger + 5, 100) : 100,
-                happiness: happiness > 0 ? Math.max(happiness - 5, 0) : 0,
+                hunger:
+                  hunger < 100
+                    ? Math.min(
+                        hunger + 5 * characteristicEffects.hungerFactor,
+                        100
+                      )
+                    : 100,
+                happiness:
+                  happiness > 0
+                    ? Math.max(
+                        happiness - 5 * characteristicEffects.happinessFactor,
+                        0
+                      )
+                    : 0,
                 energy: energy > 0 ? Math.max(energy - 5, 0) : 0,
                 health:
                   hunger === 100 && happiness === 0 && energy === 0
                     ? Math.max(health - 5, 0)
                     : health,
+                intelligence: pet.status.intelligence,
               },
               alive: pet.status.health === 0 ? false : true,
             };
@@ -310,13 +371,8 @@ function Garden({
     return () => {
       clearInterval(updateIndicatorsTimer);
     };
+
   }, [currentPet, setPetCollection]);
-
-  if (!petCollection || petCollection.length === 0) {
-    return <p>No pets available</p>;
-  }
-
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
 
   function increaseStatus(statusKey) {
     const currentStatus = activePet.status[statusKey];
@@ -348,10 +404,46 @@ function Garden({
     }
   }
 
+
+  function getHappinessFactor(characteristics) {
+    const moodFactor = characteristics.includes("cheerful")
+      ? 0.5
+      : characteristics.includes("melancholy")
+      ? 1.5
+      : 1;
+    const intelligenceFactor = characteristics.includes("foolish")
+      ? 0.5
+      : characteristics.includes("smart")
+      ? 1.5
+      : 1;
+    return moodFactor * intelligenceFactor;
+  }
+
+  function getHungerFactor(characteristics) {
+    const hungerFactor = characteristics.includes("gluttonous")
+      ? 1.5
+      : characteristics.includes("temperate")
+      ? 0.5
+      : 1;
+    return hungerFactor;
+  }
+
+  function getSpeedFactor(characteristics) {
+    const speedFactor = characteristics.includes("hyperactive")
+      ? 0.4
+      : characteristics.includes("lethargic")
+      ? 2
+      : 1;
+    return speedFactor;
+  }
+
+  if (!activePet) {
+    return <p>No pets available</p>;
+
   function handlePetSelect(petId) {
     setCurrentPet(petId);
     setIsDropdownOpen(false);
-  }
+  }}
 
   return (
     <>
@@ -428,10 +520,15 @@ function Garden({
           </StatusButton>
         </ButtonContainer>
         <PetWrapper>
-          <PetDisplay $animationtype={animationState}>
+          <PetDisplay
+            $movingSpeedFactor={characteristicEffects.speedFactor}
+            $alive={activePet.alive}
+            $animationtype={animationState}
+          >
             {activePet.alive ? activePet.picture : "☠"}
           </PetDisplay>
         </PetWrapper>
+
         <AdjustedListPageWrapper>
           <Link href="/pet-list" aria-label="Staple of Books indicating List">
             📚
@@ -470,5 +567,3 @@ function Garden({
     </>
   );
 }
-
-export default Garden;

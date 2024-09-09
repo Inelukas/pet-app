@@ -175,6 +175,7 @@ const StyledUpdateButton = styled.div`
   top: 60px;
   right: 10px;
   opacity: 0.5;
+  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
 
   &:hover {
     transform: scale(1.2);
@@ -244,10 +245,14 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           </StyledDeleteButton>
         </PictureAndDeleteContainer>
         <PetName>{pet.name}</PetName>
-        <StyledUpdateButton>
-          <Link href={`/update?id=${pet.id}&hideButtons=true`}>
+        <StyledUpdateButton $disabled={!pet.alive}>
+          {pet.alive ? (
+            <Link href={`/update?id=${pet.id}&hideButtons=true`}>
+              <Image src={updateIcon} alt="Update Icon" width={25} />
+            </Link>
+          ) : (
             <Image src={updateIcon} alt="Update Icon" width={25} />
-          </Link>
+          )}
         </StyledUpdateButton>
       </PetPictureContainer>
       <PetCharContainer>
