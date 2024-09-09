@@ -8,7 +8,7 @@ import Link from "next/link";
 import GameButton from "@/components/GameButton/GameButton";
 import { uid } from "uid";
 
-const MainPage = styled.section`
+const MainGameContainer = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@ const Container = styled.section`
   }
 `;
 
-const GameFieldContainer = styled.article`
+const GameFieldContainer = styled.div`
   display: flex;
   position: relative;
   width: 90%;
@@ -48,7 +48,7 @@ const GameFieldContainer = styled.article`
   overflow: hidden;
 `;
 
-const StyledIndicatorContainer = styled.article`
+const StyledIndicatorContainer = styled.div`
   position: absolute;
   left: -168px;
   top: 150px;
@@ -70,7 +70,7 @@ const Counter = styled.p`
   margin: 10px 0;
 `;
 
-const ButtonContainer = styled.article`
+const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px;
@@ -138,7 +138,6 @@ export default function GamePage({
   const [counter, setCounter] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameTime, setGameTime] = useState(0);
-  const [gameEnded, setGameEnded] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [hunger, setHunger] = useState(activePet?.status.hunger);
 
@@ -148,19 +147,19 @@ export default function GamePage({
       setGameTime(0);
       setCounter(0);
       setItems([]);
-      setGameEnded(false);
       setStartTime(Date.now());
+      setHunger(activePet?.status.hunger);
     }
   };
 
   useEffect(() => {
-    if (isPlaying && !gameEnded) {
+    if (isPlaying) {
       const interval = setInterval(() => {
         setItems((prevItems) => [...prevItems, getRandomItem()]);
       }, 1500);
       return () => clearInterval(interval);
     }
-  }, [isPlaying, gameEnded]);
+  }, [isPlaying]);
 
   const moveAvatar = (direction) => {
     setAvatarX((prevX) => Math.max(0, Math.min(233, prevX + direction)));
@@ -168,14 +167,14 @@ export default function GamePage({
 
   const handleKeyDown = useCallback(
     (event) => {
-      if (!isPlaying || gameEnded) return;
+      if (!isPlaying) return;
       if (event.key === "ArrowLeft") {
         moveAvatar(-10);
       } else if (event.key === "ArrowRight") {
         moveAvatar(10);
       }
     },
-    [isPlaying, gameEnded]
+    [isPlaying]
   );
 
   useEffect(() => {
@@ -189,7 +188,7 @@ export default function GamePage({
   useEffect(() => {
     let interval;
 
-    if (isPlaying && !gameEnded) {
+    if (isPlaying) {
       interval = setInterval(() => {
         setItems((prevItems) =>
           prevItems
@@ -221,23 +220,22 @@ export default function GamePage({
       }, 50);
     }
 
-    if (gameEnded) {
+    if (!isPlaying) {
       clearInterval(interval);
     }
 
     return () => clearInterval(interval);
-  }, [isPlaying, gameEnded]);
+  }, [isPlaying]);
 
   useEffect(() => {
     if (isPlaying && hunger === 0) {
-      setGameEnded(true);
       setIsPlaying(false);
       onUpdatePetIndicator(hunger, "hunger");
     }
   }, [hunger, isPlaying, onUpdatePetIndicator]);
 
   useEffect(() => {
-    if (isPlaying && !gameEnded) {
+    if (isPlaying) {
       const timeInterval = setInterval(() => {
         const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
         setGameTime(timeElapsed);
@@ -245,14 +243,14 @@ export default function GamePage({
 
       return () => clearInterval(timeInterval);
     }
-  }, [isPlaying, gameEnded, startTime]);
+  }, [isPlaying, startTime]);
 
-  if (gameEnded) {
+  if (hunger === 0) {
     return <SummaryScreen itemsCaught={counter} timeTaken={gameTime} />;
   }
 
   return (
-    <MainPage>
+    <MainGameContainer>
       <Container>
         <h1>Catch The Food</h1>
         <br />
@@ -275,16 +273,10 @@ export default function GamePage({
         </GameFieldContainer>
         <Counter>Items caught: {counter}</Counter>
         <ButtonContainer>
-          <LeftButton
-            onClick={() => moveAvatar(-15)}
-            disabled={!isPlaying || gameEnded}
-          >
+          <LeftButton onClick={() => moveAvatar(-15)} disabled={!isPlaying}>
             Left
           </LeftButton>
-          <RightButton
-            onClick={() => moveAvatar(15)}
-            disabled={!isPlaying || gameEnded}
-          >
+          <RightButton onClick={() => moveAvatar(15)} disabled={!isPlaying}>
             Right
           </RightButton>
         </ButtonContainer>
@@ -295,6 +287,6 @@ export default function GamePage({
           {!isPlaying && <PlayButton onClick={startGame}>Play</PlayButton>}
         </ButtonContainer>
       </Container>
-    </MainPage>
+    </MainGameContainer>
   );
 }
