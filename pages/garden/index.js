@@ -1,6 +1,7 @@
 import React, { act, useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
+import AnimatedPet from "@/components/AnimatedPet/AnimatedPet";
 
 const rotate = keyframes`
   from {
@@ -47,24 +48,6 @@ const grow = keyframes`
   }
 `;
 
-const walk = keyframes`
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(300px);
-  }
-  50% {
-    transform: translateX(0);
-  }
-  75% {
-    transform: translateX(-300px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-`;
-
 const GardenContainer = styled.div`
   position: relative;
   width: 100%;
@@ -78,7 +61,7 @@ const GardenContainer = styled.div`
 const PetWrapper = styled.div`
   position: absolute;
   left: 50%;
-  top: 65%;
+  bottom: 0px;
   transform: translate(-50%, -50%);
 `;
 
@@ -98,10 +81,6 @@ const PetDisplay = styled.div`
       : $alive && $animationtype === "growing"
       ? css`
           ${grow} ${0.5 * $movingSpeedFactor}s ease
-        `
-      : $alive
-      ? css`
-          ${walk} ${8 * $movingSpeedFactor}s infinite
         `
       : "none"};
 `;
@@ -321,7 +300,7 @@ export default function Garden({
           return pet;
         })
       );
-    }, 1000);
+    }, 10000);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
@@ -487,7 +466,15 @@ export default function Garden({
             $alive={activePet.alive}
             $animationtype={animationState}
           >
-            {activePet.alive ? activePet.picture : "☠"}
+            {activePet.alive ? (
+              <AnimatedPet
+                pet={activePet.animations}
+                alive={activePet.alive}
+                movingSpeedFactor={characteristicEffects.speedFactor}
+              />
+            ) : (
+              "☠"
+            )}
           </PetDisplay>
         </PetWrapper>
         <ListPageLink>
