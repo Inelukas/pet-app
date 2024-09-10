@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
-const StyledPet = styled.li`
+export const StyledPet = styled.li`
   display: flex;
   border: 5px solid #000000;
   border-radius: 10px;
   margin: 10px 0;
   padding: 10px 20px;
   align-items: center;
-  background-color: var(--secondary-color);
+  background-color: ${({ onGraveyard }) =>
+    onGraveyard ? "gray" : "var(--secondary-color)"};
   width: 80vw;
   max-width: 600px;
   height: 20vh;
@@ -37,7 +38,7 @@ const StyledPetData = styled.section`
 `;
 
 const StyledSpan = styled.span`
-  font-size: 8vh; //has to be adjusted when we implement real images in another story
+  font-size: 8vh;
   position: absolute;
   left: 20px;
 
@@ -73,16 +74,31 @@ const StyledPortrait = styled.section`
   }
 `;
 
-const StyledList = styled.ul`
+export const StyledList = styled.ul`
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
 `;
 
-export default function Pet({ petData }) {
+const ReviveButton = styled.button`
+  background-color: var(--primary-color);
+  color: white;
+  padding: 5px;
+
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  &:hover {
+    background-color: var(--signal-color);
+  }
+`;
+
+export default function Pet({ petData, onGraveyard }) {
   return (
-    <StyledPet>
+    <StyledPet onGraveyard={!!onGraveyard}>
       <StyledPortrait>
         <StyledSpan>{petData.alive ? petData.picture : "☠"}</StyledSpan>
       </StyledPortrait>
@@ -103,6 +119,17 @@ export default function Pet({ petData }) {
             )
           )}
         </StyledList>
+
+        {!petData.alive && onGraveyard && (
+          <>
+            <p>
+              <span>Time of Death: </span>
+            </p>
+            <ReviveButton onClick={() => onGraveyard(petData.id)}>
+              Revive Pet
+            </ReviveButton>
+          </>
+        )}
       </StyledPetData>
     </StyledPet>
   );

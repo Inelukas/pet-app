@@ -168,7 +168,7 @@ const DropdownMenu = styled.ul`
   }
 `;
 
-const AdjustedListPageWrapper = styled(ListPageWrapper)`
+export const AdjustedListPageWrapper = styled(ListPageWrapper)`
   bottom: 10%;
   right: calc(50% - 45vw);
 `;
