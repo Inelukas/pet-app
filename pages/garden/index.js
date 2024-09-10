@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
+import {
+  ListPageWrapper,
+  DetailPageWrapper,
+} from "@/components/LinkButtons/LinkButtons";
 
 const rotate = keyframes`
   from {
@@ -8,6 +12,18 @@ const rotate = keyframes`
   }
   to {
     transform: rotate(360deg);
+  }
+`;
+
+const zoom = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 `;
 
@@ -35,6 +51,24 @@ const grow = keyframes`
   }
 `;
 
+const walk = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(300px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-300px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
 const GardenContainer = styled.div`
   position: relative;
   width: 100%;
@@ -48,7 +82,7 @@ const GardenContainer = styled.div`
 const PetWrapper = styled.div`
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 65%;
   transform: translate(-50%, -50%);
 `;
 
@@ -56,18 +90,22 @@ const PetDisplay = styled.div`
   font-size: 8em;
   color: var(--text-color);
   transform-origin: center;
-  animation: ${({ $animationtype }) =>
-    $animationtype === "rotating"
+  animation: ${({ $animationtype, $alive, $movingSpeedFactor }) =>
+    $alive && $animationtype === "rotating"
       ? css`
-          ${rotate} 1s linear
+          ${rotate} ${1 * $movingSpeedFactor}s linear
         `
-      : $animationtype === "bouncing"
+      : $alive && $animationtype === "bouncing"
       ? css`
-          ${bounce} 1s ease
+          ${bounce} ${1 * $movingSpeedFactor}s ease
         `
-      : $animationtype === "growing"
+      : $alive && $animationtype === "growing"
       ? css`
-          ${grow} 0.5s ease
+          ${grow} ${0.5 * $movingSpeedFactor}s ease
+        `
+      : $alive
+      ? css`
+          ${walk} ${8 * $movingSpeedFactor}s infinite
         `
       : "none"};
 `;
@@ -97,16 +135,55 @@ const NavButton = styled.button`
   border-radius: 4px;
 `;
 
-const StyledLink = styled.div`
+const DropdownButton = styled.button`
   background-color: var(--signal-color);
-  color: var(--text-color);
+  border: none;
   padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   margin: 4px;
+  cursor: pointer;
   border-radius: 4px;
+  position: relative;
+`;
+
+const DropdownMenu = styled.ul`
+  position: absolute;
+  bottom: 10%;
+  width: 30px;
+  background-color: var(--neutral-color);
+  border: 1px solid var(--text-color);
+  list-style: none;
+  text-align: center;
+  overflow: visible;
+  right: calc(50%);
+  transform: translate(50%);
+  opacity: 75%;
+  li {
+    padding: 8px;
+    padding-left: 4px;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+`;
+
+const AdjustedListPageWrapper = styled(ListPageWrapper)`
+  bottom: 10%;
+  right: calc(50% - 45vw);
+`;
+
+const AdjustedDetailPageWrapper = styled(DetailPageWrapper)`
+  bottom: 10%;
+  left: calc(50% - 45vw);
+`;
+
+const DropdownItem = styled.li`
+  padding: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--primary-color);
+  }
 `;
 
 const StatusContainer = styled.div`
@@ -133,6 +210,13 @@ const VerticalBar = styled.div`
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  border: ${({ $critical }) => ($critical ? "2px solid red" : "none")};
+  animation: ${({ $critical }) =>
+    $critical
+      ? css`
+          ${zoom} 1s ease-in-out infinite
+        `
+      : "none"};
 `;
 
 const VerticalBarFill = styled.div`
@@ -152,6 +236,13 @@ const HorizontalBar = styled.div`
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
+  border: ${({ $critical }) => ($critical ? "2px solid red" : "none")};
+  animation: ${({ $critical }) =>
+    $critical
+      ? css`
+          ${zoom} 1s ease-in-out infinite
+        `
+      : "none"};
 `;
 
 const HorizontalBarFill = styled.div`
@@ -183,7 +274,8 @@ const StatusButton = styled.button`
   padding: 16px;
   margin-bottom: 8px;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   width: 75px;
 `;
 
@@ -215,11 +307,74 @@ const ListPageLink = styled.div`
   color: var(--text-color);
 `;
 
-function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
+export default function Garden({
+  activePet,
+  petCollection,
+  setPetCollection,
+  onInteractPet,
+  currentPet,
+  setCurrentPet,
+  onCurrentPet,
+}) {
   const [animationState, setAnimationState] = useState(null);
-  if (!petCollection || petCollection.length === 0) {
-    return <p>No pets available</p>;
-  }
+  const [characteristicEffects, setCharacteristicEffects] = useState(() => {
+    if (activePet) {
+      const speedFactor = getSpeedFactor(activePet.characteristics);
+      const happinessFactor = getHappinessFactor(activePet.characteristics);
+      const hungerFactor = getHungerFactor(activePet.characteristics);
+
+      return {
+        speedFactor: speedFactor,
+        happinessFactor: happinessFactor,
+        hungerFactor: hungerFactor,
+      };
+    }
+  });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const updateIndicatorsTimer = setInterval(() => {
+      setPetCollection((prevPets) =>
+        prevPets.map((pet) => {
+          if (pet.id === currentPet) {
+            const { hunger, happiness, energy, health } = pet.status;
+
+            return {
+              ...pet,
+              status: {
+                hunger:
+                  hunger < 100
+                    ? Math.min(
+                        hunger + 5 * characteristicEffects.hungerFactor,
+                        100
+                      )
+                    : 100,
+                happiness:
+                  happiness > 0
+                    ? Math.max(
+                        happiness - 5 * characteristicEffects.happinessFactor,
+                        0
+                      )
+                    : 0,
+                energy: energy > 0 ? Math.max(energy - 5, 0) : 0,
+                health:
+                  hunger === 100 && happiness === 0 && energy === 0
+                    ? Math.max(health - 5, 0)
+                    : health,
+                intelligence: pet.status.intelligence,
+              },
+              alive: pet.status.health === 0 ? false : true,
+            };
+          }
+          return pet;
+        })
+      );
+    }, 1000);
+
+    return () => {
+      clearInterval(updateIndicatorsTimer);
+    };
+  }, [currentPet, setPetCollection]);
 
   function increaseStatus(statusKey) {
     const currentStatus = activePet.status[statusKey];
@@ -251,52 +406,89 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
     }
   }
 
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
+  function getHappinessFactor(characteristics) {
+    const moodFactor = characteristics.includes("cheerful")
+      ? 0.5
+      : characteristics.includes("melancholy")
+      ? 1.5
+      : 1;
+    const intelligenceFactor = characteristics.includes("foolish")
+      ? 0.5
+      : characteristics.includes("smart")
+      ? 1.5
+      : 1;
+    return moodFactor * intelligenceFactor;
+  }
 
-  const healthValue = Math.round(
-    (100 -
-      activePet.status.hunger +
-      activePet.status.happiness +
-      activePet.status.energy) /
-      3
-  );
+  function getHungerFactor(characteristics) {
+    const hungerFactor = characteristics.includes("gluttonous")
+      ? 1.5
+      : characteristics.includes("temperate")
+      ? 0.5
+      : 1;
+    return hungerFactor;
+  }
+
+  function getSpeedFactor(characteristics) {
+    const speedFactor = characteristics.includes("hyperactive")
+      ? 0.4
+      : characteristics.includes("lethargic")
+      ? 2
+      : 1;
+    return speedFactor;
+  }
+
+  function handlePetSelect(petId) {
+    setCurrentPet(petId);
+    setIsDropdownOpen(false);
+  }
+
+  if (!activePet) {
+    return <p>No pets available</p>;
+  }
 
   return (
     <>
       <GardenContainer>
         <StatusContainer>
-          <HorizontalBar>
-            <Icon role="img" aria-label="A heart indicating Health">
-              ❤️
-            </Icon>
-            <HorizontalBarFill value={healthValue} />
+          <HorizontalBar
+            $critical={
+              activePet.status.health <= 25 && activePet.status.health !== 0
+            }
+          >
+            <Icon aria-label="A heart indicating Health">❤️</Icon>
+            <HorizontalBarFill value={activePet.status.health} />
           </HorizontalBar>
           <VerticalBarContainer>
-            <VerticalBar>
-              <Icon
-                role="img"
-                aria-label="A bowl of ice-cream indicating hunger"
-              >
-                🍨
-              </Icon>
+            <VerticalBar
+              $critical={
+                activePet.status.hunger >= 75 && activePet.status.health !== 0
+              }
+            >
+              <Icon aria-label="A bowl of ice-cream indicating hunger">🍨</Icon>
               <VerticalBarFill
                 $bgcolor="orange"
                 value={activePet.status.hunger}
               />
             </VerticalBar>
-            <VerticalBar>
-              <Icon role="img" aria-label="Some confetti indicating happiness">
-                🎉
-              </Icon>
+            <VerticalBar
+              $critical={
+                activePet.status.happiness <= 25 &&
+                activePet.status.health !== 0
+              }
+            >
+              <Icon aria-label="Some confetti indicating happiness">🎉</Icon>
               <VerticalBarFill
                 $bgcolor="pink"
                 value={activePet.status.happiness}
               />
             </VerticalBar>
-            <VerticalBar>
-              <Icon role="img" aria-label="A battery indicating energy">
-                🔋
-              </Icon>
+            <VerticalBar
+              $critical={
+                activePet.status.energy <= 25 && activePet.status.health !== 0
+              }
+            >
+              <Icon aria-label="A battery indicating energy">🔋</Icon>
               <VerticalBarFill
                 $bgcolor="yellow"
                 value={activePet.status.energy}
@@ -308,44 +500,74 @@ function Garden({ petCollection, onInteractPet, currentPet, onCurrentPet }) {
           <StatusLink
             href={activePet.status.hunger !== 0 ? "/game-catch-the-food" : ""}
             $bgcolor="orange"
-            disabled={activePet.status.hunger === 0}
+            onClick={() => increaseStatus("hunger")}
+            disabled={!activePet.alive || activePet.status.hunger === 0}
           >
             <span role="img" aria-label="feed">
               🍽️
             </span>
           </StatusLink>
 
-          <StatusLink href="/snake" $bgcolor="pink">
-            <span role="img" aria-label="celebration">
-              🎉
-            </span>
+          <StatusLink
+            href={activePet.alive ? "/snake" : ""}
+            $bgcolor="pink"
+            disabled={!activePet.alive}
+          >
+            <span aria-label="celebration">🎉</span>
           </StatusLink>
           <StatusButton
             $bgcolor="yellow"
             onClick={() => increaseStatus("energy")}
+            disabled={!activePet.alive}
           >
             Train
           </StatusButton>
         </ButtonContainer>
         <PetWrapper>
-          <PetDisplay $animationtype={animationState}>
-            {activePet.picture}
+          <PetDisplay
+            $movingSpeedFactor={characteristicEffects.speedFactor}
+            $alive={activePet.alive}
+            $animationtype={animationState}
+          >
+            {activePet.alive ? activePet.picture : "☠"}
           </PetDisplay>
         </PetWrapper>
-        <ListPageLink>
-          <Link href="/pet-list">List</Link>
-          {/* update link to list page once replaced as mainpage required */}
-        </ListPageLink>
+
+        <AdjustedListPageWrapper>
+          <Link href="/pet-list" aria-label="Staple of Books indicating List">
+            📚
+          </Link>
+        </AdjustedListPageWrapper>
+        <AdjustedDetailPageWrapper>
+          <Link
+            href={{
+              pathname: `/pet-details/${activePet.id}`,
+            }}
+            aria-label="Magnifying Glass indicating Details"
+          >
+            🔎
+          </Link>
+        </AdjustedDetailPageWrapper>
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={() => onCurrentPet("previous")}>Prev Pet</NavButton>
-        <Link href={`/pet-details/${currentPet}`}>
-          <StyledLink>{activePet.picture}</StyledLink>
-        </Link>
+        <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          {activePet.picture}
+        </DropdownButton>
+        {isDropdownOpen && (
+          <DropdownMenu>
+            {petCollection.map((pet) => (
+              <DropdownItem
+                key={pet.id}
+                onClick={() => handlePetSelect(pet.id)}
+              >
+                {pet.picture}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        )}
         <NavButton onClick={() => onCurrentPet("next")}>Next Pet</NavButton>
       </NavbarContainer>
     </>
   );
 }
-
-export default Garden;

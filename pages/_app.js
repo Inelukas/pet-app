@@ -1,7 +1,7 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
-import { useEffect, useState } from "react";
-import { pets } from "@/lib/Data";
+import { useState } from "react";
+import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
 
@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }) {
       ...restPetData,
       id: petId,
       characteristics: [characteristic1, characteristic2].filter(Boolean),
+      alive: true,
     };
     setPetCollection((prevData) => [newPet, ...prevData]);
     router.push("/pet-list");
@@ -25,11 +26,25 @@ export default function App({ Component, pageProps }) {
 
   function handleDeletePet(id) {
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
+    setCurrentPet(pets[0].id);
   }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
       prevData.map((pet) =>
-        pet.id === updatedPetData.id ? { ...pet, ...updatedPetData } : pet
+        pet.id === updatedPetData.id
+          ? {
+              ...pet,
+              ...updatedPetData,
+              characteristics: [
+                updatedPetData.characteristic1,
+                updatedPetData.characteristic2,
+              ].filter(Boolean),
+              status: {
+                ...pet.status,
+                intelligence: updatedPetData.status.intelligence,
+              },
+            }
+          : pet
       )
     );
     router.push(`/pet-details/${updatedPetData.id}`);
@@ -75,6 +90,8 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  const activePet = petCollection.find((pet) => pet.id === currentPet);
+
   return (
     <>
       <GlobalStyle />
@@ -82,7 +99,10 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         petCollection={petCollection}
+        setPetCollection={setPetCollection}
         currentPet={currentPet}
+        activePet={activePet}
+        setCurrentPet={setCurrentPet}
         onCreatePet={handleCreatePet}
         onDeletePet={handleDeletePet}
         onUpdatePet={handleUpdatePet}

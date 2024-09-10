@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Pet from "@/components/Pet/Pet";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Link from "next/link";
+import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
 import createIcon from "../../public/assets/create.png";
 import Image from "next/image";
 
@@ -41,11 +42,14 @@ export default function PetList({ petCollection }) {
       ) : (
         <h1>You don&apos;t have any pets.</h1>
       )}
+      <GardenPageWrapper>
+        <Link href="/garden" aria-label="A golf hole indicating the Garden">
+          ⛳
+        </Link>
+      </GardenPageWrapper>
       <StyledLink href="/create">
         <Image src={createIcon} alt="Create Icon" width={30} />
       </StyledLink>
-
-      <StyledLink href="/garden">Garden</StyledLink>
     </StyledMain>
   );
 }
