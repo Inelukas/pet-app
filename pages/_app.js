@@ -16,6 +16,7 @@ export default function App({ Component, pageProps }) {
     hungerFactor: 1,
     healthFactor: 1,
     energyFactor: 1,
+    intelligenceFactor: 1,
   });
 
   useEffect(() => {
@@ -25,6 +26,9 @@ export default function App({ Component, pageProps }) {
       const hungerFactor = getHungerFactor(activePet.characteristics);
       const healthFactor = getHealthFactor(activePet.characteristics);
       const energyFactor = getEnergyFactor(activePet.characteristics);
+      const intelligenceFactor = getIntelligenceFactor(
+        activePet.characteristics
+      );
 
       setCharacteristicEffects({
         speedFactor,
@@ -32,6 +36,7 @@ export default function App({ Component, pageProps }) {
         hungerFactor,
         healthFactor,
         energyFactor,
+        intelligenceFactor,
       });
     }
   }, [activePet]);
@@ -69,7 +74,7 @@ export default function App({ Component, pageProps }) {
               ].filter(Boolean),
               status: {
                 ...pet.status,
-                intelligence: updatedPetData.status.intelligence,
+                intelligence: updateIntelligence(pet, updatedPetData),
               },
             }
           : pet
@@ -83,6 +88,30 @@ export default function App({ Component, pageProps }) {
         pet.id === updatedPetData.id ? { ...pet, ...updatedPetData } : pet
       )
     );
+  }
+
+  function updateIntelligence(pet, updatedPetData) {
+    const { characteristic1, characteristic2 } = updatedPetData;
+
+    if (characteristic1 === "smart" || characteristic2 === "smart") {
+      return pet.characteristics.includes("foolish")
+        ? pet.status.intelligence + 40
+        : pet.characteristics.includes("smart")
+        ? pet.status.intelligence
+        : pet.status.intelligence + 20;
+    } else if (characteristic1 === "foolish" || characteristic2 === "foolish") {
+      return pet.characteristics.includes("smart")
+        ? pet.status.intelligence - 40
+        : pet.characteristics.includes("foolish")
+        ? pet.status.intelligence
+        : pet.status.intelligence - 20;
+    } else if (pet.characteristics.includes("foolish")) {
+      return pet.status.intelligence + 20;
+    } else if (pet.characteristics.includes("smart")) {
+      return pet.status.intelligence - 20;
+    } else {
+      return pet.status.intelligence;
+    }
   }
 
   function handleCurrentPet(direction) {
@@ -103,6 +132,7 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleUpdatePetIndicator(score, indicator) {
+    const newHappinessValue = Math.min(activePet.status.happiness + score, 100);
     setPetCollection(
       petCollection.map((pet) => {
         return pet.id === currentPet
@@ -110,8 +140,12 @@ export default function App({ Component, pageProps }) {
               ...pet,
               status: {
                 ...pet.status,
-                [indicator]: score,
-                intelligence: pet.status.intelligence + 1,
+                [indicator]: newHappinessValue,
+                intelligence: Math.min(
+                  pet.status.intelligence +
+                    (score >= 5 ? characteristicEffects.intelligenceFactor : 0),
+                  100
+                ),
               },
             }
           : pet;
@@ -153,6 +187,15 @@ export default function App({ Component, pageProps }) {
       ? 2
       : 1;
     return speedFactor;
+  }
+
+  function getIntelligenceFactor(characteristics) {
+    const intelligenceFactor = characteristics.includes("cheerful")
+      ? 0.5
+      : characteristics.includes("melancholy")
+      ? 1.5
+      : 1;
+    return intelligenceFactor;
   }
 
   function getHealthFactor(characteristics) {

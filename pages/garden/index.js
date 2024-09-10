@@ -316,45 +316,54 @@ export default function Garden({
                 hunger:
                   hunger < 100
                     ? Math.min(
-                        Math.round(
-                          hunger +
-                            5 *
+                        hunger +
+                          (5 *
+                            Math.round(
                               characteristicEffects.hungerFactor *
-                              intelligenceFactor,
-                          100
-                        )
+                                intelligenceFactor *
+                                10
+                            )) /
+                            10,
+                        100
                       )
                     : 100,
                 happiness:
                   happiness > 0
                     ? Math.max(
-                        Math.round(
-                          happiness -
-                            5 *
+                        happiness -
+                          (5 *
+                            Math.round(
                               characteristicEffects.happinessFactor *
-                              intelligenceFactor,
-                          0
-                        )
+                                intelligenceFactor *
+                                10
+                            )) /
+                            10,
+                        0
                       )
                     : 0,
                 energy:
                   energy > 0
                     ? Math.max(
-                        Math.round(
-                          energy -
-                            5 *
+                        energy -
+                          (5 *
+                            Math.round(
                               characteristicEffects.energyFactor *
-                              intelligenceFactor,
-                          0
-                        )
+                                intelligenceFactor *
+                                10
+                            )) /
+                            10,
+                        0
                       )
                     : 0,
                 health:
                   hunger === 100 && happiness === 0 && energy === 0
                     ? Math.max(
-                        Math.round(
-                          health - 5 * characteristicEffects.healthFactor
-                        ),
+                        health -
+                          (5 *
+                            Math.round(
+                              characteristicEffects.healthFactor * 10
+                            )) /
+                            10,
                         0
                       )
                     : health,
@@ -462,13 +471,13 @@ export default function Garden({
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
-          <StatusButton
+          <StatusLink
+            href={activePet.alive ? "/game-catch-the-food" : ""}
             $bgcolor="orange"
-            onClick={() => increaseStatus("hunger")}
-            disabled={!activePet.alive}
+            disabled={!activePet.alive || activePet.status.hunger === 0}
           >
-            Feed
-          </StatusButton>
+            <span aria-label="celebration">🍽️</span>
+          </StatusLink>
 
           <StatusLink
             href={activePet.alive ? "/snake" : ""}

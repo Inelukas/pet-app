@@ -88,16 +88,18 @@ const StyledHowToPlay = styled.div`
   background: var(--secondary-color);
   font-size: 0.8rem;
   line-height: 2;
-  width: 100%;
+  width: 120%;
   padding: 20px;
   border-radius: 20px;
   position: absolute;
   top: -20px;
+  left: -20px;
   z-index: 2;
   @media screen and (min-width: 900px) {
     display: block;
     width: 120px;
     right: -140px;
+    left: unset;
     top: 20px;
     font-size: 0.6rem;
     background: none;
@@ -133,11 +135,7 @@ export default function SnakeGame({
 
   useEffect(() => {
     if (!gameOn) {
-      const newHappinessValue = Math.min(
-        activePet.status.happiness + scores.score,
-        100
-      );
-      onUpdatePetIndicator(newHappinessValue, "happiness");
+      onUpdatePetIndicator(scores.score, "happiness");
     }
   }, [gameOn]);
 
@@ -344,6 +342,10 @@ export default function SnakeGame({
                 More children = more happiness! Each child adds +1 to your
                 animal&apos;s happiness bar.{" "}
               </li>{" "}
+              <li>
+                To increase the intelligence of your pet you need a score of at
+                least 5.
+              </li>
               <li>Try to have a family of more than 100 children!</li>
             </ul>
           </StyledHowToPlay>
