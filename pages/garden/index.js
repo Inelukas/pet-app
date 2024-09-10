@@ -445,13 +445,16 @@ export default function Garden({
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
-          <StatusButton
+          <StatusLink
+            href={activePet.alive ? "/game-catch-the-food" : ""}
             $bgcolor="orange"
             onClick={() => increaseStatus("hunger")}
-            disabled={!activePet.alive}
+            disabled={!activePet.alive || activePet.status.hunger === 0}
           >
-            Feed
-          </StatusButton>
+            <span role="img" aria-label="feed">
+              🍽️
+            </span>
+          </StatusLink>
 
           <StatusLink
             href={activePet.alive ? "/snake" : ""}
@@ -460,7 +463,6 @@ export default function Garden({
           >
             <span aria-label="celebration">🎉</span>
           </StatusLink>
-
           <StatusButton
             $bgcolor="yellow"
             onClick={() => increaseStatus("energy")}
