@@ -301,9 +301,7 @@ export default function TappingGame({
 
   return (
     <TappingGameContainer>
-      {timeUpMessage && (
-        <CountdownMessage>Time is up! Your Score: {score}</CountdownMessage>
-      )}
+      {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
       {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
       <BarAndCirclesContainer>
         <VerticalBar
