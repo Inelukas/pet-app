@@ -96,9 +96,17 @@ export default function Pet({ petData }) {
             objectFit="cover"
             width={75}
             height={75}
+            quality={100}
           />
         ) : (
-          <StyledSpan>☠</StyledSpan>
+          <Image
+            src="/assets/images/tombstone.png"
+            alt="Tombstone"
+            objectFit="cover"
+            width={75}
+            height={75}
+            quality={100}
+          />
         )}
       </StyledPortrait>
       <StyledPetData>
