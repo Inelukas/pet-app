@@ -110,7 +110,7 @@ const PetDisplay = styled.div`
       : "none"};
 `;
 
-const NavbarContainer = styled.nav`
+const NavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -186,7 +186,7 @@ const DropdownItem = styled.li`
   }
 `;
 
-const StatusContainer = styled.section`
+const StatusContainer = styled.div`
   position: absolute;
   top: 10px;
   left: 10px;
@@ -195,14 +195,14 @@ const StatusContainer = styled.section`
   align-items: flex-start;
 `;
 
-const VerticalBarContainer = styled.section`
+const VerticalBarContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   margin-top: 10px;
 `;
 
-export const VerticalBar = styled.section`
+const VerticalBar = styled.div`
   width: 20px;
   height: 100px;
   background-color: var(--neutral-color);
@@ -219,7 +219,7 @@ export const VerticalBar = styled.section`
       : "none"};
 `;
 
-export const VerticalBarFill = styled.section`
+const VerticalBarFill = styled.div`
   width: 100%;
   background-color: ${(props) => props.$bgcolor};
   height: ${({ value }) => value}%;
@@ -228,7 +228,7 @@ export const VerticalBarFill = styled.section`
   z-index: 1;
 `;
 
-const HorizontalBar = styled.section`
+const HorizontalBar = styled.div`
   width: 100px;
   height: 20px;
   background-color: var(--neutral-color);
@@ -245,7 +245,7 @@ const HorizontalBar = styled.section`
       : "none"};
 `;
 
-const HorizontalBarFill = styled.section`
+const HorizontalBarFill = styled.div`
   width: ${({ value }) => value}%;
   height: 100%;
   background-color: green;
@@ -253,12 +253,12 @@ const HorizontalBarFill = styled.section`
   left: 0;
 `;
 
-export const Icon = styled.span`
+const Icon = styled.span`
   z-index: 2;
   position: absolute;
 `;
 
-const ButtonContainer = styled.section`
+const ButtonContainer = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
@@ -497,13 +497,16 @@ export default function Garden({
           </VerticalBarContainer>
         </StatusContainer>
         <ButtonContainer>
-          <StatusButton
+          <StatusLink
+            href={activePet.status.hunger !== 0 ? "/game-catch-the-food" : ""}
             $bgcolor="orange"
             onClick={() => increaseStatus("hunger")}
-            disabled={!activePet.alive}
+            disabled={!activePet.alive || activePet.status.hunger === 0}
           >
-            Feed
-          </StatusButton>
+            <span role="img" aria-label="feed">
+              🍽️
+            </span>
+          </StatusLink>
 
           <StatusLink
             href={activePet.alive ? "/snake" : ""}
@@ -512,16 +515,13 @@ export default function Garden({
           >
             <span aria-label="celebration">🎉</span>
           </StatusLink>
-
-          <StatusLink
-            href={activePet.alive ? "/tapping" : ""}
+          <StatusButton
             $bgcolor="yellow"
+            onClick={() => increaseStatus("energy")}
             disabled={!activePet.alive}
           >
-            <span role="img" aria-label="energy">
-              🔋
-            </span>
-          </StatusLink>
+            Train
+          </StatusButton>
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay
