@@ -186,7 +186,7 @@ const DropdownItem = styled.li`
   }
 `;
 
-const StatusContainer = styled.div`
+const StatusContainer = styled.section`
   position: absolute;
   top: 10px;
   left: 10px;
@@ -195,14 +195,14 @@ const StatusContainer = styled.div`
   align-items: flex-start;
 `;
 
-const VerticalBarContainer = styled.div`
+const VerticalBarContainer = styled.section`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   margin-top: 10px;
 `;
 
-export const VerticalBar = styled.div`
+export const VerticalBar = styled.section`
   width: 20px;
   height: 100px;
   background-color: var(--neutral-color);
@@ -219,7 +219,7 @@ export const VerticalBar = styled.div`
       : "none"};
 `;
 
-export const VerticalBarFill = styled.div`
+export const VerticalBarFill = styled.section`
   width: 100%;
   background-color: ${(props) => props.$bgcolor};
   height: ${({ value }) => value}%;
@@ -228,7 +228,7 @@ export const VerticalBarFill = styled.div`
   z-index: 1;
 `;
 
-const HorizontalBar = styled.div`
+const HorizontalBar = styled.section`
   width: 100px;
   height: 20px;
   background-color: var(--neutral-color);
@@ -245,7 +245,7 @@ const HorizontalBar = styled.div`
       : "none"};
 `;
 
-const HorizontalBarFill = styled.div`
+const HorizontalBarFill = styled.section`
   width: ${({ value }) => value}%;
   height: 100%;
   background-color: green;
@@ -258,7 +258,7 @@ export const Icon = styled.span`
   position: absolute;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.section`
   position: absolute;
   top: 10px;
   right: 10px;

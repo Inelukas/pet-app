@@ -271,7 +271,6 @@ export default function TappingGame({
 
     setClickAllowed(false);
     setTimeout(() => setClickAllowed(true), 300);
-<<<<<<< HEAD
     const energyChange = activeCircles.includes(index) ? 1 : -1;
     setScore((prevScore) => prevScore + energyChange);
     const newEnergyValue = Math.min(
@@ -279,14 +278,6 @@ export default function TappingGame({
       100
     );
     onUpdatePetIndicator(newEnergyValue, "energy");
-=======
-
-     const energyChange = activeCircles.includes(index) ? 1 : -1;
-    setScore((prevScore) => prevScore + energyChange);
-    const newEnergyValue = Math.min(activePet.status.energy + energyChange, 100);
-    onUpdatePetIndicator(newEnergyValue, "energy");
-  }
->>>>>>> 0ec165a62f67be7bbd92726a405d03b49213e543
   }
 
   function handleStart() {
