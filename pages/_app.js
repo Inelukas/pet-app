@@ -15,6 +15,7 @@ export default function App({ Component, pageProps }) {
     happinessFactor: 1,
     hungerFactor: 1,
     healthFactor: 1,
+    energyFactor: 1,
   });
 
   useEffect(() => {
@@ -23,12 +24,14 @@ export default function App({ Component, pageProps }) {
       const happinessFactor = getHappinessFactor(activePet.characteristics);
       const hungerFactor = getHungerFactor(activePet.characteristics);
       const healthFactor = getHealthFactor(activePet.characteristics);
+      const energyFactor = getEnergyFactor(activePet.characteristics);
 
       setCharacteristicEffects({
         speedFactor,
         happinessFactor,
         hungerFactor,
         healthFactor,
+        energyFactor,
       });
     }
   }, [activePet]);
@@ -108,6 +111,7 @@ export default function App({ Component, pageProps }) {
               status: {
                 ...pet.status,
                 [indicator]: score,
+                intelligence: pet.status.intelligence + 1,
               },
             }
           : pet;
@@ -131,6 +135,15 @@ export default function App({ Component, pageProps }) {
       ? 0.5
       : 1;
     return hungerFactor;
+  }
+
+  function getEnergyFactor(characteristics) {
+    const energyFactor = characteristics.includes("gluttonous")
+      ? 0.5
+      : characteristics.includes("temperate")
+      ? 1.5
+      : 1;
+    return energyFactor;
   }
 
   function getSpeedFactor(characteristics) {

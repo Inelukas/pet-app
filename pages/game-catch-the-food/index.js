@@ -130,6 +130,7 @@ export default function GamePage({
   petCollection,
   currentPet,
   onUpdatePetIndicator,
+  characteristicEffects,
 }) {
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
@@ -156,7 +157,7 @@ export default function GamePage({
     if (isPlaying) {
       const interval = setInterval(() => {
         setItems((prevItems) => [...prevItems, getRandomItem()]);
-      }, 1500);
+      }, 1500 * characteristicEffects.speedFactor);
       return () => clearInterval(interval);
     }
   }, [isPlaying]);
@@ -217,7 +218,7 @@ export default function GamePage({
               return true;
             })
         );
-      }, 50);
+      }, 50 * characteristicEffects.speedFactor);
     }
 
     if (!isPlaying) {
