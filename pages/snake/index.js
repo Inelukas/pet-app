@@ -44,11 +44,11 @@ const StyledGameField = styled.div`
   }
 `;
 
-const StyledScoreAndButtonContainer = styled.div`
+const StyledScoreAndButtonContainer = styled.section`
   position: relative;
 `;
 
-const StyledScoreContainer = styled.div`
+const StyledScoreContainer = styled.section`
   display: flex;
   justify-content: space-between;
   width: 300px;
@@ -57,13 +57,13 @@ const StyledScoreContainer = styled.div`
   font-weight: 800;
 `;
 
-const StyledButtonContainer = styled.div`
+const StyledButtonContainer = styled.section`
   display: flex;
   justify-content: space-between;
   margin-top: 10vh;
 `;
 
-export const StyledIndicatorContainer = styled.div`
+export const StyledIndicatorContainer = styled.section`
   position: absolute;
   left: -175px;
   top: 60px;

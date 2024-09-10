@@ -4,7 +4,7 @@ import Link from "next/link";
 import { VerticalBar, VerticalBarFill } from "../garden";
 import { Icon } from "../garden";
 
-const TappingGameContainer = styled.div`
+const TappingGameContainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,7 +53,7 @@ const TappingCirclesContainer = styled.section`
   box-sizing: border-box;
 `;
 
-const TappingCircle = styled.span`
+const TappingCircle = styled.button`
   background-image: ${({ isActive, isWrongActive }) =>
     isWrongActive
       ? `url("/images/gollum.png"), url("/images/orange.jpg")`
@@ -101,7 +101,7 @@ const ButtonsContainer = styled.section`
   margin-top: 5px;
 `;
 
-const StyledTappingButtonLink = styled(Link)`
+const StyledGardenLink = styled(Link)`
   background-image: url("/images/backbutton.png");
   background-color: transparent;
   background-size: contain;
@@ -335,7 +335,7 @@ export default function TappingGame({
         <span>Time left: {countdown}s</span>
       </SpanContainer>
       <ButtonsContainer>
-        <StyledTappingButtonLink href="/garden">Back</StyledTappingButtonLink>
+        <StyledGardenLink href="/garden">Back</StyledGardenLink>
         {gameStarted ? (
           <StyledPauseButton onClick={handlePause}>Pause</StyledPauseButton>
         ) : (

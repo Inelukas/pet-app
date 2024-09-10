@@ -110,7 +110,7 @@ const PetDisplay = styled.div`
       : "none"};
 `;
 
-const NavbarContainer = styled.div`
+const NavbarContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
