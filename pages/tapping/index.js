@@ -226,13 +226,12 @@ export default function TappingGame({
   }, [gameStarted, intervalTime]);
 
   useEffect(() => {
-    if (score > 0 && score % 10 === 0) {
-      setIntervalTime((prevTime) => Math.max(prevTime - 60, 600));
+    if (gameStarted && countdown % 10 === 0 && countdown !== 60) {
+      setIntervalTime((prevTime) => Math.max(prevTime - 150, 600));
       setSpeedUpMessage(true);
-
       setTimeout(() => setSpeedUpMessage(false), 2000);
     }
-  }, [score]);
+  }, [countdown, gameStarted]);
 
   useEffect(() => {
     if (countdown === 0) {
@@ -272,16 +271,13 @@ export default function TappingGame({
 
     setClickAllowed(false);
     setTimeout(() => setClickAllowed(true), 300);
-
-    if (activeCircles.includes(index)) {
-      setScore((prevScore) => prevScore + 1);
-      const newEnergyValue = Math.min(activePet.status.energy + 1, 100);
-      onUpdatePetIndicator(newEnergyValue, "energy");
-    } else if (activeWrongCircles.includes(index)) {
-      setScore((prevScore) => prevScore - 1);
-      const newEnergyValue = Math.min(activePet.status.energy - 1, 100);
-      onUpdatePetIndicator(newEnergyValue, "energy");
-    }
+    const energyChange = activeCircles.includes(index) ? 1 : -1;
+    setScore((prevScore) => prevScore + energyChange);
+    const newEnergyValue = Math.min(
+      activePet.status.energy + energyChange,
+      100
+    );
+    onUpdatePetIndicator(newEnergyValue, "energy");
   }
 
   function handleStart() {
@@ -305,7 +301,9 @@ export default function TappingGame({
 
   return (
     <TappingGameContainer>
-      {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
+      {timeUpMessage && (
+        <CountdownMessage>Time is up! Your Score: {score}</CountdownMessage>
+      )}
       {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
       <BarAndCirclesContainer>
         <VerticalBar
