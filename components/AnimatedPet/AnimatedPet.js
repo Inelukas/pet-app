@@ -61,11 +61,6 @@ const cobraMoveAnimationDead = keyframes`
   100% { background-position: -192px -128px; }
 `;
 
-const brainMoveAnimation = keyframes`
-  0% { background-position: 0 0; }
-  100% { background-position: -128px 0; }
-`;
-
 const capybaraMoveAnimation = keyframes`
   0% { background-position: 0 -512px; }
   100% { background-position: -512px -512px; }
