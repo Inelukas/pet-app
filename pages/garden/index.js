@@ -498,7 +498,7 @@ export default function Garden({
         </StatusContainer>
         <ButtonContainer>
           <StatusLink
-            href={activePet.status.hunger !== 0 ? "/game-catch-the-food" : ""}
+            href={activePet.alive ? "/game-catch-the-food" : ""}
             $bgcolor="orange"
             onClick={() => increaseStatus("hunger")}
             disabled={!activePet.alive || activePet.status.hunger === 0}
