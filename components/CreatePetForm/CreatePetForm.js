@@ -140,7 +140,7 @@ export default function CreatePetForm({
       ...data,
       id: initialData?.id,
       type: petInfo.type,
-      picture: petInfo.icon,
+      picture: petInfo.image,
       characteristics: [
         characteristics.characteristic1,
         characteristics.characteristic2,
@@ -194,6 +194,7 @@ export default function CreatePetForm({
         currentPet={currentPet}
         hideButtons={hideButtons}
       />
+
       <StyledForm onSubmit={handleSubmit} id="create-pet">
         <StyledFormArticle>
           <label htmlFor="type">Type:</label>

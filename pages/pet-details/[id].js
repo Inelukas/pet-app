@@ -225,7 +225,16 @@ export default function PetDetails({ petCollection, onDeletePet }) {
     <DetailsContainer>
       <PetPictureContainer>
         <PictureAndDeleteContainer>
-          <PetPicture>{pet.alive ? pet.picture : "☠"}</PetPicture>
+          <PetPicture>
+            <Image
+              src={pet.alive ? pet.image : "☠"}
+              alt={pet.name}
+              width={100}
+              height={100}
+              objectFit="cover"
+              quality={100}
+            />
+          </PetPicture>
 
           {isDelete && (
             <StyledDeleteContainer>

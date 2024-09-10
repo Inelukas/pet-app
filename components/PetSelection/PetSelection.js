@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Image from "next/image";
 
 const StyledPetSelection = styled.div`
   display: flex;
@@ -42,6 +43,7 @@ const StyledPetIcon = styled.div`
   font-size: 80px;
   box-shadow: 3px 3px 3px 3px #000000;
   cursor: pointer;
+  image-rendering: optimizeQuality;
 `;
 
 export default function PetSelection({
@@ -59,7 +61,14 @@ export default function PetSelection({
         </StyledSelectionButton>
       )}
       <StyledPetIcon onClick={hideButtons ? null : onNextPet}>
-        {animalList[currentPet].icon}
+        <Image
+          src={animalList[currentPet].image}
+          alt={animalList[currentPet].name}
+          width={100}
+          height={100}
+          objectFit="cover"
+          quality={100}
+        />
       </StyledPetIcon>
       {!hideButtons && (
         <StyledSelectionButton type="button" onClick={onNextPet}>
