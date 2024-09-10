@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styled from "styled-components";
 
 const StyledPet = styled.li`
@@ -51,6 +52,9 @@ const StyledSpan = styled.span`
 `;
 
 const StyledPortrait = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 12vh;
   max-width: 150px;
   min-width: 80px;
@@ -61,6 +65,7 @@ const StyledPortrait = styled.section`
   border-radius: 100%;
   background: var(--signal-color);
   position: relative;
+  overflow: hidden;
 
   @media screen and (min-width: 600px) {
     width: 15vh;
@@ -84,7 +89,17 @@ export default function Pet({ petData }) {
   return (
     <StyledPet>
       <StyledPortrait>
-        <StyledSpan>{petData.alive ? petData.picture : "☠"}</StyledSpan>
+        {petData.alive ? (
+          <Image
+            src={petData.image}
+            alt={petData.name}
+            objectFit="cover"
+            width={75}
+            height={75}
+          />
+        ) : (
+          <StyledSpan>☠</StyledSpan>
+        )}
       </StyledPortrait>
       <StyledPetData>
         <p>

@@ -145,6 +145,7 @@ export default function CreatePetForm({
         characteristics.characteristic1,
         characteristics.characteristic2,
       ],
+      image: petInfo.image,
       status: {
         [happiness.name]: happiness.count,
         [energy.name]: energy.count,
