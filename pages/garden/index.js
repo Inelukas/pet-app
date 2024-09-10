@@ -64,7 +64,7 @@ const GardenContainer = styled.div`
 
 const PetWrapper = styled.div`
   position: absolute;
-  left: 50%;
+  left: 45%;
   bottom: 0px;
   transform: translate(-50%, -50%);
 `;
@@ -321,6 +321,7 @@ export default function Garden({
             return {
               ...pet,
               status: {
+                ...pet.status,
                 hunger:
                   hunger < 100
                     ? Math.min(
@@ -342,13 +343,13 @@ export default function Garden({
                     : health,
                 intelligence: pet.status.intelligence,
               },
-              alive: pet.status.health === 0 ? false : true,
+              dying: pet.status.health === 0 ? true : false,
             };
           }
           return pet;
         })
       );
-    }, 10000);
+    }, 1000);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
@@ -381,7 +382,7 @@ export default function Garden({
       setAnimationState("growing");
       setTimeout(() => {
         setAnimationState(null);
-      }, 500);
+      }, 10000);
     }
   }
 
@@ -509,8 +510,10 @@ export default function Garden({
             {activePet.alive ? (
               <AnimatedPet
                 pet={activePet.animations}
-                alive={activePet.alive}
+                dying={activePet.dying}
                 movingSpeedFactor={characteristicEffects.speedFactor}
+                setPetCollection={setPetCollection}
+                currentPet={currentPet}
               />
             ) : (
               "☠"
