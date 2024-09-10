@@ -294,21 +294,9 @@ export default function Garden({
   currentPet,
   setCurrentPet,
   onCurrentPet,
+  characteristicEffects,
 }) {
   const [animationState, setAnimationState] = useState(null);
-  const [characteristicEffects, setCharacteristicEffects] = useState(() => {
-    if (activePet) {
-      const speedFactor = getSpeedFactor(activePet.characteristics);
-      const happinessFactor = getHappinessFactor(activePet.characteristics);
-      const hungerFactor = getHungerFactor(activePet.characteristics);
-
-      return {
-        speedFactor: speedFactor,
-        happinessFactor: happinessFactor,
-        hungerFactor: hungerFactor,
-      };
-    }
-  });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -316,7 +304,9 @@ export default function Garden({
       setPetCollection((prevPets) =>
         prevPets.map((pet) => {
           if (pet.id === currentPet) {
-            const { hunger, happiness, energy, health } = pet.status;
+            const { hunger, happiness, energy, health, intelligence } =
+              pet.status;
+            const intelligenceFactor = 1 - (intelligence / 100) * 0.9;
 
             return {
               ...pet,
@@ -325,21 +315,31 @@ export default function Garden({
                 hunger:
                   hunger < 100
                     ? Math.min(
-                        hunger + 5 * characteristicEffects.hungerFactor,
+                        hunger +
+                          5 *
+                            characteristicEffects.hungerFactor *
+                            intelligenceFactor,
                         100
                       )
                     : 100,
                 happiness:
                   happiness > 0
                     ? Math.max(
-                        happiness - 5 * characteristicEffects.happinessFactor,
+                        happiness -
+                          5 *
+                            characteristicEffects.happinessFactor *
+                            intelligenceFactor,
                         0
                       )
                     : 0,
-                energy: energy > 0 ? Math.max(energy - 5, 0) : 0,
+                energy:
+                  energy > 0 ? Math.max(energy - 5 * intelligenceFactor, 0) : 0,
                 health:
                   hunger === 100 && happiness === 0 && energy === 0
-                    ? Math.max(health - 5, 0)
+                    ? Math.max(
+                        health - 5 * characteristicEffects.healthFactor,
+                        0
+                      )
                     : health,
                 intelligence: pet.status.intelligence,
               },
@@ -349,7 +349,7 @@ export default function Garden({
           return pet;
         })
       );
-    }, 1000);
+    }, 500);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
@@ -384,38 +384,6 @@ export default function Garden({
         setAnimationState(null);
       }, 10000);
     }
-  }
-
-  function getHappinessFactor(characteristics) {
-    const moodFactor = characteristics.includes("cheerful")
-      ? 0.5
-      : characteristics.includes("melancholy")
-      ? 1.5
-      : 1;
-    const intelligenceFactor = characteristics.includes("foolish")
-      ? 0.5
-      : characteristics.includes("smart")
-      ? 1.5
-      : 1;
-    return moodFactor * intelligenceFactor;
-  }
-
-  function getHungerFactor(characteristics) {
-    const hungerFactor = characteristics.includes("gluttonous")
-      ? 1.5
-      : characteristics.includes("temperate")
-      ? 0.5
-      : 1;
-    return hungerFactor;
-  }
-
-  function getSpeedFactor(characteristics) {
-    const speedFactor = characteristics.includes("hyperactive")
-      ? 0.4
-      : characteristics.includes("lethargic")
-      ? 2
-      : 1;
-    return speedFactor;
   }
 
   function handlePetSelect(petId) {

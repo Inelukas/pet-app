@@ -111,7 +111,11 @@ const StyledHowToPlay = styled.div`
   }
 `;
 
-export default function SnakeGame({ onUpdatePetIndicator, activePet }) {
+export default function SnakeGame({
+  onUpdatePetIndicator,
+  activePet,
+  characteristicEffects,
+}) {
   const [gameOn, setGameOn] = useState(true);
   const [playerPosition, setPlayerPosition] = useState({ x: 140, y: 140 });
   const [children, setChildren] = useState([]);
@@ -189,7 +193,10 @@ export default function SnakeGame({ onUpdatePetIndicator, activePet }) {
       });
     }
 
-    const moveInterval = setInterval(movePlayer, 100);
+    const moveInterval = setInterval(
+      movePlayer,
+      100 * characteristicEffects.speedFactor + 50
+    );
     return () => clearInterval(moveInterval);
   }, [directions, playerPosition, foodPosition]);
 

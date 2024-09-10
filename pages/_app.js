@@ -1,6 +1,6 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
@@ -8,6 +8,31 @@ import { uid } from "uid";
 export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useState(pets);
   const [currentPet, setCurrentPet] = useState(pets[0].id);
+  const activePet = petCollection.find((pet) => pet.id === currentPet);
+
+  const [characteristicEffects, setCharacteristicEffects] = useState({
+    speedFactor: 1,
+    happinessFactor: 1,
+    hungerFactor: 1,
+    healthFactor: 1,
+  });
+
+  useEffect(() => {
+    if (activePet) {
+      const speedFactor = getSpeedFactor(activePet.characteristics);
+      const happinessFactor = getHappinessFactor(activePet.characteristics);
+      const hungerFactor = getHungerFactor(activePet.characteristics);
+      const healthFactor = getHealthFactor(activePet.characteristics);
+
+      setCharacteristicEffects({
+        speedFactor,
+        happinessFactor,
+        hungerFactor,
+        healthFactor,
+      });
+    }
+  }, [activePet]);
+
   const router = useRouter();
 
   function handleCreatePet(petData) {
@@ -90,7 +115,41 @@ export default function App({ Component, pageProps }) {
     );
   }
 
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
+  function getHappinessFactor(characteristics) {
+    const moodFactor = characteristics.includes("cheerful")
+      ? 0.5
+      : characteristics.includes("melancholy")
+      ? 1.5
+      : 1;
+    return moodFactor;
+  }
+
+  function getHungerFactor(characteristics) {
+    const hungerFactor = characteristics.includes("gluttonous")
+      ? 1.5
+      : characteristics.includes("temperate")
+      ? 0.5
+      : 1;
+    return hungerFactor;
+  }
+
+  function getSpeedFactor(characteristics) {
+    const speedFactor = characteristics.includes("hyperactive")
+      ? 0.4
+      : characteristics.includes("lethargic")
+      ? 2
+      : 1;
+    return speedFactor;
+  }
+
+  function getHealthFactor(characteristics) {
+    const healthFactor = characteristics.includes("foolish")
+      ? 0.5
+      : characteristics.includes("smart")
+      ? 1.5
+      : 1;
+    return healthFactor;
+  }
 
   return (
     <>
@@ -109,6 +168,7 @@ export default function App({ Component, pageProps }) {
         onInteractPet={handleInteractPet}
         onCurrentPet={handleCurrentPet}
         onUpdatePetIndicator={handleUpdatePetIndicator}
+        characteristicEffects={characteristicEffects}
       />
     </>
   );
