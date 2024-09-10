@@ -6,8 +6,10 @@ import { useState } from "react";
 import Image from "next/image";
 import deleteIcon from "../../public/assets/delete.png";
 import updateIcon from "../../public/assets/edit.png";
-import backIcon from "../../public/assets/back.png";
-import StyledLink from "@/components/StyledLink/StyledLink";
+import {
+  ListPageWrapper,
+  GardenPageWrapper,
+} from "@/components/LinkButtons/LinkButtons";
 
 const DetailsContainer = styled.section`
   display: flex;
@@ -173,6 +175,7 @@ const StyledUpdateButton = styled.div`
   top: 60px;
   right: 10px;
   opacity: 0.5;
+  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
 
   &:hover {
     transform: scale(1.2);
@@ -242,10 +245,14 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           </StyledDeleteButton>
         </PictureAndDeleteContainer>
         <PetName>{pet.name}</PetName>
-        <StyledUpdateButton>
-          <Link href={`/update?id=${pet.id}&hideButtons=true`}>
+        <StyledUpdateButton $disabled={!pet.alive}>
+          {pet.alive ? (
+            <Link href={`/update?id=${pet.id}&hideButtons=true`}>
+              <Image src={updateIcon} alt="Update Icon" width={25} />
+            </Link>
+          ) : (
             <Image src={updateIcon} alt="Update Icon" width={25} />
-          </Link>
+          )}
         </StyledUpdateButton>
       </PetPictureContainer>
       <PetCharContainer>
@@ -256,9 +263,16 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           <Indicator key={index} data={status} />
         ))}
       </PetStatusContainer>
-      <StyledLink href="/pet-list" style={{ width: "80px", height: "40px" }}>
-        <Image src={backIcon} alt="Back Icon" width={20} />
-      </StyledLink>
+      <ListPageWrapper>
+        <Link href="/pet-list" aria-label="Staple of Books indicating List">
+          📚
+        </Link>
+      </ListPageWrapper>
+      <GardenPageWrapper>
+        <Link href="/garden" aria-label="A golf hole indicating the Garden">
+          ⛳
+        </Link>
+      </GardenPageWrapper>
     </DetailsContainer>
   );
 }

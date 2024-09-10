@@ -4,7 +4,7 @@ import PetSelection from "../PetSelection/PetSelection";
 import Indicator from "../Indicator/Indicator";
 import StyledLink from "../StyledLink/StyledLink";
 import ConfirmButton from "../ConfirmButton/ConfirmButton";
-import { animalList, characteristicOptions } from "@/lib/Data";
+import { animalList, characteristicOptions } from "@/lib/data";
 import cancelIcon from "../../public/assets/cancel.png";
 import confirmIcon from "../../public/assets/confirm.png";
 import Image from "next/image";
@@ -148,7 +148,10 @@ export default function CreatePetForm({
       status: {
         [happiness.name]: happiness.count,
         [energy.name]: energy.count,
-        [intelligence.name]: intelligence.count,
+        [intelligence.name]: calculateIntelligence(
+          characteristics.characteristic1,
+          characteristics.characteristic2
+        ),
         health: 100,
         hunger: 50,
       },
@@ -166,6 +169,19 @@ export default function CreatePetForm({
       characteristic2: "",
     });
     setPetName("");
+  }
+
+  function calculateIntelligence(characteristic1, characteristic2) {
+    const currentPetIntelligenceCount = animalList[currentPet].indicators.find(
+      (indicator) => indicator.name === "intelligence"
+    ).count;
+    let intelligenceCount = currentPetIntelligenceCount;
+    if (characteristic1 === "smart" || characteristic2 === "smart") {
+      intelligenceCount = Math.min(currentPetIntelligenceCount + 20, 100);
+    } else if (characteristic1 === "foolish" || characteristic2 === "foolish") {
+      intelligenceCount = Math.min(currentPetIntelligenceCount - 20, 100);
+    }
+    return intelligenceCount;
   }
 
   return (
@@ -258,9 +274,25 @@ export default function CreatePetForm({
         </StyledFormArticle>
       </StyledForm>
       <StyledIndicatorContainer>
-        {animalList[currentPet].indicators.map((indicator, index) => (
-          <Indicator key={index} data={indicator} />
-        ))}
+        {animalList[currentPet].indicators.map((indicator, index) => {
+          let indicatorCount = indicator.count;
+
+          if (indicator.name === "intelligence") {
+            indicatorCount = calculateIntelligence(
+              characteristics.characteristic1,
+              characteristics.characteristic2
+            );
+          }
+          return (
+            <Indicator
+              key={index}
+              data={{
+                ...indicator,
+                count: indicatorCount,
+              }}
+            />
+          );
+        })}
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
         <StyledLink href="/pet-list">

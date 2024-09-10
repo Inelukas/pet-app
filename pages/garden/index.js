@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
+import {
+  ListPageWrapper,
+  DetailPageWrapper,
+} from "@/components/LinkButtons/LinkButtons";
 
 const rotate = keyframes`
   from {
@@ -47,6 +51,24 @@ const grow = keyframes`
   }
 `;
 
+const walk = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(300px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-300px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
 const GardenContainer = styled.div`
   position: relative;
   width: 100%;
@@ -60,7 +82,7 @@ const GardenContainer = styled.div`
 const PetWrapper = styled.div`
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 65%;
   transform: translate(-50%, -50%);
 `;
 
@@ -68,18 +90,22 @@ const PetDisplay = styled.div`
   font-size: 8em;
   color: var(--text-color);
   transform-origin: center;
-  animation: ${({ $animationtype }) =>
-    $animationtype === "rotating"
+  animation: ${({ $animationtype, $alive, $movingSpeedFactor }) =>
+    $alive && $animationtype === "rotating"
       ? css`
-          ${rotate} 1s linear
+          ${rotate} ${1 * $movingSpeedFactor}s linear
         `
-      : $animationtype === "bouncing"
+      : $alive && $animationtype === "bouncing"
       ? css`
-          ${bounce} 1s ease
+          ${bounce} ${1 * $movingSpeedFactor}s ease
         `
-      : $animationtype === "growing"
+      : $alive && $animationtype === "growing"
       ? css`
-          ${grow} 0.5s ease
+          ${grow} ${0.5 * $movingSpeedFactor}s ease
+        `
+      : $alive
+      ? css`
+          ${walk} ${8 * $movingSpeedFactor}s infinite
         `
       : "none"};
 `;
@@ -109,16 +135,55 @@ const NavButton = styled.button`
   border-radius: 4px;
 `;
 
-const StyledLink = styled.div`
+const DropdownButton = styled.button`
   background-color: var(--signal-color);
-  color: var(--text-color);
+  border: none;
   padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   margin: 4px;
+  cursor: pointer;
   border-radius: 4px;
+  position: relative;
+`;
+
+const DropdownMenu = styled.ul`
+  position: absolute;
+  bottom: 10%;
+  width: 30px;
+  background-color: var(--neutral-color);
+  border: 1px solid var(--text-color);
+  list-style: none;
+  text-align: center;
+  overflow: visible;
+  right: calc(50%);
+  transform: translate(50%);
+  opacity: 75%;
+  li {
+    padding: 8px;
+    padding-left: 4px;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+`;
+
+const AdjustedListPageWrapper = styled(ListPageWrapper)`
+  bottom: 10%;
+  right: calc(50% - 45vw);
+`;
+
+const AdjustedDetailPageWrapper = styled(DetailPageWrapper)`
+  bottom: 10%;
+  left: calc(50% - 45vw);
+`;
+
+const DropdownItem = styled.li`
+  padding: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--primary-color);
+  }
 `;
 
 const StatusContainer = styled.div`
@@ -242,14 +307,30 @@ const ListPageLink = styled.div`
   color: var(--text-color);
 `;
 
-function Garden({
+export default function Garden({
+  activePet,
   petCollection,
   setPetCollection,
   onInteractPet,
   currentPet,
+  setCurrentPet,
   onCurrentPet,
 }) {
   const [animationState, setAnimationState] = useState(null);
+  const [characteristicEffects, setCharacteristicEffects] = useState(() => {
+    if (activePet) {
+      const speedFactor = getSpeedFactor(activePet.characteristics);
+      const happinessFactor = getHappinessFactor(activePet.characteristics);
+      const hungerFactor = getHungerFactor(activePet.characteristics);
+
+      return {
+        speedFactor: speedFactor,
+        happinessFactor: happinessFactor,
+        hungerFactor: hungerFactor,
+      };
+    }
+  });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
@@ -261,13 +342,26 @@ function Garden({
             return {
               ...pet,
               status: {
-                hunger: hunger < 100 ? Math.min(hunger + 5, 100) : 100,
-                happiness: happiness > 0 ? Math.max(happiness - 5, 0) : 0,
+                hunger:
+                  hunger < 100
+                    ? Math.min(
+                        hunger + 5 * characteristicEffects.hungerFactor,
+                        100
+                      )
+                    : 100,
+                happiness:
+                  happiness > 0
+                    ? Math.max(
+                        happiness - 5 * characteristicEffects.happinessFactor,
+                        0
+                      )
+                    : 0,
                 energy: energy > 0 ? Math.max(energy - 5, 0) : 0,
                 health:
                   hunger === 100 && happiness === 0 && energy === 0
                     ? Math.max(health - 5, 0)
                     : health,
+                intelligence: pet.status.intelligence,
               },
               alive: pet.status.health === 0 ? false : true,
             };
@@ -280,13 +374,7 @@ function Garden({
     return () => {
       clearInterval(updateIndicatorsTimer);
     };
-  }, []);
-
-  if (!petCollection || petCollection.length === 0) {
-    return <p>No pets available</p>;
-  }
-
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
+  }, [currentPet, setPetCollection]);
 
   function increaseStatus(statusKey) {
     const currentStatus = activePet.status[statusKey];
@@ -318,6 +406,47 @@ function Garden({
     }
   }
 
+  function getHappinessFactor(characteristics) {
+    const moodFactor = characteristics.includes("cheerful")
+      ? 0.5
+      : characteristics.includes("melancholy")
+      ? 1.5
+      : 1;
+    const intelligenceFactor = characteristics.includes("foolish")
+      ? 0.5
+      : characteristics.includes("smart")
+      ? 1.5
+      : 1;
+    return moodFactor * intelligenceFactor;
+  }
+
+  function getHungerFactor(characteristics) {
+    const hungerFactor = characteristics.includes("gluttonous")
+      ? 1.5
+      : characteristics.includes("temperate")
+      ? 0.5
+      : 1;
+    return hungerFactor;
+  }
+
+  function getSpeedFactor(characteristics) {
+    const speedFactor = characteristics.includes("hyperactive")
+      ? 0.4
+      : characteristics.includes("lethargic")
+      ? 2
+      : 1;
+    return speedFactor;
+  }
+
+  function handlePetSelect(petId) {
+    setCurrentPet(petId);
+    setIsDropdownOpen(false);
+  }
+
+  if (!activePet) {
+    return <p>No pets available</p>;
+  }
+
   return (
     <>
       <GardenContainer>
@@ -327,9 +456,7 @@ function Garden({
               activePet.status.health <= 25 && activePet.status.health !== 0
             }
           >
-            <Icon role="img" aria-label="A heart indicating Health">
-              ❤️
-            </Icon>
+            <Icon aria-label="A heart indicating Health">❤️</Icon>
             <HorizontalBarFill value={activePet.status.health} />
           </HorizontalBar>
           <VerticalBarContainer>
@@ -338,12 +465,7 @@ function Garden({
                 activePet.status.hunger >= 75 && activePet.status.health !== 0
               }
             >
-              <Icon
-                role="img"
-                aria-label="A bowl of ice-cream indicating hunger"
-              >
-                🍨
-              </Icon>
+              <Icon aria-label="A bowl of ice-cream indicating hunger">🍨</Icon>
               <VerticalBarFill
                 $bgcolor="orange"
                 value={activePet.status.hunger}
@@ -355,9 +477,7 @@ function Garden({
                 activePet.status.health !== 0
               }
             >
-              <Icon role="img" aria-label="Some confetti indicating happiness">
-                🎉
-              </Icon>
+              <Icon aria-label="Some confetti indicating happiness">🎉</Icon>
               <VerticalBarFill
                 $bgcolor="pink"
                 value={activePet.status.happiness}
@@ -368,9 +488,7 @@ function Garden({
                 activePet.status.energy <= 25 && activePet.status.health !== 0
               }
             >
-              <Icon role="img" aria-label="A battery indicating energy">
-                🔋
-              </Icon>
+              <Icon aria-label="A battery indicating energy">🔋</Icon>
               <VerticalBarFill
                 $bgcolor="yellow"
                 value={activePet.status.energy}
@@ -392,9 +510,7 @@ function Garden({
             $bgcolor="pink"
             disabled={!activePet.alive}
           >
-            <span role="img" aria-label="celebration">
-              🎉
-            </span>
+            <span aria-label="celebration">🎉</span>
           </StatusLink>
 
           <StatusLink
@@ -408,24 +524,50 @@ function Garden({
           </StatusLink>
         </ButtonContainer>
         <PetWrapper>
-          <PetDisplay $animationtype={animationState}>
+          <PetDisplay
+            $movingSpeedFactor={characteristicEffects.speedFactor}
+            $alive={activePet.alive}
+            $animationtype={animationState}
+          >
             {activePet.alive ? activePet.picture : "☠"}
           </PetDisplay>
         </PetWrapper>
-        <ListPageLink>
-          <Link href="/pet-list">List</Link>
-          {/* update link to list page once replaced as mainpage required */}
-        </ListPageLink>
+
+        <AdjustedListPageWrapper>
+          <Link href="/pet-list" aria-label="Staple of Books indicating List">
+            📚
+          </Link>
+        </AdjustedListPageWrapper>
+        <AdjustedDetailPageWrapper>
+          <Link
+            href={{
+              pathname: `/pet-details/${activePet.id}`,
+            }}
+            aria-label="Magnifying Glass indicating Details"
+          >
+            🔎
+          </Link>
+        </AdjustedDetailPageWrapper>
       </GardenContainer>
       <NavbarContainer>
         <NavButton onClick={() => onCurrentPet("previous")}>Prev Pet</NavButton>
-        <Link href={`/pet-details/${currentPet}`}>
-          <StyledLink>{activePet.picture}</StyledLink>
-        </Link>
+        <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          {activePet.picture}
+        </DropdownButton>
+        {isDropdownOpen && (
+          <DropdownMenu>
+            {petCollection.map((pet) => (
+              <DropdownItem
+                key={pet.id}
+                onClick={() => handlePetSelect(pet.id)}
+              >
+                {pet.picture}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        )}
         <NavButton onClick={() => onCurrentPet("next")}>Next Pet</NavButton>
       </NavbarContainer>
     </>
   );
 }
-
-export default Garden;
