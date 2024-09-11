@@ -140,7 +140,7 @@ export default function CreatePetForm({
       ...data,
       id: initialData?.id,
       type: petInfo.type,
-      picture: petInfo.image,
+      picture: petInfo.icon,
       characteristics: [
         characteristics.characteristic1,
         characteristics.characteristic2,
