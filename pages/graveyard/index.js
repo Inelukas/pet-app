@@ -23,19 +23,21 @@ export default function Graveyard({ petCollection, setPetCollection }) {
   const handleRevive = (petId) => {
     const updatedPets = petCollection.map((pet) => {
       if (pet.id === petId) {
-        return {
-          ...pet,
-          alive: true,
-          revived: true,
-          status: {
-            health: 0,
-            hunger: 0,
-            happiness: 0,
-            energy: 0,
-            intelligence: 0,
-          },
-          picture: url("/images/ghost.png"),
-        };
+        {
+          return {
+            ...pet,
+            alive: true,
+            revived: true,
+            status: {
+              health: 0,
+              hunger: 0,
+              happiness: 0,
+              energy: 0,
+              intelligence: 0,
+            },
+            picture: "👻",
+          };
+        }
       }
       return pet;
     });
