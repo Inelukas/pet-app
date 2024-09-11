@@ -5,6 +5,7 @@ import {
   ListPageWrapper,
   DetailPageWrapper,
 } from "@/components/LinkButtons/LinkButtons";
+import Image from "next/image";
 
 const rotate = keyframes`
   from {
@@ -77,6 +78,18 @@ const GardenContainer = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+`;
+
+const ImageContainer = styled.div`
+  // Container for Achievements
+  position: relative;
+`;
+
+const PositionedImage = styled(Image)`
+  // Achievements
+  position: absolute;
+  top: ${(props) => props.top};
+  left: ${(props) => props.left};
 `;
 
 const PetWrapper = styled.div`
@@ -317,6 +330,8 @@ export default function Garden({
   onCurrentPet,
 }) {
   const [animationState, setAnimationState] = useState(null);
+  const [showTwig, setShowTwig] = useState(false);
+  const [showBall, setShowBall] = useState(false);
   const [characteristicEffects, setCharacteristicEffects] = useState(() => {
     if (activePet) {
       const speedFactor = getSpeedFactor(activePet.characteristics);
@@ -331,6 +346,15 @@ export default function Garden({
     }
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  //following UseEffect for time achievements
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTwig(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
@@ -450,6 +474,28 @@ export default function Garden({
   return (
     <>
       <GardenContainer>
+        <ImageContainer>
+          {showTwig && (
+            <PositionedImage
+              src="/achievements/twig no bg.png"
+              alt="Twig Image"
+              width={100}
+              height={100}
+              top="60vh"
+              left="35vw"
+            />
+          )}
+          {showBall && (
+            <PositionedImage
+              src="/achievements/ball_image.png"
+              alt="Ball Image"
+              width={100}
+              height={100}
+              top="50vh"
+              left="45vw"
+            />
+          )}
+        </ImageContainer>
         <StatusContainer>
           <HorizontalBar
             $critical={

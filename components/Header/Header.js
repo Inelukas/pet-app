@@ -35,6 +35,8 @@ export default function Header() {
     pageTitle = "Create Your Pet";
   } else if (router.pathname === "/update") {
     pageTitle = "Update Your Pet";
+  } else if (router.pathname === "/achievements") {
+    pageTitle = "Achievements";
   }
 
   if (!pageTitle) return null;

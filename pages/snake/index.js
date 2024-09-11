@@ -5,7 +5,7 @@ import PetChild from "@/components/SnakeGame/PetChild/PetChild";
 import Food from "@/components/SnakeGame/Food/Food";
 import Player from "@/components/SnakeGame/Player/Player";
 import StyledLink from "@/components/StyledLink/StyledLink";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const StyledSnakePage = styled.main`
