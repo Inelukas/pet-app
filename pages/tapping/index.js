@@ -274,7 +274,7 @@ export default function TappingGame({
 
   function handleStart() {
     setGameStarted(true);
-    setCountdown(5);
+    setCountdown(60);
   }
 
   function handlePause() {
