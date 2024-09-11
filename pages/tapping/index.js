@@ -208,10 +208,13 @@ export default function TappingGame({
       interval = setInterval(() => {
         const isWrongActive = Math.random() < 0.3;
         const randomCircles = generateRandomCircles(3);
-        const randomRedCircles = isWrongActive ? generateRandomCircles(2) : [];
+
+        const randomWrongCircles = isWrongActive
+          ? generateRandomCircles(2, randomCircles)
+          : [];
 
         setActiveCircles(randomCircles);
-        setActiveWrongCircles(randomRedCircles);
+        setActiveWrongCircles(randomWrongCircles);
 
         const activeTime = Math.min(intervalTime * 0.9, 1000);
         setTimeout(() => {
@@ -249,12 +252,17 @@ export default function TappingGame({
     return () => clearInterval(timer);
   }, [gameStarted, countdown]);
 
-  function generateRandomCircles(max) {
+  function generateRandomCircles(max, exclude = []) {
     const numCircles = Math.floor(Math.random() * max) + 1;
     const randomCircles = new Set();
+
     while (randomCircles.size < numCircles) {
-      randomCircles.add(Math.floor(Math.random() * 20));
+      const randomIndex = Math.floor(Math.random() * 20);
+      if (!exclude.includes(randomIndex)) {
+        randomCircles.add(randomIndex);
+      }
     }
+
     return Array.from(randomCircles);
   }
 
@@ -298,7 +306,7 @@ export default function TappingGame({
   return (
     <TappingGameContainer>
       {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
-      {countdown > 0 && countdown < 58 && countdown % 10 === 0 && (
+      {countdown > 0 && countdown < 60 && countdown % 10 === 0 && (
         <SpeedUpMessage>Speed up!</SpeedUpMessage>
       )}
       <BarAndCirclesContainer>
