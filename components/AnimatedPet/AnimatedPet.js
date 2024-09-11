@@ -81,7 +81,7 @@ const walkLargeScreen = keyframes`
   }
 `;
 
-const StyledAnimatedPet = styled.div`
+const AnimatedPetWrapper = styled.div`
   position: absolute;
   bottom: ${({ $pet }) => `${$pet.position}px`};
   width: ${({ $pet }) => `${$pet.size}px`};
@@ -109,7 +109,7 @@ const StyledAnimatedPet = styled.div`
   image-rendering: pixelated;
 `;
 
-const MovementDiv = styled.div`
+const HorizontalPetMovement = styled.div`
   animation: ${({ $dying, $movingSpeedFactor, $sleepy }) =>
     !$dying && !$sleepy
       ? css`
@@ -117,7 +117,7 @@ const MovementDiv = styled.div`
         `
       : "none"};
 
-  @media (min-width: 600px) {
+  @media (min-width: 900px) {
     animation: ${({ $dying, $movingSpeedFactor, $sleepy }) =>
       !$dying && !$sleepy
         ? css`
@@ -132,7 +132,6 @@ export default function AnimatedPet({
   dying,
   movingSpeedFactor,
   onDeadPet,
-  currentPet,
 }) {
   const [sleepy, setSleepy] = useState(false);
 
@@ -156,12 +155,12 @@ export default function AnimatedPet({
   }, [dying]);
 
   return (
-    <MovementDiv
+    <HorizontalPetMovement
       $dying={dying}
       $movingSpeedFactor={movingSpeedFactor}
       $sleepy={sleepy}
     >
-      <StyledAnimatedPet $pet={pet} $sleepy={sleepy} $dying={dying} />
-    </MovementDiv>
+      <AnimatedPetWrapper $pet={pet} $sleepy={sleepy} $dying={dying} />
+    </HorizontalPetMovement>
   );
 }
