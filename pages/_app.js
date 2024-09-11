@@ -4,10 +4,18 @@ import { useState } from "react";
 import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function App({ Component, pageProps }) {
-  const [petCollection, setPetCollection] = useState(pets);
-  const [currentPet, setCurrentPet] = useState(pets[0].id);
+  const [petCollection, setPetCollection] = useLocalStorageState(
+    "petCollection",
+    {
+      defaultValue: [],
+    }
+  );
+  const [currentPet, setCurrentPet] = useLocalStorageState("currentPet", {
+    defaultValue: petCollection[0]?.id || null,
+  });
   const router = useRouter();
 
   function handleCreatePet(petData) {
@@ -26,7 +34,7 @@ export default function App({ Component, pageProps }) {
 
   function handleDeletePet(id) {
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
-    setCurrentPet(pets[0].id);
+    setCurrentPet(petCollection[0]?.id || null);
   }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>

@@ -343,6 +343,12 @@ export default function Garden({
         happinessFactor: happinessFactor,
         hungerFactor: hungerFactor,
       };
+    } else {
+      return {
+        speedFactor: 1,
+        happinessFactor: 1,
+        hungerFactor: 1,
+      };
     }
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -571,7 +577,7 @@ export default function Garden({
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay
-            $movingSpeedFactor={characteristicEffects.speedFactor}
+            $movingSpeedFactor={characteristicEffects.speedFactor || 1}
             $alive={activePet.alive}
             $animationtype={animationState}
           >
