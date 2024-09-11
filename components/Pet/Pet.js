@@ -100,7 +100,7 @@ export default function Pet({ petData, onGraveyard }) {
   return (
     <StyledPet onGraveyard={!!onGraveyard}>
       <StyledPortrait>
-        <StyledSpan>{petData.alive ? petData.picture : "☠"}</StyledSpan>
+        <StyledSpan>{petData.picture}</StyledSpan>
       </StyledPortrait>
       <StyledPetData>
         <p>
@@ -128,6 +128,14 @@ export default function Pet({ petData, onGraveyard }) {
             <ReviveButton onClick={() => onGraveyard(petData.id)}>
               Revive Pet
             </ReviveButton>
+          </>
+        )}
+
+        {petData.revived && (
+          <>
+            <p>
+              <span>Status:</span> Revived
+            </p>
           </>
         )}
       </StyledPetData>

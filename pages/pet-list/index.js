@@ -28,11 +28,15 @@ const StyledPet = styled(Link)`
 `;
 
 export default function PetList({ petCollection }) {
+  const livingAndRevivedPets = petCollection.filter(
+    (pet) => pet.alive || pet.revived
+  );
+
   return (
     <StyledMain>
-      {petCollection.length > 0 ? (
+      {livingAndRevivedPets.length > 0 ? (
         <StyledPetList>
-          {petCollection.map((pet) => {
+          {livingAndRevivedPets.map((pet) => {
             return (
               <StyledPet key={pet.id} href={`/pet-details/${pet.id}`}>
                 <Pet petData={pet} />

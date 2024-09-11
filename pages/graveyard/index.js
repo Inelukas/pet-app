@@ -17,11 +17,30 @@ const GraveyardContainer = styled.section`
   padding-top: 20px;
 `;
 
-export default function Graveyard({ petCollection }) {
-  const deadPets = petCollection.filter((pet) => !pet.alive);
+export default function Graveyard({ petCollection, setPetCollection }) {
+  const deadPets = petCollection.filter((pet) => !pet.alive && !pet.revived);
 
   const handleRevive = (petId) => {
-    console.log("Reviving pet with ID:", petId);
+    const updatedPets = petCollection.map((pet) => {
+      if (pet.id === petId) {
+        return {
+          ...pet,
+          alive: true,
+          revived: true,
+          status: {
+            health: 0,
+            hunger: 0,
+            happiness: 0,
+            energy: 0,
+            intelligence: 0,
+          },
+          picture: "🧟",
+        };
+      }
+      return pet;
+    });
+
+    setPetCollection(updatedPets);
   };
 
   return (
