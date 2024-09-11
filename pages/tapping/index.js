@@ -195,7 +195,7 @@ export default function TappingGame({
   const [gameStarted, setGameStarted] = useState(false);
   const [intervalTime, setIntervalTime] = useState(1600);
   const [clickAllowed, setClickAllowed] = useState(true);
-  const [speedUpMessage, setSpeedUpMessage] = useState(false);
+
   const [highScore, setHighScore] = useState(0);
   const [countdown, setCountdown] = useState(60);
 
@@ -227,16 +227,11 @@ export default function TappingGame({
   useEffect(() => {
     if (gameStarted && countdown % 10 === 0 && countdown !== 60) {
       setIntervalTime((prevTime) => Math.max(prevTime - 150, 600));
-      setSpeedUpMessage(true);
-      setTimeout(() => setSpeedUpMessage(false), 1800);
+    }
+    if (countdown === 0) {
+      handleReset(true);
     }
   }, [countdown, gameStarted]);
-
-  useEffect(() => {
-    if (countdown === 0) {
-      handleReset();
-    }
-  }, [countdown]);
 
   useEffect(() => {
     if (score > highScore) {
@@ -279,21 +274,25 @@ export default function TappingGame({
 
   function handleStart() {
     setGameStarted(true);
-    setCountdown(60);
+    setCountdown(5);
   }
 
   function handlePause() {
     setGameStarted(false);
   }
 
-  function handleReset() {
+  function handleReset(delay = false) {
     setGameStarted(false);
     setActiveCircles([]);
     setActiveWrongCircles([]);
     setScore(0);
     setIntervalTime(1600);
-    setSpeedUpMessage(false);
-    setTimeout(() => setCountdown(60), 1800);
+
+    if (delay) {
+      setTimeout(() => setCountdown(60), 1800);
+    } else {
+      setCountdown(60);
+    }
   }
 
   return (
@@ -301,7 +300,7 @@ export default function TappingGame({
       {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
       {countdown > 0 &&
         countdown < 58 &&
-        (countdown % 10 === 0 || countdown % 10 === 9) && (
+        (countdown % 10 === 0 || countdown % 10 >= 9) && (
           <SpeedUpMessage>Speed up!</SpeedUpMessage>
         )}
       <BarAndCirclesContainer>
@@ -338,7 +337,9 @@ export default function TappingGame({
         ) : (
           <StyledStartButton onClick={handleStart}>Start</StyledStartButton>
         )}
-        <StyledResetButton onClick={handleReset}>Reset</StyledResetButton>
+        <StyledResetButton onClick={() => handleReset(false)}>
+          Reset
+        </StyledResetButton>
       </ButtonsContainer>
     </TappingGameContainer>
   );
