@@ -270,7 +270,7 @@ export default function TappingGame({
     if (!gameStarted || !clickAllowed) return;
 
     setClickAllowed(false);
-    setTimeout(() => setClickAllowed(true), 300);
+    setTimeout(() => setClickAllowed(true), 200);
     const energyChange = activeCircles.includes(index) ? 1 : -1;
     setScore((prevScore) => prevScore + energyChange);
     const newEnergyValue = Math.min(
