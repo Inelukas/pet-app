@@ -35,7 +35,7 @@ export default function Graveyard({ petCollection, setPetCollection }) {
               energy: 0,
               intelligence: 0,
             },
-            picture: "👻",
+            picture: "/images/ghost.png",
           };
         }
       }
