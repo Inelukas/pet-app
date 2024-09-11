@@ -298,11 +298,9 @@ export default function TappingGame({
   return (
     <TappingGameContainer>
       {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
-      {countdown > 0 &&
-        countdown < 58 &&
-        (countdown % 10 === 0 || countdown % 10 >= 9) && (
-          <SpeedUpMessage>Speed up!</SpeedUpMessage>
-        )}
+      {countdown > 0 && countdown < 58 && countdown % 10 === 0 && (
+        <SpeedUpMessage>Speed up!</SpeedUpMessage>
+      )}
       <BarAndCirclesContainer>
         <VerticalBar
           $critical={
