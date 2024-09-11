@@ -198,7 +198,6 @@ export default function TappingGame({
   const [speedUpMessage, setSpeedUpMessage] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [countdown, setCountdown] = useState(60);
-  const [timeUpMessage, setTimeUpMessage] = useState(false);
 
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
@@ -229,14 +228,12 @@ export default function TappingGame({
     if (gameStarted && countdown % 10 === 0 && countdown !== 60) {
       setIntervalTime((prevTime) => Math.max(prevTime - 150, 600));
       setSpeedUpMessage(true);
-      setTimeout(() => setSpeedUpMessage(false), 2000);
+      setTimeout(() => setSpeedUpMessage(false), 1800);
     }
   }, [countdown, gameStarted]);
 
   useEffect(() => {
     if (countdown === 0) {
-      setTimeUpMessage(true);
-      setTimeout(() => setTimeUpMessage(false), 1800);
       handleReset();
     }
   }, [countdown]);
@@ -296,12 +293,12 @@ export default function TappingGame({
     setScore(0);
     setIntervalTime(1600);
     setSpeedUpMessage(false);
-    setCountdown(60);
+    setTimeout(() => setCountdown(60), 1800);
   }
 
   return (
     <TappingGameContainer>
-      {timeUpMessage && <CountdownMessage>Time is up!</CountdownMessage>}
+      {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
       {speedUpMessage && <SpeedUpMessage>Speed up!</SpeedUpMessage>}
       <BarAndCirclesContainer>
         <VerticalBar
