@@ -1,4 +1,4 @@
-import React, { act, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Link from "next/link";
 import AnimatedPet from "@/components/AnimatedPet/AnimatedPet";
@@ -52,21 +52,34 @@ const grow = keyframes`
   }
 `;
 
+const StyledMain = styled.main`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
 const GardenContainer = styled.div`
   position: relative;
-  width: 100%;
-  height: 90vh;
-  background-image: url("/Background/pet-app-background-dalle.jpg");
+  width: 100vw;
+  max-width: 650px;
+  height: 100vh;
+  background-image: url("/Background/garden.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 900px) {
+    max-width: 800px;
+  }
 `;
 
 const PetWrapper = styled.div`
   position: absolute;
-  left: 45%;
-  bottom: 0px;
-  transform: translate(-50%, -50%);
+  bottom: 10%;
 `;
 
 const PetDisplay = styled.div`
@@ -93,16 +106,20 @@ const NavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  gap: 20px;
   padding: 5px;
-  background-color: var(--neutral-color);
+  background-color: var(--secondary-color);
   border-radius: 8px;
-  margin: auto;
-  max-width: 600px;
+  width: 50%;
+  max-width: 250px;
+  position: absolute;
+  bottom: 10px;
 `;
 
 const NavButton = styled.button`
   background-color: var(--primary-color);
-  color: var(--text-color);
+  color: var(--neutral-color);
   border: none;
   padding: 10px;
   text-align: center;
@@ -148,13 +165,15 @@ const DropdownMenu = styled.ul`
 `;
 
 const AdjustedListPageWrapper = styled(ListPageWrapper)`
-  bottom: 10%;
-  right: calc(50% - 45vw);
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
 `;
 
 const AdjustedDetailPageWrapper = styled(DetailPageWrapper)`
-  bottom: 10%;
-  left: calc(50% - 45vw);
+  bottom: 10px;
+  left: 10px;
+  position: absolute;
 `;
 
 const DropdownItem = styled.li`
@@ -271,21 +290,6 @@ const StatusLink = styled(Link)`
   text-decoration: none;
 `;
 
-const ListPageLink = styled.div`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 50px;
-  height: 50px;
-  background-color: var(--signal-color);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: var(--text-color);
-`;
-
 export default function Garden({
   activePet,
   petCollection,
@@ -294,21 +298,9 @@ export default function Garden({
   currentPet,
   setCurrentPet,
   onCurrentPet,
+  onDeadPet,
 }) {
   const [animationState, setAnimationState] = useState(null);
-  const [characteristicEffects, setCharacteristicEffects] = useState(() => {
-    if (activePet) {
-      const speedFactor = getSpeedFactor(activePet.characteristics);
-      const happinessFactor = getHappinessFactor(activePet.characteristics);
-      const hungerFactor = getHungerFactor(activePet.characteristics);
-
-      return {
-        speedFactor: speedFactor,
-        happinessFactor: happinessFactor,
-        hungerFactor: hungerFactor,
-      };
-    }
-  });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -325,14 +317,15 @@ export default function Garden({
                 hunger:
                   hunger < 100
                     ? Math.min(
-                        hunger + 5 * characteristicEffects.hungerFactor,
+                        hunger + 5 * getHungerFactor(activePet.characteristics),
                         100
                       )
                     : 100,
                 happiness:
                   happiness > 0
                     ? Math.max(
-                        happiness - 5 * characteristicEffects.happinessFactor,
+                        happiness -
+                          5 * getHappinessFactor(activePet.characteristics),
                         0
                       )
                     : 0,
@@ -349,7 +342,7 @@ export default function Garden({
           return pet;
         })
       );
-    }, 1000);
+    }, 2000);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
@@ -428,7 +421,7 @@ export default function Garden({
   }
 
   return (
-    <>
+    <StyledMain>
       <GardenContainer>
         <StatusContainer>
           <HorizontalBar
@@ -503,7 +496,7 @@ export default function Garden({
         </ButtonContainer>
         <PetWrapper>
           <PetDisplay
-            $movingSpeedFactor={characteristicEffects.speedFactor}
+            $movingSpeedFactor={getSpeedFactor(activePet.characteristics)}
             $alive={activePet.alive}
             $animationtype={animationState}
           >
@@ -511,8 +504,8 @@ export default function Garden({
               <AnimatedPet
                 pet={activePet.animations}
                 dying={activePet.dying}
-                movingSpeedFactor={characteristicEffects.speedFactor}
-                setPetCollection={setPetCollection}
+                movingSpeedFactor={getSpeedFactor(activePet.characteristics)}
+                onDeadPet={onDeadPet}
                 currentPet={currentPet}
               />
             ) : (
@@ -535,26 +528,27 @@ export default function Garden({
             🔎
           </Link>
         </AdjustedDetailPageWrapper>
+
+        <NavbarContainer>
+          <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
+          <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+            {activePet.picture}
+          </DropdownButton>
+          {isDropdownOpen && (
+            <DropdownMenu>
+              {petCollection.map((pet) => (
+                <DropdownItem
+                  key={pet.id}
+                  onClick={() => handlePetSelect(pet.id)}
+                >
+                  {pet.picture}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          )}
+          <NavButton onClick={() => onCurrentPet("next")}>→</NavButton>
+        </NavbarContainer>
       </GardenContainer>
-      <NavbarContainer>
-        <NavButton onClick={() => onCurrentPet("previous")}>Prev Pet</NavButton>
-        <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-          {activePet.picture}
-        </DropdownButton>
-        {isDropdownOpen && (
-          <DropdownMenu>
-            {petCollection.map((pet) => (
-              <DropdownItem
-                key={pet.id}
-                onClick={() => handlePetSelect(pet.id)}
-              >
-                {pet.picture}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        )}
-        <NavButton onClick={() => onCurrentPet("next")}>Next Pet</NavButton>
-      </NavbarContainer>
-    </>
+    </StyledMain>
   );
 }
