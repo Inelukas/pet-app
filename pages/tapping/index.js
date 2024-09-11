@@ -1,30 +1,30 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Indicator from "@/components/Indicator/Indicator";
-import { StyledSnakePage, StyledGameField } from "../snake";
+import {
+  StyledSnakePage,
+  StyledGameField,
+  StyledIndicatorContainer,
+  StyledScoreAndButtonContainer,
+  StyledScoreContainer,
+  StyledButtonContainer,
+} from "../snake";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
 
+const StyledHeader = styled.h1`
+  margin-bottom: 25px;
+`;
+
 const StyledTappingGameField = styled(StyledGameField)`
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 columns */
-  grid-template-rows: repeat(4, 1fr); /* 4 rows */
-  gap: 10px; /* Space between circles */
-  width: 100%;
-  height: 100%;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 10px;
+
+  min-height: 375px;
   padding: 10px;
   box-sizing: border-box;
-`;
-const BarAndCirclesContainer = styled.section`
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-`;
-
-const TappingIndicatorContainer = styled.section`
-  transform: rotate(270deg);
-  width: 300px;
 `;
 
 const TappingCircle = styled.button`
@@ -48,9 +48,9 @@ const TappingCircle = styled.button`
 
   border: 2px solid #ccc;
   cursor: pointer;
-  width: 100%; /* Make the button fill the grid cell */
-  height: 100%; /* Make the button fill the grid cell */
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 
   &:hover {
@@ -58,33 +58,30 @@ const TappingCircle = styled.button`
   }
 `;
 
-const SpanContainer = styled.section`
-  background-color: var(--secondary-color);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: center;
-  margin-top: 10px;
-
-  gap: 10px;
-  border-radius: 15px;
-  padding: 5px;
-  width: 310px;
-  height: 45px;
+const StyledTappingScoreContainer = styled(StyledScoreContainer)`
+  gap: 30px;
+  margin-top: -10px;
+  @media screen and (min-width: 600px) {
+    margin-top: 10px;
+  }
+  @media screen and (min-width: 900px) {
+    margin-top: 20px;
+  }
+  @media screen and (min-width: 1200px) {
+    margin-top: 20px;
+  }
 `;
 
-const ButtonsContainer = styled.section`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  width: 310px;
-  height: 45px;
-  margin-top: 5px;
+const StyledTappingButtonContainer = styled(StyledButtonContainer)`
+  margin-top: -20px;
+  @media screen and (min-width: 900px) {
+    margin-top: -30px;
+  }
 `;
 
 const SpeedUpMessage = styled.span`
   position: absolute;
-  top: 200px;
+  top: 5px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--signal-color);
@@ -115,7 +112,7 @@ const SpeedUpMessage = styled.span`
 `;
 
 const CountdownMessage = styled(SpeedUpMessage)`
-  top: 275px;
+  top: 50px;
   z-index: 1000;
 
   font-size: 4rem;
@@ -246,14 +243,14 @@ export default function TappingGame({
 
   return (
     <StyledSnakePage>
-      <h1>Tap the Capybara Game</h1>
-      {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
-      {countdown > 0 && countdown < 60 && countdown % 10 === 0 && (
-        <SpeedUpMessage>Speed up!</SpeedUpMessage>
-      )}
+      <StyledHeader>Tap the Capybara Game</StyledHeader>
+      <StyledTappingGameField>
+        {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
+        {countdown > 0 && countdown < 60 && countdown % 10 === 0 && (
+          <SpeedUpMessage>Speed up!</SpeedUpMessage>
+        )}
 
-      <BarAndCirclesContainer>
-        <TappingIndicatorContainer>
+        <StyledIndicatorContainer>
           <Indicator
             showBarName={false}
             data={{
@@ -261,32 +258,35 @@ export default function TappingGame({
               count: activePet.status.energy,
             }}
           />
-        </TappingIndicatorContainer>
-        <StyledTappingGameField>
-          {Array.from({ length: 20 }).map((_, index) => (
-            <TappingCircle
-              key={index}
-              isActive={activeCircles.includes(index)}
-              isWrongActive={activeWrongCircles.includes(index)}
-              onClick={() => handleCircleClick(index)}
-            />
-          ))}
-        </StyledTappingGameField>
-      </BarAndCirclesContainer>
-      <SpanContainer>
-        <span>Current Score: {score}</span>
-        <span>Highscore: {highScore}</span>
-        <span>Time left: {countdown}s</span>
-      </SpanContainer>
-      <ButtonsContainer>
-        <StyledLink href="/garden">Back</StyledLink>
-        {gameStarted ? (
-          <ConfirmButton onClick={handlePause}>Pause</ConfirmButton>
-        ) : (
-          <ConfirmButton onClick={handleStart}>Start</ConfirmButton>
-        )}
-        <ConfirmButton onClick={() => handleReset(false)}>Reset</ConfirmButton>
-      </ButtonsContainer>
+        </StyledIndicatorContainer>
+
+        {Array.from({ length: 20 }).map((_, index) => (
+          <TappingCircle
+            key={index}
+            isActive={activeCircles.includes(index)}
+            isWrongActive={activeWrongCircles.includes(index)}
+            onClick={() => handleCircleClick(index)}
+          />
+        ))}
+      </StyledTappingGameField>
+      <StyledScoreAndButtonContainer>
+        <StyledTappingScoreContainer>
+          <span>Current Score: {score}</span>
+          <span>Highscore: {highScore}</span>
+          <span>Time left: {countdown}s</span>
+        </StyledTappingScoreContainer>
+        <StyledTappingButtonContainer>
+          <StyledLink href="/garden">Back</StyledLink>
+          {gameStarted ? (
+            <ConfirmButton onClick={handlePause}>Pause</ConfirmButton>
+          ) : (
+            <ConfirmButton onClick={handleStart}>Start</ConfirmButton>
+          )}
+          <ConfirmButton onClick={() => handleReset(false)}>
+            Reset
+          </ConfirmButton>
+        </StyledTappingButtonContainer>
+      </StyledScoreAndButtonContainer>
     </StyledSnakePage>
   );
 }

@@ -44,11 +44,11 @@ export const StyledGameField = styled.div`
   }
 `;
 
-const StyledScoreAndButtonContainer = styled.section`
+export const StyledScoreAndButtonContainer = styled.section`
   position: relative;
 `;
 
-const StyledScoreContainer = styled.section`
+export const StyledScoreContainer = styled.section`
   display: flex;
   justify-content: space-between;
   width: 300px;
@@ -57,7 +57,7 @@ const StyledScoreContainer = styled.section`
   font-weight: 800;
 `;
 
-const StyledButtonContainer = styled.section`
+export const StyledButtonContainer = styled.section`
   display: flex;
   justify-content: space-between;
   margin-top: 10vh;
@@ -81,7 +81,7 @@ const StyledGameOver = styled.h1`
   left: 25%;
 `;
 
-const StyledHowToPlay = styled.div`
+export const StyledHowToPlay = styled.div`
   display: grid;
   place-content: center;
   gap: 20px;
