@@ -93,6 +93,7 @@ const SpeedUpMessage = styled.span`
   border-radius: 10px;
   animation: fadeInOut 2s ease;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
   z-index: 1000;
 
   @keyframes fadeInOut {
