@@ -313,61 +313,36 @@ export default function Garden({
               ...pet,
               status: {
                 ...pet.status,
-                hunger:
-                  hunger < 100
-                    ? Math.min(
-                        hunger +
-                          (5 *
-                            Math.round(
-                              characteristicEffects.hungerFactor *
-                                intelligenceFactor *
-                                10
-                            )) /
-                            10,
-                        100
-                      )
-                    : 100,
-                happiness:
-                  happiness > 0
-                    ? Math.max(
-                        happiness -
-                          (5 *
-                            Math.round(
-                              characteristicEffects.happinessFactor *
-                                intelligenceFactor *
-                                10
-                            )) /
-                            10,
-                        0
-                      )
-                    : 0,
-                energy:
-                  energy > 0
-                    ? Math.max(
-                        energy -
-                          (5 *
-                            Math.round(
-                              characteristicEffects.energyFactor *
-                                intelligenceFactor *
-                                10
-                            )) /
-                            10,
-                        0
-                      )
-                    : 0,
-                health:
-                  hunger === 100 && happiness === 0 && energy === 0
-                    ? Math.max(
-                        health -
-                          (5 *
-                            Math.round(
-                              characteristicEffects.healthFactor * 10
-                            )) /
-                            10,
-                        0
-                      )
-                    : health,
-                intelligence: pet.status.intelligence,
+                hunger: calculateIndicatorValue(
+                  "hunger",
+                  hunger,
+                  characteristicEffects.hungerFactor,
+                  intelligenceFactor
+                ),
+
+                happiness: calculateIndicatorValue(
+                  "happiness",
+                  happiness,
+                  characteristicEffects.happinessFactor,
+                  intelligenceFactor
+                ),
+
+                energy: calculateIndicatorValue(
+                  "energy",
+                  energy,
+                  characteristicEffects.energyFactor,
+                  intelligenceFactor
+                ),
+
+                health: calculateIndicatorValue(
+                  "health",
+                  health,
+                  characteristicEffects.healthFactor,
+                  intelligenceFactor,
+                  hunger,
+                  happiness,
+                  energy
+                ),
               },
               dying: pet.status.health === 0 ? true : false,
             };
@@ -380,7 +355,7 @@ export default function Garden({
     return () => {
       clearInterval(updateIndicatorsTimer);
     };
-  }, [currentPet]);
+  }, [currentPet, activePet]);
 
   function increaseStatus(statusKey) {
     const currentStatus = activePet.status[statusKey];
@@ -415,6 +390,32 @@ export default function Garden({
   function handlePetSelect(petId) {
     setCurrentPet(petId);
     setIsDropdownOpen(false);
+  }
+
+  function calculateIndicatorValue(
+    indicatorName,
+    indicator,
+    indicatorFactor,
+    intelligenceFactor,
+    hunger,
+    happiness,
+    energy
+  ) {
+    const indicatorChangeAmount =
+      (5 * Math.round(indicatorFactor * intelligenceFactor * 10)) / 10;
+
+    if (indicatorName === "health") {
+      const healthChangeAmount = (5 * Math.round(indicatorFactor * 10)) / 10;
+      return hunger === 100 && happiness === 0 && energy === 0
+        ? Math.max(indicator - healthChangeAmount, 0)
+        : indicator;
+    } else if (indicatorName === "hunger") {
+      return indicator < 100
+        ? Math.min(indicator + indicatorChangeAmount, 100)
+        : 100;
+    } else {
+      return indicator > 0 ? Math.max(indicator - indicatorChangeAmount, 0) : 0;
+    }
   }
 
   if (!activePet) {
