@@ -1,31 +1,20 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import Link from "next/link";
-import { VerticalBar, VerticalBarFill } from "../garden";
-import { Icon } from "../garden";
+import Indicator from "@/components/Indicator/Indicator";
+import { StyledSnakePage, StyledGameField } from "../snake";
+import StyledLink from "@/components/StyledLink/StyledLink";
+import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
 
-const TappingGameContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 3px;
-  height: 100vh;
-  width: 100vw;
-
-  @media screen and (min-width: 600px) {
-    transform: scale(1.2);
-  }
-  @media screen and (min-width: 900px) {
-    transform: scale(1.5);
-  }
-
-  @media screen and (min-width: 1200px) {
-    transform: scale(1.6);
-  }
+const StyledTappingGameField = styled(StyledGameField)`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columns */
+  grid-template-rows: repeat(4, 1fr); /* 4 rows */
+  gap: 10px; /* Space between circles */
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 `;
-
 const BarAndCirclesContainer = styled.section`
   display: flex;
 
@@ -33,52 +22,44 @@ const BarAndCirclesContainer = styled.section`
   align-items: center;
 `;
 
-const TappingCirclesContainer = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 310px;
-  height: 540px;
-
-  padding: 10px;
-  margin-top: 50px;
-  background-image: url("/images/green.jpg");
-
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 15px;
-  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
+const TappingIndicatorContainer = styled.section`
+  transform: rotate(270deg);
+  width: 300px;
 `;
 
 const TappingCircle = styled.button`
   background-image: ${({ isActive, isWrongActive }) =>
     isWrongActive
-      ? `url("/images/gollum.png"), url("/images/orange.jpg")`
+      ? `url("/images/ghost.png")`
       : isActive
-      ? `url("/images/capybara.png"), url("/images/orange.jpg")`
-      : `url("/images/silver.avif")`};
+      ? `url("/images/capybara.png")`
+      : "none"};
 
-  background-size: cover, cover;
+  background-size: contain, contain;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
+
+  background-color: ${({ isActive, isWrongActive }) =>
+    isWrongActive
+      ? `var(--signal-color)`
+      : isActive
+      ? `var(--signal-color)`
+      : `var(--neutral-color)`};
+
   border: 2px solid #ccc;
-
   cursor: pointer;
-  width: calc(25% - 10px);
-  height: calc(15% - 10px);
+  width: 100%; /* Make the button fill the grid cell */
+  height: 100%; /* Make the button fill the grid cell */
   border-radius: 50%;
-
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+
   &:hover {
     transform: scale(1.05);
   }
 `;
 
 const SpanContainer = styled.section`
-  background-image: url("/images/silver.avif");
+  background-color: var(--secondary-color);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -101,56 +82,12 @@ const ButtonsContainer = styled.section`
   margin-top: 5px;
 `;
 
-const StyledGardenLink = styled(Link)`
-  background-image: url("/images/backbutton.png");
-  background-color: transparent;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: transparent;
-  width: 70px;
-  height: 50px;
-
-  border: hidden;
-
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.2);
-  }
-`;
-
-const StyledStartButton = styled.button`
-  background-image: url("/images/playbutton.png");
-  background-color: transparent;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: transparent;
-  width: 70px;
-  height: 50px;
-  font-size: small;
-  border: hidden;
-
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.2);
-  }
-`;
-
-const StyledPauseButton = styled(StyledStartButton)`
-  background-image: url("/images/pausebutton.png");
-`;
-
-const StyledResetButton = styled(StyledStartButton)`
-  background-image: url("/images/resetbutton.png");
-`;
-
 const SpeedUpMessage = styled.span`
   position: absolute;
   top: 200px;
   left: 50%;
   transform: translateX(-50%);
-  background-image: url("/images/orange.jpg");
+  background-color: var(--signal-color);
   background-size: cover;
   background-repeat: no-repeat;
   color: #fff;
@@ -180,7 +117,7 @@ const SpeedUpMessage = styled.span`
 const CountdownMessage = styled(SpeedUpMessage)`
   top: 275px;
   z-index: 1000;
-  background-image: url("/images/red.jpg");
+
   font-size: 4rem;
 `;
 
@@ -271,7 +208,11 @@ export default function TappingGame({
 
     setClickAllowed(false);
     setTimeout(() => setClickAllowed(true), 200);
-    const energyChange = activeCircles.includes(index) ? 1 : -1;
+    const energyChange = activeCircles.includes(index)
+      ? 1
+      : activeWrongCircles.includes(index)
+      ? -1
+      : 0;
     setScore((prevScore) => prevScore + energyChange);
     const newEnergyValue = Math.min(
       activePet.status.energy + energyChange,
@@ -304,23 +245,24 @@ export default function TappingGame({
   }
 
   return (
-    <TappingGameContainer>
+    <StyledSnakePage>
+      <h1>Tap the Capybara Game</h1>
       {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
       {countdown > 0 && countdown < 60 && countdown % 10 === 0 && (
         <SpeedUpMessage>Speed up!</SpeedUpMessage>
       )}
+
       <BarAndCirclesContainer>
-        <VerticalBar
-          $critical={
-            activePet.status.energy <= 25 && activePet.status.health !== 0
-          }
-        >
-          <Icon role="img" aria-label="A battery indicating energy">
-            🔋
-          </Icon>
-          <VerticalBarFill $bgcolor="yellow" value={activePet.status.energy} />
-        </VerticalBar>
-        <TappingCirclesContainer>
+        <TappingIndicatorContainer>
+          <Indicator
+            showBarName={false}
+            data={{
+              name: "energy",
+              count: activePet.status.energy,
+            }}
+          />
+        </TappingIndicatorContainer>
+        <StyledTappingGameField>
           {Array.from({ length: 20 }).map((_, index) => (
             <TappingCircle
               key={index}
@@ -329,7 +271,7 @@ export default function TappingGame({
               onClick={() => handleCircleClick(index)}
             />
           ))}
-        </TappingCirclesContainer>
+        </StyledTappingGameField>
       </BarAndCirclesContainer>
       <SpanContainer>
         <span>Current Score: {score}</span>
@@ -337,16 +279,14 @@ export default function TappingGame({
         <span>Time left: {countdown}s</span>
       </SpanContainer>
       <ButtonsContainer>
-        <StyledGardenLink href="/garden">Back</StyledGardenLink>
+        <StyledLink href="/garden">Back</StyledLink>
         {gameStarted ? (
-          <StyledPauseButton onClick={handlePause}>Pause</StyledPauseButton>
+          <ConfirmButton onClick={handlePause}>Pause</ConfirmButton>
         ) : (
-          <StyledStartButton onClick={handleStart}>Start</StyledStartButton>
+          <ConfirmButton onClick={handleStart}>Start</ConfirmButton>
         )}
-        <StyledResetButton onClick={() => handleReset(false)}>
-          Reset
-        </StyledResetButton>
+        <ConfirmButton onClick={() => handleReset(false)}>Reset</ConfirmButton>
       </ButtonsContainer>
-    </TappingGameContainer>
+    </StyledSnakePage>
   );
 }

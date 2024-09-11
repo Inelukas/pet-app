@@ -8,7 +8,7 @@ import StyledLink from "@/components/StyledLink/StyledLink";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const StyledSnakePage = styled.main`
+export const StyledSnakePage = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,7 +25,7 @@ const StyledSnakePage = styled.main`
   }
 `;
 
-const StyledGameField = styled.div`
+export const StyledGameField = styled.div`
   display: grid;
   place-content: center;
   width: 300px;
