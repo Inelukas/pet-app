@@ -114,8 +114,8 @@ const SpeedUpMessage = styled.span`
 const CountdownMessage = styled(SpeedUpMessage)`
   top: 50px;
   z-index: 1000;
-
-  font-size: 4rem;
+  font-size: 2rem;
+  white-space: nowrap;
 `;
 
 export default function TappingGame({
