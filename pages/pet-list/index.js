@@ -2,7 +2,10 @@ import styled from "styled-components";
 import Pet from "@/components/Pet/Pet";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Link from "next/link";
-import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
+import {
+  GardenPageWrapper,
+  ListPageWrapper,
+} from "@/components/LinkButtons/LinkButtons";
 import createIcon from "../../public/assets/create.png";
 import Image from "next/image";
 
@@ -26,10 +29,6 @@ const StyledPet = styled(Link)`
   text-decoration: none;
 `;
 
-const PetListButtonWrapper = styled.section`
-  display: flex;
-`;
-
 export default function PetList({ petCollection }) {
   return (
     <StyledMain>
@@ -46,18 +45,18 @@ export default function PetList({ petCollection }) {
       ) : (
         <h1>You don&apos;t have any pets.</h1>
       )}
-      <PetListButtonWrapper>
-        <GardenPageWrapper>
-          <Link href="/garden" aria-label="A golf hole indicating the Garden">
-            ⛳
-          </Link>
-        </GardenPageWrapper>
-        <GardenPageWrapper>
-          <Link href="/graveyard" aria-label="Coffing indicating Graveyard">
-            ⚰️
-          </Link>
-        </GardenPageWrapper>
-      </PetListButtonWrapper>
+
+      <GardenPageWrapper>
+        <Link href="/garden" aria-label="A golf hole indicating the Garden">
+          ⛳
+        </Link>
+      </GardenPageWrapper>
+      <ListPageWrapper>
+        <Link href="/graveyard" aria-label="Coffing indicating Graveyard">
+          ⚰️
+        </Link>
+      </ListPageWrapper>
+
       <StyledLink href="/create">
         <Image src={createIcon} alt="Create Icon" width={30} />
       </StyledLink>
