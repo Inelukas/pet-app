@@ -227,20 +227,11 @@ export default function PetDetails({ petCollection, onDeletePet }) {
       <PetPictureContainer>
         <PictureAndDeleteContainer>
           <PetPicture>
-            {pet.alive ? (
-              pet.revive ? (
-                <Image
-                  src={ghostImage}
-                  alt="Ghost Icon"
-                  width={70}
-                  height={70}
-                />
-              ) : (
-                pet.picture
-              )
-            ) : (
-              "☠"
-            )}
+            {!pet.alive && pet.revived
+              ? pet.picture
+              : pet.alive
+              ? pet.picture
+              : "☠"}
           </PetPicture>
 
           {isDelete && (
