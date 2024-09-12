@@ -111,7 +111,9 @@ export default function App({ Component, pageProps }) {
                 [indicator]: newHappinessValue,
                 intelligence: Math.min(
                   pet.status.intelligence +
-                    (score >= 5 ? getIntelligenceFactor() : 0),
+                    (score >= 5
+                      ? getIntelligenceFactor(activePet.characteristics)
+                      : 0),
                   100
                 ),
               },
