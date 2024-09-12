@@ -35,7 +35,7 @@ const StyledGameFieldAndScoreContainer = styled.section`
 const TappingCircle = styled.button`
   background-image: ${({ isActive, isWrongActive }) =>
     isWrongActive
-      ? `url("/images/ghost.png")`
+      ? `url("/images/ghost_front.png")`
       : isActive
       ? `url("/images/capybara.png")`
       : "none"};
