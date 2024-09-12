@@ -5,19 +5,14 @@ import Image from "next/image";
 
 const PlayerWrapper = styled.div`
   display: flex;
-  bottom: 0;
-  left: 0;
 `;
 
 const NoteIcon = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: fixed;
   width: 40px;
   height: 40px;
   right: 0px;
-  top: 500px;
+  bottom: 0px;
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 0.2s;
@@ -26,17 +21,20 @@ const NoteIcon = styled.div`
     opacity: 1;
     scale: 1.1;
   }
+
+  @media screen and (min-width: 600px) {
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
+  }
 `;
 
 const PlayerContainer = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
   position: fixed;
-  gap: 10px;
-  background-color: #697565;
+  background-color: grey;
   border-radius: 10px;
-  width: 100px;
-  height: 500px;
+  width: 50px;
+  height: 700px;
   right: 0px;
   top: 500px;
   margin: 20px;
@@ -46,6 +44,12 @@ const PlayerContainer = styled(motion.div)`
 
   &:hover {
     opacity: 1;
+  }
+
+  @media screen and (min-width: 600px) {
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
   }
 `;
 
@@ -60,8 +64,6 @@ const PlayPauseButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
   opacity: 0.6;
 
   &:hover {
@@ -70,7 +72,6 @@ const PlayPauseButton = styled.button`
 `;
 
 const ArrowIcon = styled.div`
-  display: flex;
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -83,8 +84,6 @@ const ArrowIcon = styled.div`
 `;
 
 const VolumeControl = styled(motion.input)`
-  display: flex;
-  justify-content: center;
   border-radius: 5px;
   background: #697565;
   outline: none;
