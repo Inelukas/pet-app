@@ -138,7 +138,7 @@ export default function AnimatedPet({
   useEffect(() => {
     const setStateInterval = setInterval(() => {
       setSleepy((prevVal) =>
-        Math.ceil(Math.random() * 10) >= 5 ? !prevVal : prevVal
+        Math.ceil(Math.random() * 10) >= 2 ? !prevVal : prevVal
       );
     }, 20000 * movingSpeedFactor);
     return () => clearInterval(setStateInterval);
