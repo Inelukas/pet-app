@@ -402,21 +402,13 @@ export default function Garden({
             </VerticalBarContainer>
           </StatusContainer>
         )}
-        {activePet && (
+        {activePet && !activePet.revived && (
           <ButtonContainer>
             <StatusLink
-              href={
-                activePet.alive && !activePet.revived
-                  ? "/game-catch-the-food"
-                  : ""
-              }
+              href={activePet.alive ? "/game-catch-the-food" : ""}
               $bgcolor="orange"
               onClick={() => increaseStatus("hunger")}
-              disabled={
-                !activePet.alive ||
-                activePet.revived ||
-                activePet.status.hunger === 0
-              }
+              disabled={!activePet.alive || activePet.status.hunger === 0}
             >
               <span role="img" aria-label="feed">
                 🍽️
@@ -424,9 +416,9 @@ export default function Garden({
             </StatusLink>
 
             <StatusLink
-              href={activePet.alive && !activePet.revived ? "/snake" : ""}
+              href={activePet.alive ? "/snake" : ""}
               $bgcolor="pink"
-              disabled={!activePet.alive || activePet.revived}
+              disabled={!activePet.alive}
             >
               <span aria-label="celebration">🎉</span>
             </StatusLink>
