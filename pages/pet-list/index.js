@@ -31,7 +31,7 @@ export default function PetList({ petCollection }) {
   const livingAndRevivedPets = petCollection.filter(
     (pet) => pet.alive || pet.revived
   );
-
+  console.log(petCollection);
   return (
     <StyledMain>
       {livingAndRevivedPets.length > 0 ? (
