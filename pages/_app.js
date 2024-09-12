@@ -9,38 +9,6 @@ export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useState(pets);
   const [currentPet, setCurrentPet] = useState(pets[0].id);
   const activePet = petCollection.find((pet) => pet.id === currentPet);
-
-  const [characteristicEffects, setCharacteristicEffects] = useState({
-    speedFactor: 1,
-    happinessFactor: 1,
-    hungerFactor: 1,
-    healthFactor: 1,
-    energyFactor: 1,
-    intelligenceFactor: 1,
-  });
-
-  useEffect(() => {
-    if (activePet) {
-      const speedFactor = getSpeedFactor(activePet.characteristics);
-      const happinessFactor = getHappinessFactor(activePet.characteristics);
-      const hungerFactor = getHungerFactor(activePet.characteristics);
-      const healthFactor = getHealthFactor(activePet.characteristics);
-      const energyFactor = getEnergyFactor(activePet.characteristics);
-      const intelligenceFactor = getIntelligenceFactor(
-        activePet.characteristics
-      );
-
-      setCharacteristicEffects({
-        speedFactor,
-        happinessFactor,
-        hungerFactor,
-        healthFactor,
-        energyFactor,
-        intelligenceFactor,
-      });
-    }
-  }, [activePet]);
-
   const router = useRouter();
 
   function handleCreatePet(petData) {
@@ -143,7 +111,7 @@ export default function App({ Component, pageProps }) {
                 [indicator]: newHappinessValue,
                 intelligence: Math.min(
                   pet.status.intelligence +
-                    (score >= 5 ? characteristicEffects.intelligenceFactor : 0),
+                    (score >= 5 ? getIntelligenceFactor() : 0),
                   100
                 ),
               },
@@ -206,6 +174,16 @@ export default function App({ Component, pageProps }) {
       : 1;
     return healthFactor;
   }
+  function handleDeadPet() {
+    setPetCollection((prevPets) =>
+      prevPets.map((pet) => {
+        if (pet.id === currentPet) {
+          return { ...pet, dying: false, alive: false };
+        }
+        return pet;
+      })
+    );
+  }
 
   return (
     <>
@@ -224,7 +202,13 @@ export default function App({ Component, pageProps }) {
         onInteractPet={handleInteractPet}
         onCurrentPet={handleCurrentPet}
         onUpdatePetIndicator={handleUpdatePetIndicator}
-        characteristicEffects={characteristicEffects}
+        onDeadPet={handleDeadPet}
+        onHealthFactor={getHealthFactor}
+        onIntelligenceFactor={getIntelligenceFactor}
+        onEnergyFactor={getEnergyFactor}
+        onHappinessFactor={getHappinessFactor}
+        onHungerFactor={getHungerFactor}
+        onSpeedFactor={getSpeedFactor}
       />
     </>
   );

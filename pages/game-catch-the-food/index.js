@@ -127,13 +127,10 @@ const getRandomItem = () => {
   };
 };
 export default function GamePage({
-  petCollection,
-  currentPet,
+  activePet,
   onUpdatePetIndicator,
-  characteristicEffects,
+  onSpeedFactor,
 }) {
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
-
   const [items, setItems] = useState([]);
   const [avatarX, setAvatarX] = useState(180);
   const [counter, setCounter] = useState(0);
@@ -157,7 +154,7 @@ export default function GamePage({
     if (isPlaying) {
       const interval = setInterval(() => {
         setItems((prevItems) => [...prevItems, getRandomItem()]);
-      }, 200 + 1000 * characteristicEffects.speedFactor);
+      }, 200 + 1000 * onSpeedFactor(activePet.characteristics));
       return () => clearInterval(interval);
     }
   }, [isPlaying]);
@@ -218,7 +215,7 @@ export default function GamePage({
               return true;
             })
         );
-      }, 20 + 30 * characteristicEffects.speedFactor);
+      }, 20 + 30 * onSpeedFactor(activePet.characteristics));
     }
 
     if (!isPlaying) {

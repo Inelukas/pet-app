@@ -116,7 +116,7 @@ const StyledHowToPlay = styled.div`
 export default function SnakeGame({
   onUpdatePetIndicator,
   activePet,
-  characteristicEffects,
+  onSpeedFactor,
 }) {
   const [gameOn, setGameOn] = useState(true);
   const [playerPosition, setPlayerPosition] = useState({ x: 140, y: 140 });
@@ -193,7 +193,7 @@ export default function SnakeGame({
 
     const moveInterval = setInterval(
       movePlayer,
-      100 * characteristicEffects.speedFactor + 50
+      100 * onSpeedFactor(activePet.characteristics) + 50
     );
     return () => clearInterval(moveInterval);
   }, [directions, playerPosition, foodPosition]);
