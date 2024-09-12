@@ -23,8 +23,8 @@ export const GlobalStyle = createGlobalStyle`
 
 
   body {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
     background-color: var(--primary-color);
     background-image: var(--create-image);
       }

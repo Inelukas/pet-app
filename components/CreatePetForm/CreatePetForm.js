@@ -141,6 +141,7 @@ export default function CreatePetForm({
       id: initialData?.id,
       type: petInfo.type,
       picture: petInfo.icon,
+      animations: petInfo.animations,
       characteristics: [
         characteristics.characteristic1,
         characteristics.characteristic2,

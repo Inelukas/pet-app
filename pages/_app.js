@@ -90,6 +90,17 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  function handleDeadPet() {
+    setPetCollection((prevPets) =>
+      prevPets.map((pet) => {
+        if (pet.id === currentPet) {
+          return { ...pet, dying: false, alive: false };
+        }
+        return pet;
+      })
+    );
+  }
+
   const activePet = petCollection.find((pet) => pet.id === currentPet);
 
   return (
@@ -109,6 +120,7 @@ export default function App({ Component, pageProps }) {
         onInteractPet={handleInteractPet}
         onCurrentPet={handleCurrentPet}
         onUpdatePetIndicator={handleUpdatePetIndicator}
+        onDeadPet={handleDeadPet}
       />
     </>
   );
