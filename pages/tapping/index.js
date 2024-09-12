@@ -300,7 +300,7 @@ export default function TappingGame({
               <li>
                 {" "}
                 Try to tap the circles lighting up, but only those displaying a
-                capybara. Tapping a capybara rewards one point.{" "}
+                capybara. Tapping a capybara rewards points.{" "}
               </li>{" "}
               <li>
                 {" "}
