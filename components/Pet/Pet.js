@@ -124,6 +124,7 @@ export default function Pet({ petData, onGraveyard }) {
           <>
             <p>
               <span>Time of Death: </span>
+              {new Date(petData.timeOfDeath).toLocaleString()}
             </p>
             <ReviveButton onClick={() => onGraveyard(petData.id)}>
               Revive Pet

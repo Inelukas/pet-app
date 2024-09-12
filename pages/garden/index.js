@@ -446,7 +446,7 @@ export default function Garden({
             $movingSpeedFactor={getSpeedFactor(activePet.characteristics)}
             $alive={activePet.alive}
           >
-            {activePet.alive ? (
+            {activePet.alive || activePet.revived ? (
               <AnimatedPet
                 pet={activePet.animations}
                 dying={activePet.dying}

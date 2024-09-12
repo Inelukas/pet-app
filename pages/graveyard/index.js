@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import Pet from "@/components/Pet/Pet";
 import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
-import { GardenContainer, StyledMain } from "../garden";
+import { GardenContainer } from "../garden";
 
 const GraveyardContainer = styled(GardenContainer)`
   background-image: url("/Background/graveyard.png");
@@ -15,34 +15,39 @@ const StyledGraveyardMain = styled.main`
   justify-content: center;
 `;
 
-export default function Graveyard({ petCollection, setPetCollection }) {
+export default function Graveyard({ petCollection, onPetCollection }) {
   const deadPets = petCollection.filter((pet) => !pet.alive && !pet.revived);
 
-  const handleRevive = (petId) => {
-    const updatedPets = petCollection.map((pet) => {
+  function handleRevive(petId) {
+    const updatedPets = petCollection.map(function (pet) {
       if (pet.id === petId) {
-        {
-          return {
-            ...pet,
-            alive: false,
-            revived: true,
-            dying: false,
-            status: {
-              health: 0,
-              hunger: 0,
-              happiness: 0,
-              energy: 0,
-              intelligence: 0,
-            },
-            picture: "/images/ghost.png",
-          };
-        }
+        return {
+          ...pet,
+          alive: false,
+          revived: true,
+          dying: false,
+          animations: {
+            slug: "ghost",
+            size: "32",
+            spriteNumber: { normal: 4, sleepy: 4 },
+            scale: 3,
+            position: 100,
+          },
+          status: {
+            health: 0,
+            hunger: 0,
+            happiness: 0,
+            energy: 0,
+            intelligence: 0,
+          },
+          picture: "/images/ghost.png",
+        };
       }
       return pet;
     });
 
-    setPetCollection(updatedPets);
-  };
+    onPetCollection(updatedPets);
+  }
 
   return (
     <StyledGraveyardMain>
@@ -54,7 +59,7 @@ export default function Graveyard({ petCollection, setPetCollection }) {
             ))}
           </>
         ) : (
-          <h1>No pets in the graveyard.</h1>
+          ``
         )}
 
         <GardenPageWrapper>

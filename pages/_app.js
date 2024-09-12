@@ -94,7 +94,12 @@ export default function App({ Component, pageProps }) {
     setPetCollection((prevPets) =>
       prevPets.map((pet) => {
         if (pet.id === currentPet) {
-          return { ...pet, dying: false, alive: false };
+          return {
+            ...pet,
+            dying: false,
+            alive: false,
+            timeOfDeath: new Date().toISOString(),
+          };
         }
         return pet;
       })
@@ -102,7 +107,7 @@ export default function App({ Component, pageProps }) {
   }
 
   const activePet = petCollection.find((pet) => pet.id === currentPet);
-
+  console.log(activePet);
   return (
     <>
       <GlobalStyle />
@@ -121,6 +126,7 @@ export default function App({ Component, pageProps }) {
         onCurrentPet={handleCurrentPet}
         onUpdatePetIndicator={handleUpdatePetIndicator}
         onDeadPet={handleDeadPet}
+        onPetCollection={setPetCollection}
       />
     </>
   );

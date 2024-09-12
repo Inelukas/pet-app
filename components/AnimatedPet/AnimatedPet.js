@@ -11,6 +11,7 @@ const animationsMap = {
   dragonfly: createAnimations("0", "-64px", "-96px", 32, 4, 4, 7),
   capybara: createAnimations("-512px", "-384px", "-192px", 64, 8, 8, 8),
   samantha: createAnimations("0", "-134px", "-268px", 140, 5, 5, 5),
+  ghost: createAnimations("0", "-32px", "0", 32, 4, 4),
 };
 
 function createAnimation(startY, width, frames, startX = 0) {
