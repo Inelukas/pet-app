@@ -482,9 +482,7 @@ export default function Garden({
                 alt={activePet.name}
                 width={30}
                 height={30}
-                layout="responsive"
                 quality={100}
-                // sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
               />
             </DropdownButton>
             {isDropdownOpen && (
@@ -499,9 +497,7 @@ export default function Garden({
                       alt={pet.name}
                       width={10}
                       height={10}
-                      layout="responsive"
                       quality={100}
-                      //sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
                     />
                   </DropdownItem>
                 ))}
