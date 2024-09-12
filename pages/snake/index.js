@@ -8,7 +8,7 @@ import StyledLink from "@/components/StyledLink/StyledLink";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const StyledSnakePage = styled.main`
+export const StyledSnakePage = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,7 +25,7 @@ const StyledSnakePage = styled.main`
   }
 `;
 
-const StyledGameField = styled.div`
+export const StyledGameField = styled.div`
   display: grid;
   place-content: center;
   width: 300px;
@@ -44,11 +44,11 @@ const StyledGameField = styled.div`
   }
 `;
 
-const StyledScoreAndButtonContainer = styled.div`
+export const StyledScoreAndButtonContainer = styled.section`
   position: relative;
 `;
 
-const StyledScoreContainer = styled.div`
+export const StyledScoreContainer = styled.section`
   display: flex;
   justify-content: space-between;
   width: 300px;
@@ -57,13 +57,13 @@ const StyledScoreContainer = styled.div`
   font-weight: 800;
 `;
 
-const StyledButtonContainer = styled.div`
+export const StyledButtonContainer = styled.section`
   display: flex;
   justify-content: space-between;
   margin-top: 10vh;
 `;
 
-const StyledIndicatorContainer = styled.div`
+export const StyledIndicatorContainer = styled.section`
   position: absolute;
   left: -175px;
   top: 60px;
@@ -81,7 +81,7 @@ const StyledGameOver = styled.h1`
   left: 25%;
 `;
 
-const StyledHowToPlay = styled.div`
+export const StyledHowToPlay = styled.div`
   display: grid;
   place-content: center;
   gap: 20px;
