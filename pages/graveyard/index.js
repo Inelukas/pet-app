@@ -2,19 +2,17 @@ import styled from "styled-components";
 import Link from "next/link";
 import Pet from "@/components/Pet/Pet";
 import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
+import { GardenContainer, StyledMain } from "../garden";
 
-const GraveyardContainer = styled.section`
-  position: relative;
+const GraveyardContainer = styled(GardenContainer)`
+  background-image: url("/Background/graveyard.png");
+`;
+
+const StyledGraveyardMain = styled.main`
   width: 100%;
-  height: 90vh;
-  background-image: url("/Background/graveyard.webp");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
+  justify-content: center;
 `;
 
 export default function Graveyard({ petCollection, setPetCollection }) {
@@ -26,8 +24,9 @@ export default function Graveyard({ petCollection, setPetCollection }) {
         {
           return {
             ...pet,
-            alive: true,
+            alive: false,
             revived: true,
+            dying: false,
             status: {
               health: 0,
               hunger: 0,
@@ -46,22 +45,24 @@ export default function Graveyard({ petCollection, setPetCollection }) {
   };
 
   return (
-    <GraveyardContainer>
-      {deadPets.length > 0 ? (
-        <>
-          {deadPets.map((pet) => (
-            <Pet petData={pet} key={pet.id} onGraveyard={handleRevive} />
-          ))}
-        </>
-      ) : (
-        <h1>No pets in the graveyard.</h1>
-      )}
+    <StyledGraveyardMain>
+      <GraveyardContainer>
+        {deadPets.length > 0 ? (
+          <>
+            {deadPets.map((pet) => (
+              <Pet petData={pet} key={pet.id} onGraveyard={handleRevive} />
+            ))}
+          </>
+        ) : (
+          <h1>No pets in the graveyard.</h1>
+        )}
 
-      <GardenPageWrapper>
-        <Link href="/pet-list" aria-label="A Staple of Books indicating List">
-          📚
-        </Link>
-      </GardenPageWrapper>
-    </GraveyardContainer>
+        <GardenPageWrapper>
+          <Link href="/pet-list" aria-label="A Staple of Books indicating List">
+            📚
+          </Link>
+        </GardenPageWrapper>
+      </GraveyardContainer>
+    </StyledGraveyardMain>
   );
 }

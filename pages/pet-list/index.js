@@ -3,9 +3,9 @@ import Pet from "@/components/Pet/Pet";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Link from "next/link";
 import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
-import { AdjustedListPageWrapper } from "../garden";
 import createIcon from "../../public/assets/create.png";
 import Image from "next/image";
+import { AdjustedListPageWrapper } from "../garden";
 
 const StyledMain = styled.main`
   display: flex;
@@ -28,15 +28,11 @@ const StyledPet = styled(Link)`
 `;
 
 export default function PetList({ petCollection }) {
-  const livingAndRevivedPets = petCollection.filter(
-    (pet) => pet.alive || pet.revived
-  );
-  console.log(petCollection);
   return (
     <StyledMain>
-      {livingAndRevivedPets.length > 0 ? (
+      {petCollection.length > 0 ? (
         <StyledPetList>
-          {livingAndRevivedPets.map((pet) => {
+          {petCollection.map((pet) => {
             return (
               <StyledPet key={pet.id} href={`/pet-details/${pet.id}`}>
                 <Pet petData={pet} />
@@ -47,7 +43,6 @@ export default function PetList({ petCollection }) {
       ) : (
         <h1>You don&apos;t have any pets.</h1>
       )}
-
       <GardenPageWrapper>
         <Link href="/garden" aria-label="A golf hole indicating the Garden">
           ⛳
@@ -58,7 +53,6 @@ export default function PetList({ petCollection }) {
           ⚰️
         </Link>
       </AdjustedListPageWrapper>
-
       <StyledLink href="/create">
         <Image src={createIcon} alt="Create Icon" width={30} />
       </StyledLink>

@@ -26,7 +26,7 @@ const StyledMain = styled.main`
   justify-content: center;
 `;
 
-const GardenContainer = styled.div`
+export const GardenContainer = styled.div`
   position: relative;
   width: 100vw;
   max-width: 650px;
@@ -114,7 +114,7 @@ const DropdownMenu = styled.ul`
   }
 `;
 
-const AdjustedListPageWrapper = styled(ListPageWrapper)`
+export const AdjustedListPageWrapper = styled(ListPageWrapper)`
   bottom: 10px;
   right: 10px;
   position: absolute;
@@ -256,7 +256,7 @@ export default function Garden({
     const updateIndicatorsTimer = setInterval(() => {
       setPetCollection((prevPets) =>
         prevPets.map((pet) => {
-          if (pet.id === currentPet) {
+          if (pet.id === currentPet && !pet.revived) {
             const { hunger, happiness, energy, health } = pet.status;
 
             return {
@@ -299,6 +299,9 @@ export default function Garden({
   }, [currentPet]);
 
   function increaseStatus(statusKey) {
+    if (activePet.revived) {
+      return;
+    }
     const currentStatus = activePet.status[statusKey];
     if (statusKey === "hunger") {
       activePet.status[statusKey] = Math.max(currentStatus - 5, 0);
@@ -402,10 +405,18 @@ export default function Garden({
         {activePet && (
           <ButtonContainer>
             <StatusLink
-              href={activePet.alive ? "/game-catch-the-food" : ""}
+              href={
+                activePet.alive && !activePet.revived
+                  ? "/game-catch-the-food"
+                  : ""
+              }
               $bgcolor="orange"
               onClick={() => increaseStatus("hunger")}
-              disabled={!activePet.alive || activePet.status.hunger === 0}
+              disabled={
+                !activePet.alive ||
+                activePet.revived ||
+                activePet.status.hunger === 0
+              }
             >
               <span role="img" aria-label="feed">
                 🍽️
@@ -413,21 +424,23 @@ export default function Garden({
             </StatusLink>
 
             <StatusLink
-              href={activePet.alive ? "/snake" : ""}
+              href={activePet.alive && !activePet.revived ? "/snake" : ""}
               $bgcolor="pink"
-              disabled={!activePet.alive}
+              disabled={!activePet.alive || activePet.revived}
             >
               <span aria-label="celebration">🎉</span>
             </StatusLink>
+
             <StatusButton
               $bgcolor="yellow"
               onClick={() => increaseStatus("energy")}
-              disabled={!activePet.alive}
+              disabled={!activePet.alive || activePet.revived}
             >
               Train
             </StatusButton>
           </ButtonContainer>
         )}
+
         {activePet && (
           <PetWrapper
             $movingSpeedFactor={getSpeedFactor(activePet.characteristics)}
@@ -463,7 +476,6 @@ export default function Garden({
             </Link>
           </AdjustedDetailPageWrapper>
         )}
-
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
