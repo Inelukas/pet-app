@@ -291,14 +291,29 @@ export default function Garden({
     defaultValue: { snakeGame: 0 },
   });
 
-  //following UseEffect for time achievements
+  const [totalTimeSpent, setTotalTimeSpent] = useLocalStorageState(
+    "totalGardenTime",
+    {
+      defaultValue: 0,
+    }
+  );
+
+  // Timer for overall time spent in Garden
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowTwig(true);
+    const interval = setInterval(() => {
+      setTotalTimeSpent((prevTime) => prevTime + 1);
     }, 1000);
 
-    return () => clearTimeout(timer);
-  }, []);
+    // stop timer when leaving garden
+    return () => clearInterval(interval);
+  }, [setTotalTimeSpent]);
+
+  // Show twig after 10 seconds
+  useEffect(() => {
+    if (totalTimeSpent >= 10) {
+      setShowTwig(true);
+    }
+  }, [totalTimeSpent]);
 
   //following useEggect for Highscore Achievements
   useEffect(() => {
