@@ -165,7 +165,10 @@ const MusicPlayer = () => {
         }
         transition={{ duration: 0.5 }}
       >
-        <audio ref={audioRef} src="/assets/music/test.mp3" />
+        <audio
+          ref={audioRef}
+          src="/assets/music/catch-the-food-game-soundtrack.mp3"
+        />
 
         <Controls>
           <PlayPauseButton onClick={togglePlayPause}>
