@@ -8,6 +8,7 @@ import {
   StyledScoreAndButtonContainer,
   StyledScoreContainer,
   StyledButtonContainer,
+  StyledHowToPlay,
 } from "../snake";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
@@ -25,6 +26,10 @@ const StyledTappingGameField = styled(StyledGameField)`
   min-height: 375px;
   padding: 10px;
   box-sizing: border-box;
+`;
+
+const StyledGameFieldAndScoreContainer = styled.section`
+  display: flex;
 `;
 
 const TappingCircle = styled.button`
@@ -59,6 +64,7 @@ const TappingCircle = styled.button`
 `;
 
 const StyledTappingScoreContainer = styled(StyledScoreContainer)`
+  margin-left: 30px;
   gap: 30px;
   margin-top: -10px;
   @media screen and (min-width: 600px) {
@@ -77,6 +83,16 @@ const StyledTappingButtonContainer = styled(StyledButtonContainer)`
   @media screen and (min-width: 900px) {
     margin-top: -30px;
   }
+`;
+
+const TappingConfirmButton = styled(ConfirmButton)`
+  width: 3rem;
+  height: 3rem;
+  font-size: 1rem;
+`;
+
+const StyledTappingLink = styled(StyledLink)`
+  font-size: 1rem;
 `;
 
 const SpeedUpMessage = styled.span`
@@ -130,7 +146,7 @@ export default function TappingGame({
   const [gameStarted, setGameStarted] = useState(false);
   const [intervalTime, setIntervalTime] = useState(1600);
   const [clickAllowed, setClickAllowed] = useState(true);
-
+  const [instructions, setInstructions] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [countdown, setCountdown] = useState(60);
 
@@ -242,6 +258,10 @@ export default function TappingGame({
     }
   }
 
+  function toggleInstructions() {
+    setInstructions((prevInstructions) => !prevInstructions);
+  }
+
   return (
     <StyledSnakePage>
       <StyledHeader>Tap the Capybara Game</StyledHeader>
@@ -269,6 +289,36 @@ export default function TappingGame({
             onClick={() => handleCircleClick(index)}
           />
         ))}
+        {instructions && (
+          <StyledHowToPlay>
+            <h2>How To Play</h2>
+            <ul>
+              <li>
+                {" "}
+                Use your mouse or finger to tap the circles on the screen.{" "}
+              </li>{" "}
+              <li>
+                {" "}
+                Try to tap the circles lighting up, but only those displaying a
+                capybara. Tapping a capybara rewards one point.{" "}
+              </li>{" "}
+              <li>
+                {" "}
+                Tapping a circle displaying a ghost will result in point
+                deduction.{" "}
+              </li>{" "}
+              <li>
+                {" "}
+                More tapped capybaras = more energy! Each capybara adds +1 to
+                your animal&apos;s energy bar. Try to tap as many as possible.{" "}
+              </li>{" "}
+              <li>
+                Every 10 seconds, the game speeds up, increasing difficulty.
+                Each round lasts for 60 seconds. Happy tapping!
+              </li>
+            </ul>
+          </StyledHowToPlay>
+        )}
       </StyledTappingGameField>
       <StyledScoreAndButtonContainer>
         <StyledTappingScoreContainer>
@@ -276,16 +326,24 @@ export default function TappingGame({
           <span>Highscore: {highScore}</span>
           <span>Time left: {countdown}s</span>
         </StyledTappingScoreContainer>
+
         <StyledTappingButtonContainer>
-          <StyledLink href="/garden">Back</StyledLink>
+          <StyledTappingLink href="/garden">Back</StyledTappingLink>
           {gameStarted ? (
-            <ConfirmButton onClick={handlePause}>Pause</ConfirmButton>
+            <TappingConfirmButton onClick={handlePause}>
+              Pause
+            </TappingConfirmButton>
           ) : (
-            <ConfirmButton onClick={handleStart}>Start</ConfirmButton>
+            <TappingConfirmButton onClick={handleStart}>
+              Start
+            </TappingConfirmButton>
           )}
-          <ConfirmButton onClick={() => handleReset(false)}>
+          <TappingConfirmButton onClick={() => handleReset(false)}>
             Reset
-          </ConfirmButton>
+          </TappingConfirmButton>
+          <TappingConfirmButton onClick={() => toggleInstructions()}>
+            Instructions
+          </TappingConfirmButton>
         </StyledTappingButtonContainer>
       </StyledScoreAndButtonContainer>
     </StyledSnakePage>
