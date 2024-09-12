@@ -52,7 +52,7 @@ const PetWrapper = styled.div`
   transform-origin: center;
 `;
 
-const NavbarContainer = styled.div`
+const NavbarContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,7 +134,7 @@ const DropdownItem = styled.li`
   }
 `;
 
-const StatusContainer = styled.div`
+const StatusContainer = styled.section`
   position: absolute;
   top: 10px;
   left: 10px;
@@ -143,14 +143,14 @@ const StatusContainer = styled.div`
   align-items: flex-start;
 `;
 
-const VerticalBarContainer = styled.div`
+const VerticalBarContainer = styled.section`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   margin-top: 10px;
 `;
 
-const VerticalBar = styled.div`
+export const VerticalBar = styled.section`
   width: 20px;
   height: 100px;
   background-color: var(--neutral-color);
@@ -167,7 +167,7 @@ const VerticalBar = styled.div`
       : "none"};
 `;
 
-const VerticalBarFill = styled.div`
+export const VerticalBarFill = styled.section`
   width: 100%;
   background-color: ${(props) => props.$bgcolor};
   height: ${({ value }) => value}%;
@@ -176,7 +176,7 @@ const VerticalBarFill = styled.div`
   z-index: 1;
 `;
 
-const HorizontalBar = styled.div`
+const HorizontalBar = styled.section`
   width: 100px;
   height: 20px;
   background-color: var(--neutral-color);
@@ -193,7 +193,7 @@ const HorizontalBar = styled.div`
       : "none"};
 `;
 
-const HorizontalBarFill = styled.div`
+const HorizontalBarFill = styled.section`
   width: ${({ value }) => value}%;
   height: 100%;
   background-color: green;
@@ -201,12 +201,12 @@ const HorizontalBarFill = styled.div`
   left: 0;
 `;
 
-const Icon = styled.span`
+export const Icon = styled.span`
   z-index: 2;
   position: absolute;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.section`
   position: absolute;
   top: 10px;
   right: 10px;
@@ -419,13 +419,13 @@ export default function Garden({
             >
               <span aria-label="celebration">🎉</span>
             </StatusLink>
-            <StatusButton
+            <StatusLink
+              href={activePet.alive ? "/tapping" : ""}
               $bgcolor="yellow"
-              onClick={() => increaseStatus("energy")}
               disabled={!activePet.alive}
             >
-              Train
-            </StatusButton>
+              <span aria-label="energy">🔋</span>
+            </StatusLink>
           </ButtonContainer>
         )}
         {activePet && (
