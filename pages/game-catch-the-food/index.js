@@ -137,7 +137,7 @@ export default function GamePage({
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameTime, setGameTime] = useState(0);
   const [startTime, setStartTime] = useState(null);
-  const [hunger, setHunger] = useState(activePet?.status.hunger);
+  const [hunger, setHunger] = useState(activePet.status.hunger);
 
   const startGame = () => {
     if (!isPlaying) {

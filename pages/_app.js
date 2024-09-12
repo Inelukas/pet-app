@@ -100,7 +100,12 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleUpdatePetIndicator(score, indicator) {
-    const newHappinessValue = Math.min(activePet.status.happiness + score, 100);
+    const newIndicatorValue =
+      indicator === "happiness"
+        ? Math.min(activePet.status.happiness + score, 100)
+        : indicator === "hunger"
+        ? 0
+        : Math.min(activePet.status.energy + score, 100);
     setPetCollection(
       petCollection.map((pet) => {
         return pet.id === currentPet
@@ -108,7 +113,7 @@ export default function App({ Component, pageProps }) {
               ...pet,
               status: {
                 ...pet.status,
-                [indicator]: newHappinessValue,
+                [indicator]: newIndicatorValue,
                 intelligence: Math.min(
                   pet.status.intelligence +
                     (score >= 5
