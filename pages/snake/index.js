@@ -7,6 +7,7 @@ import Player from "@/components/SnakeGame/Player/Player";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import useLocalStorageState from "use-local-storage-state";
 
 const StyledSnakePage = styled.main`
   display: flex;
@@ -120,8 +121,11 @@ export default function SnakeGame({ onUpdatePetIndicator, activePet }) {
     currentDirection: "",
     prevDirection: "",
   });
-  const [scores, setScores] = useState({ score: 0, highscore: 0 });
+  const [scores, setScores] = useState({ score: 0 });
   const [instructions, setInstructions] = useState(false);
+  const [highScores, setHighScores] = useLocalStorageState("snakeHighScores", {
+    defaultValue: { snakeGame: 0 },
+  });
 
   useEffect(() => {
     setFoodPosition(generateNewFoodPosition());
@@ -136,6 +140,15 @@ export default function SnakeGame({ onUpdatePetIndicator, activePet }) {
       onUpdatePetIndicator(newHappinessValue, "happiness");
     }
   }, [gameOn]);
+
+  useEffect(() => {
+    if (scores.score > highScores.snakeGame) {
+      setHighScores((prevScores) => ({
+        ...prevScores,
+        snakeGame: scores.score, // Speichere den neuen Highscore im Local Storage
+      }));
+    }
+  }, [scores.score, highScores.snakeGame, setHighScores]);
 
   useEffect(() => {
     function movePlayer() {
@@ -345,7 +358,7 @@ export default function SnakeGame({ onUpdatePetIndicator, activePet }) {
       <StyledScoreAndButtonContainer>
         <StyledScoreContainer>
           <span>Current Score: {scores.score}</span>
-          <span>Highscore: {scores.highscore}</span>
+          <span>Highscore: {highScores.snakeGame}</span>
         </StyledScoreContainer>
         {!gameOn ? (
           <StyledGameOver>Game Over</StyledGameOver>
