@@ -7,7 +7,6 @@ const AchievementsContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-
   color: white;
   text-align: center;
 `;
@@ -37,6 +36,14 @@ const ImageListItem = styled.li`
   margin-bottom: 20px;
 `;
 
+function ImageItem({ src, alt }) {
+  return (
+    <ImageListItem>
+      <Image src={src} alt={alt} width={100} height={100} />
+    </ImageListItem>
+  );
+}
+
 export default function AchievementsPage() {
   return (
     <>
@@ -46,43 +53,33 @@ export default function AchievementsPage() {
             <h1>Food</h1>
             <ImageList>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/brokkoli.png"
                   alt="Image of a broccoli"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/ham.png"
                   alt="Image of fried ham hock"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/Sandwich.png"
                   alt="Image of a sandwich"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/Burger.png"
                   alt="Image of a Cheeseburger"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/cake.png"
                   alt="Image of a piece of cake"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
             </ImageList>
@@ -91,43 +88,33 @@ export default function AchievementsPage() {
             <h1>Play</h1>
             <ImageList>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/twig no bg.png"
                   alt="Image of a twig"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/small ball no bg.png"
                   alt="Image of a small ball"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/yarn.png"
                   alt="Image of a ball of yern"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/rattel.png"
                   alt="Image of a rattel"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/teddy.png"
                   alt="Image of a teddy bear"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
             </ImageList>
@@ -136,43 +123,33 @@ export default function AchievementsPage() {
             <h1>Furniture</h1>
             <ImageList>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/doghouse.png"
                   alt="Image of a dog house"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/litter_box.png"
                   alt="Image of a litter boc"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/nice doghouse.png"
                   alt="Image of a luxury dog house/castle"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/litter_box_throne.png"
                   alt="Image of a litter box throne"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
               <ImageListItem>
-                <Image
+                <ImageItem
                   src="/achievements/hammock.png"
                   alt="Image of a hammock"
-                  width={100}
-                  height={100}
                 />
               </ImageListItem>
             </ImageList>
