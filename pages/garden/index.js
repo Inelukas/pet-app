@@ -272,25 +272,6 @@ export default function Garden({
   const [animationState, setAnimationState] = useState(null);
   const [showTwig, setShowTwig] = useState(false);
   const [showBall, setShowBall] = useState(false);
-  const [characteristicEffects, setCharacteristicEffects] = useState(() => {
-    if (activePet) {
-      const speedFactor = getSpeedFactor(activePet.characteristics);
-      const happinessFactor = getHappinessFactor(activePet.characteristics);
-      const hungerFactor = getHungerFactor(activePet.characteristics);
-
-      return {
-        speedFactor: speedFactor,
-        happinessFactor: happinessFactor,
-        hungerFactor: hungerFactor,
-      };
-    } else {
-      return {
-        speedFactor: 1,
-        happinessFactor: 1,
-        hungerFactor: 1,
-      };
-    }
-  });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [highScores] = useLocalStorageState("snakeHighScores", {
     defaultValue: { snakeGame: 0 },
