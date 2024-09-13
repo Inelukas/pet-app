@@ -14,7 +14,7 @@ export const StyledPet = styled.li`
     onGraveyard ? "gray" : "var(--secondary-color)"};
   width: 80vw;
   max-width: 600px;
-  height: 20vh;
+  height: ${({ onGraveyard }) => (onGraveyard ? "25vh" : "20vh")};
   min-height: 150px;
   gap: 10%;
 
@@ -79,6 +79,9 @@ export const StyledList = styled.ul`
 
 const ReviveButton = styled(ConfirmButton)`
   align-self: flex-end;
+
+  width: 2.3rem;
+  height: 2.3rem;
 `;
 
 export default function Pet({ petData, onGraveyard }) {
