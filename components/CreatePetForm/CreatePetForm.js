@@ -146,6 +146,7 @@ export default function CreatePetForm({
         characteristics.characteristic1,
         characteristics.characteristic2,
       ],
+      image: petInfo.image,
       status: {
         [happiness.name]: happiness.count,
         [energy.name]: energy.count,
@@ -194,6 +195,7 @@ export default function CreatePetForm({
         currentPet={currentPet}
         hideButtons={hideButtons}
       />
+
       <StyledForm onSubmit={handleSubmit} id="create-pet">
         <StyledFormArticle>
           <label htmlFor="type">Type:</label>

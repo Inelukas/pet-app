@@ -51,6 +51,7 @@ const PetPictureContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: absolute;
   background-color: var(--secondary-color);
   padding: 15px;
   border-radius: 10px;
@@ -62,16 +63,15 @@ const PetPictureContainer = styled.section`
 `;
 
 const PetPicture = styled.section`
-  width: 10vh;
-  height: 10vh;
-  border-radius: 10px;
-  border: 1.5px solid #000000;
-  background-color: var(--neutral-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 7vh;
+  position: relative;
+  border-radius: 10px;
+  border: 1.5px solid #000000;
+  background-color: var(--neutral-color);
   margin-bottom: 10px;
+  padding: 5px;
 `;
 
 const PetName = styled.p`
@@ -227,11 +227,15 @@ export default function PetDetails({ petCollection, onDeletePet }) {
       <PetPictureContainer>
         <PictureAndDeleteContainer>
           <PetPicture>
-            {!pet.alive && pet.revived
-              ? pet.picture
-              : pet.alive
-              ? pet.picture
-              : "☠"}
+            <Image
+              src={pet.alive ? pet.image : "/assets/images/tombstone.png"}
+              alt={pet.name}
+              width={50}
+              height={50}
+              layout="responsive"
+              quality={100}
+              sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
+            />
           </PetPicture>
 
           {isDelete && (

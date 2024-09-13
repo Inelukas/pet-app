@@ -6,6 +6,7 @@ import {
   ListPageWrapper,
   DetailPageWrapper,
 } from "@/components/LinkButtons/LinkButtons";
+import Image from "next/image";
 
 const zoom = keyframes`
   0% {
@@ -249,6 +250,11 @@ export default function Garden({
   setCurrentPet,
   onCurrentPet,
   onDeadPet,
+  onHealthFactor,
+  onEnergyFactor,
+  onHappinessFactor,
+  onHungerFactor,
+  onSpeedFactor,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -257,33 +263,44 @@ export default function Garden({
       setPetCollection((prevPets) =>
         prevPets.map((pet) => {
           if (pet.id === currentPet && !pet.revived) {
-            const { hunger, happiness, energy, health } = pet.status;
+            const { hunger, happiness, energy, health, intelligence } =
+              pet.status;
+            const intelligenceFactor = 1 - (intelligence / 100) * 0.9;
 
             return {
               ...pet,
               status: {
                 ...pet.status,
-                hunger:
-                  hunger < 100
-                    ? Math.min(
-                        hunger + 5 * getHungerFactor(activePet.characteristics),
-                        100
-                      )
-                    : 100,
-                happiness:
-                  happiness > 0
-                    ? Math.max(
-                        happiness -
-                          5 * getHappinessFactor(activePet.characteristics),
-                        0
-                      )
-                    : 0,
-                energy: energy > 0 ? Math.max(energy - 5, 0) : 0,
-                health:
-                  hunger === 100 && happiness === 0 && energy === 0
-                    ? Math.max(health - 5, 0)
-                    : health,
-                intelligence: pet.status.intelligence,
+                hunger: calculateIndicatorValue(
+                  "hunger",
+                  hunger,
+                  onHungerFactor(activePet.characteristics),
+                  intelligenceFactor
+                ),
+
+                happiness: calculateIndicatorValue(
+                  "happiness",
+                  happiness,
+                  onHappinessFactor(activePet.characteristics),
+                  intelligenceFactor
+                ),
+
+                energy: calculateIndicatorValue(
+                  "energy",
+                  energy,
+                  onEnergyFactor(activePet.characteristics),
+                  intelligenceFactor
+                ),
+
+                health: calculateIndicatorValue(
+                  "health",
+                  health,
+                  onHealthFactor(activePet.characteristics),
+                  intelligenceFactor,
+                  hunger,
+                  happiness,
+                  energy
+                ),
               },
               dying: pet.status.health === 0 ? true : false,
             };
@@ -291,62 +308,42 @@ export default function Garden({
           return pet;
         })
       );
-    }, 2000);
+    }, 1000);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
     };
-  }, [currentPet]);
-
-  function increaseStatus(statusKey) {
-    if (activePet.revived) {
-      return;
-    }
-    const currentStatus = activePet.status[statusKey];
-    if (statusKey === "hunger") {
-      activePet.status[statusKey] = Math.max(currentStatus - 5, 0);
-    } else {
-      activePet.status[statusKey] = Math.min(currentStatus + 5, 100);
-    }
-
-    onInteractPet(activePet);
-  }
-
-  function getHappinessFactor(characteristics) {
-    const moodFactor = characteristics.includes("cheerful")
-      ? 0.5
-      : characteristics.includes("melancholy")
-      ? 1.5
-      : 1;
-    const intelligenceFactor = characteristics.includes("foolish")
-      ? 0.5
-      : characteristics.includes("smart")
-      ? 1.5
-      : 1;
-    return moodFactor * intelligenceFactor;
-  }
-
-  function getHungerFactor(characteristics) {
-    const hungerFactor = characteristics.includes("gluttonous")
-      ? 1.5
-      : characteristics.includes("temperate")
-      ? 0.5
-      : 1;
-    return hungerFactor;
-  }
-
-  function getSpeedFactor(characteristics) {
-    const speedFactor = characteristics.includes("hyperactive")
-      ? 0.4
-      : characteristics.includes("lethargic")
-      ? 2
-      : 1;
-    return speedFactor;
-  }
+  }, [currentPet, activePet]);
 
   function handlePetSelect(petId) {
     setCurrentPet(petId);
     setIsDropdownOpen(false);
+  }
+
+  function calculateIndicatorValue(
+    indicatorName,
+    indicator,
+    indicatorFactor,
+    intelligenceFactor,
+    hunger,
+    happiness,
+    energy
+  ) {
+    const indicatorChangeAmount =
+      (5 * Math.round(indicatorFactor * intelligenceFactor * 10)) / 10;
+
+    if (indicatorName === "health") {
+      const healthChangeAmount = (5 * Math.round(indicatorFactor * 10)) / 10;
+      return hunger === 100 && happiness === 0 && energy === 0
+        ? Math.max(indicator - healthChangeAmount, 0)
+        : indicator;
+    } else if (indicatorName === "hunger") {
+      return indicator < 100
+        ? Math.min(indicator + indicatorChangeAmount, 100)
+        : 100;
+    } else {
+      return indicator > 0 ? Math.max(indicator - indicatorChangeAmount, 0) : 0;
+    }
   }
 
   return (
@@ -407,12 +404,9 @@ export default function Garden({
             <StatusLink
               href={activePet.alive ? "/game-catch-the-food" : ""}
               $bgcolor="orange"
-              onClick={() => increaseStatus("hunger")}
               disabled={!activePet.alive || activePet.status.hunger === 0}
             >
-              <span role="img" aria-label="feed">
-                🍽️
-              </span>
+              <span aria-label="celebration">🍽️</span>
             </StatusLink>
 
             <StatusLink
@@ -434,19 +428,27 @@ export default function Garden({
 
         {activePet && (
           <PetWrapper
-            $movingSpeedFactor={getSpeedFactor(activePet.characteristics)}
+            $movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
             $alive={activePet.alive}
           >
             {activePet.alive || activePet.revived ? (
               <AnimatedPet
                 pet={activePet.animations}
                 dying={activePet.dying}
-                movingSpeedFactor={getSpeedFactor(activePet.characteristics)}
+                movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
                 onDeadPet={onDeadPet}
                 currentPet={currentPet}
               />
             ) : (
-              "☠"
+              <Image
+                src="/assets/images/tombstone.png"
+                alt={activePet.name}
+                width={30}
+                height={30}
+                layout="responsive"
+                quality={100}
+                sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
+              />
             )}
           </PetWrapper>
         )}
@@ -470,8 +472,20 @@ export default function Garden({
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-              {activePet.picture}
+            <DropdownButton
+              onClick={() =>
+                setIsDropdownOpen(
+                  petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen
+                )
+              }
+            >
+              <Image
+                src={activePet.picture}
+                alt={activePet.name}
+                width={30}
+                height={30}
+                quality={100}
+              />
             </DropdownButton>
             {isDropdownOpen && (
               <DropdownMenu>
@@ -480,7 +494,13 @@ export default function Garden({
                     key={pet.id}
                     onClick={() => handlePetSelect(pet.id)}
                   >
-                    {pet.picture}
+                    <Image
+                      src={pet.picture}
+                      alt={pet.name}
+                      width={10}
+                      height={10}
+                      quality={100}
+                    />
                   </DropdownItem>
                 ))}
               </DropdownMenu>
