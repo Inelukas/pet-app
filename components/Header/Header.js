@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -19,14 +19,24 @@ const StyledHeader = styled.h1`
   background-color: var(--secondary-color);
   width: 80vw;
   text-align: center;
+
+  ${(props) =>
+    props.isGraveyard &&
+    css`
+      background-color: gray;
+    `}
+
   @media screen and (min-width: 600px) {
     width: 60vw;
     font-size: 2rem;
   }
 `;
+
 export default function Header() {
   const router = useRouter();
   let pageTitle;
+  let isGraveyard = false;
+
   if (router.pathname === "/pet-list") {
     pageTitle = "Your Pet List";
   } else if (router.pathname.startsWith("/pet-details")) {
@@ -37,13 +47,14 @@ export default function Header() {
     pageTitle = "Update Your Pet";
   } else if (router.pathname === "/graveyard") {
     pageTitle = "Pet Cemetery";
+    isGraveyard = true;
   }
 
   if (!pageTitle) return null;
 
   return (
     <HeaderContainer>
-      <StyledHeader>{pageTitle}</StyledHeader>
+      <StyledHeader isGraveyard={isGraveyard}>{pageTitle}</StyledHeader>
     </HeaderContainer>
   );
 }
