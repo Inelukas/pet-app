@@ -44,7 +44,7 @@ const walkSmallScreen = keyframes`
     transform: translateX(0);
   }
   16.67% {
-    transform: translateX(80px);
+    transform: translateX(70px);
   }
   33.33% {
     transform: translateX(120px) scaleX(-1);
@@ -138,7 +138,7 @@ export default function AnimatedPet({
   useEffect(() => {
     const setStateInterval = setInterval(() => {
       setSleepy((prevVal) =>
-        Math.ceil(Math.random() * 10) >= 5 ? !prevVal : prevVal
+        Math.ceil(Math.random() * 10) >= 2 ? !prevVal : prevVal
       );
     }, 20000 * movingSpeedFactor);
     return () => clearInterval(setStateInterval);
