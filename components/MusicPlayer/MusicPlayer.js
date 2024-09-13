@@ -117,7 +117,7 @@ const VolumeControl = styled(motion.input)`
   }
 `;
 
-const MusicPlayer = () => {
+const MusicPlayer = ({ soundtrack }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
@@ -181,13 +181,7 @@ const MusicPlayer = () => {
         }
         transition={{ duration: 0.5 }}
       >
-        <audio
-          ref={audioRef}
-          src="/assets/music/catch-the-food-game-soundtrack.mp3"
-          preload="auto"
-          autoPlay
-          loop
-        />
+        <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
         <PlayPauseButton onClick={togglePlayPause}>
           {isPlaying ? (
             <Image
@@ -229,5 +223,3 @@ const MusicPlayer = () => {
 };
 
 export default MusicPlayer;
-
-// START / GARDEN PAGE / ALL 3 GAMES
