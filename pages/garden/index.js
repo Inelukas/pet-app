@@ -6,6 +6,7 @@ import {
   ListPageWrapper,
   DetailPageWrapper,
 } from "@/components/LinkButtons/LinkButtons";
+import Image from "next/image";
 
 const zoom = keyframes`
   0% {
@@ -438,7 +439,15 @@ export default function Garden({
                 currentPet={currentPet}
               />
             ) : (
-              "☠"
+              <Image
+                src="/assets/images/tombstone.png"
+                alt={activePet.name}
+                width={30}
+                height={30}
+                layout="responsive"
+                quality={100}
+                sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
+              />
             )}
           </PetWrapper>
         )}
@@ -463,14 +472,14 @@ export default function Garden({
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton
-              onClick={() =>
-                setIsDropdownOpen(
-                  petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen
-                )
-              }
-            >
-              {activePet.picture}
+            <DropdownButton onClick={() => setIsDropdownOpen(petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen)}>
+              <Image
+                src={activePet.picture}
+                alt={activePet.name}
+                width={30}
+                height={30}
+                quality={100}
+              />
             </DropdownButton>
             {isDropdownOpen && (
               <DropdownMenu>
@@ -479,7 +488,13 @@ export default function Garden({
                     key={pet.id}
                     onClick={() => handlePetSelect(pet.id)}
                   >
-                    {pet.picture}
+                    <Image
+                      src={pet.picture}
+                      alt={pet.name}
+                      width={10}
+                      height={10}
+                      quality={100}
+                    />
                   </DropdownItem>
                 ))}
               </DropdownMenu>

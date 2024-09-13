@@ -96,7 +96,7 @@ export default function StartPage({ petCollection }) {
     <StyledStartPage>
       <StyledImage
         alt="Pet App Logo"
-        src="/images/logo.png"
+        src="/assets/images/logo.png"
         width={500}
         height={500}
       />
