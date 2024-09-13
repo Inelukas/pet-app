@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -24,23 +24,25 @@ const NoteIcon = styled.div`
 
   @media screen and (min-width: 600px) {
     top: 50%;
-    transform: translateY(-50%);
+    right: 0px;
     bottom: auto;
   }
 `;
 
 const PlayerContainer = styled(motion.div)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   position: fixed;
-  background-color: grey;
-  border-radius: 10px;
-  width: 50px;
-  height: 700px;
+  background-color: #758694;
+  border: 2px solid black;
+  width: 375px;
+  height: 50px;
   right: 0px;
-  top: 500px;
-  margin: 20px;
-  overflow: hidden;
+  bottom: 0px;
   transition: opacity 0.2s;
   opacity: 0.6;
+  z-index: 5;
 
   &:hover {
     opacity: 1;
@@ -48,22 +50,16 @@ const PlayerContainer = styled(motion.div)`
 
   @media screen and (min-width: 600px) {
     top: 50%;
-    transform: translateY(-50%);
+    right: 0px;
     bottom: auto;
   }
-`;
-
-const Controls = styled.div`
-  display: flex;
-  width: 100px;
-  height: 50px;
-  cursor: pointer;
 `;
 
 const PlayPauseButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+  margin: 5px;
   opacity: 0.6;
 
   &:hover {
@@ -76,8 +72,10 @@ const ArrowIcon = styled.div`
   height: 40px;
   cursor: pointer;
   transform: rotate(90deg);
+  right: 0px;
+  top: 50%;
   opacity: 0.6;
-
+  margin-left: auto;
   &:hover {
     opacity: 1;
   }
@@ -85,40 +83,51 @@ const ArrowIcon = styled.div`
 
 const VolumeControl = styled(motion.input)`
   border-radius: 5px;
-  background: #697565;
+  background: green;
   outline: none;
   margin: 5px;
   opacity: 0.6;
   transition: opacity 0.2s;
   cursor: pointer;
-  transform: rotate(45deg);
 
   &:hover {
     opacity: 1;
   }
 
-  input[type="range"]::-webkit-slider-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #ff9900;
-    cursor: pointer;
+  &::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    background: #c3edc0;
+    height: 8px;
+    border-radius: 5px;
   }
 
-  input[type="range"]::-moz-range-thumb {
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #ff9900;
+    background: #1a3636;
     cursor: pointer;
+    margin-top: -4px;
+  }
+
+  &:active::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #1a3636;
   }
 `;
 
 const MusicPlayer = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(100);
+  const [volume, setVolume] = useState(50);
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
 
   const togglePlayPause = () => {
     if (audioRef.current) {
@@ -140,6 +149,13 @@ const MusicPlayer = () => {
 
   const togglePlayer = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const handlePlay = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    }
   };
 
   return (
@@ -169,36 +185,35 @@ const MusicPlayer = () => {
           ref={audioRef}
           src="/assets/music/catch-the-food-game-soundtrack.mp3"
           preload="auto"
+          autoPlay
           loop
         />
-
-        <Controls>
-          <PlayPauseButton onClick={togglePlayPause}>
-            {isPlaying ? (
-              <Image
-                src="/assets/pause.png"
-                alt="Pause Icon"
-                width={30}
-                height={30}
-              />
-            ) : (
-              <Image
-                src="/assets/play.png"
-                alt="Play Icon"
-                width={30}
-                height={30}
-              />
-            )}
-          </PlayPauseButton>
-          <VolumeControl
-            type="range"
-            min={0}
-            max={100}
-            value={volume}
-            onChange={(e) => handleVolumeChange(parseInt(e.target.value))}
-            whileHover={{ scale: 1.1 }}
-          />
-        </Controls>
+        <PlayPauseButton onClick={togglePlayPause}>
+          {isPlaying ? (
+            <Image
+              src="/assets/pause.png"
+              alt="Pause Icon"
+              width={30}
+              height={30}
+            />
+          ) : (
+            <Image
+              src="/assets/play.png"
+              alt="Play Icon"
+              width={30}
+              height={30}
+              onClick={handlePlay}
+            />
+          )}
+        </PlayPauseButton>
+        <VolumeControl
+          type="range"
+          min={0}
+          max={100}
+          value={volume}
+          onChange={(event) => handleVolumeChange(parseInt(event.target.value))}
+          whileHover={{ scale: 1.05 }}
+        />
         <ArrowIcon>
           <Image
             src="/assets/doublearrow.png"
@@ -214,3 +229,5 @@ const MusicPlayer = () => {
 };
 
 export default MusicPlayer;
+
+// START / GARDEN PAGE / ALL 3 GAMES
