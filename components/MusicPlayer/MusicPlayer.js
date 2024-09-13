@@ -168,6 +168,8 @@ const MusicPlayer = () => {
         <audio
           ref={audioRef}
           src="/assets/music/catch-the-food-game-soundtrack.mp3"
+          preload="auto"
+          loop
         />
 
         <Controls>
