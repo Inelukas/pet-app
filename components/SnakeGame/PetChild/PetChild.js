@@ -1,23 +1,17 @@
 import styled from "styled-components";
+import Image from "next/image";
 
 const StyledChild = styled.div`
-  position: absolute;
-  top: ${({ $topPosition }) => $topPosition};
-  left: ${({ $leftPosition }) => $leftPosition};
-  font-size: 1rem;
-  border: black;
-`;
-
-const StyledIconContainer = styled.div`
   display: grid;
   place-content: center;
+  position: absolute;
   width: 30px;
   height: 30px;
-`;
-
-const StyledIcon = styled.span`
-  font-size: 15px;
+  top: ${({ $topPosition }) => $topPosition};
+  left: ${({ $leftPosition }) => $leftPosition};
   transform: ${({ $gameOn }) => ($gameOn ? "rotate(0deg)" : "rotate(180deg)")};
+  font-size: 1rem;
+  border: black;
 `;
 
 export default function PetChild({ childPosition, gameOn, pet }) {
@@ -25,12 +19,16 @@ export default function PetChild({ childPosition, gameOn, pet }) {
     <StyledChild
       $topPosition={`${childPosition.y}px`}
       $leftPosition={`${childPosition.x}px`}
+      $gameOn={gameOn}
     >
-      <StyledIconContainer>
-        <StyledIcon aria-label={pet.type} $gameOn={gameOn}>
-          {pet.picture}
-        </StyledIcon>
-      </StyledIconContainer>
+      <Image
+        src={pet.picture}
+        alt={pet.name}
+        width={15}
+        height={15}
+        objectFit="cover"
+        quality={100}
+      />
     </StyledChild>
   );
 }

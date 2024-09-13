@@ -127,19 +127,17 @@ const getRandomItem = () => {
   };
 };
 export default function GamePage({
-  petCollection,
-  currentPet,
+  activePet,
   onUpdatePetIndicator,
+  onSpeedFactor,
 }) {
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
-
   const [items, setItems] = useState([]);
   const [avatarX, setAvatarX] = useState(180);
   const [counter, setCounter] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameTime, setGameTime] = useState(0);
   const [startTime, setStartTime] = useState(null);
-  const [hunger, setHunger] = useState(activePet?.status.hunger);
+  const [hunger, setHunger] = useState(activePet.status.hunger);
 
   const startGame = () => {
     if (!isPlaying) {
@@ -156,13 +154,13 @@ export default function GamePage({
     if (isPlaying) {
       const interval = setInterval(() => {
         setItems((prevItems) => [...prevItems, getRandomItem()]);
-      }, 1500);
+      }, 200 + 1000 * onSpeedFactor(activePet.characteristics));
       return () => clearInterval(interval);
     }
   }, [isPlaying]);
 
   const moveAvatar = (direction) => {
-    setAvatarX((prevX) => Math.max(0, Math.min(233, prevX + direction)));
+    setAvatarX((prevX) => Math.max(0, Math.min(234, prevX + direction)));
   };
 
   const handleKeyDown = useCallback(
@@ -217,7 +215,7 @@ export default function GamePage({
               return true;
             })
         );
-      }, 50);
+      }, 20 + 30 * onSpeedFactor(activePet.characteristics));
     }
 
     if (!isPlaying) {

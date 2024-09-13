@@ -66,7 +66,7 @@ const PetWrapper = styled.div`
   transform-origin: center;
 `;
 
-const NavbarContainer = styled.div`
+const NavbarContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -148,7 +148,7 @@ const DropdownItem = styled.li`
   }
 `;
 
-const StatusContainer = styled.div`
+const StatusContainer = styled.section`
   position: absolute;
   top: 10px;
   left: 10px;
@@ -157,14 +157,14 @@ const StatusContainer = styled.div`
   align-items: flex-start;
 `;
 
-const VerticalBarContainer = styled.div`
+const VerticalBarContainer = styled.section`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   margin-top: 10px;
 `;
 
-const VerticalBar = styled.div`
+export const VerticalBar = styled.section`
   width: 20px;
   height: 100px;
   background-color: var(--neutral-color);
@@ -181,7 +181,7 @@ const VerticalBar = styled.div`
       : "none"};
 `;
 
-const VerticalBarFill = styled.div`
+export const VerticalBarFill = styled.section`
   width: 100%;
   background-color: ${(props) => props.$bgcolor};
   height: ${({ value }) => value}%;
@@ -190,7 +190,7 @@ const VerticalBarFill = styled.div`
   z-index: 1;
 `;
 
-const HorizontalBar = styled.div`
+const HorizontalBar = styled.section`
   width: 100px;
   height: 20px;
   background-color: var(--neutral-color);
@@ -207,7 +207,7 @@ const HorizontalBar = styled.div`
       : "none"};
 `;
 
-const HorizontalBarFill = styled.div`
+const HorizontalBarFill = styled.section`
   width: ${({ value }) => value}%;
   height: 100%;
   background-color: green;
@@ -215,12 +215,12 @@ const HorizontalBarFill = styled.div`
   left: 0;
 `;
 
-const Icon = styled.span`
+export const Icon = styled.span`
   z-index: 2;
   position: absolute;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.section`
   position: absolute;
   top: 10px;
   right: 10px;
@@ -263,6 +263,11 @@ export default function Garden({
   setCurrentPet,
   onCurrentPet,
   onDeadPet,
+  onHealthFactor,
+  onEnergyFactor,
+  onHappinessFactor,
+  onHungerFactor,
+  onSpeedFactor,
 }) {
   const [animationState, setAnimationState] = useState(null);
   const [showTwig, setShowTwig] = useState(false);
@@ -327,33 +332,44 @@ export default function Garden({
       setPetCollection((prevPets) =>
         prevPets.map((pet) => {
           if (pet.id === currentPet) {
-            const { hunger, happiness, energy, health } = pet.status;
+            const { hunger, happiness, energy, health, intelligence } =
+              pet.status;
+            const intelligenceFactor = 1 - (intelligence / 100) * 0.9;
 
             return {
               ...pet,
               status: {
                 ...pet.status,
-                hunger:
-                  hunger < 100
-                    ? Math.min(
-                        hunger + 5 * getHungerFactor(activePet.characteristics),
-                        100
-                      )
-                    : 100,
-                happiness:
-                  happiness > 0
-                    ? Math.max(
-                        happiness -
-                          5 * getHappinessFactor(activePet.characteristics),
-                        0
-                      )
-                    : 0,
-                energy: energy > 0 ? Math.max(energy - 5, 0) : 0,
-                health:
-                  hunger === 100 && happiness === 0 && energy === 0
-                    ? Math.max(health - 5, 0)
-                    : health,
-                intelligence: pet.status.intelligence,
+                hunger: calculateIndicatorValue(
+                  "hunger",
+                  hunger,
+                  onHungerFactor(activePet.characteristics),
+                  intelligenceFactor
+                ),
+
+                happiness: calculateIndicatorValue(
+                  "happiness",
+                  happiness,
+                  onHappinessFactor(activePet.characteristics),
+                  intelligenceFactor
+                ),
+
+                energy: calculateIndicatorValue(
+                  "energy",
+                  energy,
+                  onEnergyFactor(activePet.characteristics),
+                  intelligenceFactor
+                ),
+
+                health: calculateIndicatorValue(
+                  "health",
+                  health,
+                  onHealthFactor(activePet.characteristics),
+                  intelligenceFactor,
+                  hunger,
+                  happiness,
+                  energy
+                ),
               },
               dying: pet.status.health === 0 ? true : false,
             };
@@ -361,59 +377,42 @@ export default function Garden({
           return pet;
         })
       );
-    }, 2000);
+    }, 1000);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
     };
-  }, [currentPet]);
-
-  function increaseStatus(statusKey) {
-    const currentStatus = activePet.status[statusKey];
-    if (statusKey === "hunger") {
-      activePet.status[statusKey] = Math.max(currentStatus - 5, 0);
-    } else {
-      activePet.status[statusKey] = Math.min(currentStatus + 5, 100);
-    }
-
-    onInteractPet(activePet);
-  }
-
-  function getHappinessFactor(characteristics) {
-    const moodFactor = characteristics.includes("cheerful")
-      ? 0.5
-      : characteristics.includes("melancholy")
-      ? 1.5
-      : 1;
-    const intelligenceFactor = characteristics.includes("foolish")
-      ? 0.5
-      : characteristics.includes("smart")
-      ? 1.5
-      : 1;
-    return moodFactor * intelligenceFactor;
-  }
-
-  function getHungerFactor(characteristics) {
-    const hungerFactor = characteristics.includes("gluttonous")
-      ? 1.5
-      : characteristics.includes("temperate")
-      ? 0.5
-      : 1;
-    return hungerFactor;
-  }
-
-  function getSpeedFactor(characteristics) {
-    const speedFactor = characteristics.includes("hyperactive")
-      ? 0.4
-      : characteristics.includes("lethargic")
-      ? 2
-      : 1;
-    return speedFactor;
-  }
+  }, [currentPet, activePet]);
 
   function handlePetSelect(petId) {
     setCurrentPet(petId);
     setIsDropdownOpen(false);
+  }
+
+  function calculateIndicatorValue(
+    indicatorName,
+    indicator,
+    indicatorFactor,
+    intelligenceFactor,
+    hunger,
+    happiness,
+    energy
+  ) {
+    const indicatorChangeAmount =
+      (5 * Math.round(indicatorFactor * intelligenceFactor * 10)) / 10;
+
+    if (indicatorName === "health") {
+      const healthChangeAmount = (5 * Math.round(indicatorFactor * 10)) / 10;
+      return hunger === 100 && happiness === 0 && energy === 0
+        ? Math.max(indicator - healthChangeAmount, 0)
+        : indicator;
+    } else if (indicatorName === "hunger") {
+      return indicator < 100
+        ? Math.min(indicator + indicatorChangeAmount, 100)
+        : 100;
+    } else {
+      return indicator > 0 ? Math.max(indicator - indicatorChangeAmount, 0) : 0;
+    }
   }
 
   return (
@@ -493,12 +492,9 @@ export default function Garden({
             <StatusLink
               href={activePet.alive ? "/game-catch-the-food" : ""}
               $bgcolor="orange"
-              onClick={() => increaseStatus("hunger")}
               disabled={!activePet.alive || activePet.status.hunger === 0}
             >
-              <span role="img" aria-label="feed">
-                🍽️
-              </span>
+              <span aria-label="celebration">🍽️</span>
             </StatusLink>
 
             <StatusLink
@@ -508,30 +504,38 @@ export default function Garden({
             >
               <span aria-label="celebration">🎉</span>
             </StatusLink>
-            <StatusButton
+            <StatusLink
+              href={activePet.alive ? "/tapping" : ""}
               $bgcolor="yellow"
-              onClick={() => increaseStatus("energy")}
               disabled={!activePet.alive}
             >
-              Train
-            </StatusButton>
+              <span aria-label="energy">🔋</span>
+            </StatusLink>
           </ButtonContainer>
         )}
         {activePet && (
           <PetWrapper
-            $movingSpeedFactor={getSpeedFactor(activePet.characteristics)}
+            $movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
             $alive={activePet.alive}
           >
             {activePet.alive ? (
               <AnimatedPet
                 pet={activePet.animations}
                 dying={activePet.dying}
-                movingSpeedFactor={getSpeedFactor(activePet.characteristics)}
+                movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
                 onDeadPet={onDeadPet}
                 currentPet={currentPet}
               />
             ) : (
-              "☠"
+              <Image
+                src="/assets/images/tombstone.png"
+                alt={activePet.name}
+                width={30}
+                height={30}
+                layout="responsive"
+                quality={100}
+                sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
+              />
             )}
           </PetWrapper>
         )}
@@ -555,8 +559,20 @@ export default function Garden({
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-              {activePet.picture}
+            <DropdownButton
+              onClick={() =>
+                setIsDropdownOpen(
+                  petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen
+                )
+              }
+            >
+              <Image
+                src={activePet.picture}
+                alt={activePet.name}
+                width={30}
+                height={30}
+                quality={100}
+              />
             </DropdownButton>
             {isDropdownOpen && (
               <DropdownMenu>
@@ -565,7 +581,13 @@ export default function Garden({
                     key={pet.id}
                     onClick={() => handlePetSelect(pet.id)}
                   >
-                    {pet.picture}
+                    <Image
+                      src={pet.picture}
+                      alt={pet.name}
+                      width={10}
+                      height={10}
+                      quality={100}
+                    />
                   </DropdownItem>
                 ))}
               </DropdownMenu>
