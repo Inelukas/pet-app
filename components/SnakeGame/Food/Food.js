@@ -1,21 +1,15 @@
 import styled from "styled-components";
+import Image from "next/image";
 
 const StyledFood = styled.div`
+  display: grid;
+  place-content: center;
   position: absolute;
+  width: 30px;
+  height: 30px;
   top: ${({ $topPosition }) => $topPosition};
   left: ${({ $leftPosition }) => $leftPosition};
   z-index: 2;
-`;
-
-const StyledIconContainer = styled.div`
-  display: grid;
-  place-content: center;
-  width: 30px;
-  height: 30px;
-`;
-
-const StyledIcon = styled.span`
-  font-size: 20px;
 `;
 
 export default function Food({ foodPosition, pet }) {
@@ -24,9 +18,14 @@ export default function Food({ foodPosition, pet }) {
       $topPosition={`${foodPosition.y}px`}
       $leftPosition={`${foodPosition.x}px`}
     >
-      <StyledIconContainer>
-        <StyledIcon aria-label={pet.type}>{pet.picture}</StyledIcon>
-      </StyledIconContainer>
+      <Image
+        src={pet.picture}
+        alt={pet.name}
+        width={20}
+        height={20}
+        objectFit="cover"
+        quality={100}
+      />
     </StyledFood>
   );
 }

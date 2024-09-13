@@ -1,24 +1,17 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import Image from "next/image";
 
 const StyledPlayer = styled.div`
-  position: absolute;
-  top: ${({ $topPosition }) => $topPosition};
-  left: ${({ $leftPosition }) => $leftPosition};
-  font-size: 1.5rem;
-  outline: none;
-`;
-
-const StyledIconContainer = styled.div`
   display: grid;
   place-content: center;
+  position: absolute;
   width: 30px;
   height: 30px;
-`;
-
-const StyledIcon = styled.span`
-  font-size: 25px;
+  top: ${({ $topPosition }) => $topPosition};
+  left: ${({ $leftPosition }) => $leftPosition};
   transform: ${({ $gameOn }) => ($gameOn ? "rotate(0deg)" : "rotate(180deg)")};
+  outline: none;
 `;
 
 export default function Player({ onDirection, playerPosition, gameOn, pet }) {
@@ -38,12 +31,16 @@ export default function Player({ onDirection, playerPosition, gameOn, pet }) {
       onBlur={() => playerRef.current.focus()}
       $topPosition={`${playerPosition.y}px`}
       $leftPosition={`${playerPosition.x}px`}
+      $gameOn={gameOn}
     >
-      <StyledIconContainer>
-        <StyledIcon aria-label={pet.type} $gameOn={gameOn}>
-          {pet.picture}
-        </StyledIcon>
-      </StyledIconContainer>
+      <Image
+        src={pet.picture}
+        alt={pet.name}
+        width={30}
+        height={30}
+        objectFit="cover"
+        quality={100}
+      />
     </StyledPlayer>
   );
 }

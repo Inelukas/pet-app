@@ -1,11 +1,12 @@
+import Image from "next/image";
 import styled from "styled-components";
 
 const StyledPet = styled.li`
   display: flex;
   border: 5px solid #000000;
   border-radius: 10px;
-  margin: 10px 0;
-  padding: 10px 20px;
+  margin: 10px;
+  padding: 10px;
   align-items: center;
   background-color: var(--secondary-color);
   width: 80vw;
@@ -36,40 +37,34 @@ const StyledPetData = styled.section`
   }
 `;
 
-const StyledSpan = styled.span`
-  font-size: 8vh; //has to be adjusted when we implement real images in another story
-  position: absolute;
-  left: 20px;
-
-  @media screen and (min-width: 600px) {
-    font-size: 10vh;
-  }
-
-  @media screen and (min-width: 900px) {
-    font-size: 12vh;
-  }
-`;
-
 const StyledPortrait = styled.section`
-  width: 12vh;
-  max-width: 150px;
-  min-width: 80px;
-  height: 12vh;
-  max-height: 150px;
-  min-height: 80px;
-  margin-right: auto;
-  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
   background: var(--signal-color);
   position: relative;
+  width: 90px;
+  height: 90px;
+  padding: 10px;
+  margin-left: 10px;
 
-  @media screen and (min-width: 600px) {
-    width: 15vh;
-    height: 15vh;
+  @media (min-width: 600px) {
+    max-width: 150px;
+    max-height: 150px;
+    margin-left: 15px;
   }
 
-  @media screen and (min-width: 900px) {
-    width: 18vh;
-    height: 18vh;
+  @media (min-width: 900px) {
+    max-width: 175px;
+    max-height: 175px;
+    margin-left: 30px;
+  }
+
+  @media (min-width: 1200px) {
+    max-width: 200px;
+    max-height: 200px;
+    margin-left: 50px;
   }
 `;
 
@@ -84,7 +79,25 @@ export default function Pet({ petData }) {
   return (
     <StyledPet>
       <StyledPortrait>
-        <StyledSpan>{petData.alive ? petData.picture : "☠"}</StyledSpan>
+        {petData.alive ? (
+          <Image
+            src={petData.image}
+            alt={petData.name}
+            objectFit="cover"
+            width={50}
+            height={50}
+            quality={100}
+          />
+        ) : (
+          <Image
+            src="/assets/images/tombstone.png"
+            alt="Tombstone"
+            objectFit="cover"
+            width={75}
+            height={75}
+            quality={100}
+          />
+        )}
       </StyledPortrait>
       <StyledPetData>
         <p>
