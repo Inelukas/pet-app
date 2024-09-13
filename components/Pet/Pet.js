@@ -10,8 +10,10 @@ export const StyledPet = styled.li`
   margin: 10px;
   padding: 10px;
   align-items: center;
-  background-color: ${({ onGraveyard }) =>
-    onGraveyard ? "gray" : "var(--secondary-color)"};
+  background: ${({ onGraveyard }) =>
+    onGraveyard
+      ? "linear-gradient(90deg, #ffffff, #d3d3d3, #808080)"
+      : "var(--secondary-color)"};
   width: 80vw;
   max-width: 600px;
   height: ${({ onGraveyard }) => (onGraveyard ? "25vh" : "20vh")};
@@ -22,7 +24,6 @@ export const StyledPet = styled.li`
     gap: 15%;
   }
 `;
-
 const StyledPetData = styled.section`
   display: flex;
   flex-direction: column;
@@ -44,7 +45,7 @@ const StyledPortrait = styled.section`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background: var(--signal-color);
+  background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
   position: relative;
   width: 90px;
   height: 90px;
@@ -79,7 +80,7 @@ export const StyledList = styled.ul`
 
 const ReviveButton = styled(ConfirmButton)`
   align-self: flex-end;
-
+  background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
   width: 2.3rem;
   height: 2.3rem;
 `;
