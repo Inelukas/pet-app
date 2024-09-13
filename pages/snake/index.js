@@ -128,6 +128,8 @@ export default function SnakeGame({
   });
   const [scores, setScores] = useState({ score: 0, highscore: 0 });
   const [instructions, setInstructions] = useState(false);
+  const itemSound = new Audio("/assets/music/item.mp3");
+  itemSound.volume = 0.05;
 
   useEffect(() => {
     setFoodPosition(generateNewFoodPosition());
@@ -159,6 +161,7 @@ export default function SnakeGame({
           newPosition.x === foodPosition.x &&
           newPosition.y === foodPosition.y
         ) {
+          itemSound.play();
           let newFoodPosition = generateNewFoodPosition();
           while (checkNewFoodOverlap(newFoodPosition)) {
             newFoodPosition = generateNewFoodPosition();

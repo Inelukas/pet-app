@@ -244,7 +244,6 @@ export default function Garden({
   activePet,
   petCollection,
   setPetCollection,
-  onInteractPet,
   currentPet,
   setCurrentPet,
   onCurrentPet,

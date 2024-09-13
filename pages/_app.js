@@ -1,6 +1,6 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";

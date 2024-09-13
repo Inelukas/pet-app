@@ -131,12 +131,7 @@ const CountdownMessage = styled(SpeedUpMessage)`
   white-space: nowrap;
 `;
 
-export default function TappingGame({
-  petCollection,
-  currentPet,
-  onUpdatePetIndicator,
-  activePet,
-}) {
+export default function TappingGame({ onUpdatePetIndicator, activePet }) {
   const [activeCircles, setActiveCircles] = useState([]);
   const [activeWrongCircles, setActiveWrongCircles] = useState([]);
   const [score, setScore] = useState(0);
@@ -146,6 +141,8 @@ export default function TappingGame({
   const [instructions, setInstructions] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [countdown, setCountdown] = useState(60);
+  const itemSound = new Audio("/assets/music/item.mp3");
+  itemSound.volume = 0.05;
 
   useEffect(() => {
     let interval;
@@ -222,6 +219,7 @@ export default function TappingGame({
       : activeWrongCircles.includes(index)
       ? -1
       : 0;
+    if (energyChange === 1) itemSound.play();
     setScore((prevScore) => prevScore + energyChange);
     onUpdatePetIndicator(energyChange, "energy");
   }

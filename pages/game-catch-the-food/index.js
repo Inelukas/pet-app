@@ -138,6 +138,8 @@ export default function GamePage({
   const [gameTime, setGameTime] = useState(0);
   const [startTime, setStartTime] = useState(null);
   const [hunger, setHunger] = useState(activePet.status.hunger);
+  const itemSound = new Audio("/assets/music/item.mp3");
+  itemSound.volume = 0.05;
 
   const startGame = () => {
     if (!isPlaying) {
@@ -205,6 +207,7 @@ export default function GamePage({
                   setCounter((prev) => prev + 1);
                   setHunger((prevHunger) => Math.min(100, prevHunger + 5));
                 }
+                itemSound.play();
                 return false;
               }
 
