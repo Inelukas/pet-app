@@ -463,7 +463,13 @@ export default function Garden({
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+            <DropdownButton
+              onClick={() =>
+                setIsDropdownOpen(
+                  petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen
+                )
+              }
+            >
               {activePet.picture}
             </DropdownButton>
             {isDropdownOpen && (
