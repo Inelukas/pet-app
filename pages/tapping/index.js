@@ -131,12 +131,7 @@ const CountdownMessage = styled(SpeedUpMessage)`
   white-space: nowrap;
 `;
 
-export default function TappingGame({
-  petCollection,
-  currentPet,
-  onUpdatePetIndicator,
-  activePet,
-}) {
+export default function TappingGame({ onUpdatePetIndicator, activePet }) {
   const [activeCircles, setActiveCircles] = useState([]);
   const [activeWrongCircles, setActiveWrongCircles] = useState([]);
   const [score, setScore] = useState(0);
@@ -255,7 +250,7 @@ export default function TappingGame({
 
   return (
     <StyledSnakePage>
-      <StyledHeader>Tap the Capybara Game</StyledHeader>
+      <StyledHeader>Tap your pet!</StyledHeader>
       <StyledTappingGameField>
         {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
         {countdown > 0 && countdown < 60 && countdown % 10 === 0 && (
@@ -277,6 +272,7 @@ export default function TappingGame({
             key={index}
             isActive={activeCircles.includes(index)}
             isWrongActive={activeWrongCircles.includes(index)}
+            petImage={activePet.picture}
             onClick={() => handleCircleClick(index)}
           />
         ))}
@@ -290,8 +286,8 @@ export default function TappingGame({
               </li>{" "}
               <li>
                 {" "}
-                Try to tap the circles lighting up, but only those displaying a
-                capybara. Tapping a capybara rewards points.{" "}
+                Try to tap the circles lighting up, but only those displaying
+                your pet. Tapping a capybara rewards points.{" "}
               </li>{" "}
               <li>
                 {" "}
@@ -300,8 +296,8 @@ export default function TappingGame({
               </li>{" "}
               <li>
                 {" "}
-                More tapped capybaras = more energy! Each capybara adds +1 to
-                your animal&apos;s energy bar. Try to tap as many as possible.{" "}
+                More tapped pets = more energy! Each pet adds +1 to your
+                animal&apos;s energy bar. Try to tap as many as possible.{" "}
               </li>{" "}
               <li>
                 Every 10 seconds, the game speeds up, increasing difficulty.
