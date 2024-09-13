@@ -108,7 +108,7 @@ const DropdownButton = styled.button`
 
 const DropdownMenu = styled.ul`
   position: absolute;
-  bottom: 10%;
+  bottom: 100%;
   width: 30px;
   background-color: var(--neutral-color);
   border: 1px solid var(--text-color);
@@ -276,7 +276,6 @@ export default function Garden({
   const [highScores] = useLocalStorageState("snakeHighScores", {
     defaultValue: { snakeGame: 0 },
   });
-
   const [totalTimeSpent, setTotalTimeSpent] = useLocalStorageState(
     "totalGardenTime",
     {
@@ -358,7 +357,7 @@ export default function Garden({
           return pet;
         })
       );
-    }, 1000);
+    }, 100000000000);
 
     return () => {
       clearInterval(updateIndicatorsTimer);

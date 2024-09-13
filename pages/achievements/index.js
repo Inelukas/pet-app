@@ -44,6 +44,48 @@ export default function AchievementsPage() {
         <Columns>
           <Column>
             <h1>Food</h1>
+            <ImageList>
+              <ImageListItem>
+                <Image
+                  src="/achievements/brokkoli.png"
+                  alt="Image of a broccoli"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/ham.png"
+                  alt="Image of fried ham hock"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/Sandwich.png"
+                  alt="Image of a sandwich"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/Burger.png"
+                  alt="Image of a Cheeseburger"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/cake.png"
+                  alt="Image of a piece of cake"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+            </ImageList>
           </Column>
           <Column>
             <h1>Play</h1>
@@ -64,10 +106,76 @@ export default function AchievementsPage() {
                   height={100}
                 />
               </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/yarn.png"
+                  alt="Image of a ball of yern"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/rattel.png"
+                  alt="Image of a rattel"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/teddy.png"
+                  alt="Image of a teddy bear"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
             </ImageList>
           </Column>
           <Column>
             <h1>Furniture</h1>
+            <ImageList>
+              <ImageListItem>
+                <Image
+                  src="/achievements/doghouse.png"
+                  alt="Image of a dog house"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/litter_box.png"
+                  alt="Image of a litter boc"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/nice doghouse.png"
+                  alt="Image of a luxury dog house/castle"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/litter_box_throne.png"
+                  alt="Image of a litter box throne"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+              <ImageListItem>
+                <Image
+                  src="/achievements/hammock.png"
+                  alt="Image of a hammock"
+                  width={100}
+                  height={100}
+                />
+              </ImageListItem>
+            </ImageList>
           </Column>
         </Columns>
       </AchievementsContainer>
