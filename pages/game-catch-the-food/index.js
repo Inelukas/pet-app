@@ -162,7 +162,7 @@ export default function GamePage({
   }, [isPlaying]);
 
   const moveAvatar = (direction) => {
-    setAvatarX((prevX) => Math.max(0, Math.min(233, prevX + direction)));
+    setAvatarX((prevX) => Math.max(0, Math.min(234, prevX + direction)));
   };
 
   const handleKeyDown = useCallback(
