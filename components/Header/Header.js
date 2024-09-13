@@ -45,11 +45,11 @@ export default function Header() {
     pageTitle = "Create Your Pet";
   } else if (router.pathname === "/update") {
     pageTitle = "Update Your Pet";
-  } /* else if (router.pathname === "/graveyard") {
+  } else if (router.pathname === "/graveyard") {
     pageTitle = "Pet Cemetery";
     isGraveyard = true;
   }
- */
+
   if (!pageTitle) return null;
 
   return (
