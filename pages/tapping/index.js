@@ -28,10 +28,6 @@ const StyledTappingGameField = styled(StyledGameField)`
   box-sizing: border-box;
 `;
 
-const StyledGameFieldAndScoreContainer = styled.section`
-  display: flex;
-`;
-
 const TappingCircle = styled.button`
   background-image: ${({ isActive, isWrongActive }) =>
     isWrongActive
@@ -139,6 +135,7 @@ export default function TappingGame({
   petCollection,
   currentPet,
   onUpdatePetIndicator,
+  activePet,
 }) {
   const [activeCircles, setActiveCircles] = useState([]);
   const [activeWrongCircles, setActiveWrongCircles] = useState([]);
@@ -149,8 +146,6 @@ export default function TappingGame({
   const [instructions, setInstructions] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [countdown, setCountdown] = useState(60);
-
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
 
   useEffect(() => {
     let interval;
@@ -228,11 +223,7 @@ export default function TappingGame({
       ? -1
       : 0;
     setScore((prevScore) => prevScore + energyChange);
-    const newEnergyValue = Math.min(
-      activePet.status.energy + energyChange,
-      100
-    );
-    onUpdatePetIndicator(newEnergyValue, "energy");
+    onUpdatePetIndicator(energyChange, "energy");
   }
 
   function handleStart() {
