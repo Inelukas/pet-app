@@ -221,6 +221,7 @@ export default function App({ Component, pageProps }) {
         onHappinessFactor={getHappinessFactor}
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
+        onPetCollection={setPetCollection}
       />
     </>
   );

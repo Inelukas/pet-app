@@ -38,23 +38,6 @@ const StyledPetData = styled.section`
   }
 `;
 
-<<<<<<< HEAD
-const StyledSpan = styled.span`
-  font-size: 8vh;
-  position: absolute;
-  left: 20px;
-
-  @media screen and (min-width: 600px) {
-    font-size: 10vh;
-  }
-
-  @media screen and (min-width: 900px) {
-    font-size: 12vh;
-  }
-`;
-
-=======
->>>>>>> main
 const StyledPortrait = styled.section`
   display: flex;
   justify-content: center;
@@ -119,6 +102,15 @@ export default function Pet({ petData, onGraveyard }) {
             objectFit="cover"
             width={50}
             height={50}
+            quality={100}
+          />
+        ) : petData.revived ? (
+          <Image
+            src="/assets/images/ghost.png"
+            alt="Ghost"
+            objectFit="cover"
+            width={75}
+            height={75}
             quality={100}
           />
         ) : (

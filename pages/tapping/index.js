@@ -29,11 +29,11 @@ const StyledTappingGameField = styled(StyledGameField)`
 `;
 
 const TappingCircle = styled.button`
-  background-image: ${({ isActive, isWrongActive }) =>
+  background-image: ${({ isActive, petImage, isWrongActive }) =>
     isWrongActive
-      ? `url("/images/ghost_front.png")`
+      ? `url("/assets/images/ghost_front.png")`
       : isActive
-      ? `url("/images/capybara.png")`
+      ? `url(${petImage})`
       : "none"};
 
   background-size: contain, contain;

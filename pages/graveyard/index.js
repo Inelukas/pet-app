@@ -40,7 +40,8 @@ export default function Graveyard({ petCollection, onPetCollection }) {
             energy: 0,
             intelligence: 0,
           },
-          picture: "/images/ghost.png",
+          picture: "/assets/images/ghost_front.png",
+          image: "/assets/images/ghost.png",
         };
       }
       return pet;

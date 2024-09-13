@@ -10,7 +10,6 @@ import {
   ListPageWrapper,
   GardenPageWrapper,
 } from "@/components/LinkButtons/LinkButtons";
-import ghostImage from "../../public/images/ghost.png";
 
 const DetailsContainer = styled.section`
   display: flex;
@@ -228,13 +227,18 @@ export default function PetDetails({ petCollection, onDeletePet }) {
         <PictureAndDeleteContainer>
           <PetPicture>
             <Image
-              src={pet.alive ? pet.image : "/assets/images/tombstone.png"}
+              src={
+                pet.alive
+                  ? pet.image
+                  : pet.revived
+                  ? "/assets/images/ghost.png"
+                  : "/assets/images/tombstone.png"
+              }
               alt={pet.name}
               width={50}
               height={50}
-              layout="responsive"
+              layout="fixed"
               quality={100}
-              sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
             />
           </PetPicture>
 
