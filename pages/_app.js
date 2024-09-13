@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
+import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 
 export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useState(pets);
@@ -192,6 +193,30 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  let soundtrack;
+  if (router.pathname === "/") {
+    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
+  } else if (router.pathname === "/garden") {
+    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
+  } else if (router.pathname === "/snake") {
+    soundtrack = "/assets/music/snake-game-soundtrack.mp3.mp3";
+  } else if (router.pathname === "/tapping") {
+    soundtrack = "/assets/music/tapping-game-soundtrack.mp3";
+  } else if (router.pathname === "/game-catch-the-food") {
+    soundtrack = "/assets/music/catch-the-food-game-soundtrack.mp3";
+  } else if (router.pathname === "/graveyard") {
+    soundtrack = "/assets/music/graveyard-soundtrack.mp3"
+  }
+  }
+
+  const showMusicPlayer = [
+    "/",
+    "/garden",
+    "/snake",
+    "/tapping",
+    "/game-catch-the-food",
+  ].includes(router.pathname);
+
   return (
     <>
       <GlobalStyle />
@@ -217,6 +242,7 @@ export default function App({ Component, pageProps }) {
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
       />
+      {showMusicPlayer && <MusicPlayer soundtrack={soundtrack} />}
     </>
   );
 }
