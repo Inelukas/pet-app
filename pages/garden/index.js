@@ -308,7 +308,7 @@ export default function Garden({
           return pet;
         })
       );
-    }, 10);
+    }, 1000);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
