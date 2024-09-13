@@ -3,16 +3,23 @@ import Link from "next/link";
 import Pet from "@/components/Pet/Pet";
 import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
 import { GardenContainer } from "../garden";
+import { StyledPetList } from "../pet-list";
+
+const GraveyardMain = styled.main`
+  display: flex;
+  justify-content: center;
+`;
 
 const GraveyardContainer = styled(GardenContainer)`
   background-image: url("/Background/graveyard.png");
+  height: 100%;
+  min-height: 100vh;
 `;
 
-const StyledGraveyardMain = styled.main`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
+const GraveyardButtonWrapper = styled(GardenPageWrapper)`
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
 `;
 
 export default function Graveyard({ petCollection, onPetCollection }) {
@@ -51,24 +58,29 @@ export default function Graveyard({ petCollection, onPetCollection }) {
   }
 
   return (
-    <StyledGraveyardMain>
+    <GraveyardMain>
       <GraveyardContainer>
-        {deadPets.length > 0 ? (
-          <>
-            {deadPets.map((pet) => (
-              <Pet petData={pet} key={pet.id} onGraveyard={handleRevive} />
-            ))}
-          </>
-        ) : (
-          ``
-        )}
+        <StyledPetList>
+          {deadPets.length > 0 ? (
+            <>
+              {deadPets.map((pet) => (
+                <Pet petData={pet} key={pet.id} onGraveyard={handleRevive} />
+              ))}
+            </>
+          ) : (
+            ``
+          )}
 
-        <GardenPageWrapper>
-          <Link href="/pet-list" aria-label="A Staple of Books indicating List">
-            📚
-          </Link>
-        </GardenPageWrapper>
+          <GraveyardButtonWrapper>
+            <Link
+              href="/pet-list"
+              aria-label="A Staple of Books indicating List"
+            >
+              📚
+            </Link>
+          </GraveyardButtonWrapper>
+        </StyledPetList>
       </GraveyardContainer>
-    </StyledGraveyardMain>
+    </GraveyardMain>
   );
 }

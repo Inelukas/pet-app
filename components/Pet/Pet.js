@@ -1,5 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
+import ConfirmButton from "../ConfirmButton/ConfirmButton";
+import reviveIcon from "../../public/assets/revive.png";
 
 export const StyledPet = styled.li`
   display: flex;
@@ -17,7 +19,6 @@ export const StyledPet = styled.li`
   gap: 10%;
 
   @media screen and (min-width: 600px) {
-    margin-right: 10%;
     gap: 15%;
   }
 `;
@@ -76,19 +77,8 @@ export const StyledList = styled.ul`
   gap: 5px;
 `;
 
-const ReviveButton = styled.button`
-  background-color: var(--primary-color);
-  color: white;
-  padding: 5px;
-
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  &:hover {
-    background-color: var(--signal-color);
-  }
+const ReviveButton = styled(ConfirmButton)`
+  align-self: flex-end;
 `;
 
 export default function Pet({ petData, onGraveyard }) {
@@ -131,16 +121,19 @@ export default function Pet({ petData, onGraveyard }) {
         <p>
           <span>Type:</span> {petData.type}
         </p>
-        <StyledList>
-          <span>Characteristics:</span>
-          {petData.characteristics.map((characteristic, index) =>
-            index < petData.characteristics.length - 1 ? (
-              <li key={index}>{characteristic + ", "}</li>
-            ) : (
-              <li key={index}>{characteristic}</li>
-            )
-          )}
-        </StyledList>
+
+        {!onGraveyard && (
+          <StyledList>
+            <span>Characteristics:</span>
+            {petData.characteristics.map((characteristic, index) =>
+              index < petData.characteristics.length - 1 ? (
+                <li key={index}>{characteristic + ", "}</li>
+              ) : (
+                <li key={index}>{characteristic}</li>
+              )
+            )}
+          </StyledList>
+        )}
 
         {!petData.alive && onGraveyard && (
           <>
@@ -149,7 +142,7 @@ export default function Pet({ petData, onGraveyard }) {
               {new Date(petData.timeOfDeath).toLocaleString()}
             </p>
             <ReviveButton onClick={() => onGraveyard(petData.id)}>
-              Revive Pet
+              <Image src={reviveIcon} alt="Confirm Icon" width={40} />
             </ReviveButton>
           </>
         )}

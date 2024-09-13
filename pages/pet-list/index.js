@@ -9,7 +9,7 @@ import {
 import createIcon from "../../public/assets/create.png";
 import Image from "next/image";
 
-const StyledMain = styled.main`
+export const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,7 @@ const StyledMain = styled.main`
   gap: 20px;
 `;
 
-const StyledPetList = styled.ul`
+export const StyledPetList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
