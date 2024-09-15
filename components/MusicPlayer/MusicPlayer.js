@@ -9,23 +9,20 @@ const PlayerWrapper = styled.aside`
 
 const NoteIcon = styled.div`
   position: fixed;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   right: 0px;
   top: 50%;
   cursor: pointer;
   opacity: 0.6;
-  transition: opacity 0.2s;
 
   &:hover {
     opacity: 1;
-    scale: 1.1;
+    transform: scale(1.1);
   }
 
   @media screen and (min-width: 600px) {
-    top: 50%;
-    right: 0px;
-    bottom: auto;
+    transform: scale(1.2);
   }
 `;
 
@@ -33,35 +30,29 @@ const PlayerContainer = styled(motion.aside)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  gap: 25px;
   position: fixed;
   background-color: var(--secondary-color);
   border: 2px solid black;
   width: 50px;
   height: 375px;
-  right: 0px;
-  top: 50%;
-  transition: opacity 0.2s;
-  opacity: 0.6;
-  z-index: 5;
+  right: 20px;
+  top: 42%;
 
   &:hover {
     opacity: 1;
   }
 
   @media screen and (min-width: 600px) {
-    flex-direction: column;
-    width: auto;
-    height: auto;
-    top: 50%;
-    right: 0px;
-    bottom: auto;
-    transform: translateY(-50%);
+    transform: scale(1.2);
+    top: 45%;
   }
 `;
 
 const PlayPauseButton = styled.div`
-  background: none;
-  border: none;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   margin: 5px;
   opacity: 0.6;
@@ -72,24 +63,25 @@ const PlayPauseButton = styled.div`
 `;
 
 const ArrowIcon = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   transform: rotate(90deg);
-  right: 0px;
-  top: 50%;
+  margin: 5px;
   opacity: 0.6;
-  margin-left: auto;
+
   &:hover {
     opacity: 1;
   }
 `;
 
 const VolumeControl = styled(motion.input)`
+  -webkit-appearance: none;
   border-radius: 5px;
   outline: none;
   margin: 5px;
   opacity: 0.6;
+  width: 50px;
   cursor: pointer;
   transform: rotate(-90deg);
 
@@ -106,23 +98,22 @@ const VolumeControl = styled(motion.input)`
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    background: red;
+    background: var(--signal-color);
     cursor: pointer;
-    margin-top: -4px;
+    margin: -4px;
   }
 
   &:active::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background: #1a3636;
   }
 `;
 
 const MusicPlayer = ({ soundtrack }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
   const audioRef = useRef(null);
 
@@ -169,8 +160,8 @@ const MusicPlayer = ({ soundtrack }) => {
             src="/assets/key.png"
             alt="Note Icon"
             onClick={togglePlayer}
-            width={30}
-            height={30}
+            width={20}
+            height={20}
           />
         </NoteIcon>
       )}
@@ -190,15 +181,15 @@ const MusicPlayer = ({ soundtrack }) => {
             <Image
               src="/assets/pause.png"
               alt="Pause Icon"
-              width={30}
-              height={30}
+              width={20}
+              height={20}
             />
           ) : (
             <Image
               src="/assets/play.png"
               alt="Play Icon"
-              width={30}
-              height={30}
+              width={20}
+              height={20}
               onClick={handlePlay}
             />
           )}
@@ -216,8 +207,8 @@ const MusicPlayer = ({ soundtrack }) => {
             src="/assets/doublearrow.png"
             alt="Collapse Icon"
             onClick={togglePlayer}
-            width={40}
-            height={40}
+            width={20}
+            height={20}
           />
         </ArrowIcon>
       </PlayerContainer>
