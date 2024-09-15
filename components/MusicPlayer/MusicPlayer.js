@@ -83,7 +83,7 @@ const VolumeControl = styled(motion.input)`
   opacity: 0.6;
   width: 50px;
   cursor: pointer;
-  transform: rotate(-90deg);
+  transform: rotate(45deg);
 
   &:hover {
     opacity: 1;
@@ -165,53 +165,56 @@ const MusicPlayer = ({ soundtrack }) => {
           />
         </NoteIcon>
       )}
-
-      <PlayerContainer
-        initial={{ height: 0, opacity: 0 }}
-        animate={
-          isExpanded
-            ? { height: "auto", opacity: 1 }
-            : { height: 0, opacity: 0 }
-        }
-        transition={{ duration: 0.5 }}
-      >
-        <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
-        <PlayPauseButton onClick={togglePlayPause}>
-          {isPlaying ? (
-            <Image
-              src="/assets/pause.png"
-              alt="Pause Icon"
-              width={20}
-              height={20}
-            />
-          ) : (
-            <Image
-              src="/assets/play.png"
-              alt="Play Icon"
-              width={20}
-              height={20}
-              onClick={handlePlay}
-            />
-          )}
-        </PlayPauseButton>
-        <VolumeControl
-          type="range"
-          min={0}
-          max={100}
-          value={volume}
-          onChange={(event) => handleVolumeChange(parseInt(event.target.value))}
-          whileHover={{ scale: 1.05 }}
-        />
-        <ArrowIcon>
-          <Image
-            src="/assets/doublearrow.png"
-            alt="Collapse Icon"
-            onClick={togglePlayer}
-            width={20}
-            height={20}
+      {isExpanded && (
+        <PlayerContainer
+          initial={{ height: 0, opacity: 0 }}
+          animate={
+            isExpanded
+              ? { height: "auto", opacity: 1 }
+              : { height: 0, opacity: 0 }
+          }
+          transition={{ duration: 0.5 }}
+        >
+          <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
+          <PlayPauseButton onClick={togglePlayPause}>
+            {isPlaying ? (
+              <Image
+                src="/assets/pause.png"
+                alt="Pause Icon"
+                width={20}
+                height={20}
+              />
+            ) : (
+              <Image
+                src="/assets/play.png"
+                alt="Play Icon"
+                width={20}
+                height={20}
+                onClick={handlePlay}
+              />
+            )}
+          </PlayPauseButton>
+          <VolumeControl
+            type="range"
+            min={0}
+            max={100}
+            value={volume}
+            onChange={(event) =>
+              handleVolumeChange(parseInt(event.target.value))
+            }
+            whileHover={{ scale: 1.05 }}
           />
-        </ArrowIcon>
-      </PlayerContainer>
+          <ArrowIcon>
+            <Image
+              src="/assets/doublearrow.png"
+              alt="Collapse Icon"
+              onClick={togglePlayer}
+              width={20}
+              height={20}
+            />
+          </ArrowIcon>
+        </PlayerContainer>
+      )}
     </PlayerWrapper>
   );
 };
