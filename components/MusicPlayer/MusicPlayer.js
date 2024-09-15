@@ -80,10 +80,8 @@ const VolumeControl = styled(motion.input)`
   border-radius: 5px;
   outline: none;
   margin: 5px;
-  opacity: 0.6;
   width: 50px;
   cursor: pointer;
-  transform: rotate(45deg);
 
   &:hover {
     opacity: 1;
@@ -98,12 +96,13 @@ const VolumeControl = styled(motion.input)`
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    margin: -2px;
     border-radius: 50%;
     background: var(--signal-color);
     cursor: pointer;
-    margin: -4px;
   }
 
   &:active::-webkit-slider-thumb {
@@ -154,6 +153,7 @@ const MusicPlayer = ({ soundtrack }) => {
 
   return (
     <PlayerWrapper>
+      <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
       {!isExpanded && (
         <NoteIcon>
           <Image
@@ -175,7 +175,6 @@ const MusicPlayer = ({ soundtrack }) => {
           }
           transition={{ duration: 0.5 }}
         >
-          <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
           <PlayPauseButton onClick={togglePlayPause}>
             {isPlaying ? (
               <Image
@@ -202,7 +201,8 @@ const MusicPlayer = ({ soundtrack }) => {
             onChange={(event) =>
               handleVolumeChange(parseInt(event.target.value))
             }
-            whileHover={{ scale: 1.05 }}
+            initial={{ rotate: -90, opacity: 0.6 }}
+            whileHover={{ scale: 1.05, rotate: -90, opacity: 1 }}
           />
           <ArrowIcon>
             <Image
