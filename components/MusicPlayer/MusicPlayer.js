@@ -3,16 +3,16 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const PlayerWrapper = styled.div`
+const PlayerWrapper = styled.aside`
   display: flex;
 `;
 
 const NoteIcon = styled.div`
   position: fixed;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   right: 0px;
-  bottom: 0px;
+  top: 50%;
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 0.2s;
@@ -29,17 +29,17 @@ const NoteIcon = styled.div`
   }
 `;
 
-const PlayerContainer = styled(motion.div)`
+const PlayerContainer = styled(motion.aside)`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   position: fixed;
-  background-color: #758694;
+  background-color: var(--secondary-color);
   border: 2px solid black;
-  width: 375px;
-  height: 50px;
+  width: 50px;
+  height: 375px;
   right: 0px;
-  bottom: 0px;
+  top: 50%;
   transition: opacity 0.2s;
   opacity: 0.6;
   z-index: 5;
@@ -49,13 +49,17 @@ const PlayerContainer = styled(motion.div)`
   }
 
   @media screen and (min-width: 600px) {
+    flex-direction: column;
+    width: auto;
+    height: auto;
     top: 50%;
     right: 0px;
     bottom: auto;
+    transform: translateY(-50%);
   }
 `;
 
-const PlayPauseButton = styled.button`
+const PlayPauseButton = styled.div`
   background: none;
   border: none;
   cursor: pointer;
@@ -68,8 +72,8 @@ const PlayPauseButton = styled.button`
 `;
 
 const ArrowIcon = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   transform: rotate(90deg);
   right: 0px;
@@ -83,12 +87,11 @@ const ArrowIcon = styled.div`
 
 const VolumeControl = styled(motion.input)`
   border-radius: 5px;
-  background: green;
   outline: none;
   margin: 5px;
   opacity: 0.6;
-  transition: opacity 0.2s;
   cursor: pointer;
+  transform: rotate(-90deg);
 
   &:hover {
     opacity: 1;
@@ -96,7 +99,7 @@ const VolumeControl = styled(motion.input)`
 
   &::-webkit-slider-runnable-track {
     -webkit-appearance: none;
-    background: #c3edc0;
+    background: black;
     height: 8px;
     border-radius: 5px;
   }
@@ -106,7 +109,7 @@ const VolumeControl = styled(motion.input)`
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #1a3636;
+    background: red;
     cursor: pointer;
     margin-top: -4px;
   }
@@ -119,7 +122,7 @@ const VolumeControl = styled(motion.input)`
 
 const MusicPlayer = ({ soundtrack }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(50);
   const audioRef = useRef(null);
 
