@@ -38,8 +38,6 @@ const AvatarContainer = styled.div`
   bottom: 0px;
 `;
 
-const StyledScoreContainer = styled(ScoreContainer)``;
-
 const getRandomItem = () => {
   const items = [
     { type: "good", name: "Broccoli", icon: "🥦" },
@@ -199,6 +197,7 @@ export default function GamePage({
       <SummaryScreen
         itemsCaught={gameStates.counter}
         timeTaken={gameStates.gameTime}
+        catchfood={true}
       />
     );
   }
@@ -227,7 +226,7 @@ export default function GamePage({
             onDirection={handleDirection}
           />
         </AvatarContainer>
-        <StyledScoreContainer score={gameStates.counter} catchfood={true} />
+        <ScoreContainer score={gameStates.counter} catchfood={true} />
         {gameStates.instructions && <HowToPlay game="catchfood" />}
       </GameFieldContainer>
       <ButtonContainer

@@ -16,11 +16,12 @@ const SummaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 800px;
-  height: 600px;
+  width: 600px;
+  height: 400px;
   justify-content: center;
   border: 2px solid black;
-  background-color: var(--neutral-color);
+  border-radius: 20px;
+  background-color: #f1f3c2;
 `;
 
 const ButtonContainer = styled.div`
@@ -29,13 +30,35 @@ const ButtonContainer = styled.div`
   margin: 10px;
 `;
 
-export default function SummaryScreen({ itemsCaught, timeTaken }) {
+export default function SummaryScreen({
+  itemsCaught,
+  timeTaken,
+  catchfood,
+  snake,
+  tapping,
+}) {
   return (
     <Wrapper>
       <SummaryContainer>
-        <h2>Your pet has been fed!</h2>
-        <p>Items caught: {itemsCaught}</p>
-        <p>Time taken: {timeTaken} seconds</p>
+        {catchfood && (
+          <>
+            <h2>Your pet has been fed!</h2>
+            <p>Items caught: {itemsCaught}</p>
+            <p>Time taken: {timeTaken} seconds</p>
+          </>
+        )}
+        {snake && (
+          <>
+            <h2>Your pet has built a happy family!</h2>
+            <p>Number of children: {itemsCaught}</p>
+          </>
+        )}
+        {tapping && (
+          <>
+            <h2>Your pet has been charged!</h2>
+            <p>Total count: {itemsCaught}</p>
+          </>
+        )}
         <ButtonContainer>
           <Link href="/garden">
             <GameButton>

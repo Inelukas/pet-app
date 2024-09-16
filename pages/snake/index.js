@@ -12,6 +12,7 @@ import {
 } from "@/components/GameElements/GameElements";
 import ButtonContainer from "@/components/GameElements/ButtonContainer/ButtonContainer";
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
+import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
 
 export default function SnakeGame({
   onUpdatePetIndicator,
@@ -220,6 +221,10 @@ export default function SnakeGame({
     });
   }
 
+  if (!gameStates.gameOn && activePet.status.happiness === 100) {
+    return <SummaryScreen itemsCaught={gameStates.score} snake={true} />;
+  }
+
   return (
     <StyledGamePage>
       <StyledTitle>Happy Family Game</StyledTitle>
@@ -246,7 +251,10 @@ export default function SnakeGame({
             data={{
               name: "happiness",
               count: gameStates.gameOn
-                ? Math.min(activePet.status.happiness + gameStates.score, 100)
+                ? Math.min(
+                    activePet.status.happiness + gameStates.score * 5,
+                    100
+                  )
                 : activePet.status.happiness,
             }}
           />

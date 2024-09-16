@@ -10,6 +10,7 @@ import {
 } from "@/components/GameElements/GameElements";
 import ButtonContainer from "../../components/GameElements/ButtonContainer/ButtonContainer";
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
+import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
 
 const StyledTappingGameField = styled(StyledGameField)`
   display: grid;
@@ -274,6 +275,10 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
     }));
   }
 
+  if (!gameStates.gameOn && activePet.status.energy === 100) {
+    return <SummaryScreen itemsCaught={gameStates.score} tapping={true} />;
+  }
+
   return (
     <StyledGamePage>
       <StyledTitle>Tap the Capybara Game</StyledTitle>
@@ -292,7 +297,9 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
             showBarName={false}
             data={{
               name: "energy",
-              count: activePet.status.energy,
+              count: gameStates.gameOn
+                ? Math.min(activePet.status.energy + gameStates.score, 100)
+                : activePet.status.energy,
             }}
           />
         </StyledIndicatorContainer>

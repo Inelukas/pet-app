@@ -102,7 +102,7 @@ export default function App({ Component, pageProps }) {
   function handleUpdatePetIndicator(score, indicator) {
     const newIndicatorValue =
       indicator === "happiness"
-        ? Math.min(activePet.status.happiness + score, 100)
+        ? Math.min(activePet.status.happiness + score * 5, 100)
         : indicator === "hunger"
         ? 0
         : Math.min(activePet.status.energy + score, 100);
