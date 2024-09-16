@@ -322,26 +322,43 @@ export default function Garden({
     }
   }, [totalTimeSpent]);
 
-  /* //following useEggect for Highscore Achievements
-  useEffect(() => {
-    if (highScores.snakeGame >= 10) {
-      setShowBall(true);
-      // Holen der aktuellen Achievements aus localStorage
-      const currentAchievements = JSON.parse(
-        localStorage.getItem("achievements")
-      ) || {
-        food: [false, false, false, false, false],
-        play: [false, false, false, false, false],
-        furniture: [false, false, false, false, false],
-      };
+  const [selectedAchievements] = useLocalStorageState("selectedAchievements", {
+    defaultValue: {
+      food: null,
+      play: null,
+      furniture: null,
+    },
+  });
 
-      // Achievement für den Ball freischalten
-      currentAchievements.play[1] = true;
+  const achievementImages = {
+    food: [
+      { src: "/achievements/brokkoli.png" },
+      { src: "/achievements/ham.png" },
+      { src: "/achievements/sandwich.png" },
+      { src: "/achievements/burger.png" },
+      { src: "/achievements/cake.png" },
+    ],
+    play: [
+      { src: "/achievements/twig.png" },
+      { src: "/achievements/ball.png" },
+      { src: "/achievements/yarn.png" },
+      { src: "/achievements/rattle.png" },
+      { src: "/achievements/teddy.png" },
+    ],
+    furniture: [
+      { src: "/achievements/doghouse.png" },
+      { src: "/achievements/litter_box.png" },
+      { src: "/achievements/castle.png" },
+      { src: "/achievements/litter_box_throne.png" },
+      { src: "/achievements/hammock.png" },
+    ],
+  };
 
-      // Speichern der Achievements in localStorage
-      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
-    }
-  }, [highScores]); */
+  const achievementpositions = {
+    food: { top: "50vh", left: "-20vw" }, // Mitte links
+    play: { top: "50vh", left: "0vw" }, // Mitte Mitte
+    furniture: { top: "50vh", left: "20vw" }, // Mitte rechts
+  };
 
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
@@ -434,28 +451,40 @@ export default function Garden({
   return (
     <StyledMain>
       <GardenContainer>
-        {/*    <ImageContainer>
-          {showTwig && (
+        <ImageContainer>
+          {selectedAchievements.food !== null && (
             <PositionedImage
-              src="/achievements/twig no bg.png"
-              alt="Twig Image"
+              src={achievementImages.food[selectedAchievements.food].src}
+              alt="Selected Food Achievement"
               width={50}
               height={50}
-              top="60vh"
-              left="25vw"
+              top={achievementpositions.food.top}
+              left={achievementpositions.food.left}
             />
           )}
-          {showBall && (
+          {selectedAchievements.play !== null && (
             <PositionedImage
-              src="/achievements/small ball no bg.png"
-              alt="Ball Image"
+              src={achievementImages.play[selectedAchievements.play].src}
+              alt="Selected Play Achievement"
               width={50}
               height={50}
-              top="50vh"
-              left="25vw"
+              top={achievementpositions.play.top}
+              left={achievementpositions.play.left}
             />
           )}
-        </ImageContainer> */}
+          {selectedAchievements.furniture !== null && (
+            <PositionedImage
+              src={
+                achievementImages.furniture[selectedAchievements.furniture].src
+              }
+              alt="Selected Furniture Achievement"
+              width={50}
+              height={50}
+              top={achievementpositions.furniture.top}
+              left={achievementpositions.furniture.left}
+            />
+          )}
+        </ImageContainer>
         <StatusContainer>
           <HorizontalBar
             $critical={
