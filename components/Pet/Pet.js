@@ -89,7 +89,7 @@ export default function Pet({ petData, onGraveyard }) {
   return (
     <StyledPet $onGraveyard={!!onGraveyard}>
       <StyledPortrait>
-        {petData.alive ? (
+        {petData.isAlive ? (
           <Image
             src={petData.image}
             alt={petData.name}
@@ -98,7 +98,7 @@ export default function Pet({ petData, onGraveyard }) {
             height={50}
             quality={100}
           />
-        ) : petData.revived ? (
+        ) : petData.isRevived ? (
           <Image
             src="/assets/images/ghost.png"
             alt="Ghost"
@@ -139,7 +139,7 @@ export default function Pet({ petData, onGraveyard }) {
           </StyledList>
         )}
 
-        {!petData.alive && onGraveyard && (
+        {!petData.isAlive && onGraveyard && (
           <>
             <p>
               <span>Time of Death: </span>
@@ -151,10 +151,10 @@ export default function Pet({ petData, onGraveyard }) {
           </>
         )}
 
-        {petData.revived && (
-            <p>
-              <span>Status:</span> Revived
-            </p>
+        {petData.isRevived && (
+          <p>
+            <span>Status:</span> Revived
+          </p>
         )}
       </StyledPetData>
     </StyledPet>

@@ -228,9 +228,9 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           <PetPicture>
             <Image
               src={
-                pet.alive
+                pet.isAlive
                   ? pet.image
-                  : pet.revived
+                  : pet.isRevived
                   ? "/assets/images/ghost.png"
                   : "/assets/images/tombstone.png"
               }
@@ -260,8 +260,8 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           </StyledDeleteButton>
         </PictureAndDeleteContainer>
         <PetName>{pet.name}</PetName>
-        <StyledUpdateButton $disabled={!pet.alive}>
-          {pet.alive ? (
+        <StyledUpdateButton $disabled={!pet.isAlive}>
+          {pet.isAlive ? (
             <Link href={`/update?id=${pet.id}&hideButtons=true`}>
               <Image src={updateIcon} alt="Update Icon" width={25} />
             </Link>

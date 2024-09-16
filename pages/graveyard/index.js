@@ -24,16 +24,18 @@ const GraveyardButtonWrapper = styled(GardenPageWrapper)`
 `;
 
 export default function Graveyard({ petCollection, onPetCollection }) {
-  const deadPets = petCollection.filter((pet) => !pet.alive && !pet.revived);
+  const deadPets = petCollection.filter(
+    (pet) => !pet.isAlive && !pet.isRevived
+  );
 
   function handleRevive(petId) {
     const updatedPets = petCollection.map(function (pet) {
       if (pet.id === petId) {
         return {
           ...pet,
-          alive: false,
-          revived: true,
-          dying: false,
+          isAlive: false,
+          isRevived: true,
+          isDying: false,
           animations: {
             slug: "ghost",
             size: "32",

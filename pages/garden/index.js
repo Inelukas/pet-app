@@ -262,7 +262,7 @@ export default function Garden({
     const updateIndicatorsTimer = setInterval(() => {
       setPetCollection((prevPets) =>
         prevPets.map((pet) => {
-          if (pet.id === currentPet && !pet.revived) {
+          if (pet.id === currentPet && !pet.isRevived) {
             const { hunger, happiness, energy, health, intelligence } =
               pet.status;
             const intelligenceFactor = 1 - (intelligence / 100) * 0.9;
@@ -302,7 +302,7 @@ export default function Garden({
                   energy
                 ),
               },
-              dying: pet.status.health === 0 ? true : false,
+              isDying: pet.status.health === 0 ? true : false,
             };
           }
           return pet;
@@ -399,27 +399,27 @@ export default function Garden({
             </VerticalBarContainer>
           </StatusContainer>
         )}
-        {activePet && !activePet.revived && (
+        {activePet && !activePet.isRevived && (
           <ButtonContainer>
             <StatusLink
-              href={activePet.alive ? "/game-catch-the-food" : ""}
+              href={activePet.isAlive ? "/game-catch-the-food" : ""}
               $bgcolor="orange"
-              disabled={!activePet.alive || activePet.status.hunger === 0}
+              disabled={!activePet.isAlive || activePet.status.hunger === 0}
             >
               <span aria-label="celebration">🍽️</span>
             </StatusLink>
 
             <StatusLink
-              href={activePet.alive ? "/snake" : ""}
+              href={activePet.isAlive ? "/snake" : ""}
               $bgcolor="pink"
-              disabled={!activePet.alive}
+              disabled={!activePet.isAlive}
             >
               <span aria-label="celebration">🎉</span>
             </StatusLink>
             <StatusLink
-              href={activePet.alive ? "/tapping" : ""}
+              href={activePet.isAlive ? "/tapping" : ""}
               $bgcolor="yellow"
-              disabled={!activePet.alive}
+              disabled={!activePet.isAlive}
             >
               <span aria-label="energy">🔋</span>
             </StatusLink>
@@ -429,12 +429,12 @@ export default function Garden({
         {activePet && (
           <PetWrapper
             $movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
-            $alive={activePet.alive}
+            $isAlive={activePet.isAlive}
           >
-            {activePet.alive || activePet.revived ? (
+            {activePet.isAlive || activePet.isRevived ? (
               <AnimatedPet
                 pet={activePet.animations}
-                dying={activePet.dying}
+                isDying={activePet.isDying}
                 movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
                 onDeadPet={onDeadPet}
                 currentPet={currentPet}

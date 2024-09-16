@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }) {
       ...restPetData,
       id: petId,
       characteristics: [characteristic1, characteristic2].filter(Boolean),
-      alive: true,
+      isAlive: true,
     };
     setPetCollection((prevData) => [newPet, ...prevData]);
     router.push("/pet-list");
@@ -187,8 +187,8 @@ export default function App({ Component, pageProps }) {
         if (pet.id === currentPet) {
           return {
             ...pet,
-            dying: false,
-            alive: false,
+            isDying: false,
+            isAlive: false,
             timeOfDeath: new Date().toISOString(),
           };
         }
