@@ -442,11 +442,9 @@ export default function Garden({
               <Image
                 src="/assets/images/tombstone.png"
                 alt={activePet.name}
-                width={30}
-                height={30}
-                layout="responsive"
+                width={100}
+                height={100}
                 quality={100}
-                sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
               />
             )}
           </PetWrapper>
@@ -472,7 +470,13 @@ export default function Garden({
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton onClick={() => setIsDropdownOpen(petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen)}>
+            <DropdownButton
+              onClick={() =>
+                setIsDropdownOpen(
+                  petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen
+                )
+              }
+            >
               <Image
                 src={activePet.picture}
                 alt={activePet.name}

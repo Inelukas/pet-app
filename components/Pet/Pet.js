@@ -91,7 +91,7 @@ export default function Pet({ petData }) {
         ) : (
           <Image
             src="/assets/images/tombstone.png"
-            alt="Tombstone"
+            alt={petData.name}
             objectFit="cover"
             width={75}
             height={75}

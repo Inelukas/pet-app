@@ -198,6 +198,12 @@ export default function App({ Component, pageProps }) {
     soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
   } else if (router.pathname === "/garden") {
     soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
+  } else if (router.pathname === "/pet-details") {
+    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
+  } else if (router.pathname === "/create") {
+    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
+  } else if (router.pathname === "/update") {
+    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
   } else if (router.pathname === "/snake") {
     soundtrack = "/assets/music/snake-game-soundtrack.mp3";
   } else if (router.pathname === "/tapping") {

@@ -266,7 +266,11 @@ export default function GamePage({
             <FallingBlocks key={item.id} item={item} />
           ))}
           <AvatarContainer>
-            <PlayerAvatar x={avatarX} picture={activePet.picture} />
+            <PlayerAvatar
+              x={avatarX}
+              picture={activePet.picture}
+              alt={activePet.name}
+            />
           </AvatarContainer>
         </GameFieldContainer>
         <Counter>Items caught: {counter}</Counter>

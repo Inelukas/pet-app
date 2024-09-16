@@ -153,7 +153,7 @@ const MusicPlayer = ({ soundtrack }) => {
 
   return (
     <PlayerWrapper>
-      <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
+      <audio ref={audioRef} src={soundtrack} preload="auto" loop />
       {!isExpanded && (
         <NoteIcon>
           <Image
