@@ -152,11 +152,9 @@ export default function Pet({ petData, onGraveyard }) {
         )}
 
         {petData.revived && (
-          <>
             <p>
               <span>Status:</span> Revived
             </p>
-          </>
         )}
       </StyledPetData>
     </StyledPet>
