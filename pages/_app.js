@@ -215,7 +215,6 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     if (isPlaying) {
-      //setIsPlaying(false);
       audioRef.current.play();
     }
   }, [router.pathname]);
