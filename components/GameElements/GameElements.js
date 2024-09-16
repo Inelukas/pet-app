@@ -132,7 +132,7 @@ export function HowToPlay({ game }) {
             </li>
             <li>
               More tapped capybaras = more energy! Each capybara adds +1 to your
-              animal's energy bar. Try to tap as many as possible.
+              animal&apos;s energy bar. Try to tap as many as possible.
             </li>
             <li>
               Every 10 seconds, the game speeds up, increasing difficulty. Each
@@ -154,14 +154,14 @@ export function HowToPlay({ game }) {
               Catch falling food items by positioning your pet underneath them.
             </li>
             <li>
-              Good items (like Broccoli, Carrots, Bananas) decrease your pet's
-              hunger.
+              Good items (like Broccoli, Carrots, Bananas) decrease your
+              pet&apos;s hunger.
             </li>
             <li>
-              Bad items (like Oil Drums and Toilets) increase your pet's
+              Bad items (like Oil Drums and Toilets) increase your pet&apos;s
               hunger—avoid them!
             </li>
-            <li>If your pet's hunger reaches zero, the game ends.</li>
+            <li>If your pet&apos;s hunger reaches zero, the game ends.</li>
             <li>
               Try to catch as many good items as possible to keep your pet
               healthy and happy!
