@@ -87,7 +87,7 @@ const ReviveButton = styled(ConfirmButton)`
 
 export default function Pet({ petData, onGraveyard }) {
   return (
-    <StyledPet onGraveyard={!!onGraveyard}>
+    <StyledPet $onGraveyard={!!onGraveyard}>
       <StyledPortrait>
         {petData.alive ? (
           <Image
