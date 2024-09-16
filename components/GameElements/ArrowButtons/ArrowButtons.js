@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledArrowContainer = styled.div`
   position: relative;
-  height: 50px;
+  height: 100px;
   @media screen and (min-width: 1200px) {
     padding-top: 20px;
   }

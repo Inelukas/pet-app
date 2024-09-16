@@ -14,10 +14,11 @@ const WholeButtonContainer = styled.article`
   justify-content: center;
   position: relative;
   height: 220px;
-  padding-top: 80px;
+  padding-top: 50px;
 
   @media screen and (min-width: 600px) {
     height: 300px;
+    padding-top: 30px;
   }
   @media screen and (min-width: 1200px) {
     height: 400px;
@@ -53,7 +54,6 @@ export const GameButton = styled.button`
 export default function ButtonContainer({
   onDirection,
   gameOn,
-  instructions,
   onNewGame,
   onInstructions,
   onReset,
@@ -95,9 +95,7 @@ export default function ButtonContainer({
         <GameButton
           $color="#4caf50"
           onClick={() => {
-            (snake && gameOn) || !snake
-              ? onInstructions(!instructions)
-              : onNewGame();
+            (snake && gameOn) || !snake ? onInstructions() : onNewGame();
           }}
         >
           <Image

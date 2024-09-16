@@ -6,6 +6,7 @@ import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen
 import Indicator from "@/components/Indicator/Indicator";
 import { uid } from "uid";
 import {
+  Filter,
   HowToPlay,
   StyledGameField,
   StyledGamePage,
@@ -14,6 +15,7 @@ import {
 } from "@/components/GameElements/GameElements";
 import ButtonContainer from "@/components/GameElements/ButtonContainer/ButtonContainer";
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
+import toggleInstructions from "@/utils/toggleInstructions";
 
 const GameFieldContainer = styled(StyledGameField)`
   display: flex;
@@ -24,10 +26,12 @@ const GameFieldContainer = styled(StyledGameField)`
   box-sizing: border-box;
 
   @media screen and (min-width: 600px) {
-    transform: scale(1.2);
+    width: 324px;
+    min-height: 480px;
   }
   @media screen and (min-width: 1200px) {
-    transform: scale(1.4);
+    width: 378px;
+    min-height: 560px;
   }
 `;
 
@@ -38,7 +42,7 @@ const AvatarContainer = styled.div`
   bottom: 0px;
 `;
 
-const getRandomItem = () => {
+const getRandomItem = (gameWidth) => {
   const items = [
     { type: "good", name: "Broccoli", icon: "🥦" },
     { type: "good", name: "Carrot", icon: "🥕" },
@@ -49,7 +53,7 @@ const getRandomItem = () => {
     { type: "bad", name: "Pool 8 Ball", icon: "🎱" },
   ];
 
-  const randomX = Math.floor(Math.random() * 240);
+  const randomX = Math.floor(Math.random() * (gameWidth - 40));
 
   return {
     ...items[Math.floor(Math.random() * items.length)],
@@ -74,7 +78,35 @@ export default function GamePage({
     score: 0,
     hunger: activePet.status.hunger,
     instructions: false,
+    gameWidth:
+      window.innerWidth >= 1200 ? 378 : window.innerWidth >= 600 ? 324 : 270,
+    gameHeight:
+      window.innerWidth >= 1200 ? 560 : window.innerWidth >= 600 ? 480 : 400,
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        gameWidth:
+          window.innerWidth >= 1200
+            ? 378
+            : window.innerWidth >= 600
+            ? 324
+            : 270,
+        gameHeight:
+          window.innerWidth >= 1200
+            ? 560
+            : window.innerWidth >= 600
+            ? 480
+            : 400,
+      }));
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   function startGame() {
     if (!gameStates.gameOn) {
@@ -95,12 +127,12 @@ export default function GamePage({
       const interval = setInterval(() => {
         setGameStates((prevValues) => ({
           ...prevValues,
-          items: [...prevValues.items, getRandomItem()],
+          items: [...prevValues.items, getRandomItem(gameStates.gameWidth)],
         }));
       }, 200 + 1000 * onSpeedFactor(activePet.characteristics));
       return () => clearInterval(interval);
     }
-  }, [gameStates.gameOn]);
+  }, [gameStates.gameOn, gameStates.gameWidth]);
 
   function handleDirection(event) {
     const currentKey = typeof event === "string" ? event : event.key;
@@ -115,7 +147,10 @@ export default function GamePage({
   function moveAvatar(moveAmount) {
     setGameStates((prevValues) => ({
       ...prevValues,
-      avatarX: Math.max(0, Math.min(234, prevValues.avatarX + moveAmount)),
+      avatarX: Math.max(
+        0,
+        Math.min(gameStates.gameWidth - 40, prevValues.avatarX + moveAmount)
+      ),
     }));
   }
 
@@ -133,7 +168,8 @@ export default function GamePage({
             }))
             .filter((item) => {
               const isCaught =
-                item.y >= 340 && Math.abs(item.x - prevValues.avatarX) < 20;
+                item.y >= gameStates.gameHeight - 60 &&
+                Math.abs(item.x - prevValues.avatarX) < 20;
 
               if (isCaught) {
                 if (item.type === "good") {
@@ -156,7 +192,7 @@ export default function GamePage({
                 return false;
               }
 
-              if (item.y >= 370) return false;
+              if (item.y >= gameStates.gameHeight - 30) return false;
               return true;
             }),
         }));
@@ -164,7 +200,7 @@ export default function GamePage({
     }
 
     return () => clearInterval(interval);
-  }, [gameStates.gameOn]);
+  }, [gameStates.gameOn, gameStates.gameHeight]);
 
   useEffect(() => {
     if (gameStates.gameOn && gameStates.hunger <= 0) {
@@ -204,6 +240,9 @@ export default function GamePage({
 
   return (
     <StyledGamePage>
+      {gameStates.instructions && (
+        <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>
+      )}
       <StyledTitle>Catch The Food</StyledTitle>
 
       <GameFieldContainer>
@@ -236,14 +275,7 @@ export default function GamePage({
         onReset={startGame}
         onDirection={handleDirection}
         onStart={startGame}
-        onInstructions={() =>
-          setGameStates((prevValues) => {
-            return {
-              ...prevValues,
-              instructions: !prevValues.instructions,
-            };
-          })
-        }
+        onInstructions={() => toggleInstructions(setGameStates)}
       />
     </StyledGamePage>
   );

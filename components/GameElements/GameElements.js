@@ -24,21 +24,20 @@ export const StyledGameField = styled.div`
   position: relative;
   border: 5px solid #000000;
   @media screen and (min-width: 600px) {
-    transform: scale(1.2);
+    width: 360px;
+    min-height: 360px;
   }
   @media screen and (min-width: 1200px) {
-    transform: scale(1.5);
+    width: 440px;
+    min-height: 440px;
   }
 `;
 
 export const StyledTitle = styled.h1`
   padding: 20px 0;
-  @media screen and (min-width: 600px) {
-    padding: 40px 0;
-  }
   @media screen and (min-width: 1200px) {
-    padding-top: 40px;
-    padding-bottom: 100px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 `;
 
@@ -51,6 +50,18 @@ export const StyledIndicatorContainer = styled.section`
 
   @media screen and (min-width: 600px) {
     left: -200px;
+  }
+`;
+
+export const Filter = styled.div`
+  width: 100%;
+  min-height: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  background: #00000099;
+  @media screen and (min-width: 900px) {
+    display: none;
   }
 `;
 
@@ -67,7 +78,7 @@ const StyledHowToPlay = styled.div`
   position: absolute;
   top: -20px;
   left: -30px;
-  z-index: 2;
+  z-index: 3;
   @media screen and (min-width: 900px) {
     display: block;
     width: 120px;

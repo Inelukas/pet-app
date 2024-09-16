@@ -7,10 +7,12 @@ import {
   StyledIndicatorContainer,
   StyledTitle,
   HowToPlay,
+  Filter,
 } from "@/components/GameElements/GameElements";
 import ButtonContainer from "../../components/GameElements/ButtonContainer/ButtonContainer";
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
 import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
+import toggleInstructions from "@/utils/toggleInstructions";
 
 const StyledTappingGameField = styled(StyledGameField)`
   display: grid;
@@ -204,16 +206,16 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
     }, 200);
 
     const energyChange = gameStates.activeCircles.includes(index)
-      ? 1
+      ? 2
       : gameStates.activeWrongCircles.includes(index)
-      ? -1
+      ? -2
       : 0;
 
-    if (energyChange === 1) {
+    if (energyChange === 2) {
       const itemSound = new Audio("/assets/music/item.mp3");
       itemSound.volume = 0.05;
       itemSound.play();
-    } else if (energyChange === -1) {
+    } else if (energyChange === -2) {
       const itemSound = new Audio("/assets/music/fail.mp3");
       itemSound.volume = 0.05;
       itemSound.play();
@@ -221,9 +223,9 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
     if (energyChange !== 0) {
       setGameStates((prevValues) => ({
         ...prevValues,
-        score: Math.max(prevValues.score + energyChange, 0),
+        score: Math.max(prevValues.score + energyChange / 2, 0),
         highscore:
-          energyChange === 1 && prevValues.score >= prevValues.highscore
+          energyChange === 2 && prevValues.score >= prevValues.highscore
             ? prevValues.score + 1
             : prevValues.highscore,
       }));
@@ -236,6 +238,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
     setGameStates((prevValues) => ({
       ...prevValues,
       gameOn: true,
+      score: 0,
       countdown: 60,
     }));
   }
@@ -254,7 +257,6 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
         setGameStates((prevValues) => ({
           ...prevValues,
           intervalTime: 1600,
-          score: 0,
           countdown: 60,
         }));
       }, 1800);
@@ -262,17 +264,9 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
       setGameStates((prevValues) => ({
         ...prevValues,
         intervalTime: 1600,
-        score: 0,
         countdown: 60,
       }));
     }
-  }
-
-  function toggleInstructions() {
-    setGameStates((prevValues) => ({
-      ...prevValues,
-      instructions: !prevValues.instructions,
-    }));
   }
 
   if (!gameStates.gameOn && activePet.status.energy === 100) {
@@ -281,6 +275,9 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
 
   return (
     <StyledGamePage>
+      {gameStates.instructions && (
+        <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>
+      )}
       <StyledTitle>Tap the Capybara Game</StyledTitle>
       <StyledTappingGameField>
         {gameStates.countdown === 0 && (
@@ -298,7 +295,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
             data={{
               name: "energy",
               count: gameStates.gameOn
-                ? Math.min(activePet.status.energy + gameStates.score, 100)
+                ? Math.min(activePet.status.energy, 100)
                 : activePet.status.energy,
             }}
           />
@@ -324,7 +321,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
         gameOn={gameStates.gameOn}
         showArrowButtons={true}
         onStart={handleStart}
-        onInstructions={toggleInstructions}
+        onInstructions={() => toggleInstructions(setGameStates)}
         tapping={true}
         onReset={handleReset}
       />

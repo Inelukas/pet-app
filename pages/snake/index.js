@@ -4,6 +4,7 @@ import Food from "@/components/SnakeGame/Food/Food";
 import Player from "@/components/SnakeGame/Player/Player";
 import { useEffect, useState } from "react";
 import {
+  Filter,
   HowToPlay,
   StyledGameField,
   StyledGamePage,
@@ -13,6 +14,7 @@ import {
 import ButtonContainer from "@/components/GameElements/ButtonContainer/ButtonContainer";
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
 import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
+import toggleInstructions from "@/utils/toggleInstructions";
 
 export default function SnakeGame({
   onUpdatePetIndicator,
@@ -29,7 +31,35 @@ export default function SnakeGame({
     score: 0,
     highscore: 0,
     instructions: false,
+    gameWidth:
+      window.innerWidth >= 1200 ? 440 : window.innerWidth >= 600 ? 360 : 300,
+    gameHeight:
+      window.innerWidth >= 1200 ? 440 : window.innerWidth >= 600 ? 360 : 300,
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        gameWidth:
+          window.innerWidth >= 1200
+            ? 440
+            : window.innerWidth >= 600
+            ? 360
+            : 300,
+        gameHeight:
+          window.innerWidth >= 1200
+            ? 440
+            : window.innerWidth >= 600
+            ? 360
+            : 300,
+      }));
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     setGameStates((prevValues) => {
@@ -39,6 +69,9 @@ export default function SnakeGame({
 
   useEffect(() => {
     if (!gameStates.gameOn) {
+      const itemSound = new Audio("/assets/music/fail.mp3");
+      itemSound.volume = 0.05;
+      itemSound.play();
       onUpdatePetIndicator(gameStates.score, "happiness");
     }
   }, [gameStates.gameOn]);
@@ -150,8 +183,8 @@ export default function SnakeGame({
 
   function generateNewFoodPosition() {
     return {
-      x: Math.floor(Math.random() * 14) * 20,
-      y: Math.floor(Math.random() * 14) * 20,
+      x: Math.floor(Math.random() * ((gameStates.gameWidth - 20) / 20)) * 20,
+      y: Math.floor(Math.random() * ((gameStates.gameHeight - 20) / 20)) * 20,
     };
   }
 
@@ -173,9 +206,9 @@ export default function SnakeGame({
   function checkGameLost(newPlayerPosition, children) {
     if (
       newPlayerPosition.x < 0 ||
-      newPlayerPosition.x > 260 ||
+      newPlayerPosition.x >= gameStates.gameWidth - 20 ||
       newPlayerPosition.y < 0 ||
-      newPlayerPosition.y > 260 ||
+      newPlayerPosition.y >= gameStates.gameHeight - 20 ||
       children.some((child) => {
         if (
           newPlayerPosition.x === child.x &&
@@ -227,6 +260,9 @@ export default function SnakeGame({
 
   return (
     <StyledGamePage>
+      {gameStates.instructions && (
+        <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>
+      )}
       <StyledTitle>Happy Family Game</StyledTitle>
       <StyledGameField>
         <Player
@@ -269,14 +305,7 @@ export default function SnakeGame({
         onDirection={handleDirection}
         gameOn={gameStates.gameOn}
         instructions={gameStates.instructions}
-        onInstructions={() =>
-          setGameStates((prevValues) => {
-            return {
-              ...prevValues,
-              instructions: !prevValues.instructions,
-            };
-          })
-        }
+        onInstructions={() => toggleInstructions(setGameStates)}
         onNewGame={handleNewGame}
         snake={true}
       />
