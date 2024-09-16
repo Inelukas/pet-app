@@ -297,6 +297,19 @@ export default function Garden({
   useEffect(() => {
     if (totalTimeSpent >= 10) {
       setShowTwig(true);
+      const currentAchievements = JSON.parse(
+        localStorage.getItem("achievements")
+      ) || {
+        food: [false, false, false, false, false],
+        play: [false, false, false, false, false],
+        furniture: [false, false, false, false, false],
+      };
+
+      // Achievement für den Stock freischalten
+      currentAchievements.play[0] = true;
+
+      // Speichern der Achievements in localStorage
+      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
     }
   }, [totalTimeSpent]);
 
@@ -304,6 +317,20 @@ export default function Garden({
   useEffect(() => {
     if (highScores.snakeGame >= 10) {
       setShowBall(true);
+      // Holen der aktuellen Achievements aus localStorage
+      const currentAchievements = JSON.parse(
+        localStorage.getItem("achievements")
+      ) || {
+        food: [false, false, false, false, false],
+        play: [false, false, false, false, false],
+        furniture: [false, false, false, false, false],
+      };
+
+      // Achievement für den Ball freischalten
+      currentAchievements.play[1] = true;
+
+      // Speichern der Achievements in localStorage
+      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
     }
   }, [highScores]);
 
@@ -527,8 +554,11 @@ export default function Garden({
         {activePet && (
           <AdjustedDetailPageWrapper>
             <Link
-              href={{
+              /* href={{
                 pathname: `/pet-details/${activePet.id}`,
+              }} */
+              href={{
+                pathname: `/achievements`,
               }}
               aria-label="Magnifying Glass indicating Details"
             >

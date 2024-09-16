@@ -153,6 +153,37 @@ export default function SnakeGame({
   }, [scores.score, highScores.snakeGame, setHighScores]);
 
   useEffect(() => {
+    if (!gameOn && scores.score > 0) {
+      // Holen der aktuellen Gesamtpunktzahl aus localStorage
+      const totalSnakePoints =
+        parseInt(localStorage.getItem("totalSnakePoints")) || 0;
+
+      // Gesamtpunktzahl aktualisieren
+      const newTotal = totalSnakePoints + scores.score;
+      localStorage.setItem("totalSnakePoints", newTotal);
+
+      // Überprüfen, ob 20 Punkte erreicht wurden
+      if (newTotal >= 20) {
+        // Holen der aktuellen Achievements aus localStorage
+        const currentAchievements = JSON.parse(
+          localStorage.getItem("achievements")
+        ) || {
+          food: [false, false, false, false, false],
+          play: [false, false, false, false, false],
+          furniture: [false, false, false, false, false],
+        };
+
+        // Achievement für Yarn freischalten
+        currentAchievements.play[2] = true;
+        localStorage.setItem(
+          "achievements",
+          JSON.stringify(currentAchievements)
+        );
+      }
+    }
+  }, [gameOn, scores.score]);
+
+  useEffect(() => {
     function movePlayer() {
       if (!gameOn) return;
       setPlayerPosition((prevPosition) => {
