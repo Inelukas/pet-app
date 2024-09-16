@@ -110,7 +110,6 @@ const VolumeControl = styled(motion.input)`
 `;
 
 const MusicPlayer = ({
-  hideMusicPlayer,
   isPlaying,
   volume,
   isExpanded,
@@ -121,71 +120,67 @@ const MusicPlayer = ({
 }) => {
   return (
     <>
-      {!hideMusicPlayer && (
-        <PlayerWrapper>
-          {!isExpanded && (
-            <NoteIcon>
+      <PlayerWrapper>
+        {!isExpanded && (
+          <NoteIcon>
+            <Image
+              src="/assets/key.png"
+              alt="Note Icon"
+              onClick={onTogglePlayer}
+              width={20}
+              height={20}
+            />
+          </NoteIcon>
+        )}
+        {isExpanded && (
+          <PlayerContainer
+            initial={{ height: 0, opacity: 0 }}
+            animate={
+              isExpanded
+                ? { height: "auto", opacity: 1 }
+                : { height: 0, opacity: 0 }
+            }
+            transition={{ duration: 0.5 }}
+          >
+            <PlayPauseButton onClick={onTogglePlayPause}>
+              {isPlaying ? (
+                <Image
+                  src="/assets/pause.png"
+                  alt="Pause Icon"
+                  width={20}
+                  height={20}
+                />
+              ) : (
+                <Image
+                  src="/assets/play.png"
+                  alt="Play Icon"
+                  width={20}
+                  height={20}
+                  onClick={onPlay}
+                />
+              )}
+            </PlayPauseButton>
+            <VolumeControl
+              type="range"
+              min={0}
+              max={100}
+              value={volume}
+              onChange={(event) => onVolumeChange(parseInt(event.target.value))}
+              initial={{ rotate: -90, opacity: 0.6 }}
+              whileHover={{ scale: 1.05, rotate: -90, opacity: 1 }}
+            />
+            <ArrowIcon>
               <Image
-                src="/assets/key.png"
-                alt="Note Icon"
+                src="/assets/doublearrow.png"
+                alt="Collapse Icon"
                 onClick={onTogglePlayer}
                 width={20}
                 height={20}
               />
-            </NoteIcon>
-          )}
-          {isExpanded && (
-            <PlayerContainer
-              initial={{ height: 0, opacity: 0 }}
-              animate={
-                isExpanded
-                  ? { height: "auto", opacity: 1 }
-                  : { height: 0, opacity: 0 }
-              }
-              transition={{ duration: 0.5 }}
-            >
-              <PlayPauseButton onClick={onTogglePlayPause}>
-                {isPlaying ? (
-                  <Image
-                    src="/assets/pause.png"
-                    alt="Pause Icon"
-                    width={20}
-                    height={20}
-                  />
-                ) : (
-                  <Image
-                    src="/assets/play.png"
-                    alt="Play Icon"
-                    width={20}
-                    height={20}
-                    onClick={onPlay}
-                  />
-                )}
-              </PlayPauseButton>
-              <VolumeControl
-                type="range"
-                min={0}
-                max={100}
-                value={volume}
-                onChange={(event) =>
-                  onVolumeChange(parseInt(event.target.value))
-                }
-                initial={{ rotate: -90, opacity: 0.6 }}
-                whileHover={{ scale: 1.05, rotate: -90, opacity: 1 }}
-              />
-              <ArrowIcon>
-                <Image
-                  src="/assets/doublearrow.png"
-                  alt="Collapse Icon"
-                  onClick={onTogglePlayer}
-                  width={20}
-                  height={20}
-                />
-              </ArrowIcon>
-            </PlayerContainer>
-          )}
-        </PlayerWrapper>
-      )}
+            </ArrowIcon>
+          </PlayerContainer>
+        )}
+      </PlayerWrapper>
     </>
   );
 };

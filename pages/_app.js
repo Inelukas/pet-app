@@ -11,8 +11,8 @@ export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useState(pets);
   const [currentPet, setCurrentPet] = useState(pets[0].id);
   const activePet = petCollection.find((pet) => pet.id === currentPet);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [volume, setVolume] = useState(33);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(50);
   const [isExpanded, setIsExpanded] = useState(false);
   const audioRef = useRef(null);
 
@@ -200,15 +200,8 @@ export default function App({ Component, pageProps }) {
   }
 
   let soundtrack;
-  if (
-    router.pathname === "/" ||
-    router.pathname === "/garden" ||
-    router.pathname === "/pet-details" ||
-    router.pathname === "/create" ||
-    router.pathname === "/update"
-  ) {
-    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
-  } else if (router.pathname === "/snake") {
+
+  if (router.pathname === "/snake") {
     soundtrack = "/assets/music/snake-game-soundtrack.mp3";
   } else if (router.pathname === "/tapping") {
     soundtrack = "/assets/music/tapping-game-soundtrack.mp3";
@@ -216,7 +209,16 @@ export default function App({ Component, pageProps }) {
     soundtrack = "/assets/music/catch-the-food-game-soundtrack.mp3";
   } else if (router.pathname === "/graveyard") {
     soundtrack = "/assets/music/graveyard-soundtrack.mp3";
+  } else {
+    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
   }
+
+  useEffect(() => {
+    if (isPlaying) {
+      //setIsPlaying(false);
+      audioRef.current.play();
+    }
+  }, [router.pathname]);
 
   const togglePlayPause = () => {
     if (audioRef.current) {
@@ -240,14 +242,12 @@ export default function App({ Component, pageProps }) {
     setIsExpanded(!isExpanded);
   };
 
-  const handlePlay = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play();
-    }
-  };
+  function handlePlay() {
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
+  }
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (audioRef.current) {
       if (audioRef.current.src !== window.location.origin + soundtrack) {
         audioRef.current.src = soundtrack;
@@ -257,7 +257,7 @@ export default function App({ Component, pageProps }) {
       }
     }
   }, [soundtrack, isPlaying]);
-
+*/
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume / 100;
@@ -289,7 +289,7 @@ export default function App({ Component, pageProps }) {
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
       />
-      <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
+      <audio ref={audioRef} src={soundtrack} preload="auto" loop />
       <MusicPlayer
         isPlaying={isPlaying}
         volume={volume}
