@@ -233,6 +233,44 @@ export default function GamePage({
   }, [hunger, isPlaying, onUpdatePetIndicator]);
 
   useEffect(() => {
+    if (!isPlaying && counter > 0) {
+      // Holen der aktuellen Gesamtpunkte aus localStorage
+      const totalCatchPoints =
+        parseInt(localStorage.getItem("totalCatchPoints")) || 0;
+      const newTotal = totalCatchPoints + counter;
+      localStorage.setItem("totalCatchPoints", newTotal);
+
+      // Holen der aktuellen Achievements aus localStorage
+      const currentAchievements = JSON.parse(
+        localStorage.getItem("achievements")
+      ) || {
+        food: [false, false, false, false, false],
+        play: [false, false, false, false, false],
+        furniture: [false, false, false, false, false],
+      };
+
+      // Highscore-basierte Achievements
+      if (counter >= 1) {
+        currentAchievements.furniture[2] = true; // Achievement für 15 Punkte
+      }
+      if (counter >= 2) {
+        currentAchievements.furniture[3] = true; // Achievement für 20 Punkte
+      }
+
+      // Gesamtpunkte-basierte Achievements
+      if (newTotal >= 3) {
+        currentAchievements.food[2] = true; // Achievement für 30 Punkte
+      }
+      if (newTotal >= 6) {
+        currentAchievements.food[3] = true; // Achievement für 60 Punkte
+      }
+
+      // Speichern der Achievements in localStorage
+      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
+    }
+  }, [isPlaying, counter]);
+
+  useEffect(() => {
     if (isPlaying) {
       const timeInterval = setInterval(() => {
         const timeElapsed = Math.floor((Date.now() - startTime) / 1000);

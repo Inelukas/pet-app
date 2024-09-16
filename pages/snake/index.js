@@ -154,35 +154,41 @@ export default function SnakeGame({
 
   useEffect(() => {
     if (!gameOn && scores.score > 0) {
-      // Holen der aktuellen Gesamtpunktzahl aus localStorage
+      // Holen der aktuellen Gesamtpunkte aus localStorage
       const totalSnakePoints =
         parseInt(localStorage.getItem("totalSnakePoints")) || 0;
-
-      // Gesamtpunktzahl aktualisieren
       const newTotal = totalSnakePoints + scores.score;
       localStorage.setItem("totalSnakePoints", newTotal);
 
-      // Überprüfen, ob 20 Punkte erreicht wurden
-      if (newTotal >= 20) {
-        // Holen der aktuellen Achievements aus localStorage
-        const currentAchievements = JSON.parse(
-          localStorage.getItem("achievements")
-        ) || {
-          food: [false, false, false, false, false],
-          play: [false, false, false, false, false],
-          furniture: [false, false, false, false, false],
-        };
+      // Holen der aktuellen Achievements aus localStorage
+      const currentAchievements = JSON.parse(
+        localStorage.getItem("achievements")
+      ) || {
+        food: [false, false, false, false, false],
+        play: [false, false, false, false, false],
+        furniture: [false, false, false, false, false],
+      };
 
-        // Achievement für Yarn freischalten
-        currentAchievements.play[2] = true;
-        localStorage.setItem(
-          "achievements",
-          JSON.stringify(currentAchievements)
-        );
+      // Highscore-basierte Achievements
+      if (scores.score >= 1) {
+        currentAchievements.play[1] = true; // Achievement für 15 Punkte
       }
+      if (scores.score >= 2) {
+        currentAchievements.play[2] = true; // Achievement für 20 Punkte
+      }
+
+      // Gesamtpunkte-basierte Achievements
+      if (newTotal >= 3) {
+        currentAchievements.food[0] = true; // Achievement für 30 Punkte
+      }
+      if (newTotal >= 6) {
+        currentAchievements.food[1] = true; // Achievement für 60 Punkte
+      }
+
+      // Speichern der Achievements in localStorage
+      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
     }
   }, [gameOn, scores.score]);
-
   useEffect(() => {
     function movePlayer() {
       if (!gameOn) return;

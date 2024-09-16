@@ -189,6 +189,45 @@ export default function TappingGame({
   }, [score, highScore]);
 
   useEffect(() => {
+    if (!gameStarted && score > 0) {
+      console.log("useEffect ausgelöst, Score:", score); // Überprüfe, ob dieser Punkt erreicht wird
+      // Holen der aktuellen Gesamtpunkte aus localStorage
+      const totalTappingPoints =
+        parseInt(localStorage.getItem("totalTappingPoints")) || 0;
+      const newTotal = totalTappingPoints + score;
+      localStorage.setItem("totalTappingPoints", newTotal);
+
+      // Holen der aktuellen Achievements aus localStorage
+      const currentAchievements = JSON.parse(
+        localStorage.getItem("achievements")
+      ) || {
+        food: [false, false, false, false, false],
+        play: [false, false, false, false, false],
+        furniture: [false, false, false, false, false],
+      };
+
+      // Highscore-basierte Achievements
+      if (score >= 1) {
+        currentAchievements.play[3] = true; // Achievement für 15 Punkte
+      }
+      if (score >= 2) {
+        currentAchievements.play[4] = true; // Achievement für 20 Punkte
+      }
+
+      // Gesamtpunkte-basierte Achievements
+      if (newTotal >= 3) {
+        currentAchievements.food[4] = true; // Achievement für 30 Punkte
+      }
+      if (newTotal >= 6) {
+        currentAchievements.furniture[4] = true; // Achievement für 60 Punkte
+      }
+
+      // Speichern der Achievements in localStorage
+      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
+    }
+  }, [gameStarted, score]);
+
+  useEffect(() => {
     let timer;
     if (gameStarted && countdown > 0) {
       timer = setInterval(() => {
@@ -239,7 +278,7 @@ export default function TappingGame({
     setGameStarted(false);
     setActiveCircles([]);
     setActiveWrongCircles([]);
-    setScore(0);
+    // setScore(0);
     setIntervalTime(1600);
 
     if (delay) {

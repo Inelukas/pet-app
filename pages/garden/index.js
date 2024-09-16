@@ -270,8 +270,8 @@ export default function Garden({
   onSpeedFactor,
 }) {
   const [animationState, setAnimationState] = useState(null);
-  const [showTwig, setShowTwig] = useState(false);
-  const [showBall, setShowBall] = useState(false);
+  /*  const [showTwig, setShowTwig] = useState(false);
+  const [showBall, setShowBall] = useState(false); */
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [highScores] = useLocalStorageState("snakeHighScores", {
     defaultValue: { snakeGame: 0 },
@@ -293,10 +293,9 @@ export default function Garden({
     return () => clearInterval(interval);
   }, [setTotalTimeSpent]);
 
-  // Show twig after 10 seconds
+  // Get Achievements for time spent in Garden
   useEffect(() => {
-    if (totalTimeSpent >= 10) {
-      setShowTwig(true);
+    if (totalTimeSpent >= 1) {
       const currentAchievements = JSON.parse(
         localStorage.getItem("achievements")
       ) || {
@@ -308,12 +307,22 @@ export default function Garden({
       // Achievement für den Stock freischalten
       currentAchievements.play[0] = true;
 
+      // 60 Sekunden Achievement
+      if (totalTimeSpent >= 6) {
+        currentAchievements.furniture[0] = true;
+      }
+
+      // 300 Sekunden Achievement
+      if (totalTimeSpent >= 10) {
+        currentAchievements.furniture[1] = true;
+      }
+
       // Speichern der Achievements in localStorage
       localStorage.setItem("achievements", JSON.stringify(currentAchievements));
     }
   }, [totalTimeSpent]);
 
-  //following useEggect for Highscore Achievements
+  /* //following useEggect for Highscore Achievements
   useEffect(() => {
     if (highScores.snakeGame >= 10) {
       setShowBall(true);
@@ -332,7 +341,7 @@ export default function Garden({
       // Speichern der Achievements in localStorage
       localStorage.setItem("achievements", JSON.stringify(currentAchievements));
     }
-  }, [highScores]);
+  }, [highScores]); */
 
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
@@ -425,7 +434,7 @@ export default function Garden({
   return (
     <StyledMain>
       <GardenContainer>
-        <ImageContainer>
+        {/*    <ImageContainer>
           {showTwig && (
             <PositionedImage
               src="/achievements/twig no bg.png"
@@ -446,7 +455,7 @@ export default function Garden({
               left="25vw"
             />
           )}
-        </ImageContainer>
+        </ImageContainer> */}
         <StatusContainer>
           <HorizontalBar
             $critical={
