@@ -187,8 +187,8 @@ export default function App({ Component, pageProps }) {
         if (pet.id === currentPet) {
           return {
             ...pet,
-            dying: false,
-            alive: false,
+            isDying: false,
+            isAlive: false,
             timeOfDeath: new Date().toISOString(),
           };
         }
