@@ -5,11 +5,17 @@ import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
 import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
+import { useRef } from "react";
 
 export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useState(pets);
   const [currentPet, setCurrentPet] = useState(pets[0].id);
   const activePet = petCollection.find((pet) => pet.id === currentPet);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [volume, setVolume] = useState(33);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const audioRef = useRef(null);
+
   const router = useRouter();
 
   function handleCreatePet(petData) {
@@ -212,13 +218,51 @@ export default function App({ Component, pageProps }) {
     soundtrack = "/assets/music/graveyard-soundtrack.mp3";
   }
 
-  const showMusicPlayer = [
-    "/",
-    "/garden",
-    "/snake",
-    "/tapping",
-    "/game-catch-the-food",
-  ].includes(router.pathname);
+  const togglePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleVolumeChange = (value) => {
+    if (audioRef.current) {
+      audioRef.current.volume = value / 100;
+    }
+    setVolume(value);
+  };
+
+  const togglePlayer = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const handlePlay = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    }
+  };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (audioRef.current.src !== window.location.origin + soundtrack) {
+        audioRef.current.src = soundtrack;
+        if (isPlaying) {
+          audioRef.current.play();
+        }
+      }
+    }
+  }, [soundtrack, isPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
 
   return (
     <>
@@ -245,7 +289,17 @@ export default function App({ Component, pageProps }) {
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
       />
-      <MusicPlayer soundtrack={soundtrack} showMusicPlayer={showMusicPlayer} />
+      <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
+      <MusicPlayer
+        isPlaying={isPlaying}
+        volume={volume}
+        isExpanded={isExpanded}
+        audioRef={audioRef}
+        onTogglePlayPause={togglePlayPause}
+        onVolumeChange={handleVolumeChange}
+        onTogglePlayer={togglePlayer}
+        onPlay={handlePlay}
+      />
     </>
   );
 }
