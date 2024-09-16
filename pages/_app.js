@@ -246,17 +246,6 @@ export default function App({ Component, pageProps }) {
     audioRef.current.play();
   }
 
-  /* useEffect(() => {
-    if (audioRef.current) {
-      if (audioRef.current.src !== window.location.origin + soundtrack) {
-        audioRef.current.src = soundtrack;
-        if (isPlaying) {
-          audioRef.current.play();
-        }
-      }
-    }
-  }, [soundtrack, isPlaying]);
-*/
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume / 100;
@@ -289,16 +278,21 @@ export default function App({ Component, pageProps }) {
         onSpeedFactor={getSpeedFactor}
       />
       <audio ref={audioRef} src={soundtrack} preload="auto" loop />
-      <MusicPlayer
-        isPlaying={isPlaying}
-        volume={volume}
-        isExpanded={isExpanded}
-        audioRef={audioRef}
-        onTogglePlayPause={togglePlayPause}
-        onVolumeChange={handleVolumeChange}
-        onTogglePlayer={togglePlayer}
-        onPlay={handlePlay}
-      />
+      {router.pathname !== "/pet-list" &&
+        !router.pathname.includes("/pet-details") &&
+        router.pathname !== "/create" &&
+        router.pathname !== "/update" && (
+          <MusicPlayer
+            isPlaying={isPlaying}
+            volume={volume}
+            isExpanded={isExpanded}
+            audioRef={audioRef}
+            onTogglePlayPause={togglePlayPause}
+            onVolumeChange={handleVolumeChange}
+            onTogglePlayer={togglePlayer}
+            onPlay={handlePlay}
+          />
+        )}
     </>
   );
 }
