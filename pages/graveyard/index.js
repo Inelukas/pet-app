@@ -62,10 +62,14 @@ export default function Graveyard({ petCollection, onPetCollection }) {
     <GraveyardMain>
       <GraveyardContainer>
         <StyledPetList>
-          {deadPets.length > 0 && (
+          {deadPets.length > 0 ? (
+            <>
               {deadPets.map((pet) => (
                 <Pet petData={pet} key={pet.id} onGraveyard={handleRevive} />
               ))}
+            </>
+          ) : (
+            ``
           )}
 
           <GraveyardButtonWrapper>
