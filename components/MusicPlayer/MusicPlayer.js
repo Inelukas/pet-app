@@ -37,7 +37,7 @@ const PlayerContainer = styled(motion.aside)`
   border: 2px solid black;
   width: 50px;
   height: 375px;
-  right: 20px;
+  right: 0px;
   top: 42%;
 
   &:hover {
