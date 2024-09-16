@@ -54,7 +54,7 @@ export default function Header() {
 
   return (
     <HeaderContainer>
-      <StyledHeader isGraveyard={isGraveyard}>{pageTitle}</StyledHeader>
+      <StyledHeader $isGraveyard={isGraveyard}>{pageTitle}</StyledHeader>
     </HeaderContainer>
   );
 }
