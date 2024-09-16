@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
     --neutral-color: #FFFBE6;
     --text-color: #000000; 
     --create-image: url("https://www.transparenttextures.com/patterns/arabesque.png");
-    --button-image: url("https://www.transparenttextures.com/patterns/checkered-light-emboss.png")
+    --game-image: url("https://www.transparenttextures.com/patterns/checkered-light-emboss.png")
   }
 
  *,

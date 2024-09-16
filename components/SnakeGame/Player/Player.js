@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
-const StyledPlayer = styled.div`
+const StyledPlayer = styled(motion.div)`
   display: grid;
   place-content: center;
   position: absolute;
@@ -38,7 +39,6 @@ export default function Player({ onDirection, playerPosition, gameOn, pet }) {
         alt={pet.name}
         width={30}
         height={30}
-        objectFit="cover"
         quality={100}
       />
     </StyledPlayer>

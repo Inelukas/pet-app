@@ -16,7 +16,6 @@ const StyledPet = styled.li`
   gap: 10%;
 
   @media screen and (min-width: 600px) {
-    margin-right: 10%;
     gap: 15%;
   }
 `;

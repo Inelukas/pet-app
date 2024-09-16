@@ -401,7 +401,7 @@ export default function Garden({
         {activePet && (
           <ButtonContainer>
             <StatusLink
-              href={activePet.alive ? "/game-catch-the-food" : ""}
+              href={activePet.alive ? "/catch-the-food" : ""}
               $bgcolor="orange"
               disabled={!activePet.alive || activePet.status.hunger === 0}
             >
@@ -471,7 +471,13 @@ export default function Garden({
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton onClick={() => setIsDropdownOpen(petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen)}>
+            <DropdownButton
+              onClick={() =>
+                setIsDropdownOpen(
+                  petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen
+                )
+              }
+            >
               <Image
                 src={activePet.picture}
                 alt={activePet.name}

@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import GameButton from "@/components/GameButton/GameButton";
+import { GameButton } from "../ButtonContainer/ButtonContainer";
 import Link from "next/link";
+import Image from "next/image";
+import backIcon from "../../../public/assets/back.png";
 
-const Wrapper = styled.section`
+const Wrapper = styled.article`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +12,7 @@ const Wrapper = styled.section`
   height: 100vh;
 `;
 
-const SummaryContainer = styled.article`
+const SummaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,14 +23,10 @@ const SummaryContainer = styled.article`
   background-color: var(--neutral-color);
 `;
 
-const ButtonContainer = styled.article`
+const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px;
-`;
-
-const BackButton = styled(GameButton)`
-  background-color: var(--signal-color);
 `;
 
 export default function SummaryScreen({ itemsCaught, timeTaken }) {
@@ -40,7 +38,9 @@ export default function SummaryScreen({ itemsCaught, timeTaken }) {
         <p>Time taken: {timeTaken} seconds</p>
         <ButtonContainer>
           <Link href="/garden">
-            <BackButton>Back</BackButton>
+            <GameButton>
+              <Image src={backIcon} alt="Back Icon" width={30} />
+            </GameButton>
           </Link>
         </ButtonContainer>
       </SummaryContainer>

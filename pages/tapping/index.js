@@ -2,20 +2,14 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Indicator from "@/components/Indicator/Indicator";
 import {
-  StyledSnakePage,
   StyledGameField,
+  StyledGamePage,
   StyledIndicatorContainer,
-  StyledScoreAndButtonContainer,
-  StyledScoreContainer,
-  StyledButtonContainer,
-  StyledHowToPlay,
-} from "../snake";
-import StyledLink from "@/components/StyledLink/StyledLink";
-import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
-
-const StyledHeader = styled.h1`
-  margin-bottom: 25px;
-`;
+  StyledTitle,
+  HowToPlay,
+} from "@/components/GameElements/GameElements";
+import ButtonContainer from "../../components/GameElements/ButtonContainer/ButtonContainer";
+import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
 
 const StyledTappingGameField = styled(StyledGameField)`
   display: grid;
@@ -29,21 +23,20 @@ const StyledTappingGameField = styled(StyledGameField)`
 `;
 
 const TappingCircle = styled.button`
-  background-image: ${({ isActive, isWrongActive }) =>
-    isWrongActive
+  background-image: ${({ $isActive, $isWrongActive }) =>
+    $isWrongActive
       ? `url("/images/ghost.png")`
-      : isActive
+      : $isActive
       ? `url("/images/capybara.png")`
       : "none"};
-
   background-size: contain, contain;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
 
-  background-color: ${({ isActive, isWrongActive }) =>
-    isWrongActive
+  background-color: ${({ $isActive, $isWrongActive }) =>
+    $isWrongActive
       ? `var(--signal-color)`
-      : isActive
+      : $isActive
       ? `var(--signal-color)`
       : `var(--neutral-color)`};
 
@@ -57,38 +50,6 @@ const TappingCircle = styled.button`
   &:hover {
     transform: scale(1.05);
   }
-`;
-
-const StyledTappingScoreContainer = styled(StyledScoreContainer)`
-  margin-left: 30px;
-  gap: 30px;
-  margin-top: -10px;
-  @media screen and (min-width: 600px) {
-    margin-top: 10px;
-  }
-  @media screen and (min-width: 900px) {
-    margin-top: 20px;
-  }
-  @media screen and (min-width: 1200px) {
-    margin-top: 20px;
-  }
-`;
-
-const StyledTappingButtonContainer = styled(StyledButtonContainer)`
-  margin-top: -20px;
-  @media screen and (min-width: 900px) {
-    margin-top: -30px;
-  }
-`;
-
-const TappingConfirmButton = styled(ConfirmButton)`
-  width: 3rem;
-  height: 3rem;
-  font-size: 1rem;
-`;
-
-const StyledTappingLink = styled(StyledLink)`
-  font-size: 1rem;
 `;
 
 const SpeedUpMessage = styled.span`
@@ -132,22 +93,23 @@ const CountdownMessage = styled(SpeedUpMessage)`
 `;
 
 export default function TappingGame({ onUpdatePetIndicator, activePet }) {
-  const [activeCircles, setActiveCircles] = useState([]);
-  const [activeWrongCircles, setActiveWrongCircles] = useState([]);
-  const [score, setScore] = useState(0);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [intervalTime, setIntervalTime] = useState(1600);
-  const [clickAllowed, setClickAllowed] = useState(true);
-  const [instructions, setInstructions] = useState(false);
-  const [highScore, setHighScore] = useState(0);
-  const [countdown, setCountdown] = useState(60);
-  const itemSound = new Audio("/assets/music/item.mp3");
-  itemSound.volume = 0.05;
+  const [gameStates, setGameStates] = useState({
+    gameOn: false,
+    activeCircles: [],
+    activeWrongCircles: [],
+    clickedCircles: [],
+    clickAllowed: true,
+    intervalTime: 1600,
+    countdown: 60,
+    score: 0,
+    highscore: 0,
+    instructions: false,
+  });
 
   useEffect(() => {
     let interval;
 
-    if (gameStarted) {
+    if (gameStates.gameOn) {
       interval = setInterval(() => {
         const isWrongActive = Math.random() < 0.3;
         const randomCircles = generateRandomCircles(3);
@@ -156,44 +118,54 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
           ? generateRandomCircles(2, randomCircles)
           : [];
 
-        setActiveCircles(randomCircles);
-        setActiveWrongCircles(randomWrongCircles);
+        setGameStates((prevValues) => ({
+          ...prevValues,
+          activeCircles: randomCircles,
+          activeWrongCircles: randomWrongCircles,
+          clickedCircles: [],
+        }));
 
-        const activeTime = Math.min(intervalTime * 0.9, 1000);
+        const activeTime = Math.min(gameStates.intervalTime * 0.9, 1000);
         setTimeout(() => {
-          setActiveCircles([]);
-          setActiveWrongCircles([]);
+          setGameStates((prevValues) => ({
+            ...prevValues,
+            activeCircles: [],
+            activeWrongCircles: [],
+          }));
         }, activeTime);
-      }, intervalTime);
+      }, gameStates.intervalTime);
     }
 
     return () => clearInterval(interval);
-  }, [gameStarted, intervalTime]);
-
-  useEffect(() => {
-    if (gameStarted && countdown % 10 === 0 && countdown !== 60) {
-      setIntervalTime((prevTime) => Math.max(prevTime - 150, 600));
-    }
-    if (countdown === 0) {
-      handleReset(true);
-    }
-  }, [countdown, gameStarted]);
-
-  useEffect(() => {
-    if (score > highScore) {
-      setHighScore(score);
-    }
-  }, [score, highScore]);
+  }, [gameStates.gameOn, gameStates.intervalTime]);
 
   useEffect(() => {
     let timer;
-    if (gameStarted && countdown > 0) {
+
+    if (gameStates.gameOn && gameStates.countdown > 0) {
       timer = setInterval(() => {
-        setCountdown((prevTime) => prevTime - 1);
+        setGameStates((prevValues) => {
+          const newCountdown = prevValues.countdown - 1;
+          const newIntervalTime =
+            newCountdown % 10 === 0 && newCountdown !== 60
+              ? Math.max(prevValues.intervalTime - 150, 600)
+              : prevValues.intervalTime;
+
+          if (newCountdown === 0) {
+            handleReset(true);
+          }
+
+          return {
+            ...prevValues,
+            countdown: newCountdown,
+            intervalTime: newIntervalTime,
+          };
+        });
       }, 1000);
     }
+
     return () => clearInterval(timer);
-  }, [gameStarted, countdown]);
+  }, [gameStates.gameOn, gameStates.countdown]);
 
   function generateRandomCircles(max, exclude = []) {
     const numCircles = Math.floor(Math.random() * max) + 1;
@@ -210,55 +182,110 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
   }
 
   function handleCircleClick(index) {
-    if (!gameStarted || !clickAllowed) return;
+    if (
+      !gameStates.gameOn ||
+      !gameStates.clickAllowed ||
+      gameStates.clickedCircles.includes(index)
+    )
+      return;
 
-    setClickAllowed(false);
-    setTimeout(() => setClickAllowed(true), 200);
-    const energyChange = activeCircles.includes(index)
+    setGameStates((prevValues) => ({
+      ...prevValues,
+      clickAllowed: false,
+      clickedCircles: [...prevValues.clickedCircles, index],
+    }));
+
+    setTimeout(() => {
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        clickAllowed: true,
+      }));
+    }, 200);
+
+    const energyChange = gameStates.activeCircles.includes(index)
       ? 1
-      : activeWrongCircles.includes(index)
+      : gameStates.activeWrongCircles.includes(index)
       ? -1
       : 0;
-    if (energyChange === 1) itemSound.play();
-    setScore((prevScore) => prevScore + energyChange);
+
+    if (energyChange === 1) {
+      const itemSound = new Audio("/assets/music/item.mp3");
+      itemSound.volume = 0.05;
+      itemSound.play();
+    } else if (energyChange === -1) {
+      const itemSound = new Audio("/assets/music/fail.mp3");
+      itemSound.volume = 0.05;
+      itemSound.play();
+    }
+    if (energyChange !== 0) {
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        score: Math.max(prevValues.score + energyChange, 0),
+        highscore:
+          energyChange === 1 && prevValues.score >= prevValues.highscore
+            ? prevValues.score + 1
+            : prevValues.highscore,
+      }));
+    }
+
     onUpdatePetIndicator(energyChange, "energy");
   }
 
   function handleStart() {
-    setGameStarted(true);
-    setCountdown(60);
+    setGameStates((prevValues) => ({
+      ...prevValues,
+      gameOn: true,
+      countdown: 60,
+    }));
   }
 
-  function handlePause() {
-    setGameStarted(false);
-  }
-
-  function handleReset(delay = false) {
-    setGameStarted(false);
-    setActiveCircles([]);
-    setActiveWrongCircles([]);
-    setScore(0);
-    setIntervalTime(1600);
+  function handleReset(delay) {
+    setGameStates((prevValues) => ({
+      ...prevValues,
+      gameOn: false,
+      activeCircles: [],
+      activeWrongCircles: [],
+      clickedCircles: [],
+    }));
 
     if (delay) {
-      setTimeout(() => setCountdown(60), 1800);
+      setTimeout(() => {
+        setGameStates((prevValues) => ({
+          ...prevValues,
+          intervalTime: 1600,
+          score: 0,
+          countdown: 60,
+        }));
+      }, 1800);
     } else {
-      setCountdown(60);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        intervalTime: 1600,
+        score: 0,
+        countdown: 60,
+      }));
     }
   }
 
   function toggleInstructions() {
-    setInstructions((prevInstructions) => !prevInstructions);
+    setGameStates((prevValues) => ({
+      ...prevValues,
+      instructions: !prevValues.instructions,
+    }));
   }
 
   return (
-    <StyledSnakePage>
-      <StyledHeader>Tap the Capybara Game</StyledHeader>
+    <StyledGamePage>
+      <StyledTitle>Tap the Capybara Game</StyledTitle>
       <StyledTappingGameField>
-        {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
-        {countdown > 0 && countdown < 60 && countdown % 10 === 0 && (
-          <SpeedUpMessage>Speed up!</SpeedUpMessage>
+        {gameStates.countdown === 0 && (
+          <CountdownMessage>Time is up!</CountdownMessage>
         )}
+        {gameStates.countdown > 0 &&
+          gameStates.countdown < 60 &&
+          gameStates.countdown % 10 === 0 && (
+            <SpeedUpMessage>Speed up!</SpeedUpMessage>
+          )}
 
         <StyledIndicatorContainer>
           <Indicator
@@ -269,72 +296,31 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
             }}
           />
         </StyledIndicatorContainer>
+        <ScoreContainer
+          countdown={gameStates.countdown}
+          score={gameStates.score}
+          highscore={gameStates.highscore}
+          tapping={true}
+        />
 
         {Array.from({ length: 20 }).map((_, index) => (
           <TappingCircle
             key={index}
-            isActive={activeCircles.includes(index)}
-            isWrongActive={activeWrongCircles.includes(index)}
+            $isActive={gameStates.activeCircles.includes(index)}
+            $isWrongActive={gameStates.activeWrongCircles.includes(index)}
             onClick={() => handleCircleClick(index)}
           />
         ))}
-        {instructions && (
-          <StyledHowToPlay>
-            <h2>How To Play</h2>
-            <ul>
-              <li>
-                {" "}
-                Use your mouse or finger to tap the circles on the screen.{" "}
-              </li>{" "}
-              <li>
-                {" "}
-                Try to tap the circles lighting up, but only those displaying a
-                capybara. Tapping a capybara rewards one point.{" "}
-              </li>{" "}
-              <li>
-                {" "}
-                Tapping a circle displaying a ghost will result in point
-                deduction.{" "}
-              </li>{" "}
-              <li>
-                {" "}
-                More tapped capybaras = more energy! Each capybara adds +1 to
-                your animal&apos;s energy bar. Try to tap as many as possible.{" "}
-              </li>{" "}
-              <li>
-                Every 10 seconds, the game speeds up, increasing difficulty.
-                Each round lasts for 60 seconds. Happy tapping!
-              </li>
-            </ul>
-          </StyledHowToPlay>
-        )}
+        {gameStates.instructions && <HowToPlay game="tapping" />}
       </StyledTappingGameField>
-      <StyledScoreAndButtonContainer>
-        <StyledTappingScoreContainer>
-          <span>Current Score: {score}</span>
-          <span>Highscore: {highScore}</span>
-          <span>Time left: {countdown}s</span>
-        </StyledTappingScoreContainer>
-
-        <StyledTappingButtonContainer>
-          <StyledTappingLink href="/garden">Back</StyledTappingLink>
-          {gameStarted ? (
-            <TappingConfirmButton onClick={handlePause}>
-              Pause
-            </TappingConfirmButton>
-          ) : (
-            <TappingConfirmButton onClick={handleStart}>
-              Start
-            </TappingConfirmButton>
-          )}
-          <TappingConfirmButton onClick={() => handleReset(false)}>
-            Reset
-          </TappingConfirmButton>
-          <TappingConfirmButton onClick={() => toggleInstructions()}>
-            Instructions
-          </TappingConfirmButton>
-        </StyledTappingButtonContainer>
-      </StyledScoreAndButtonContainer>
-    </StyledSnakePage>
+      <ButtonContainer
+        gameOn={gameStates.gameOn}
+        showArrowButtons={true}
+        onStart={handleStart}
+        onInstructions={toggleInstructions}
+        tapping={true}
+        onReset={handleReset}
+      />
+    </StyledGamePage>
   );
 }
