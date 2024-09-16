@@ -78,10 +78,8 @@ export default function GamePage({
     score: 0,
     hunger: activePet.status.hunger,
     instructions: false,
-    gameWidth:
-      window.innerWidth >= 1200 ? 378 : window.innerWidth >= 600 ? 324 : 270,
-    gameHeight:
-      window.innerWidth >= 1200 ? 560 : window.innerWidth >= 600 ? 480 : 400,
+    gameWidth: 270,
+    gameHeight: 400,
   });
 
   useEffect(() => {
@@ -104,6 +102,8 @@ export default function GamePage({
     };
 
     window.addEventListener("resize", handleResize);
+
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);

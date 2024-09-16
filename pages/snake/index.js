@@ -31,10 +31,8 @@ export default function SnakeGame({
     score: 0,
     highscore: 0,
     instructions: false,
-    gameWidth:
-      window.innerWidth >= 1200 ? 440 : window.innerWidth >= 600 ? 360 : 300,
-    gameHeight:
-      window.innerWidth >= 1200 ? 440 : window.innerWidth >= 600 ? 360 : 300,
+    gameWidth: 300,
+    gameHeight: 300,
   });
 
   useEffect(() => {
@@ -53,10 +51,13 @@ export default function SnakeGame({
             : window.innerWidth >= 600
             ? 360
             : 300,
+        foodPosition: generateNewFoodPosition(),
       }));
     };
 
     window.addEventListener("resize", handleResize);
+
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
