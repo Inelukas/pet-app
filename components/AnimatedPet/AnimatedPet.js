@@ -35,7 +35,7 @@ function createAnimations(
 ) {
   return {
     normal: createAnimation(moveY, width, framesMove, startX),
-    isSleepy: createAnimation(sleepY, width, framesSleep, startX),
+    sleepy: createAnimation(sleepY, width, framesSleep, startX),
     isDying: createAnimation(deadY, width, framesDead, startX),
   };
 }
@@ -89,10 +89,10 @@ const AnimatedPetWrapper = styled.div`
   height: ${({ $pet }) => `${$pet.size}px`};
   background-image: ${({ $pet }) =>
     `url(/assets/sprite-sheets/${$pet.slug}-sprite-sheet.png)`};
-  animation: ${({ $pet, $isSleepy, $isDying }) => {
-    if (!$isDying && $isSleepy) {
-      return css`1s steps(${$pet.spriteNumber.isSleepy}) infinite ${
-        animationsMap[$pet.slug].isSleepy
+  animation: ${({ $pet, $sleepy, $isDying }) => {
+    if (!$isDying && $sleepy) {
+      return css`1s steps(${$pet.spriteNumber.sleepy}) infinite ${
+        animationsMap[$pet.slug].sleepy
       }`;
     }
     if ($isDying) {
@@ -111,16 +111,16 @@ const AnimatedPetWrapper = styled.div`
 `;
 
 const HorizontalPetMovement = styled.div`
-  animation: ${({ $isDying, $movingSpeedFactor, $isSleepy }) =>
-    !$isDying && !$isSleepy
+  animation: ${({ $isDying, $movingSpeedFactor, $sleepy }) =>
+    !$isDying && !$sleepy
       ? css`
           ${walkSmallScreen} ${20 * $movingSpeedFactor}s infinite
         `
       : "none"};
 
   @media (min-width: 900px) {
-    animation: ${({ $isDying, $movingSpeedFactor, $isSleepy }) =>
-      !$isDying && !$isSleepy
+    animation: ${({ $isDying, $movingSpeedFactor, $sleepy }) =>
+      !$isDying && !$sleepy
         ? css`
             ${walkLargeScreen} ${20 * $movingSpeedFactor}s infinite
           `
@@ -134,11 +134,11 @@ export default function AnimatedPet({
   movingSpeedFactor,
   onDeadPet,
 }) {
-  const [isSleepy, setIsSleepy] = useState(false);
+  const [sleepy, setSleepy] = useState(false);
 
   useEffect(() => {
     const setStateInterval = setInterval(() => {
-      setIsSleepy((prevVal) =>
+      setSleepy((prevVal) =>
         Math.ceil(Math.random() * 10) >= 2 ? !prevVal : prevVal
       );
     }, 20000 * movingSpeedFactor);
@@ -147,7 +147,7 @@ export default function AnimatedPet({
 
   useEffect(() => {
     if (isDying) {
-      setIsSleepy(false);
+      setSleepy(false);
 
       const isDyingTimer = setTimeout(() => onDeadPet(), 4000);
 
@@ -159,9 +159,9 @@ export default function AnimatedPet({
     <HorizontalPetMovement
       $isDying={isDying}
       $movingSpeedFactor={movingSpeedFactor}
-      $isSleepy={isSleepy}
+      $sleepy={sleepy}
     >
-      <AnimatedPetWrapper $pet={pet} $isSleepy={isSleepy} $isDying={isDying} />
+      <AnimatedPetWrapper $pet={pet} $sleepy={sleepy} $isDying={isDying} />
     </HorizontalPetMovement>
   );
 }
