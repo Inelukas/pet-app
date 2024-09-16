@@ -10,8 +10,8 @@ export const StyledPet = styled.li`
   margin: 10px;
   padding: 10px;
   align-items: center;
-  background: ${({ onGraveyard }) =>
-    onGraveyard
+  background: ${({ $onGraveyard }) =>
+    $onGraveyard
       ? "linear-gradient(90deg, #ffffff, #d3d3d3, #808080)"
       : "var(--secondary-color)"};
   width: 80vw;
