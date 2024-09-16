@@ -16,7 +16,7 @@ export const StyledPet = styled.li`
       : "var(--secondary-color)"};
   width: 80vw;
   max-width: 600px;
-  height: ${({ onGraveyard }) => (onGraveyard ? "25vh" : "20vh")};
+  height: ${({ $onGraveyard }) => ($onGraveyard ? "25vh" : "20vh")};
   min-height: 150px;
   gap: 10%;
 
