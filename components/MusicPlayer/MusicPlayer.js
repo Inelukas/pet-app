@@ -110,9 +110,9 @@ const VolumeControl = styled(motion.input)`
   }
 `;
 
-const MusicPlayer = ({ soundtrack }) => {
+const MusicPlayer = ({ soundtrack, showMusicPlayer }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(50);
   const audioRef = useRef(null);
 
@@ -153,8 +153,7 @@ const MusicPlayer = ({ soundtrack }) => {
 
   return (
     <PlayerWrapper>
-      <audio ref={audioRef} src={soundtrack} preload="auto" loop />
-      {!isExpanded && (
+      {showMusicPlayer && !isExpanded && (
         <NoteIcon>
           <Image
             src="/assets/key.png"
@@ -165,7 +164,8 @@ const MusicPlayer = ({ soundtrack }) => {
           />
         </NoteIcon>
       )}
-      {isExpanded && (
+      <audio ref={audioRef} src={soundtrack} preload="auto" autoPlay loop />
+      {showMusicPlayer && isExpanded && (
         <PlayerContainer
           initial={{ height: 0, opacity: 0 }}
           animate={

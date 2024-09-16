@@ -194,15 +194,13 @@ export default function App({ Component, pageProps }) {
   }
 
   let soundtrack;
-  if (router.pathname === "/") {
-    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
-  } else if (router.pathname === "/garden") {
-    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
-  } else if (router.pathname === "/pet-details") {
-    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
-  } else if (router.pathname === "/create") {
-    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
-  } else if (router.pathname === "/update") {
+  if (
+    router.pathname === "/" ||
+    router.pathname === "/garden" ||
+    router.pathname === "/pet-details" ||
+    router.pathname === "/create" ||
+    router.pathname === "/update"
+  ) {
     soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
   } else if (router.pathname === "/snake") {
     soundtrack = "/assets/music/snake-game-soundtrack.mp3";
@@ -247,7 +245,7 @@ export default function App({ Component, pageProps }) {
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
       />
-      {showMusicPlayer && <MusicPlayer soundtrack={soundtrack} />}
+      <MusicPlayer soundtrack={soundtrack} showMusicPlayer={showMusicPlayer} />
     </>
   );
 }
