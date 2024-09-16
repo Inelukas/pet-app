@@ -21,7 +21,7 @@ const StyledHeader = styled.h1`
   text-align: center;
 
   ${(props) =>
-    props.isGraveyard &&
+    props.$isGraveyard &&
     css`
       background-color: gray;
     `}
