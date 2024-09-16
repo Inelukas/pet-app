@@ -239,7 +239,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
       ...prevValues,
       gameOn: true,
       score: 0,
-      countdown: 60,
+      countdown: 10,
     }));
   }
 
@@ -257,14 +257,14 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
         setGameStates((prevValues) => ({
           ...prevValues,
           intervalTime: 1600,
-          countdown: 60,
+          countdown: 10,
         }));
       }, 1800);
     } else {
       setGameStates((prevValues) => ({
         ...prevValues,
         intervalTime: 1600,
-        countdown: 60,
+        countdown: 10,
       }));
     }
   }

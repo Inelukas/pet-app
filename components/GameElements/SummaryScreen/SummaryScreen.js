@@ -45,18 +45,25 @@ export default function SummaryScreen({
             <h2>Your pet has been fed!</h2>
             <p>Items caught: {itemsCaught}</p>
             <p>Time taken: {timeTaken} seconds</p>
+            <p>Your pet&apos;s intelligence has increased</p>
           </>
         )}
         {snake && (
           <>
             <h2>Your pet has built a happy family!</h2>
             <p>Number of children: {itemsCaught}</p>
+            {itemsCaught >= 5 && (
+              <p>Your pet&apos;s intelligence has increased</p>
+            )}
           </>
         )}
         {tapping && (
           <>
             <h2>Your pet has been charged!</h2>
             <p>Total count: {itemsCaught}</p>
+            {itemsCaught >= 5 && (
+              <p>Your pet&apos;s intelligence has increased</p>
+            )}
           </>
         )}
         <ButtonContainer>
