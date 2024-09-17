@@ -26,11 +26,11 @@ const StyledTappingGameField = styled(StyledGameField)`
 `;
 
 const TappingCircle = styled.button`
-  background-image: ${({ $isActive, $isWrongActive }) =>
+  background-image: ${({ $isActive, petImage, $isWrongActive }) =>
     $isWrongActive
-      ? `url("/images/ghost.png")`
+      ? `url("/assets/images/ghost_front.png")`
       : $isActive
-      ? `url("/images/capybara.png")`
+      ? `url(${petImage})`
       : "none"};
   background-size: contain, contain;
   background-position: center, center;
@@ -108,6 +108,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
     highscore: 0,
     instructions: false,
   });
+
 
   useEffect(() => {
     let interval;
@@ -278,7 +279,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
       {gameStates.instructions && (
         <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>
       )}
-      <StyledTitle>Tap the Capybara Game</StyledTitle>
+      <StyledTitle>Tap your pet</StyledTitle>
       <StyledTappingGameField>
         {gameStates.countdown === 0 && (
           <CountdownMessage>Time is up!</CountdownMessage>
@@ -312,6 +313,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
             key={index}
             $isActive={gameStates.activeCircles.includes(index)}
             $isWrongActive={gameStates.activeWrongCircles.includes(index)}
+            petImage={activePet.picture}
             onClick={() => handleCircleClick(index)}
           />
         ))}
