@@ -71,11 +71,18 @@ export default function PageButtons({ router, activePet }) {
         </PageButton>
       )}
       {router.pathname === "/pet-list" && (
-        <PageButton $color={"orange"} $right={"10px"}>
-          <Link href="/create" aria-label="Create Icon">
-            <Image src={createIcon} alt="Create Icon" width={30} />
-          </Link>
-        </PageButton>
+        <>
+          <PageButton $color={"orange"} $right={"50px"}>
+            <Link href="/create" aria-label="Create Icon">
+              <Image src={createIcon} alt="Create Icon" width={30} />
+            </Link>
+          </PageButton>
+          <PageButton $color={"grey"} $right={"10px"}>
+            <Link href="/graveyard" aria-label="Coffing indicating Graveyard">
+              ⚰️
+            </Link>
+          </PageButton>
+        </>
       )}
     </PageButtonContainer>
   );

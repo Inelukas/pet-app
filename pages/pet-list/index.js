@@ -11,7 +11,7 @@ const PetListPage = styled.main`
   position: relative;
 `;
 
-const StyledPetList = styled.ul`
+export const StyledPetList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;

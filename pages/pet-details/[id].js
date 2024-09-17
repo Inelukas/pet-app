@@ -215,7 +215,13 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           <PictureAndDeleteContainer>
             <PetPicture>
               <Image
-                src={pet.alive ? pet.image : "/assets/images/tombstone.png"}
+                src={
+                  pet.isAlive
+                    ? pet.image
+                    : pet.isRevived
+                    ? "/assets/images/ghost.png"
+                    : "/assets/images/tombstone.png"
+                }
                 alt={pet.name || "A cute pet"}
                 width={50}
                 height={50}

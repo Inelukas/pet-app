@@ -1,26 +1,29 @@
 import Image from "next/image";
 import styled from "styled-components";
+import ConfirmButton from "../ConfirmButton/ConfirmButton";
+import reviveIcon from "../../public/assets/revive.png";
 
-const StyledPet = styled.li`
+export const StyledPet = styled.li`
   display: flex;
   border: 5px solid #000000;
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
   align-items: center;
-  background-color: var(--secondary-color);
+  background: ${({ $onGraveyard }) =>
+    $onGraveyard
+      ? "linear-gradient(90deg, #ffffff, #d3d3d3, #808080)"
+      : "var(--secondary-color)"};
   width: 80vw;
   max-width: 600px;
-  height: 20vh;
+  height: ${({ $onGraveyard }) => ($onGraveyard ? "25vh" : "20vh")};
   min-height: 150px;
   gap: 10%;
 
   @media screen and (min-width: 600px) {
-    margin-right: 10%;
     gap: 15%;
   }
 `;
-
 const StyledPetData = styled.section`
   display: flex;
   flex-direction: column;
@@ -42,7 +45,7 @@ const StyledPortrait = styled.section`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background: var(--signal-color);
+  background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
   position: relative;
   width: 90px;
   height: 90px;
@@ -68,23 +71,39 @@ const StyledPortrait = styled.section`
   }
 `;
 
-const StyledList = styled.ul`
+export const StyledList = styled.ul`
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
 `;
 
-export default function Pet({ petData }) {
+const ReviveButton = styled(ConfirmButton)`
+  align-self: flex-end;
+  background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
+  width: 2.3rem;
+  height: 2.3rem;
+`;
+
+export default function Pet({ petData, onGraveyard }) {
   return (
-    <StyledPet>
+    <StyledPet $onGraveyard={!!onGraveyard}>
       <StyledPortrait>
-        {petData.alive ? (
+        {petData.isAlive ? (
           <Image
             src={petData.image}
             alt={petData.name || "A cute pet"}
             width={50}
             height={50}
+            quality={100}
+          />
+        ) : petData.isRevived ? (
+          <Image
+            src="/assets/images/ghost.png"
+            alt="Ghost"
+            objectFit="cover"
+            width={75}
+            height={75}
             quality={100}
           />
         ) : (
@@ -104,16 +123,37 @@ export default function Pet({ petData }) {
         <p>
           <span>Type:</span> {petData.type}
         </p>
-        <StyledList>
-          <span>Characteristics:</span>
-          {petData.characteristics.map((characteristic, index) =>
-            index < petData.characteristics.length - 1 ? (
-              <li key={index}>{characteristic + ", "}</li>
-            ) : (
-              <li key={index}>{characteristic}</li>
-            )
-          )}
-        </StyledList>
+
+        {!onGraveyard && (
+          <StyledList>
+            <span>Characteristics:</span>
+            {petData.characteristics.map((characteristic, index) =>
+              index < petData.characteristics.length - 1 ? (
+                <li key={index}>{characteristic + ", "}</li>
+              ) : (
+                <li key={index}>{characteristic}</li>
+              )
+            )}
+          </StyledList>
+        )}
+
+        {!petData.isAlive && onGraveyard && (
+          <>
+            <p>
+              <span>Time of Death: </span>
+              {new Date(petData.timeOfDeath).toLocaleString()}
+            </p>
+            <ReviveButton onClick={() => onGraveyard(petData.id)}>
+              <Image src={reviveIcon} alt="Confirm Icon" width={40} />
+            </ReviveButton>
+          </>
+        )}
+
+        {petData.isRevived && (
+          <p>
+            <span>Status:</span> Revived
+          </p>
+        )}
       </StyledPetData>
     </StyledPet>
   );

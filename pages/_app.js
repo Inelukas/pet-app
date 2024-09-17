@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }) {
       ...restPetData,
       id: petId,
       characteristics: [characteristic1, characteristic2].filter(Boolean),
-      alive: true,
+      isAlive: true,
     };
     setPetCollection((prevData) => [newPet, ...prevData]);
     router.push("/pet-list");
@@ -186,7 +186,12 @@ export default function App({ Component, pageProps }) {
     setPetCollection((prevPets) =>
       prevPets.map((pet) => {
         if (pet.id === currentPetID) {
-          return { ...pet, dying: false, alive: false };
+          return {
+            ...pet,
+            isDying: false,
+            isAlive: false,
+            timeOfDeath: new Date().toISOString(),
+          };
         }
         return pet;
       })
@@ -216,6 +221,7 @@ export default function App({ Component, pageProps }) {
         onHappinessFactor={getHappinessFactor}
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
+        onPetCollection={setPetCollection}
       />
       <PageButtons router={router} activePet={activePet} />
     </>

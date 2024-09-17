@@ -12,6 +12,7 @@ const animationsMap = {
   dragonfly: createAnimations("0", "-64px", "-96px", 32, 4, 4, 7),
   capybara: createAnimations("-512px", "-384px", "-192px", 64, 8, 8, 8),
   samantha: createAnimations("0", "-134px", "-268px", 140, 5, 5, 5),
+  ghost: createAnimations("0", "-32px", "0", 32, 4, 4),
 };
 
 function createAnimation(startY, width, frames, startX = 0) {
@@ -36,7 +37,7 @@ function createAnimations(
   return {
     normal: createAnimation(moveY, width, framesMove, startX),
     sleepy: createAnimation(sleepY, width, framesSleep, startX),
-    dying: createAnimation(deadY, width, framesDead, startX),
+    isDying: createAnimation(deadY, width, framesDead, startX),
   };
 }
 
@@ -47,18 +48,18 @@ const AnimatedPetWrapper = styled.div`
   height: ${({ $pet }) => `${$pet.size}px`};
   background-image: ${({ $pet }) =>
     `url(/assets/sprite-sheets/${$pet.slug}-sprite-sheet.png)`};
-  animation: ${({ $pet, $sleepy, $dying }) => {
-    if (!$dying && $sleepy) {
+  animation: ${({ $pet, $sleepy, $isDying }) => {
+    if (!$isDying && $sleepy) {
       return css`1s steps(${$pet.spriteNumber.sleepy}) infinite ${
         animationsMap[$pet.slug].sleepy
       }`;
     }
-    if ($dying) {
+    if ($isDying) {
       return css`4s steps(${$pet.spriteNumber.dead}) 1 ${
-        animationsMap[$pet.slug].dying
+        animationsMap[$pet.slug].isDying
       }`;
     }
-    if (!$dying) {
+    if (!$isDying) {
       return css`1.5s steps(${$pet.spriteNumber.normal}) infinite ${
         animationsMap[$pet.slug].normal
       }`;
@@ -69,16 +70,16 @@ const AnimatedPetWrapper = styled.div`
 `;
 
 const HorizontalPetMovement = styled.div`
-  animation: ${({ $dying, $movingSpeedFactor, $sleepy }) =>
-    !$dying && !$sleepy
+  animation: ${({ $isDying, $movingSpeedFactor, $sleepy }) =>
+    !$isDying && !$sleepy
       ? css`
           ${walkSmallScreen} ${20 * $movingSpeedFactor}s infinite
         `
       : "none"};
 
   @media (min-width: 900px) {
-    animation: ${({ $dying, $movingSpeedFactor, $sleepy }) =>
-      !$dying && !$sleepy
+    animation: ${({ $isDying, $movingSpeedFactor, $sleepy }) =>
+      !$isDying && !$sleepy
         ? css`
             ${walkLargeScreen} ${20 * $movingSpeedFactor}s infinite
           `
@@ -88,7 +89,7 @@ const HorizontalPetMovement = styled.div`
 
 export default function AnimatedPet({
   pet,
-  dying,
+  isDying,
   movingSpeedFactor,
   onDeadPet,
 }) {
@@ -104,22 +105,22 @@ export default function AnimatedPet({
   }, []);
 
   useEffect(() => {
-    if (dying) {
+    if (isDying) {
       setSleepy(false);
 
-      const dyingTimer = setTimeout(() => onDeadPet(), 4000);
+      const isDyingTimer = setTimeout(() => onDeadPet(), 4000);
 
-      return () => clearTimeout(dyingTimer);
+      return () => clearTimeout(isDyingTimer);
     }
-  }, [dying]);
+  }, [isDying]);
 
   return (
     <HorizontalPetMovement
-      $dying={dying}
+      $isDying={isDying}
       $movingSpeedFactor={movingSpeedFactor}
       $sleepy={sleepy}
     >
-      <AnimatedPetWrapper $pet={pet} $sleepy={sleepy} $dying={dying} />
+      <AnimatedPetWrapper $pet={pet} $sleepy={sleepy} $isDying={isDying} />
     </HorizontalPetMovement>
   );
 }
