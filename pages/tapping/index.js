@@ -238,7 +238,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
       ...prevValues,
       gameOn: true,
       score: 0,
-      countdown: 10,
+      countdown: 60,
     }));
   }
 

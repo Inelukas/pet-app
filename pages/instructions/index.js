@@ -1,8 +1,10 @@
 import { StyledStartPage } from "..";
 import styled from "styled-components";
 import { useState } from "react";
-import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
-import Link from "next/link";
+
+const StyledInstructionsPage = styled(StyledStartPage)`
+  padding-top: 80px;
+`;
 
 const InstructionsHeading = styled.span`
   font-size: 1.5rem;
@@ -142,11 +144,8 @@ export default function Instructions() {
   ];
 
   return (
-    <StyledStartPage>
-      <InstructionsHeading>
-        Follow these instructions to create, manage, and care for your virtual
-        pets.{" "}
-      </InstructionsHeading>
+    <StyledInstructionsPage>
+      <InstructionsHeading>Choose a feature: </InstructionsHeading>
       <InstructionsWrapper>
         {instructions.map((item, index) => (
           <ListItem key={index} onClick={() => toggleExpanded(index)}>
@@ -155,11 +154,6 @@ export default function Instructions() {
           </ListItem>
         ))}
       </InstructionsWrapper>
-      <GardenPageWrapper>
-        <Link href="/" aria-label="A house indicating the Start page">
-          🏠
-        </Link>
-      </GardenPageWrapper>
-    </StyledStartPage>
+    </StyledInstructionsPage>
   );
 }

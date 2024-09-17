@@ -86,6 +86,14 @@ export default function PageButtons({ router, activePet }) {
           </PageButton>
         </>
       )}
+
+      {activePet && router.pathname === "/instructions" && (
+        <PageButton $color={"green"} $left={"10px"}>
+          <Link href="/" aria-label="House indicating Homepage Link">
+            🏠
+          </Link>
+        </PageButton>
+      )}
     </PageButtonContainer>
   );
 }
