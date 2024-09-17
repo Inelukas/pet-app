@@ -9,6 +9,14 @@ import cancelIcon from "../../public/assets/cancel.png";
 import confirmIcon from "../../public/assets/confirm.png";
 import Image from "next/image";
 
+const CreatePage = styled.main`
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+`;
+
 const StyledConfirmButtonContainer = styled.div`
   display: flex;
 `;
@@ -98,7 +106,7 @@ export default function CreatePetForm({
   hideButtons = false,
   onUpdatePet,
 }) {
-  const [currentPet, setCurrentPet] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [characteristics, setCharacteristics] = useState({
     characteristic1: "",
     characteristic2: "",
@@ -111,7 +119,7 @@ export default function CreatePetForm({
       const petIndex = animalList.findIndex(
         (animal) => animal.type === initialData.type
       );
-      setCurrentPet(petIndex);
+      setCurrentImageIndex(petIndex);
       setCharacteristics({
         characteristic1: initialData.characteristics[0] || "",
         characteristic2: initialData.characteristics[1] || "",
@@ -121,20 +129,21 @@ export default function CreatePetForm({
   }, [initialData]);
 
   function handlePreviousPet() {
-    const prevPetId = currentPet > 0 ? currentPet - 1 : animalList.length - 1;
-    setCurrentPet(prevPetId);
+    const prevPetId =
+      currentImageIndex > 0 ? currentImageIndex - 1 : animalList.length - 1;
+    setCurrentImageIndex(prevPetId);
   }
 
   function handleNextPet() {
-    const nextPetId = (currentPet + 1) % animalList.length;
-    setCurrentPet(nextPetId);
+    const nextPetId = (currentImageIndex + 1) % animalList.length;
+    setCurrentImageIndex(nextPetId);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    const petInfo = animalList[currentPet];
+    const petInfo = animalList[currentImageIndex];
     const [happiness, energy, intelligence] = petInfo.indicators;
     const petData = {
       ...data,
@@ -174,9 +183,9 @@ export default function CreatePetForm({
   }
 
   function calculateIntelligence(characteristic1, characteristic2) {
-    const currentPetIntelligenceCount = animalList[currentPet].indicators.find(
-      (indicator) => indicator.name === "intelligence"
-    ).count;
+    const currentPetIntelligenceCount = animalList[
+      currentImageIndex
+    ].indicators.find((indicator) => indicator.name === "intelligence").count;
     let intelligenceCount = currentPetIntelligenceCount;
     if (characteristic1 === "smart" || characteristic2 === "smart") {
       intelligenceCount = Math.min(currentPetIntelligenceCount + 20, 100);
@@ -187,12 +196,12 @@ export default function CreatePetForm({
   }
 
   return (
-    <>
+    <CreatePage>
       <PetSelection
         onPreviousPet={handlePreviousPet}
         onNextPet={handleNextPet}
         animalList={animalList}
-        currentPet={currentPet}
+        currentImageIndex={currentImageIndex}
         hideButtons={hideButtons}
       />
 
@@ -202,7 +211,7 @@ export default function CreatePetForm({
           <input
             name="type"
             id="type"
-            value={animalList[currentPet].type}
+            value={animalList[currentImageIndex].type}
             disabled
           />
         </StyledFormArticle>
@@ -277,7 +286,7 @@ export default function CreatePetForm({
         </StyledFormArticle>
       </StyledForm>
       <StyledIndicatorContainer>
-        {animalList[currentPet].indicators.map((indicator, index) => {
+        {animalList[currentImageIndex].indicators.map((indicator, index) => {
           let indicatorCount = indicator.count;
 
           if (indicator.name === "intelligence") {
@@ -305,6 +314,6 @@ export default function CreatePetForm({
           <Image src={confirmIcon} alt="Confirm Icon" width={40} />
         </ConfirmButton>
       </StyledConfirmButtonContainer>
-    </>
+    </CreatePage>
   );
 }

@@ -20,10 +20,9 @@ export default function Food({ foodPosition, pet }) {
     >
       <Image
         src={pet.picture}
-        alt={pet.name}
+        alt={pet.name || "A cute pet"}
         width={20}
         height={20}
-        objectFit="cover"
         quality={100}
       />
     </StyledFood>

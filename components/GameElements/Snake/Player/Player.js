@@ -36,7 +36,7 @@ export default function Player({ onDirection, playerPosition, gameOn, pet }) {
     >
       <Image
         src={pet.picture}
-        alt={pet.name}
+        alt={pet.name || "A cute pet"}
         width={30}
         height={30}
         quality={100}

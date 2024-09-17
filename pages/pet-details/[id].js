@@ -6,20 +6,22 @@ import { useState } from "react";
 import Image from "next/image";
 import deleteIcon from "../../public/assets/delete.png";
 import updateIcon from "../../public/assets/edit.png";
-import {
-  ListPageWrapper,
-  GardenPageWrapper,
-} from "@/components/LinkButtons/LinkButtons";
+
+const DetailsPage = styled.main`
+  height: 80vh;
+  padding-top: 80px;
+`;
 
 const DetailsContainer = styled.section`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   margin: 0 5vw;
-  padding: 15px;
-  width: 90vw;
-  max-width: 600px;
-  height: auto;
+  padding: 10px;
+  width: 90%;
+  max-width: 800px;
+  height: 500px;
   min-height: 60vh;
   background-color: var(--secondary-color);
   border: 3px solid #000000;
@@ -29,20 +31,6 @@ const DetailsContainer = styled.section`
 
   @media screen and (min-width: 600px) {
     margin: 10px auto;
-    padding: 10px;
-    max-width: 600px;
-  }
-
-  @media screen and (min-width: 900px) {
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 700px;
-  }
-
-  @media screen and (min-width: 1200px) {
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 800px;
   }
 `;
 
@@ -222,72 +210,64 @@ export default function PetDetails({ petCollection, onDeletePet }) {
   ];
 
   return (
-    <DetailsContainer>
-      <PetPictureContainer>
-        <PictureAndDeleteContainer>
-          <PetPicture>
-            <Image
-              src={
-                pet.isAlive
-                  ? pet.image
-                  : pet.isRevived
-                  ? "/assets/images/ghost.png"
-                  : "/assets/images/tombstone.png"
-              }
-              alt={pet.name}
-              width={50}
-              height={50}
-              layout="fixed"
-              quality={100}
-            />
-          </PetPicture>
+    <DetailsPage>
+      <DetailsContainer>
+        <PetPictureContainer>
+          <PictureAndDeleteContainer>
+            <PetPicture>
+              <Image
+                src={
+                  pet.isAlive
+                    ? pet.image
+                    : pet.isRevived
+                    ? "/assets/images/ghost.png"
+                    : "/assets/images/tombstone.png"
+                }
+                alt={pet.name || "A cute pet"}
+                width={50}
+                height={50}
+                quality={100}
+                sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
+              />
+            </PetPicture>
 
-          {isDelete && (
-            <StyledDeleteContainer>
-              <p>Are you sure you want to delete your Pet?</p>
-              <DeleteButtonContainer>
-                <DeleteButtonChoice onClick={confirmDelete}>
-                  Yes
-                </DeleteButtonChoice>
-                <DeleteButtonChoice onClick={handleDelete}>
-                  No
-                </DeleteButtonChoice>
-              </DeleteButtonContainer>
-            </StyledDeleteContainer>
-          )}
-          <StyledDeleteButton onClick={handleDelete}>
-            <Image src={deleteIcon} alt="Delete Icon" width={25} />
-          </StyledDeleteButton>
-        </PictureAndDeleteContainer>
-        <PetName>{pet.name}</PetName>
-        <StyledUpdateButton $disabled={!pet.isAlive}>
-          {pet.isAlive ? (
-            <Link href={`/update?id=${pet.id}&hideButtons=true`}>
+            {isDelete && (
+              <StyledDeleteContainer>
+                <p>Are you sure you want to delete your Pet?</p>
+                <DeleteButtonContainer>
+                  <DeleteButtonChoice onClick={confirmDelete}>
+                    Yes
+                  </DeleteButtonChoice>
+                  <DeleteButtonChoice onClick={handleDelete}>
+                    No
+                  </DeleteButtonChoice>
+                </DeleteButtonContainer>
+              </StyledDeleteContainer>
+            )}
+            <StyledDeleteButton onClick={handleDelete}>
+              <Image src={deleteIcon} alt="Delete Icon" width={25} />
+            </StyledDeleteButton>
+          </PictureAndDeleteContainer>
+          <PetName>{pet.name}</PetName>
+          <StyledUpdateButton $disabled={!pet.alive}>
+            {pet.isAlive ? (
+              <Link href={`/update?id=${pet.id}&hideButtons=true`}>
+                <Image src={updateIcon} alt="Update Icon" width={25} />
+              </Link>
+            ) : (
               <Image src={updateIcon} alt="Update Icon" width={25} />
-            </Link>
-          ) : (
-            <Image src={updateIcon} alt="Update Icon" width={25} />
-          )}
-        </StyledUpdateButton>
-      </PetPictureContainer>
-      <PetCharContainer>
-        Personality: {pet.characteristics.join(", ")}
-      </PetCharContainer>
-      <PetStatusContainer>
-        {petStatus.map((status, index) => (
-          <Indicator key={index} data={status} />
-        ))}
-      </PetStatusContainer>
-      <ListPageWrapper>
-        <Link href="/pet-list" aria-label="Staple of Books indicating List">
-          📚
-        </Link>
-      </ListPageWrapper>
-      <GardenPageWrapper>
-        <Link href="/garden" aria-label="A golf hole indicating the Garden">
-          ⛳
-        </Link>
-      </GardenPageWrapper>
-    </DetailsContainer>
+            )}
+          </StyledUpdateButton>
+        </PetPictureContainer>
+        <PetCharContainer>
+          Personality: {pet.characteristics.join(", ")}
+        </PetCharContainer>
+        <PetStatusContainer>
+          {petStatus.map((status, index) => (
+            <Indicator key={index} data={status} />
+          ))}
+        </PetStatusContainer>
+      </DetailsContainer>
+    </DetailsPage>
   );
 }
