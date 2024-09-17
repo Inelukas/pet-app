@@ -245,7 +245,6 @@ export default function Garden({
   activePet,
   petCollection,
   setPetCollection,
-  onInteractPet,
   currentPet,
   setCurrentPet,
   onCurrentPet,
@@ -402,7 +401,7 @@ export default function Garden({
         {activePet && !activePet.isRevived && (
           <ButtonContainer>
             <StatusLink
-              href={activePet.isAlive ? "/game-catch-the-food" : ""}
+              href={activePet.isAlive ? "/catch-the-food" : ""}
               $bgcolor="orange"
               disabled={!activePet.isAlive || activePet.status.hunger === 0}
             >
