@@ -220,13 +220,13 @@ export default function TappingGame({
     // Highscore-basierte Achievements
     if (score >= 15 && !currentAchievements.play[3]) {
       currentAchievements.play[3] = true;
-      setUnlockedAchievement("Play Achievement for 15 points unlocked!");
+      setUnlockedAchievement("Rattle unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
     if (score >= 20 && !currentAchievements.play[4]) {
       currentAchievements.play[4] = true;
-      setUnlockedAchievement("Play Achievement for 20 points unlocked!");
+      setUnlockedAchievement("Teddy unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
@@ -234,15 +234,13 @@ export default function TappingGame({
     // Gesamtpunkte-basierte Achievements
     if (newTotal >= 30 && !currentAchievements.food[4]) {
       currentAchievements.food[4] = true;
-      setUnlockedAchievement("Food Achievement for 30 total points unlocked!");
+      setUnlockedAchievement("Cake unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
     if (newTotal >= 60 && !currentAchievements.furniture[4]) {
       currentAchievements.furniture[4] = true;
-      setUnlockedAchievement(
-        "Furniture Achievement for 60 total points unlocked!"
-      );
+      setUnlockedAchievement("Hammock unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }

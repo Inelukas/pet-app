@@ -248,28 +248,28 @@ export default function GamePage({
 
     if (counter >= 15 && !currentAchievements.furniture[2]) {
       currentAchievements.furniture[2] = true;
-      setUnlockedAchievement("Furniture Achievement unlocked!");
+      setUnlockedAchievement("Pet Castle unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
 
     if (counter >= 20 && !currentAchievements.furniture[3]) {
       currentAchievements.furniture[3] = true;
-      setUnlockedAchievement("Advanced Furniture Achievement unlocked!");
+      setUnlockedAchievement("Litter Box Throne unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
 
     if (newTotal >= 30 && !currentAchievements.food[2]) {
       currentAchievements.food[2] = true;
-      setUnlockedAchievement("Food Achievement unlocked!");
+      setUnlockedAchievement("Sandwich unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
 
     if (newTotal >= 60 && !currentAchievements.food[3]) {
       currentAchievements.food[3] = true;
-      setUnlockedAchievement("Advanced Food Achievement unlocked!");
+      setUnlockedAchievement("Burger unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
