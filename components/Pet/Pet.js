@@ -82,8 +82,7 @@ export default function Pet({ petData }) {
         {petData.alive ? (
           <Image
             src={petData.image}
-            alt={petData.name}
-            objectFit="cover"
+            alt={petData.name || "A cute pet"}
             width={50}
             height={50}
             quality={100}
@@ -92,7 +91,6 @@ export default function Pet({ petData }) {
           <Image
             src="/assets/images/tombstone.png"
             alt="Tombstone"
-            objectFit="cover"
             width={75}
             height={75}
             quality={100}

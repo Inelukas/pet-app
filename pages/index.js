@@ -70,6 +70,7 @@ export const StyledButtonLink = styled(StyledLink)`
 export const StyledStartSpan = styled.span`
   font-size: large;
   background: linear-gradient(90deg, #d5ed9f, #ff9100, #fffbe6);
+  background-clip: border-box;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 900;
@@ -99,6 +100,7 @@ export default function StartPage({ petCollection }) {
         src="/assets/images/logo.png"
         width={500}
         height={500}
+        priority
       />
       <StyledButtonLink href={buttonLink}>{buttonText}</StyledButtonLink>
       <StyledStartSpan>

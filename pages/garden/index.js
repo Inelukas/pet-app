@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styled, { keyframes, css } from "styled-components";
+import React, { useEffect } from "react";
+import styled, { css } from "styled-components";
 import Link from "next/link";
 import AnimatedPet from "@/components/AnimatedPet/AnimatedPet";
-import {
-  ListPageWrapper,
-  DetailPageWrapper,
-} from "@/components/LinkButtons/LinkButtons";
 import Image from "next/image";
+import { indicatorZoomKeyframes } from "@/lib/data";
+import PetSelection from "@/components/PetSelection/PetSelection";
 
-const zoom = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
-
-const StyledMain = styled.main`
+const GardenPage = styled.main`
   width: 100%;
   height: 100%;
   display: flex;
@@ -40,7 +26,7 @@ const GardenContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: 900px) {
+  @media (min-width: 1200px) {
     max-width: 800px;
   }
 `;
@@ -51,88 +37,6 @@ const PetWrapper = styled.div`
   font-size: 8em;
   color: var(--text-color);
   transform-origin: center;
-`;
-
-const NavbarContainer = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 5px;
-  background-color: var(--secondary-color);
-  border-radius: 8px;
-  width: 50%;
-  max-width: 250px;
-  position: absolute;
-  bottom: 10px;
-`;
-
-const NavButton = styled.button`
-  background-color: var(--primary-color);
-  color: var(--neutral-color);
-  border: none;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px;
-  cursor: pointer;
-  border-radius: 4px;
-`;
-
-const DropdownButton = styled.button`
-  background-color: var(--signal-color);
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  margin: 4px;
-  cursor: pointer;
-  border-radius: 4px;
-  position: relative;
-`;
-
-const DropdownMenu = styled.ul`
-  position: absolute;
-  bottom: 10%;
-  width: 30px;
-  background-color: var(--neutral-color);
-  border: 1px solid var(--text-color);
-  list-style: none;
-  text-align: center;
-  overflow: visible;
-  right: calc(50%);
-  transform: translate(50%);
-  opacity: 75%;
-  li {
-    padding: 8px;
-    padding-left: 4px;
-    cursor: pointer;
-    &:hover {
-      background-color: var(--primary-color);
-    }
-  }
-`;
-
-const AdjustedListPageWrapper = styled(ListPageWrapper)`
-  bottom: 10px;
-  right: 10px;
-  position: absolute;
-`;
-
-const AdjustedDetailPageWrapper = styled(DetailPageWrapper)`
-  bottom: 10px;
-  left: 10px;
-  position: absolute;
-`;
-
-const DropdownItem = styled.li`
-  padding: 8px;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--primary-color);
-  }
 `;
 
 const StatusContainer = styled.section`
@@ -151,7 +55,7 @@ const VerticalBarContainer = styled.section`
   margin-top: 10px;
 `;
 
-export const VerticalBar = styled.section`
+const VerticalBar = styled.section`
   width: 20px;
   height: 100px;
   background-color: var(--neutral-color);
@@ -163,12 +67,12 @@ export const VerticalBar = styled.section`
   animation: ${({ $critical }) =>
     $critical
       ? css`
-          ${zoom} 1s ease-in-out infinite
+          ${indicatorZoomKeyframes} 1s ease-in-out infinite
         `
       : "none"};
 `;
 
-export const VerticalBarFill = styled.section`
+const VerticalBarFill = styled.section`
   width: 100%;
   background-color: ${(props) => props.$bgcolor};
   height: ${({ value }) => value}%;
@@ -189,7 +93,7 @@ const HorizontalBar = styled.section`
   animation: ${({ $critical }) =>
     $critical
       ? css`
-          ${zoom} 1s ease-in-out infinite
+          ${indicatorZoomKeyframes} 1s ease-in-out infinite
         `
       : "none"};
 `;
@@ -202,9 +106,20 @@ const HorizontalBarFill = styled.section`
   left: 0;
 `;
 
-export const Icon = styled.span`
+const Icon = styled.span`
   z-index: 2;
+  padding-top: 5px;
   position: absolute;
+  display: flex;
+  justify-content: center;
+`;
+
+const HeartIcon = styled.span`
+  z-index: 2;
+  padding-left: 5px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
 `;
 
 const ButtonContainer = styled.section`
@@ -214,18 +129,6 @@ const ButtonContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-`;
-
-const StatusButton = styled.button`
-  background-color: ${(props) => props.$bgcolor};
-  color: var(--text-color);
-  border: none;
-  padding: 16px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
-  width: 75px;
 `;
 
 const StatusLink = styled(Link)`
@@ -239,14 +142,15 @@ const StatusLink = styled(Link)`
   opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   width: 75px;
   text-decoration: none;
+  text-align: center;
 `;
 
 export default function Garden({
   activePet,
   petCollection,
   setPetCollection,
-  currentPet,
-  setCurrentPet,
+  currentPetID,
+  onCurrentPetID,
   onCurrentPet,
   onDeadPet,
   onHealthFactor,
@@ -255,13 +159,11 @@ export default function Garden({
   onHungerFactor,
   onSpeedFactor,
 }) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
       setPetCollection((prevPets) =>
         prevPets.map((pet) => {
-          if (pet.id === currentPet) {
+          if (pet.id === currentPetID) {
             const { hunger, happiness, energy, health, intelligence } =
               pet.status;
             const intelligenceFactor = 1 - (intelligence / 100) * 0.9;
@@ -312,12 +214,7 @@ export default function Garden({
     return () => {
       clearInterval(updateIndicatorsTimer);
     };
-  }, [currentPet, activePet]);
-
-  function handlePetSelect(petId) {
-    setCurrentPet(petId);
-    setIsDropdownOpen(false);
-  }
+  }, [currentPetID, activePet]);
 
   function calculateIndicatorValue(
     indicatorName,
@@ -346,7 +243,7 @@ export default function Garden({
   }
 
   return (
-    <StyledMain>
+    <GardenPage>
       <GardenContainer>
         {activePet && (
           <StatusContainer>
@@ -355,7 +252,7 @@ export default function Garden({
                 activePet.status.health <= 25 && activePet.status.health !== 0
               }
             >
-              <Icon aria-label="A heart indicating Health">❤️</Icon>
+              <HeartIcon aria-label="A heart indicating Health">❤️</HeartIcon>
               <HorizontalBarFill value={activePet.status.health} />
             </HorizontalBar>
             <VerticalBarContainer>
@@ -425,89 +322,32 @@ export default function Garden({
           </ButtonContainer>
         )}
         {activePet && (
-          <PetWrapper
-            $movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
-            $alive={activePet.alive}
-          >
+          <PetWrapper>
             {activePet.alive ? (
               <AnimatedPet
                 pet={activePet.animations}
                 dying={activePet.dying}
                 movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
                 onDeadPet={onDeadPet}
-                currentPet={currentPet}
               />
             ) : (
               <Image
                 src="/assets/images/tombstone.png"
-                alt={activePet.name}
-                width={30}
-                height={30}
-                layout="responsive"
-                quality={100}
-                sizes="(min-width: 600px) 600px, (min-width: 1200px) 1000px, 500px"
+                alt={activePet.name || "A Tombstone"}
+                width={100}
+                height={100}
               />
             )}
           </PetWrapper>
         )}
-        <AdjustedListPageWrapper>
-          <Link href="/pet-list" aria-label="Staple of Books indicating List">
-            📚
-          </Link>
-        </AdjustedListPageWrapper>
-        {activePet && (
-          <AdjustedDetailPageWrapper>
-            <Link
-              href={{
-                pathname: `/pet-details/${activePet.id}`,
-              }}
-              aria-label="Magnifying Glass indicating Details"
-            >
-              🔎
-            </Link>
-          </AdjustedDetailPageWrapper>
-        )}
 
-        {activePet && (
-          <NavbarContainer>
-            <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton
-              onClick={() =>
-                setIsDropdownOpen(
-                  petCollection.length > 1 ? !isDropdownOpen : isDropdownOpen
-                )
-              }
-            >
-              <Image
-                src={activePet.picture}
-                alt={activePet.name}
-                width={30}
-                height={30}
-                quality={100}
-              />
-            </DropdownButton>
-            {isDropdownOpen && (
-              <DropdownMenu>
-                {petCollection.map((pet) => (
-                  <DropdownItem
-                    key={pet.id}
-                    onClick={() => handlePetSelect(pet.id)}
-                  >
-                    <Image
-                      src={pet.picture}
-                      alt={pet.name}
-                      width={10}
-                      height={10}
-                      quality={100}
-                    />
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            )}
-            <NavButton onClick={() => onCurrentPet("next")}>→</NavButton>
-          </NavbarContainer>
-        )}
+        <PetSelection
+          activePet={activePet}
+          petCollection={petCollection}
+          onCurrentPet={onCurrentPet}
+          onCurrentPetID={onCurrentPetID}
+        />
       </GardenContainer>
-    </StyledMain>
+    </GardenPage>
   );
 }

@@ -1,17 +1,14 @@
 import styled from "styled-components";
 import Pet from "@/components/Pet/Pet";
-import StyledLink from "@/components/StyledLink/StyledLink";
 import Link from "next/link";
-import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
-import createIcon from "../../public/assets/create.png";
-import Image from "next/image";
 
-const StyledMain = styled.main`
+const PetListPage = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 3vh 0;
   gap: 20px;
+  position: relative;
 `;
 
 const StyledPetList = styled.ul`
@@ -19,6 +16,7 @@ const StyledPetList = styled.ul`
   flex-direction: column;
   align-items: center;
   width: 100vw;
+  height: 80vh;
 `;
 
 const StyledPet = styled(Link)`
@@ -28,7 +26,7 @@ const StyledPet = styled(Link)`
 
 export default function PetList({ petCollection }) {
   return (
-    <StyledMain>
+    <PetListPage>
       {petCollection.length > 0 ? (
         <StyledPetList>
           {petCollection.map((pet) => {
@@ -42,14 +40,6 @@ export default function PetList({ petCollection }) {
       ) : (
         <h1>You don&apos;t have any pets.</h1>
       )}
-      <GardenPageWrapper>
-        <Link href="/garden" aria-label="A golf hole indicating the Garden">
-          ⛳
-        </Link>
-      </GardenPageWrapper>
-      <StyledLink href="/create">
-        <Image src={createIcon} alt="Create Icon" width={30} />
-      </StyledLink>
-    </StyledMain>
+    </PetListPage>
   );
 }

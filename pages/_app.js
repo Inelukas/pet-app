@@ -4,11 +4,12 @@ import { useState } from "react";
 import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
+import PageButtons from "@/components/PageButtons/PageButtons";
 
 export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useState(pets);
-  const [currentPet, setCurrentPet] = useState(pets[0].id);
-  const activePet = petCollection.find((pet) => pet.id === currentPet);
+  const [currentPetID, setCurrentPetID] = useState(pets[0].id);
+  const activePet = petCollection.find((pet) => pet.id === currentPetID);
   const router = useRouter();
 
   function handleCreatePet(petData) {
@@ -22,12 +23,12 @@ export default function App({ Component, pageProps }) {
     };
     setPetCollection((prevData) => [newPet, ...prevData]);
     router.push("/pet-list");
-    setCurrentPet(newPet.id);
+    setCurrentPetID(newPet.id);
   }
 
   function handleDeletePet(id) {
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
-    setCurrentPet(pets[0].id);
+    setCurrentPetID(pets[0].id);
   }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
@@ -84,14 +85,14 @@ export default function App({ Component, pageProps }) {
 
   function handleCurrentPet(direction) {
     const currentPetIndex = petCollection.findIndex(
-      (pet) => pet.id === currentPet
+      (pet) => pet.id === currentPetID
     );
     if (direction === "next") {
-      setCurrentPet(
+      setCurrentPetID(
         petCollection[(currentPetIndex + 1) % petCollection.length].id
       );
     } else {
-      setCurrentPet(
+      setCurrentPetID(
         petCollection[
           currentPetIndex > 0 ? currentPetIndex - 1 : petCollection.length - 1
         ].id
@@ -108,7 +109,7 @@ export default function App({ Component, pageProps }) {
         : Math.min(activePet.status.energy + score, 100);
     setPetCollection(
       petCollection.map((pet) => {
-        return pet.id === currentPet
+        return pet.id === currentPetID
           ? {
               ...pet,
               status: {
@@ -184,14 +185,13 @@ export default function App({ Component, pageProps }) {
   function handleDeadPet() {
     setPetCollection((prevPets) =>
       prevPets.map((pet) => {
-        if (pet.id === currentPet) {
+        if (pet.id === currentPetID) {
           return { ...pet, dying: false, alive: false };
         }
         return pet;
       })
     );
   }
-
   return (
     <>
       <GlobalStyle />
@@ -200,9 +200,9 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         petCollection={petCollection}
         setPetCollection={setPetCollection}
-        currentPet={currentPet}
+        currentPetID={currentPetID}
         activePet={activePet}
-        setCurrentPet={setCurrentPet}
+        onCurrentPetID={setCurrentPetID}
         onCreatePet={handleCreatePet}
         onDeletePet={handleDeletePet}
         onUpdatePet={handleUpdatePet}
@@ -217,6 +217,7 @@ export default function App({ Component, pageProps }) {
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
       />
+      <PageButtons router={router} activePet={activePet} />
     </>
   );
 }

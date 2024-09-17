@@ -4,7 +4,6 @@ import styled from "styled-components";
 export default styled(Link)`
   display: grid;
   place-content: center;
-
   width: 3rem;
   height: 3rem;
   font-size: 1.5rem;
