@@ -138,7 +138,7 @@ export default function GamePage({
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameTime, setGameTime] = useState(0);
   const [startTime, setStartTime] = useState(null);
-  const [hunger, setHunger] = useState(activePet.status.hunger);
+  const [hunger, setHunger] = useState(activePet?.status?.hunger || 0);
   const [unlockedAchievement, setUnlockedAchievement] = useState("");
   const [showPopup, setShowPopup] = useState(false);
 
@@ -149,7 +149,7 @@ export default function GamePage({
       setCounter(0);
       setItems([]);
       setStartTime(Date.now());
-      setHunger(activePet?.status.hunger);
+      setHunger(activePet?.status?.hunger || 0);
     }
   };
 

@@ -422,7 +422,7 @@ export default function Garden({
         prevPets.map((pet) => {
           if (pet.id === currentPet) {
             const { hunger, happiness, energy, health, intelligence } =
-              pet.status;
+              activePet?.status || {};
             const intelligenceFactor = 1 - (intelligence / 100) * 0.9;
 
             return {
@@ -551,52 +551,56 @@ export default function Garden({
             />
           )}
         </ImageContainer>
-        <StatusContainer>
-          <HorizontalBar
-            $critical={
-              activePet.status.health <= 25 && activePet.status.health !== 0
-            }
-          >
-            <Icon aria-label="A heart indicating Health">❤️</Icon>
-            <HorizontalBarFill value={activePet.status.health} />
-          </HorizontalBar>
-          <VerticalBarContainer>
-            <VerticalBar
+        {activePet && activePet.status && (
+          <StatusContainer>
+            <HorizontalBar
               $critical={
-                activePet.status.hunger >= 75 && activePet.status.health !== 0
+                activePet.status.health <= 25 && activePet.status.health !== 0
               }
             >
-              <Icon aria-label="A bowl of ice-cream indicating hunger">🍨</Icon>
-              <VerticalBarFill
-                $bgcolor="orange"
-                value={activePet.status.hunger}
-              />
-            </VerticalBar>
-            <VerticalBar
-              $critical={
-                activePet.status.happiness <= 25 &&
-                activePet.status.health !== 0
-              }
-            >
-              <Icon aria-label="Some confetti indicating happiness">🎉</Icon>
-              <VerticalBarFill
-                $bgcolor="pink"
-                value={activePet.status.happiness}
-              />
-            </VerticalBar>
-            <VerticalBar
-              $critical={
-                activePet.status.energy <= 25 && activePet.status.health !== 0
-              }
-            >
-              <Icon aria-label="A battery indicating energy">🔋</Icon>
-              <VerticalBarFill
-                $bgcolor="yellow"
-                value={activePet.status.energy}
-              />
-            </VerticalBar>
-          </VerticalBarContainer>
-        </StatusContainer>
+              <Icon aria-label="A heart indicating Health">❤️</Icon>
+              <HorizontalBarFill value={activePet?.status?.health || 0} />
+            </HorizontalBar>
+            <VerticalBarContainer>
+              <VerticalBar
+                $critical={
+                  activePet.status.hunger >= 75 && activePet.status.health !== 0
+                }
+              >
+                <Icon aria-label="A bowl of ice-cream indicating hunger">
+                  🍨
+                </Icon>
+                <VerticalBarFill
+                  $bgcolor="orange"
+                  value={activePet?.status?.hunger || 0}
+                />
+              </VerticalBar>
+              <VerticalBar
+                $critical={
+                  activePet.status.happiness <= 25 &&
+                  activePet.status.health !== 0
+                }
+              >
+                <Icon aria-label="Some confetti indicating happiness">🎉</Icon>
+                <VerticalBarFill
+                  $bgcolor="pink"
+                  value={activePet?.status?.happiness || 0}
+                />
+              </VerticalBar>
+              <VerticalBar
+                $critical={
+                  activePet.status.energy <= 25 && activePet.status.health !== 0
+                }
+              >
+                <Icon aria-label="A battery indicating energy">🔋</Icon>
+                <VerticalBarFill
+                  $bgcolor="yellow"
+                  value={activePet?.status?.energy || 0}
+                />
+              </VerticalBar>
+            </VerticalBarContainer>
+          </StatusContainer>
+        )}
 
         {activePet && (
           <ButtonContainer>
@@ -677,13 +681,15 @@ export default function Garden({
                 )
               }
             >
-              <Image
-                src={activePet.picture}
-                alt={activePet.name}
-                width={30}
-                height={30}
-                quality={100}
-              />
+              {activePet && activePet.picture && (
+                <Image
+                  src={activePet.picture}
+                  alt={activePet.name || "Pet"}
+                  width={30}
+                  height={30}
+                  quality={100}
+                />
+              )}
             </DropdownButton>
             {isDropdownOpen && (
               <DropdownMenu>

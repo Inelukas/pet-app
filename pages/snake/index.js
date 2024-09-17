@@ -150,7 +150,7 @@ export default function SnakeGame({
   }, []);
 
   useEffect(() => {
-    if (!gameOn) {
+    if (!gameOn && activePet && activePet.status) {
       onUpdatePetIndicator(scores.score, "happiness");
     }
   }, [gameOn]);
@@ -383,13 +383,17 @@ export default function SnakeGame({
         onClose={() => setShowPopup(false)}
       />
       <StyledGameField>
-        <Player
-          onDirection={handleDirection}
-          playerPosition={playerPosition}
-          gameOn={gameOn}
-          pet={activePet}
-        />
-        <Food foodPosition={foodPosition} pet={activePet} />
+        {activePet && (
+          <Player
+            onDirection={handleDirection}
+            playerPosition={playerPosition}
+            gameOn={gameOn}
+            pet={activePet}
+          />
+        )}
+        {activePet && activePet.picture && (
+          <Food foodPosition={foodPosition} pet={activePet} />
+        )}
         {children &&
           children.map((child, index) => (
             <PetChild
@@ -400,15 +404,17 @@ export default function SnakeGame({
             />
           ))}
         <StyledIndicatorContainer>
-          <Indicator
-            showBarName={false}
-            data={{
-              name: "happiness",
-              count: gameOn
-                ? Math.min(activePet.status.happiness + scores.score, 100)
-                : activePet.status.happiness,
-            }}
-          />
+          {activePet && activePet.status && (
+            <Indicator
+              showBarName={false}
+              data={{
+                name: "happiness",
+                count: gameOn
+                  ? Math.min(activePet.status.happiness + scores.score, 100)
+                  : activePet.status.happiness,
+              }}
+            />
+          )}
         </StyledIndicatorContainer>
         {instructions && (
           <StyledHowToPlay>

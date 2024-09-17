@@ -23,7 +23,6 @@ const StyledTappingGameField = styled(StyledGameField)`
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
-
   min-height: 375px;
   padding: 10px;
   box-sizing: border-box;
@@ -287,7 +286,9 @@ export default function TappingGame({
       : 0;
     const newScore = score + energyChange;
     setScore(newScore);
-    onUpdatePetIndicator(energyChange, "energy");
+    if (activePet?.status) {
+      onUpdatePetIndicator(energyChange, "energy");
+    }
     checkAchievements(newScore);
   }
 
@@ -332,13 +333,15 @@ export default function TappingGame({
         )}
 
         <StyledIndicatorContainer>
-          <Indicator
-            showBarName={false}
-            data={{
-              name: "energy",
-              count: activePet.status.energy,
-            }}
-          />
+          {activePet && activePet.status && (
+            <Indicator
+              showBarName={false}
+              data={{
+                name: "energy",
+                count: activePet.status.energy || 0,
+              }}
+            />
+          )}
         </StyledIndicatorContainer>
 
         {Array.from({ length: 20 }).map((_, index) => (
