@@ -150,12 +150,6 @@ export default function Pet({ petData, onGraveyard }) {
             </ReviveButton>
           </>
         )}
-
-        {petData.isRevived && (
-          <p>
-            <span>Status:</span> Revived
-          </p>
-        )}
       </StyledPetData>
     </StyledPet>
   );
