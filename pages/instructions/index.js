@@ -87,6 +87,10 @@ const InstructionsWrapper = styled.section`
   align-items: center;
   justify-content: center;
 
+  @media (min-width: 600px) {
+    margin-top: -30px;
+  }
+
   @media (min-width: 900px) {
     margin-top: -50px;
   }
