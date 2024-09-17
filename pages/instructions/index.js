@@ -57,8 +57,22 @@ const ListItem = styled.div`
 
 const ExpandedText = styled.span`
   margin-top: 10px;
-  text-align: center;
+  text-align: left;
   max-width: 500px;
+  display: block;
+  font-size: medium;
+
+  @media (min-width: 600px) {
+    font-size: large;
+  }
+
+  @media (min-width: 900px) {
+    font-size: larger;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: x-large;
+  }
 `;
 
 const InstructionsWrapper = styled.section`
@@ -123,7 +137,7 @@ export default function Instructions() {
         {instructions.map((item, index) => (
           <ListItem key={index} onClick={() => toggleExpanded(index)}>
             <StyledFirstWord>{item.firstWord}</StyledFirstWord>
-            {expanded[index] && <span>{item.rest}</span>}
+            {expanded[index] && <ExpandedText>{item.rest}</ExpandedText>}
           </ListItem>
         ))}
       </InstructionsWrapper>
