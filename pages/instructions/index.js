@@ -7,7 +7,7 @@ import Link from "next/link";
 const StyledFirstWord = styled.span`
   display: inline-block;
   margin: 5px;
-  font-size: 1rem;
+  font-size: 1.3rem;
   border-radius: 10px;
   padding: 5px;
   cursor: pointer;
@@ -18,21 +18,54 @@ const StyledFirstWord = styled.span`
   color: #000000;
   box-shadow: 2px 2px #000000;
   text-decoration: none;
-  min-width: 250px;
+  min-width: 350px;
 
   &:hover {
     transform: scale(1.1);
+  }
 
-    &:active {
-      background-color: var(--secondary-color);
-    }
+  &:active {
+    background-color: var(--secondary-color);
+  }
+
+  @media (min-width: 600px) {
+    font-size: 1.3rem;
+    padding: 15px 60px;
+    min-width: 400px;
+  }
+
+  @media (min-width: 900px) {
+    font-size: 1.5rem;
+    padding: 25px 65px;
+    min-width: 460px;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 1.6rem;
+    padding: 30px 70px;
+    min-width: 490px;
   }
 `;
 
-const ListItem = styled.span`
+const ListItem = styled.div`
   margin-bottom: 10px;
-  cursor: pointer;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ExpandedText = styled.span`
+  margin-top: 10px;
+  text-align: center;
+  max-width: 500px;
+`;
+
+const InstructionsWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default function Instructions() {
@@ -82,19 +115,18 @@ export default function Instructions() {
 
   return (
     <StyledStartPage>
-      <h2>Welcome to your Pet App!</h2>
-      <h4>
+      <h1>
         Follow these instructions to create, manage, and care for your virtual
         pets.{" "}
-      </h4>
-      <ul>
+      </h1>
+      <InstructionsWrapper>
         {instructions.map((item, index) => (
           <ListItem key={index} onClick={() => toggleExpanded(index)}>
             <StyledFirstWord>{item.firstWord}</StyledFirstWord>
             {expanded[index] && <span>{item.rest}</span>}
           </ListItem>
         ))}
-      </ul>
+      </InstructionsWrapper>
       <GardenPageWrapper>
         <Link href="/" aria-label="A house indicating the Start page">
           🏠

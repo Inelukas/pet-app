@@ -84,18 +84,18 @@ const InstructionsLink = styled(StyledLink)`
   white-space: nowrap;
 
   @media (min-width: 600px) {
-    font-size: 1.5rem;
-    padding: 35px 80px;
+    font-size: 1rem;
+    padding: 15px 60px;
   }
 
   @media (min-width: 900px) {
-    font-size: 1.75rem;
-    padding: 50px 100px;
+    font-size: 1.5rem;
+    padding: 30px 70px;
   }
 
   @media (min-width: 1200px) {
-    font-size: 2rem;
-    padding: 50px 120px;
+    font-size: 1.7rem;
+    padding: 30px 90px;
   }
 `;
 

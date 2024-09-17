@@ -48,6 +48,8 @@ export default function Header() {
   } else if (router.pathname === "/graveyard") {
     pageTitle = "Pet Cemetery";
     isGraveyard = true;
+  } else if (router.pathname === "/instructions") {
+    pageTitle = "Instructions";
   }
 
   if (!pageTitle) return null;
