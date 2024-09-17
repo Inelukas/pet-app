@@ -287,7 +287,8 @@ export default function App({ Component, pageProps }) {
       {router.pathname !== "/pet-list" &&
         !router.pathname.includes("/pet-details") &&
         router.pathname !== "/create" &&
-        router.pathname !== "/update" && (
+        router.pathname !== "/update" &&
+        router.pathname !== "/graveyard" && (
           <MusicPlayer
             isPlaying={isPlaying}
             volume={volume}
