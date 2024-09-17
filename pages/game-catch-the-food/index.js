@@ -7,6 +7,7 @@ import Indicator from "@/components/Indicator/Indicator";
 import Link from "next/link";
 import GameButton from "@/components/GameButton/GameButton";
 import { uid } from "uid";
+import Popup from "@/components/Popup/Popup";
 
 const MainGameContainer = styled.main`
   display: flex;
@@ -138,6 +139,8 @@ export default function GamePage({
   const [gameTime, setGameTime] = useState(0);
   const [startTime, setStartTime] = useState(null);
   const [hunger, setHunger] = useState(activePet.status.hunger);
+  const [unlockedAchievement, setUnlockedAchievement] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   const startGame = () => {
     if (!isPlaying) {
@@ -201,9 +204,11 @@ export default function GamePage({
                 if (item.type === "good") {
                   setCounter((prev) => prev + 1);
                   setHunger((prevHunger) => Math.max(0, prevHunger - 5));
+                  checkAchievements(counter + 1);
                 } else if (item.type === "bad") {
                   setCounter((prev) => prev + 1);
                   setHunger((prevHunger) => Math.min(100, prevHunger + 5));
+                  checkAchievements(counter + 1);
                 }
                 return false;
               }
@@ -225,6 +230,54 @@ export default function GamePage({
     return () => clearInterval(interval);
   }, [isPlaying]);
 
+  function checkAchievements(counter) {
+    const totalCatchPoints =
+      parseInt(localStorage.getItem("totalCatchPoints")) || 0;
+    const newTotal = totalCatchPoints + counter;
+    localStorage.setItem("totalCatchPoints", newTotal);
+
+    const currentAchievements = JSON.parse(
+      localStorage.getItem("achievements")
+    ) || {
+      food: [false, false, false, false, false],
+      play: [false, false, false, false, false],
+      furniture: [false, false, false, false, false],
+    };
+
+    let achievementUnlocked = false;
+
+    if (counter >= 1 && !currentAchievements.furniture[2]) {
+      currentAchievements.furniture[2] = true;
+      setUnlockedAchievement("Furniture Achievement unlocked!");
+      setShowPopup(true);
+      achievementUnlocked = true;
+    }
+
+    if (counter >= 2 && !currentAchievements.furniture[3]) {
+      currentAchievements.furniture[3] = true;
+      setUnlockedAchievement("Advanced Furniture Achievement unlocked!");
+      setShowPopup(true);
+      achievementUnlocked = true;
+    }
+
+    if (newTotal >= 3 && !currentAchievements.food[2]) {
+      currentAchievements.food[2] = true;
+      setUnlockedAchievement("Food Achievement unlocked!");
+      setShowPopup(true);
+      achievementUnlocked = true;
+    }
+
+    if (newTotal >= 6 && !currentAchievements.food[3]) {
+      currentAchievements.food[3] = true;
+      setUnlockedAchievement("Advanced Food Achievement unlocked!");
+      setShowPopup(true);
+      achievementUnlocked = true;
+    }
+
+    if (achievementUnlocked) {
+      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
+    }
+  }
   useEffect(() => {
     if (isPlaying && hunger === 0) {
       setIsPlaying(false);
@@ -233,42 +286,14 @@ export default function GamePage({
   }, [hunger, isPlaying, onUpdatePetIndicator]);
 
   useEffect(() => {
-    if (!isPlaying && counter > 0) {
-      // Holen der aktuellen Gesamtpunkte aus localStorage
-      const totalCatchPoints =
-        parseInt(localStorage.getItem("totalCatchPoints")) || 0;
-      const newTotal = totalCatchPoints + counter;
-      localStorage.setItem("totalCatchPoints", newTotal);
-
-      // Holen der aktuellen Achievements aus localStorage
-      const currentAchievements = JSON.parse(
-        localStorage.getItem("achievements")
-      ) || {
-        food: [false, false, false, false, false],
-        play: [false, false, false, false, false],
-        furniture: [false, false, false, false, false],
-      };
-
-      // Highscore-basierte Achievements
-      if (counter >= 1) {
-        currentAchievements.furniture[2] = true; // Achievement für 15 Punkte
-      }
-      if (counter >= 2) {
-        currentAchievements.furniture[3] = true; // Achievement für 20 Punkte
-      }
-
-      // Gesamtpunkte-basierte Achievements
-      if (newTotal >= 3) {
-        currentAchievements.food[2] = true; // Achievement für 30 Punkte
-      }
-      if (newTotal >= 6) {
-        currentAchievements.food[3] = true; // Achievement für 60 Punkte
-      }
-
-      // Speichern der Achievements in localStorage
-      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
+    if (showPopup) {
+      console.log("Popup is showing: ", unlockedAchievement);
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 3000); // Popup will disappear after 3 seconds
+      return () => clearTimeout(timer);
     }
-  }, [isPlaying, counter]);
+  }, [showPopup]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -299,6 +324,11 @@ export default function GamePage({
             showBarName={false}
           />
         </StyledIndicatorContainer>
+        <Popup
+          show={showPopup}
+          message={unlockedAchievement}
+          onClose={() => setShowPopup(false)}
+        />
         <GameFieldContainer>
           {items.map((item) => (
             <FallingBlocks key={item.id} item={item} />

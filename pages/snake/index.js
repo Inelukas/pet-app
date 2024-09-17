@@ -8,6 +8,7 @@ import StyledLink from "@/components/StyledLink/StyledLink";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useLocalStorageState from "use-local-storage-state";
+import Popup from "@/components/Popup/Popup";
 
 export const StyledSnakePage = styled.main`
   display: flex;
@@ -132,6 +133,17 @@ export default function SnakeGame({
   const [highScores, setHighScores] = useLocalStorageState("snakeHighScores", {
     defaultValue: { snakeGame: 0 },
   });
+  const [unlockedAchievement, setUnlockedAchievement] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
 
   useEffect(() => {
     setFoodPosition(generateNewFoodPosition());
@@ -152,12 +164,13 @@ export default function SnakeGame({
     }
   }, [scores.score, highScores.snakeGame, setHighScores]);
 
-  useEffect(() => {
-    if (!gameOn && scores.score > 0) {
+  const handleScoreIncrease = () => {
+    setScores((prevScores) => {
+      const newScore = prevScores.score + 1;
       // Holen der aktuellen Gesamtpunkte aus localStorage
       const totalSnakePoints =
         parseInt(localStorage.getItem("totalSnakePoints")) || 0;
-      const newTotal = totalSnakePoints + scores.score;
+      const newTotal = totalSnakePoints + newScore;
       localStorage.setItem("totalSnakePoints", newTotal);
 
       // Holen der aktuellen Achievements aus localStorage
@@ -169,26 +182,48 @@ export default function SnakeGame({
         furniture: [false, false, false, false, false],
       };
 
+      let achievementUnlocked = false;
+
       // Highscore-basierte Achievements
-      if (scores.score >= 1) {
-        currentAchievements.play[1] = true; // Achievement für 15 Punkte
+      if (newScore >= 5 && !currentAchievements.play[1]) {
+        currentAchievements.play[1] = true; // Achievement für 5 Punkte
+        setUnlockedAchievement("Ball unlocked!"); // Popup-Nachricht
+        setShowPopup(true);
+        achievementUnlocked = true;
       }
-      if (scores.score >= 2) {
+      if (newScore >= 20 && !currentAchievements.play[2]) {
         currentAchievements.play[2] = true; // Achievement für 20 Punkte
+        setUnlockedAchievement("Yarn unlocked!"); // Popup-Nachricht
+        setShowPopup(true);
+        achievementUnlocked = true;
       }
 
       // Gesamtpunkte-basierte Achievements
-      if (newTotal >= 3) {
+      if (newTotal >= 30 && !currentAchievements.food[0]) {
         currentAchievements.food[0] = true; // Achievement für 30 Punkte
+        setUnlockedAchievement("Broccoli unlocked!"); // Popup-Nachricht
+        setShowPopup(true);
+        achievementUnlocked = true;
       }
-      if (newTotal >= 6) {
+      if (newTotal >= 60 && !currentAchievements.food[1]) {
         currentAchievements.food[1] = true; // Achievement für 60 Punkte
+        setUnlockedAchievement("Ham unlocked!"); // Popup-Nachricht
+        setShowPopup(true);
+        achievementUnlocked = true;
       }
 
       // Speichern der Achievements in localStorage
-      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
-    }
-  }, [gameOn, scores.score]);
+      if (achievementUnlocked) {
+        localStorage.setItem(
+          "achievements",
+          JSON.stringify(currentAchievements)
+        );
+      }
+
+      return { ...prevScores, score: newScore };
+    });
+  };
+
   useEffect(() => {
     function movePlayer() {
       if (!gameOn) return;
@@ -214,6 +249,7 @@ export default function SnakeGame({
             newFoodPosition = generateNewFoodPosition();
           }
           setFoodPosition(newFoodPosition);
+          handleScoreIncrease();
           setScores(() => ({
             score: scores.score + 1,
             highscore:
@@ -341,6 +377,11 @@ export default function SnakeGame({
   return (
     <StyledSnakePage>
       <h1>Happy Family Game</h1>
+      <Popup
+        show={showPopup}
+        message={unlockedAchievement}
+        onClose={() => setShowPopup(false)}
+      />
       <StyledGameField>
         <Player
           onDirection={handleDirection}

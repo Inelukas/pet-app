@@ -254,11 +254,24 @@ const StatusLink = styled(Link)`
   text-decoration: none;
 `;
 
+const Popup = styled.div`
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  transition: opacity 0.5s ease-in-out;
+`;
+
 export default function Garden({
   activePet,
   petCollection,
   setPetCollection,
-  onInteractPet,
   currentPet,
   setCurrentPet,
   onCurrentPet,
@@ -269,13 +282,9 @@ export default function Garden({
   onHungerFactor,
   onSpeedFactor,
 }) {
-  const [animationState, setAnimationState] = useState(null);
-  /*  const [showTwig, setShowTwig] = useState(false);
-  const [showBall, setShowBall] = useState(false); */
+  const [unlockedAchievement, setUnlockedAchievement] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [highScores] = useLocalStorageState("snakeHighScores", {
-    defaultValue: { snakeGame: 0 },
-  });
   const [totalTimeSpent, setTotalTimeSpent] = useLocalStorageState(
     "totalGardenTime",
     {
@@ -304,23 +313,50 @@ export default function Garden({
         furniture: [false, false, false, false, false],
       };
 
-      // Achievement für den Stock freischalten
-      currentAchievements.play[0] = true;
+      let achievementUnlocked = false;
+
+      // Achievement für das erste Achievement freischalten
+      if (!currentAchievements.play[0]) {
+        currentAchievements.play[0] = true;
+        setUnlockedAchievement("Twig unlocked!"); // Popup-Nachricht
+        setShowPopup(true);
+        achievementUnlocked = true;
+      }
 
       // 60 Sekunden Achievement
-      if (totalTimeSpent >= 6) {
+      if (totalTimeSpent >= 6 && !currentAchievements.furniture[0]) {
         currentAchievements.furniture[0] = true;
+        setUnlockedAchievement("Doghouse unlocked!"); // Popup-Nachricht
+        setShowPopup(true);
+        achievementUnlocked = true;
       }
 
       // 300 Sekunden Achievement
-      if (totalTimeSpent >= 10) {
+      if (totalTimeSpent >= 10 && !currentAchievements.furniture[1]) {
         currentAchievements.furniture[1] = true;
+        setUnlockedAchievement("Throne unlocked!"); // Popup-Nachricht
+        setShowPopup(true); // Popup anzeigen
+        achievementUnlocked = true;
       }
 
       // Speichern der Achievements in localStorage
-      localStorage.setItem("achievements", JSON.stringify(currentAchievements));
+      if (achievementUnlocked) {
+        localStorage.setItem(
+          "achievements",
+          JSON.stringify(currentAchievements)
+        );
+      }
     }
   }, [totalTimeSpent]);
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
 
   const [selectedAchievements] = useLocalStorageState("selectedAchievements", {
     defaultValue: {
@@ -643,6 +679,7 @@ export default function Garden({
             <NavButton onClick={() => onCurrentPet("next")}>→</NavButton>
           </NavbarContainer>
         )}
+        {showPopup && <Popup show={showPopup}>{unlockedAchievement}</Popup>}
       </GardenContainer>
     </StyledMain>
   );
