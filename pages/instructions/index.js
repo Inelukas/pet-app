@@ -4,6 +4,15 @@ import { useState } from "react";
 import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
 import Link from "next/link";
 
+const InstructionsHeading = styled.span`
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  @media (min-width: 900px) {
+    font-size: 1.7rem;
+  }
+`;
+
 const StyledFirstWord = styled.span`
   display: inline-block;
   margin: 5px;
@@ -112,11 +121,11 @@ export default function Instructions() {
     },
     {
       firstWord: "The pet garden",
-      rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s: Energy: Decreases over time but can be replenished. Hunger: Increases as time passes and needs to be reduced. Happiness: Affects your pet’s mood and overall well-being. Danger: If Energy and Happiness drop to 0 and Hunger reaches 100, your pet’s Health will decline. If Health reaches 0, your pet will die.`,
+      rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s Indicators. Energy and Happiness decrease over time but can be replenished by playing games. Your pet’s hunger increases as time passes and needs to be reduced, also by playing a mini-game. Danger: If Energy and Happiness drop to 0 and Hunger reaches 100, your pet’s Health will decline. If Health reaches 0, your pet will die.`,
     },
     {
       firstWord: "Keep your pet happy and alive",
-      rest: `To keep your pet alive and healthy, you can play mini-games that boost its stats. These mini-games are accessible via the top-right corner of the Garden page: Tapping Game: Increases your pet’s Energy. Happy Family Game (Snake): Raises your pet’s Happiness. Catch the Food Game: Reduces your pet’s Hunger.`,
+      rest: `To keep your pet alive and healthy, you can play mini-games that boost its stats. These mini-games are accessible via the top-right corner of the Garden page. The Tapping Game increases your pet’s Energy. The Happy Family Game (Snake) raises your pet’s Happiness. Catch the Food Game reduces your pet’s Hunger.`,
     },
     {
       firstWord: "The unthinkable: your pet dies!",
@@ -130,10 +139,10 @@ export default function Instructions() {
 
   return (
     <StyledStartPage>
-      <h3>
+      <InstructionsHeading>
         Follow these instructions to create, manage, and care for your virtual
         pets.{" "}
-      </h3>
+      </InstructionsHeading>
       <InstructionsWrapper>
         {instructions.map((item, index) => (
           <ListItem key={index} onClick={() => toggleExpanded(index)}>
