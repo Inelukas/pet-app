@@ -185,29 +185,29 @@ export default function SnakeGame({
       let achievementUnlocked = false;
 
       // Highscore-basierte Achievements
-      if (newScore >= 5 && !currentAchievements.play[1]) {
-        currentAchievements.play[1] = true; // Achievement für 5 Punkte
-        setUnlockedAchievement("Ball unlocked!"); // Popup-Nachricht
+      if (newScore >= 15 && !currentAchievements.play[1]) {
+        currentAchievements.play[1] = true;
+        setUnlockedAchievement("Ball unlocked!");
         setShowPopup(true);
         achievementUnlocked = true;
       }
       if (newScore >= 20 && !currentAchievements.play[2]) {
-        currentAchievements.play[2] = true; // Achievement für 20 Punkte
-        setUnlockedAchievement("Yarn unlocked!"); // Popup-Nachricht
+        currentAchievements.play[2] = true;
+        setUnlockedAchievement("Yarn unlocked!");
         setShowPopup(true);
         achievementUnlocked = true;
       }
 
       // Gesamtpunkte-basierte Achievements
       if (newTotal >= 30 && !currentAchievements.food[0]) {
-        currentAchievements.food[0] = true; // Achievement für 30 Punkte
-        setUnlockedAchievement("Broccoli unlocked!"); // Popup-Nachricht
+        currentAchievements.food[0] = true;
+        setUnlockedAchievement("Broccoli unlocked!");
         setShowPopup(true);
         achievementUnlocked = true;
       }
       if (newTotal >= 60 && !currentAchievements.food[1]) {
-        currentAchievements.food[1] = true; // Achievement für 60 Punkte
-        setUnlockedAchievement("Ham unlocked!"); // Popup-Nachricht
+        currentAchievements.food[1] = true;
+        setUnlockedAchievement("Ham unlocked!");
         setShowPopup(true);
         achievementUnlocked = true;
       }

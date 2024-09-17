@@ -12,26 +12,33 @@ const AchievementsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100vh;
+  width: 100%;
   color: white;
   text-align: center;
 `;
 
 const Columns = styled.div`
   display: flex;
-  justify-content: space-around;
-  width: 65%;
-  max-width: 1200px;
+  justify-content: center;
+  //width: 90%;
+  max-width: 300px;
+
+  @media (min-width: 600px) {
+    width: 65%;
+  }
 `;
 
 const Column = styled.div`
   flex: 1;
   margin: 0 20px;
-  padding: 20px;
+  //  padding: 20px;
   background-color: var(--secondary-color);
   border-radius: 10px;
   color: var(--text-color);
+  font-size: 0.5rem;
+  min-width: 80px;
 `;
 
 const ImageList = styled.ul`
@@ -69,21 +76,30 @@ export default function AchievementsPage() {
   );
 
   useEffect(() => {
-    const storedAchievements = JSON.parse(
-      localStorage.getItem("achievements")
-    ) || {
-      food: [false, false, false, false, false],
-      play: [false, false, false, false, false],
-      furniture: [false, false, false, false, false],
-    };
-    setAchievements(storedAchievements);
+    try {
+      const storedAchievements = JSON.parse(
+        localStorage.getItem("achievements")
+      );
+
+      if (storedAchievements) {
+        setAchievements(storedAchievements);
+      } else {
+        setAchievements({
+          food: [false, false, false, false, false],
+          play: [false, false, false, false, false],
+          furniture: [false, false, false, false, false],
+        });
+      }
+    } catch (error) {
+      alert("Failed to load achievements. Please try again later.");
+    }
   }, []);
 
   const handleSelect = (category, index) => {
     if (achievements[category][index]) {
       setSelectedAchievements((prev) => ({
         ...prev,
-        [category]: index,
+        [category]: prev[category] === index ? null : index,
       }));
     }
   };
@@ -132,14 +148,14 @@ export default function AchievementsPage() {
                   <ImageListItem
                     key={index}
                     isSelected={selectedAchievements[category] === index}
-                    isUnlocked={achievements[category][index]} // Überprüfung, ob freigeschaltet
+                    isUnlocked={achievements[category][index]}
                     onClick={() => handleSelect(category, index)}
                   >
                     <Image
                       src={item.src}
                       alt={item.alt}
-                      width={100}
-                      height={100}
+                      width={50}
+                      height={50}
                     />
                   </ImageListItem>
                 ))}

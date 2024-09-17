@@ -8,6 +8,7 @@ import {
 } from "@/components/LinkButtons/LinkButtons";
 import Image from "next/image";
 import useLocalStorageState from "use-local-storage-state";
+import Popup from "@/components/Popup/Popup";
 
 const zoom = keyframes`
   0% {
@@ -56,6 +57,39 @@ const PositionedImage = styled(Image)`
   position: absolute;
   top: ${(props) => props.top};
   left: ${(props) => props.left};
+`;
+
+const AchievementsLink = styled.div`
+  position: fixed;
+  top: 10px;
+  right: calc(50% - 10vw);
+  width: 4rem;
+  height: 4rem;
+  box-shadow: 2px 2px #000000;
+  background-color: red;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 32px;
+  color: var(--text-color);
+  opacity: 75%;
+  @media screen and (min-width: 1024px) {
+    right: calc(50% - 20vw);
+  }
+
+  @media screen and (min-width: 667px) {
+    right: calc(50% - 40vw);
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    &:active {
+      background-color: var(--secondary-color);
+    }
+  }
 `;
 
 const PetWrapper = styled.div`
@@ -254,20 +288,6 @@ const StatusLink = styled(Link)`
   text-decoration: none;
 `;
 
-const Popup = styled.div`
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  z-index: 1000;
-  opacity: ${(props) => (props.show ? 1 : 0)};
-  transition: opacity 0.5s ease-in-out;
-`;
-
 export default function Garden({
   activePet,
   petCollection,
@@ -304,7 +324,7 @@ export default function Garden({
 
   // Get Achievements for time spent in Garden
   useEffect(() => {
-    if (totalTimeSpent >= 1) {
+    if (totalTimeSpent >= 10) {
       const currentAchievements = JSON.parse(
         localStorage.getItem("achievements")
       ) || {
@@ -324,15 +344,15 @@ export default function Garden({
       }
 
       // 60 Sekunden Achievement
-      if (totalTimeSpent >= 6 && !currentAchievements.furniture[0]) {
+      if (totalTimeSpent >= 60 && !currentAchievements.furniture[0]) {
         currentAchievements.furniture[0] = true;
         setUnlockedAchievement("Doghouse unlocked!"); // Popup-Nachricht
         setShowPopup(true);
         achievementUnlocked = true;
       }
 
-      // 300 Sekunden Achievement
-      if (totalTimeSpent >= 10 && !currentAchievements.furniture[1]) {
+      // 120 Sekunden Achievement
+      if (totalTimeSpent >= 120 && !currentAchievements.furniture[1]) {
         currentAchievements.furniture[1] = true;
         setUnlockedAchievement("Throne unlocked!"); // Popup-Nachricht
         setShowPopup(true); // Popup anzeigen
@@ -391,9 +411,9 @@ export default function Garden({
   };
 
   const achievementpositions = {
-    food: { top: "50vh", left: "-20vw" }, // Mitte links
-    play: { top: "50vh", left: "0vw" }, // Mitte Mitte
-    furniture: { top: "50vh", left: "20vw" }, // Mitte rechts
+    food: { top: "70vh", left: "-35vw" },
+    play: { top: "80vh", left: "0vw" },
+    furniture: { top: "65vh", left: "25vw" },
   };
 
   useEffect(() => {
@@ -487,6 +507,16 @@ export default function Garden({
   return (
     <StyledMain>
       <GardenContainer>
+        <AchievementsLink>
+          <Link
+            href={{
+              pathname: `/achievements`,
+            }}
+            aria-label="Pokal indicating Achievements"
+          >
+            🏆
+          </Link>
+        </AchievementsLink>
         <ImageContainer>
           {selectedAchievements.food !== null && (
             <PositionedImage
@@ -628,11 +658,8 @@ export default function Garden({
         {activePet && (
           <AdjustedDetailPageWrapper>
             <Link
-              /* href={{
-                pathname: `/pet-details/${activePet.id}`,
-              }} */
               href={{
-                pathname: `/achievements`,
+                pathname: `/pet-details/${activePet.id}`,
               }}
               aria-label="Magnifying Glass indicating Details"
             >
@@ -679,7 +706,13 @@ export default function Garden({
             <NavButton onClick={() => onCurrentPet("next")}>→</NavButton>
           </NavbarContainer>
         )}
-        {showPopup && <Popup show={showPopup}>{unlockedAchievement}</Popup>}
+        {showPopup && (
+          <Popup
+            show={showPopup}
+            message={unlockedAchievement}
+            onClose={() => setShowPopup(false)}
+          />
+        )}
       </GardenContainer>
     </StyledMain>
   );

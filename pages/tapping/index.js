@@ -12,6 +12,7 @@ import {
 } from "../snake";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
+import Popup from "@/components/Popup/Popup";
 
 const StyledHeader = styled.h1`
   margin-bottom: 25px;
@@ -146,6 +147,17 @@ export default function TappingGame({
   const [instructions, setInstructions] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [countdown, setCountdown] = useState(60);
+  const [showPopup, setShowPopup] = useState(false);
+  const [unlockedAchievement, setUnlockedAchievement] = useState("");
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
 
   useEffect(() => {
     let interval;
@@ -188,44 +200,58 @@ export default function TappingGame({
     }
   }, [score, highScore]);
 
-  useEffect(() => {
-    if (!gameStarted && score > 0) {
-      console.log("useEffect ausgelöst, Score:", score); // Überprüfe, ob dieser Punkt erreicht wird
-      // Holen der aktuellen Gesamtpunkte aus localStorage
-      const totalTappingPoints =
-        parseInt(localStorage.getItem("totalTappingPoints")) || 0;
-      const newTotal = totalTappingPoints + score;
-      localStorage.setItem("totalTappingPoints", newTotal);
+  function checkAchievements(currentScore) {
+    const totalTappingPoints =
+      parseInt(localStorage.getItem("totalTappingPoints")) || 0;
+    const newTotal = totalTappingPoints + currentScore;
+    localStorage.setItem("totalTappingPoints", newTotal);
 
-      // Holen der aktuellen Achievements aus localStorage
-      const currentAchievements = JSON.parse(
-        localStorage.getItem("achievements")
-      ) || {
-        food: [false, false, false, false, false],
-        play: [false, false, false, false, false],
-        furniture: [false, false, false, false, false],
-      };
+    // Holen der aktuellen Achievements aus localStorage
+    const currentAchievements = JSON.parse(
+      localStorage.getItem("achievements")
+    ) || {
+      food: [false, false, false, false, false],
+      play: [false, false, false, false, false],
+      furniture: [false, false, false, false, false],
+    };
 
-      // Highscore-basierte Achievements
-      if (score >= 1) {
-        currentAchievements.play[3] = true; // Achievement für 15 Punkte
-      }
-      if (score >= 2) {
-        currentAchievements.play[4] = true; // Achievement für 20 Punkte
-      }
+    let achievementUnlocked = false;
 
-      // Gesamtpunkte-basierte Achievements
-      if (newTotal >= 3) {
-        currentAchievements.food[4] = true; // Achievement für 30 Punkte
-      }
-      if (newTotal >= 6) {
-        currentAchievements.furniture[4] = true; // Achievement für 60 Punkte
-      }
+    // Highscore-basierte Achievements
+    if (score >= 15 && !currentAchievements.play[3]) {
+      currentAchievements.play[3] = true;
+      setUnlockedAchievement("Play Achievement for 15 points unlocked!");
+      setShowPopup(true);
+      achievementUnlocked = true;
+    }
+    if (score >= 20 && !currentAchievements.play[4]) {
+      currentAchievements.play[4] = true;
+      setUnlockedAchievement("Play Achievement for 20 points unlocked!");
+      setShowPopup(true);
+      achievementUnlocked = true;
+    }
 
-      // Speichern der Achievements in localStorage
+    // Gesamtpunkte-basierte Achievements
+    if (newTotal >= 30 && !currentAchievements.food[4]) {
+      currentAchievements.food[4] = true;
+      setUnlockedAchievement("Food Achievement for 30 total points unlocked!");
+      setShowPopup(true);
+      achievementUnlocked = true;
+    }
+    if (newTotal >= 60 && !currentAchievements.furniture[4]) {
+      currentAchievements.furniture[4] = true;
+      setUnlockedAchievement(
+        "Furniture Achievement for 60 total points unlocked!"
+      );
+      setShowPopup(true);
+      achievementUnlocked = true;
+    }
+
+    // Speichern der Achievements in localStorage
+    if (achievementUnlocked) {
       localStorage.setItem("achievements", JSON.stringify(currentAchievements));
     }
-  }, [gameStarted, score]);
+  }
 
   useEffect(() => {
     let timer;
@@ -261,8 +287,10 @@ export default function TappingGame({
       : activeWrongCircles.includes(index)
       ? -1
       : 0;
-    setScore((prevScore) => prevScore + energyChange);
+    const newScore = score + energyChange;
+    setScore(newScore);
     onUpdatePetIndicator(energyChange, "energy");
+    checkAchievements(newScore);
   }
 
   function handleStart() {
@@ -278,7 +306,6 @@ export default function TappingGame({
     setGameStarted(false);
     setActiveCircles([]);
     setActiveWrongCircles([]);
-    // setScore(0);
     setIntervalTime(1600);
 
     if (delay) {
@@ -295,6 +322,11 @@ export default function TappingGame({
   return (
     <StyledSnakePage>
       <StyledHeader>Tap the Capybara Game</StyledHeader>
+      <Popup
+        show={showPopup}
+        message={unlockedAchievement}
+        onClose={() => setShowPopup(false)}
+      />
       <StyledTappingGameField>
         {countdown === 0 && <CountdownMessage>Time is up!</CountdownMessage>}
         {countdown > 0 && countdown < 60 && countdown % 10 === 0 && (

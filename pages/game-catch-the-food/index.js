@@ -246,28 +246,28 @@ export default function GamePage({
 
     let achievementUnlocked = false;
 
-    if (counter >= 1 && !currentAchievements.furniture[2]) {
+    if (counter >= 15 && !currentAchievements.furniture[2]) {
       currentAchievements.furniture[2] = true;
       setUnlockedAchievement("Furniture Achievement unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
 
-    if (counter >= 2 && !currentAchievements.furniture[3]) {
+    if (counter >= 20 && !currentAchievements.furniture[3]) {
       currentAchievements.furniture[3] = true;
       setUnlockedAchievement("Advanced Furniture Achievement unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
 
-    if (newTotal >= 3 && !currentAchievements.food[2]) {
+    if (newTotal >= 30 && !currentAchievements.food[2]) {
       currentAchievements.food[2] = true;
       setUnlockedAchievement("Food Achievement unlocked!");
       setShowPopup(true);
       achievementUnlocked = true;
     }
 
-    if (newTotal >= 6 && !currentAchievements.food[3]) {
+    if (newTotal >= 60 && !currentAchievements.food[3]) {
       currentAchievements.food[3] = true;
       setUnlockedAchievement("Advanced Food Achievement unlocked!");
       setShowPopup(true);
@@ -290,7 +290,7 @@ export default function GamePage({
       console.log("Popup is showing: ", unlockedAchievement);
       const timer = setTimeout(() => {
         setShowPopup(false);
-      }, 3000); // Popup will disappear after 3 seconds
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [showPopup]);
