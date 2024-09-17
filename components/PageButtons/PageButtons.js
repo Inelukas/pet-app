@@ -25,7 +25,6 @@ const PageButton = styled.div`
   bottom: 10px;
   right: ${({ $right }) => ($right ? $right : "auto")};
   left: ${({ $left }) => ($left ? $left : "auto")};
-  top: ${({ $top }) => ($top ? $top : "auto")};
   width: 4rem;
   height: 4rem;
   box-shadow: 2px 2px #000000;

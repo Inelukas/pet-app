@@ -36,7 +36,7 @@ const NavButtonContainer = styled.div`
   }
 `;
 
-export const GameButton = styled.button`
+const GameButton = styled.button`
   width: 45px;
   height: 30px;
   color: #fff;
