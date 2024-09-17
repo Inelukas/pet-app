@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import Link from "next/link";
 import Pet from "@/components/Pet/Pet";
-import { GardenPageWrapper } from "@/components/LinkButtons/LinkButtons";
 import { GardenContainer } from "../garden";
 import { StyledPetList } from "../pet-list";
 
@@ -14,13 +12,7 @@ const GraveyardContainer = styled(GardenContainer)`
   background-image: url("/Background/graveyard.png");
   height: 100%;
   min-height: 100vh;
-  background-size: cover;
-`;
-
-const GraveyardButtonWrapper = styled(GardenPageWrapper)`
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
+  padding-top: 80px;
 `;
 
 export default function Graveyard({ petCollection, onPetCollection }) {
@@ -73,15 +65,6 @@ export default function Graveyard({ petCollection, onPetCollection }) {
           ) : (
             ``
           )}
-
-          <GraveyardButtonWrapper>
-            <Link
-              href="/pet-list"
-              aria-label="A Staple of Books indicating List"
-            >
-              📚
-            </Link>
-          </GraveyardButtonWrapper>
         </StyledPetList>
       </GraveyardContainer>
     </GraveyardMain>

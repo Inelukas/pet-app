@@ -25,6 +25,7 @@ const PageButton = styled.div`
   bottom: 10px;
   right: ${({ $right }) => ($right ? $right : "auto")};
   left: ${({ $left }) => ($left ? $left : "auto")};
+  top: ${({ $top }) => ($top ? $top : "auto")};
   width: 4rem;
   height: 4rem;
   box-shadow: 2px 2px #000000;
@@ -63,6 +64,7 @@ export default function PageButtons({ router, activePet }) {
         </PageButton>
       )}
       {(router.pathname === "/garden" ||
+        router.pathname === "/graveyard" ||
         router.pathname.includes("/pet-details")) && (
         <PageButton $color={"red"} $right={"10px"}>
           <Link href="/pet-list" aria-label="Staple of Books indicating List">
@@ -72,7 +74,7 @@ export default function PageButtons({ router, activePet }) {
       )}
       {router.pathname === "/pet-list" && (
         <>
-          <PageButton $color={"orange"} $right={"50px"}>
+          <PageButton $color={"orange"} $right={"45%"}>
             <Link href="/create" aria-label="Create Icon">
               <Image src={createIcon} alt="Create Icon" width={30} />
             </Link>

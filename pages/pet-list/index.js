@@ -9,6 +9,7 @@ const PetListPage = styled.main`
   margin: 3vh 0;
   gap: 20px;
   position: relative;
+  padding-top: 80px;
 `;
 
 export const StyledPetList = styled.ul`

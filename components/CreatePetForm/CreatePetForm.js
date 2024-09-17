@@ -9,6 +9,14 @@ import cancelIcon from "../../public/assets/cancel.png";
 import confirmIcon from "../../public/assets/confirm.png";
 import Image from "next/image";
 
+const CreatePage = styled.main`
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+`;
+
 const StyledConfirmButtonContainer = styled.div`
   display: flex;
 `;
@@ -188,7 +196,7 @@ export default function CreatePetForm({
   }
 
   return (
-    <>
+    <CreatePage>
       <PetSelection
         onPreviousPet={handlePreviousPet}
         onNextPet={handleNextPet}
@@ -306,6 +314,6 @@ export default function CreatePetForm({
           <Image src={confirmIcon} alt="Confirm Icon" width={40} />
         </ConfirmButton>
       </StyledConfirmButtonContainer>
-    </>
+    </CreatePage>
   );
 }

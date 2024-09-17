@@ -106,7 +106,7 @@ export default function App({ Component, pageProps }) {
         ? Math.min(activePet.status.happiness + score * 5, 100)
         : indicator === "hunger"
         ? 0
-        : Math.min(activePet.status.energy + score, 100);
+        : Math.min(activePet.status.energy + score * 2, 100);
     setPetCollection(
       petCollection.map((pet) => {
         return pet.id === currentPetID

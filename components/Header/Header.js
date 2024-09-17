@@ -5,6 +5,12 @@ const HeaderContainer = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: 0;
+  width: 100%;
+  height: 70px; /* Explicit height for the header */
 `;
 
 const StyledHeader = styled.h1`

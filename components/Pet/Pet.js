@@ -101,7 +101,6 @@ export default function Pet({ petData, onGraveyard }) {
           <Image
             src="/assets/images/ghost.png"
             alt="Ghost"
-            objectFit="cover"
             width={75}
             height={75}
             quality={100}

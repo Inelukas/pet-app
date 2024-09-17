@@ -9,6 +9,7 @@ import updateIcon from "../../public/assets/edit.png";
 
 const DetailsPage = styled.main`
   height: 80vh;
+  padding-top: 80px;
 `;
 
 const DetailsContainer = styled.section`
@@ -249,7 +250,7 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           </PictureAndDeleteContainer>
           <PetName>{pet.name}</PetName>
           <StyledUpdateButton $disabled={!pet.alive}>
-            {pet.alive ? (
+            {pet.isAlive ? (
               <Link href={`/update?id=${pet.id}&hideButtons=true`}>
                 <Image src={updateIcon} alt="Update Icon" width={25} />
               </Link>

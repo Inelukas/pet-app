@@ -109,17 +109,21 @@ const HorizontalBarFill = styled.section`
 const Icon = styled.span`
   z-index: 2;
   padding-top: 5px;
+  width: 100%;
   position: absolute;
   display: flex;
   justify-content: center;
+  font-size: 0.8rem;
 `;
 
 const HeartIcon = styled.span`
   z-index: 2;
   padding-left: 5px;
+  height: 100%;
   position: absolute;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
 `;
 
 const ButtonContainer = styled.section`
@@ -135,14 +139,15 @@ const StatusLink = styled(Link)`
   background-color: ${(props) => props.$bgcolor};
   color: var(--text-color);
   border: none;
-  padding: 16px;
+  padding: 10px;
   margin-bottom: 8px;
   border-radius: 4px;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
-  width: 75px;
+  width: 60px;
   text-decoration: none;
   text-align: center;
+  font-size: 1.5rem;
 `;
 
 export default function Garden({
