@@ -5,7 +5,8 @@ import reviveIcon from "../../public/assets/revive.png";
 
 export const StyledPet = styled.li`
   display: flex;
-  border: 5px solid #000000;
+  border: ${({ $currentPet }) =>
+    $currentPet ? "5px solid orange" : "5px solid black"};
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
@@ -44,11 +45,14 @@ const StyledPortrait = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 3px solid black;
   border-radius: 50%;
   background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
   position: relative;
   width: 90px;
   height: 90px;
+  min-width: 90px;
+  min-height: 90px;
   padding: 10px;
   margin-left: 10px;
 
@@ -85,9 +89,12 @@ const ReviveButton = styled(ConfirmButton)`
   height: 2.3rem;
 `;
 
-export default function Pet({ petData, onGraveyard }) {
+export default function Pet({ petData, onGraveyard, currentPetID }) {
   return (
-    <StyledPet $onGraveyard={!!onGraveyard}>
+    <StyledPet
+      $onGraveyard={!!onGraveyard}
+      $currentPet={petData.id === currentPetID}
+    >
       <StyledPortrait>
         {petData.isAlive ? (
           <Image

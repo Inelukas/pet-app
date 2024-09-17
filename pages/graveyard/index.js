@@ -10,9 +10,9 @@ const GraveyardMain = styled.main`
 
 const GraveyardContainer = styled(GardenContainer)`
   background-image: url("/Background/graveyard.png");
-  height: 100%;
-  min-height: 100vh;
+  background-size: 100% 100%;
   padding-top: 80px;
+  background-repeat: repeat;
 `;
 
 export default function Graveyard({ petCollection, onPetCollection }) {

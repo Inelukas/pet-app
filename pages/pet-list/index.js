@@ -25,7 +25,7 @@ const StyledPet = styled(Link)`
   text-decoration: none;
 `;
 
-export default function PetList({ petCollection }) {
+export default function PetList({ petCollection, currentPetID }) {
   return (
     <PetListPage>
       {petCollection.length > 0 ? (
@@ -33,7 +33,7 @@ export default function PetList({ petCollection }) {
           {petCollection.map((pet) => {
             return (
               <StyledPet key={pet.id} href={`/pet-details/${pet.id}`}>
-                <Pet petData={pet} />
+                <Pet petData={pet} currentPetID={currentPetID} />
               </StyledPet>
             );
           })}
