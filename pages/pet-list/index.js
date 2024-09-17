@@ -1,15 +1,20 @@
 import styled from "styled-components";
 import Pet from "@/components/Pet/Pet";
+import StyledLink from "@/components/StyledLink/StyledLink";
 import Link from "next/link";
+import {
+  GardenPageWrapper,
+  ListPageWrapper,
+} from "@/components/LinkButtons/LinkButtons";
+import createIcon from "../../public/assets/create.png";
+import Image from "next/image";
 
-const PetListPage = styled.main`
+export const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 3vh 0;
   gap: 20px;
-  position: relative;
-  padding-top: 80px;
 `;
 
 export const StyledPetList = styled.ul`
@@ -17,7 +22,6 @@ export const StyledPetList = styled.ul`
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  height: 80vh;
 `;
 
 const StyledPet = styled(Link)`
@@ -25,15 +29,15 @@ const StyledPet = styled(Link)`
   text-decoration: none;
 `;
 
-export default function PetList({ petCollection, currentPetID }) {
+export default function PetList({ petCollection }) {
   return (
-    <PetListPage>
+    <StyledMain>
       {petCollection.length > 0 ? (
         <StyledPetList>
           {petCollection.map((pet) => {
             return (
               <StyledPet key={pet.id} href={`/pet-details/${pet.id}`}>
-                <Pet petData={pet} currentPetID={currentPetID} />
+                <Pet petData={pet} />
               </StyledPet>
             );
           })}
@@ -41,6 +45,21 @@ export default function PetList({ petCollection, currentPetID }) {
       ) : (
         <h1>You don&apos;t have any pets.</h1>
       )}
-    </PetListPage>
+
+      <GardenPageWrapper>
+        <Link href="/garden" aria-label="A golf hole indicating the Garden">
+          ⛳
+        </Link>
+      </GardenPageWrapper>
+      <ListPageWrapper>
+        <Link href="/graveyard" aria-label="Coffing indicating Graveyard">
+          ⚰️
+        </Link>
+      </ListPageWrapper>
+
+      <StyledLink href="/create">
+        <Image src={createIcon} alt="Create Icon" width={30} />
+      </StyledLink>
+    </StyledMain>
   );
 }

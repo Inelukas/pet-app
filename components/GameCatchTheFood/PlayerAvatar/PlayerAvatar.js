@@ -29,13 +29,7 @@ export default function PlayerAvatar({ x, picture, name, onDirection }) {
       animate={{ x }}
       transition={{ type: "spring", stiffness: 200, damping: 20, mass: 0.5 }}
     >
-      <Image
-        src={picture}
-        alt={name || "Avatar"}
-        width={30}
-        height={30}
-        quality={100}
-      />
+      <Image src={picture} alt={name} width={30} height={30} quality={100} />
     </AvatarContainer>
   );
 }

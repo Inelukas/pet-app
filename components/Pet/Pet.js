@@ -5,8 +5,7 @@ import reviveIcon from "../../public/assets/revive.png";
 
 export const StyledPet = styled.li`
   display: flex;
-  border: ${({ $currentPet }) =>
-    $currentPet ? "5px solid orange" : "5px solid black"};
+  border: 5px solid #000000;
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
@@ -45,14 +44,11 @@ const StyledPortrait = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid black;
   border-radius: 50%;
   background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
   position: relative;
   width: 90px;
   height: 90px;
-  min-width: 90px;
-  min-height: 90px;
   padding: 10px;
   margin-left: 10px;
 
@@ -89,17 +85,15 @@ const ReviveButton = styled(ConfirmButton)`
   height: 2.3rem;
 `;
 
-export default function Pet({ petData, onGraveyard, currentPetID }) {
+export default function Pet({ petData, onGraveyard }) {
   return (
-    <StyledPet
-      $onGraveyard={!!onGraveyard}
-      $currentPet={petData.id === currentPetID}
-    >
+    <StyledPet $onGraveyard={!!onGraveyard}>
       <StyledPortrait>
         {petData.isAlive ? (
           <Image
             src={petData.image}
-            alt={petData.name || "A cute pet"}
+            alt={petData.name}
+            objectFit="cover"
             width={50}
             height={50}
             quality={100}
@@ -108,6 +102,7 @@ export default function Pet({ petData, onGraveyard, currentPetID }) {
           <Image
             src="/assets/images/ghost.png"
             alt="Ghost"
+            objectFit="cover"
             width={75}
             height={75}
             quality={100}
@@ -116,6 +111,7 @@ export default function Pet({ petData, onGraveyard, currentPetID }) {
           <Image
             src="/assets/images/tombstone.png"
             alt="Tombstone"
+            objectFit="cover"
             width={75}
             height={75}
             quality={100}

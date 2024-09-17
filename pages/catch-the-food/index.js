@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import PlayerAvatar from "@/components/GameElements/CatchFood/PlayerAvatar/PlayerAvatar";
-import FallingBlocks from "@/components/GameElements/CatchFood/FallingBlocks/FallingBlocks";
+import PlayerAvatar from "@/components/GameCatchTheFood/PlayerAvatar/PlayerAvatar";
+import FallingBlocks from "@/components/GameCatchTheFood/FallingBlocks/FallingBlocks";
 import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
 import Indicator from "@/components/Indicator/Indicator";
 import { uid } from "uid";

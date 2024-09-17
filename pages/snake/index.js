@@ -1,7 +1,7 @@
 import Indicator from "@/components/Indicator/Indicator";
-import PetChild from "@/components/GameElements/Snake/PetChild/PetChild";
-import Food from "@/components/GameElements/Snake/Food/Food";
-import Player from "@/components/GameElements/Snake/Player/Player";
+import PetChild from "@/components/SnakeGame/PetChild/PetChild";
+import Food from "@/components/SnakeGame/Food/Food";
+import Player from "@/components/SnakeGame/Player/Player";
 import { useEffect, useState } from "react";
 import {
   Filter,

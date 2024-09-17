@@ -156,7 +156,6 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
 
           if (newCountdown === 0) {
             handleReset(true);
-            onUpdatePetIndicator(gameStates.score, "energy");
           }
 
           return {
@@ -231,6 +230,8 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
             : prevValues.highscore,
       }));
     }
+
+    onUpdatePetIndicator(energyChange, "energy");
   }
 
   function handleStart() {
@@ -238,7 +239,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
       ...prevValues,
       gameOn: true,
       score: 0,
-      countdown: 10,
+      countdown: 60,
     }));
   }
 
@@ -256,14 +257,14 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
         setGameStates((prevValues) => ({
           ...prevValues,
           intervalTime: 1600,
-          countdown: 10,
+          countdown: 60,
         }));
       }, 1800);
     } else {
       setGameStates((prevValues) => ({
         ...prevValues,
         intervalTime: 1600,
-        countdown: 10,
+        countdown: 60,
       }));
     }
   }
@@ -294,7 +295,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
             data={{
               name: "energy",
               count: gameStates.gameOn
-                ? Math.min(activePet.status.energy + gameStates.score * 2, 100)
+                ? Math.min(activePet.status.energy, 100)
                 : activePet.status.energy,
             }}
           />

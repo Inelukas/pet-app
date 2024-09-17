@@ -1,4 +1,3 @@
-import { walkLargeScreen, walkSmallScreen } from "@/lib/data";
 import { useEffect, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 
@@ -40,6 +39,48 @@ function createAnimations(
     isDying: createAnimation(deadY, width, framesDead, startX),
   };
 }
+
+const walkSmallScreen = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  16.67% {
+    transform: translateX(70px);
+  }
+  33.33% {
+    transform: translateX(120px) scaleX(-1);
+  }
+  66.67% {
+    transform: translateX(-60px) scaleX(-1);
+  }
+  83.33% {
+    transform: translateX(-120px) scaleX(1);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
+const walkLargeScreen = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  16.67% {
+    transform: translateX(220px);
+  }
+  33.33% {
+    transform: translateX(260px) scaleX(-1);
+  }
+  66.67% {
+    transform: translateX(-160px) scaleX(-1);
+  }
+  83.33% {
+    transform: translateX(-200px) scaleX(1);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
 
 const AnimatedPetWrapper = styled.div`
   position: absolute;

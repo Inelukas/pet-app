@@ -27,9 +27,5 @@ export const GlobalStyle = createGlobalStyle`
     height: auto;
     background-color: var(--primary-color);
     background-image: var(--create-image);
-    @media screen and (min-width: 1200px) {
-      width: 60%;
-    margin: 0 20%;
-  }
       }
 `;

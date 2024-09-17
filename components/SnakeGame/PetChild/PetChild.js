@@ -23,9 +23,10 @@ export default function PetChild({ childPosition, gameOn, pet }) {
     >
       <Image
         src={pet.picture}
-        alt={pet.name || "A cute pet"}
+        alt={pet.name}
         width={15}
         height={15}
+        objectFit="cover"
         quality={100}
       />
     </StyledChild>

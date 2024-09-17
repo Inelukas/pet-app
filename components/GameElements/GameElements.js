@@ -10,9 +10,6 @@ export const StyledGamePage = styled.main`
   min-height: 100vh;
   background: #f1f3c2;
   position: fixed;
-  @media screen and (min-width: 1200px) {
-    width: 60%;
-  }
 `;
 
 export const StyledGameField = styled.div`
