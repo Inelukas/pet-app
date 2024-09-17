@@ -1,6 +1,6 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
@@ -102,7 +102,7 @@ export default function App({ Component, pageProps }) {
   function handleUpdatePetIndicator(score, indicator) {
     const newIndicatorValue =
       indicator === "happiness"
-        ? Math.min(activePet.status.happiness + score, 100)
+        ? Math.min(activePet.status.happiness + score * 5, 100)
         : indicator === "hunger"
         ? 0
         : Math.min(activePet.status.energy + score, 100);
@@ -116,7 +116,7 @@ export default function App({ Component, pageProps }) {
                 [indicator]: newIndicatorValue,
                 intelligence: Math.min(
                   pet.status.intelligence +
-                    (score >= 5
+                    (score >= 5 || indicator === "hunger"
                       ? getIntelligenceFactor(activePet.characteristics)
                       : 0),
                   100
