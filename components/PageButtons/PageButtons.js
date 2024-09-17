@@ -13,7 +13,6 @@ const PageButtonContainer = styled.div`
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  z-index: 100;
 
   @media screen and (min-width: 1200px) {
     max-width: 800px;
@@ -22,7 +21,8 @@ const PageButtonContainer = styled.div`
 
 const PageButton = styled.div`
   position: absolute;
-  bottom: 10px;
+  bottom: ${({ $top }) => ($top ? "auto" : "10px")};
+  top: ${({ $top }) => ($top ? $top : "auto")};
   right: ${({ $right }) => ($right ? $right : "auto")};
   left: ${({ $left }) => ($left ? $left : "auto")};
   width: 4rem;
@@ -43,6 +43,7 @@ export default function PageButtons({ router, activePet }) {
   return (
     <PageButtonContainer>
       {(router.pathname === "/pet-list" ||
+        router.pathname === "/achievements" ||
         router.pathname.includes("/pet-details")) && (
         <PageButton $color={"lightgreen"} $left={"10px"}>
           <Link href="/garden" aria-label="A golf hole indicating the Garden">
@@ -51,16 +52,28 @@ export default function PageButtons({ router, activePet }) {
         </PageButton>
       )}
       {activePet && router.pathname === "/garden" && (
-        <PageButton $color={"lightblue"} $left={"10px"}>
-          <Link
-            href={{
-              pathname: `/pet-details/${activePet.id}`,
-            }}
-            aria-label="Magnifying Glass indicating Details"
-          >
-            🔎
-          </Link>
-        </PageButton>
+        <>
+          <PageButton $color={"lightblue"} $left={"10px"}>
+            <Link
+              href={{
+                pathname: `/pet-details/${activePet.id}`,
+              }}
+              aria-label="Magnifying Glass indicating Details"
+            >
+              🔎
+            </Link>
+          </PageButton>
+          <PageButton $color={"green"} $top={"-98vh"} $right={"100px"}>
+            <Link
+              href={{
+                pathname: `/achievements`,
+              }}
+              aria-label="Pokal indicating Achievements"
+            >
+              🏆
+            </Link>
+          </PageButton>
+        </>
       )}
       {(router.pathname === "/garden" ||
         router.pathname === "/graveyard" ||

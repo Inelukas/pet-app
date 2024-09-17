@@ -7,10 +7,38 @@ import { uid } from "uid";
 import PageButtons from "@/components/PageButtons/PageButtons";
 
 export default function App({ Component, pageProps }) {
-  const [petCollection, setPetCollection] = useState(pets);
-  const [currentPetID, setCurrentPetID] = useState(pets[0].id);
+  const [petCollection, setPetCollection] = useState([...pets]);
+  const [currentPetID, setCurrentPetID] = useState(
+    petCollection[0]?.id || null
+  );
   const activePet = petCollection.find((pet) => pet.id === currentPetID);
   const router = useRouter();
+
+  // Achievement state managed here
+  const [achievements, setAchievements] = useState({
+    food: [false, false, false, false, false],
+    play: [false, false, false, false, false],
+    furniture: [false, false, false, false, false],
+  });
+
+  const [totalPoints, setTotalPoints] = useState({
+    snake: 0,
+    tapping: 0,
+    catchfood: 0,
+  });
+
+  // Function to update achievements
+  function handleUpdateAchievements(category, index) {
+    setAchievements((prevAchievements) => {
+      // Check if achievement is already unlocked
+      if (prevAchievements[category][index]) return prevAchievements;
+
+      const updatedCategory = [...prevAchievements[category]];
+      updatedCategory[index] = true; // Unlock the achievement
+
+      return { ...prevAchievements, [category]: updatedCategory };
+    });
+  }
 
   function handleCreatePet(petData) {
     const { characteristic1, characteristic2, ...restPetData } = petData;
@@ -28,7 +56,7 @@ export default function App({ Component, pageProps }) {
 
   function handleDeletePet(id) {
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
-    setCurrentPetID(pets[0].id);
+    setCurrentPetID(pets[0].id || null);
   }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
@@ -129,6 +157,20 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  function handleTotalPoints(game) {
+    setTotalPoints((prevValues) => {
+      return {
+        snake: game === "snake" ? prevValues.snake + 1 : prevValues.snake,
+        tapping:
+          game === "tapping" ? prevValues.tapping + 1 : prevValues.tapping,
+        catchfood:
+          game === "catchfood"
+            ? prevValues.catchfood + 1
+            : prevValues.catchfood,
+      };
+    });
+  }
+
   function getHappinessFactor(characteristics) {
     const moodFactor = characteristics.includes("cheerful")
       ? 0.5
@@ -197,6 +239,7 @@ export default function App({ Component, pageProps }) {
       })
     );
   }
+
   return (
     <>
       <GlobalStyle />
@@ -222,6 +265,10 @@ export default function App({ Component, pageProps }) {
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
         onPetCollection={setPetCollection}
+        achievements={achievements}
+        onUpdateAchievements={handleUpdateAchievements}
+        totalPoints={totalPoints}
+        onTotalPoints={handleTotalPoints}
       />
       <PageButtons router={router} activePet={activePet} />
     </>

@@ -16,6 +16,7 @@ import {
 import ButtonContainer from "@/components/GameElements/ButtonContainer/ButtonContainer";
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
 import toggleInstructions from "@/utils/toggleInstructions";
+import Popup from "@/components/Popup/Popup";
 
 const GameFieldContainer = styled(StyledGameField)`
   display: flex;
@@ -67,6 +68,10 @@ export default function GamePage({
   activePet,
   onUpdatePetIndicator,
   onSpeedFactor,
+  achievements,
+  onUpdateAchievements,
+  totalPoints,
+  onTotalPoints,
 }) {
   const [gameStates, setGameStates] = useState({
     gameOn: false,
@@ -80,7 +85,21 @@ export default function GamePage({
     instructions: false,
     gameWidth: 270,
     gameHeight: 400,
+    unlockedAchievement: null,
+    showPopup: false,
   });
+
+  useEffect(() => {
+    if (gameStates.showPopup) {
+      const timer = setTimeout(() => {
+        setGameStates((prevValues) => ({
+          ...prevValues,
+          showPopup: false,
+        }));
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [gameStates.showPopup]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -107,6 +126,59 @@ export default function GamePage({
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (gameStates.counter) {
+      onTotalPoints("catchfood");
+      handleAchievementUpdate();
+    }
+  }, [gameStates.counter]);
+
+  useEffect(() => {
+    handleAchievementUpdate();
+  }, [totalPoints]);
+
+  function handleAchievementUpdate() {
+    let achievementUnlocked = false;
+
+    if (gameStates.counter >= 5 && !achievements.furniture[0]) {
+      onUpdateAchievements("furniture", 0);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Pet Castle unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (gameStates.counter >= 8 && !achievements.furniture[1]) {
+      onUpdateAchievements("furniture", 1);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Litter Box Throne unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+
+    if (totalPoints.catchfood >= 12 && !achievements.food[2]) {
+      onUpdateAchievements("food", 2);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Sandwich unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (totalPoints.catchfood >= 20 && !achievements.food[3]) {
+      onUpdateAchievements("food", 3);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Burger unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+  }
 
   function startGame() {
     if (!gameStates.gameOn) {
@@ -238,8 +310,17 @@ export default function GamePage({
     );
   }
 
+  console.log(gameStates.counter);
+
   return (
     <StyledGamePage>
+      {gameStates.showPopup && (
+        <Popup
+          show={gameStates.showPopup}
+          message={gameStates.unlockedAchievement}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
       {gameStates.instructions && (
         <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>
       )}

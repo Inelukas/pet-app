@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Link from "next/link";
 import AnimatedPet from "@/components/AnimatedPet/AnimatedPet";
 import Image from "next/image";
 import { indicatorZoomKeyframes } from "@/lib/data";
 import PetSelection from "@/components/PetSelection/PetSelection";
+import Popup from "@/components/Popup/Popup";
 
 const GardenPage = styled.main`
   width: 100%;
@@ -150,6 +151,46 @@ const StatusLink = styled(Link)`
   font-size: 1.5rem;
 `;
 
+const ImageContainer = styled.div`
+  // Container for Achievements
+  position: relative;
+`;
+const PositionedImage = styled(Image)`
+  // Achievements
+  position: absolute;
+  top: ${(props) => props.top};
+  left: ${(props) => props.left};
+`;
+const AchievementsLink = styled.div`
+  position: fixed;
+  top: 10px;
+  right: calc(50% - 10vw);
+  width: 4rem;
+  height: 4rem;
+  box-shadow: 2px 2px #000000;
+  background-color: red;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 32px;
+  color: var(--text-color);
+  opacity: 75%;
+  @media screen and (min-width: 1024px) {
+    right: calc(50% - 20vw);
+  }
+  @media screen and (min-width: 667px) {
+    right: calc(50% - 40vw);
+    &:hover {
+      transform: scale(1.2);
+    }
+    &:active {
+      background-color: var(--secondary-color);
+    }
+  }
+`;
+
 export default function Garden({
   activePet,
   petCollection,
@@ -163,7 +204,90 @@ export default function Garden({
   onHappinessFactor,
   onHungerFactor,
   onSpeedFactor,
+  achievements,
+  onUpdateAchievements,
 }) {
+  const [unlockedAchievement, setUnlockedAchievement] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [totalTimeSpent, setTotalTimeSpent] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTotalTimeSpent((prevTime) => prevTime + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [setTotalTimeSpent]);
+
+  useEffect(() => {
+    if (totalTimeSpent >= 10) {
+      let achievementUnlocked = false;
+
+      if (!achievements.play[0]) {
+        onUpdateAchievements("play", 0);
+        setUnlockedAchievement("Twig unlocked!");
+        setShowPopup(true);
+        achievementUnlocked = true;
+      }
+
+      if (totalTimeSpent >= 20 && !achievements.furniture[0]) {
+        onUpdateAchievements("furniture", 0);
+        setUnlockedAchievement("Doghouse unlocked!");
+        setShowPopup(true);
+        achievementUnlocked = true;
+      }
+
+      if (totalTimeSpent >= 30 && !achievements.furniture[1]) {
+        onUpdateAchievements("furniture", 1);
+        setUnlockedAchievement("Throne unlocked!");
+        setShowPopup(true);
+        achievementUnlocked = true;
+      }
+    }
+  }, [totalTimeSpent, achievements, onUpdateAchievements]);
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
+
+  const [selectedAchievements] = useState({
+    food: null,
+    play: null,
+    furniture: null,
+  });
+  const achievementImages = {
+    food: [
+      { src: "/achievements/brokkoli.png" },
+      { src: "/achievements/ham.png" },
+      { src: "/achievements/sandwich.png" },
+      { src: "/achievements/burger.png" },
+      { src: "/achievements/cake.png" },
+    ],
+    play: [
+      { src: "/achievements/twig.png" },
+      { src: "/achievements/ball.png" },
+      { src: "/achievements/yarn.png" },
+      { src: "/achievements/rattle.png" },
+      { src: "/achievements/teddy.png" },
+    ],
+    furniture: [
+      { src: "/achievements/doghouse.png" },
+      { src: "/achievements/litter_box.png" },
+      { src: "/achievements/castle.png" },
+      { src: "/achievements/litter_box_throne.png" },
+      { src: "/achievements/hammock.png" },
+    ],
+  };
+  const achievementpositions = {
+    food: { top: "70vh", left: "-35vw" },
+    play: { top: "80vh", left: "0vw" },
+    furniture: { top: "65vh", left: "25vw" },
+  };
+
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
       setPetCollection((prevPets) =>
@@ -250,6 +374,40 @@ export default function Garden({
   return (
     <GardenPage>
       <GardenContainer>
+        <ImageContainer>
+          {selectedAchievements.food !== null && (
+            <PositionedImage
+              src={achievementImages.food[selectedAchievements.food].src}
+              alt="Selected Food Achievement"
+              width={50}
+              height={50}
+              top={achievementpositions.food.top}
+              left={achievementpositions.food.left}
+            />
+          )}
+          {selectedAchievements.play !== null && (
+            <PositionedImage
+              src={achievementImages.play[selectedAchievements.play].src}
+              alt="Selected Play Achievement"
+              width={50}
+              height={50}
+              top={achievementpositions.play.top}
+              left={achievementpositions.play.left}
+            />
+          )}
+          {selectedAchievements.furniture !== null && (
+            <PositionedImage
+              src={
+                achievementImages.furniture[selectedAchievements.furniture].src
+              }
+              alt="Selected Furniture Achievement"
+              width={50}
+              height={50}
+              top={achievementpositions.furniture.top}
+              left={achievementpositions.furniture.left}
+            />
+          )}
+        </ImageContainer>
         {activePet && (
           <StatusContainer>
             <HorizontalBar
@@ -353,6 +511,13 @@ export default function Garden({
           onCurrentPet={onCurrentPet}
           onCurrentPetID={onCurrentPetID}
         />
+        {showPopup && (
+          <Popup
+            show={showPopup}
+            message={unlockedAchievement}
+            onClose={() => setShowPopup(false)}
+          />
+        )}
       </GardenContainer>
     </GardenPage>
   );
