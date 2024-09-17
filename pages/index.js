@@ -1,9 +1,6 @@
 import styled from "styled-components";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Image from "next/image";
-import { StyledHowToPlay } from "./snake";
-import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
-import { useState } from "react";
 
 export const StyledStartPage = styled.section`
   display: flex;
@@ -49,12 +46,16 @@ export const StyledImage = styled(Image)`
 
 const StartButtonContainer = styled.section`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `;
 
-export const StyledButtonLink = styled(StyledLink)`
+export const StartPageGardenLink = styled(StyledLink)`
   border-radius: 10px;
 
-  font-size: small;
+  font-size: 0.9rem;
   padding: 20px 50px;
   white-space: nowrap;
 
@@ -74,43 +75,27 @@ export const StyledButtonLink = styled(StyledLink)`
   }
 `;
 
-const StyledStartConfirmButton = styled(ConfirmButton)`
-  width: 1rem;
-  height: 1rem;
-  font-size: 0.5rem;
+const InstructionsLink = styled(StyledLink)`
   border-radius: 10px;
-  padding: 25px;
-`;
 
-const StyledStartInstructions = styled(StyledHowToPlay)`
-  display: flex;
-  place-content: start;
-  gap: 20px;
-  background: var(--secondary-color);
-  font-size: 0.8rem;
-  line-height: 2;
-  width: 120%;
-  padding: 20px;
-  border-radius: 20px;
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  z-index: 2;
-  @media screen and (min-width: 900px) {
-    display: block;
-    width: 120px;
-    right: -140px;
-    left: unset;
-    top: 20px;
-    font-size: 0.6rem;
-    background: none;
-    padding: 0;
-    line-height: 1.5;
+  height: 2rem;
+  font-size: 0.7rem;
+  padding: 15px 35px;
+  white-space: nowrap;
+
+  @media (min-width: 600px) {
+    font-size: 1.5rem;
+    padding: 35px 80px;
   }
-  @media screen and (min-width: 1200px) {
-    width: 200px;
-    font-size: 0.8rem;
-    right: -230px;
+
+  @media (min-width: 900px) {
+    font-size: 1.75rem;
+    padding: 50px 100px;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 2rem;
+    padding: 50px 120px;
   }
 `;
 
@@ -136,13 +121,8 @@ export const StyledStartSpan = styled.span`
 `;
 
 export default function StartPage({ petCollection }) {
-  const [instructions, setInstructions] = useState(false);
   const buttonText = petCollection.length > 0 ? "Go to Garden" : "Create Pet";
   const buttonLink = petCollection.length > 0 ? "/garden" : "/create";
-
-  function toggleInstructions() {
-    setInstructions((prevInstructions) => !prevInstructions);
-  }
 
   return (
     <StyledStartPage>
@@ -152,38 +132,11 @@ export default function StartPage({ petCollection }) {
         width={400}
         height={400}
       />
-      {instructions && (
-        <StyledStartInstructions>
-          <h2>Welcome to your Pet App!</h2>
-          <ul>
-            <li> Raise your Pet and keep it happy. Play Games to </li>{" "}
-            <li>
-              {" "}
-              Try to tap the circles lighting up, but only those displaying your
-              pet. Tapping a capybara rewards points.{" "}
-            </li>{" "}
-            <li>
-              {" "}
-              Tapping a circle displaying a ghost will result in point
-              deduction.{" "}
-            </li>{" "}
-            <li>
-              {" "}
-              More tapped pets = more energy! Each pet adds +1 to your
-              animal&apos;s energy bar. Try to tap as many as possible.{" "}
-            </li>{" "}
-            <li>
-              Every 10 seconds, the game speeds up, increasing difficulty. Each
-              round lasts for 60 seconds. Happy tapping!
-            </li>
-          </ul>
-        </StyledStartInstructions>
-      )}
       <StartButtonContainer>
-        <StyledButtonLink href={buttonLink}>{buttonText}</StyledButtonLink>
-        <StyledStartConfirmButton onClick={() => toggleInstructions()}>
-          Instructions
-        </StyledStartConfirmButton>
+        <StartPageGardenLink href={buttonLink}>
+          {buttonText}
+        </StartPageGardenLink>
+        <InstructionsLink href="/instructions">Instructions</InstructionsLink>
       </StartButtonContainer>
       <StyledStartSpan>
         Create your own Pet - Feed it, train it, keep it happy!

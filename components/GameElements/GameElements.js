@@ -65,7 +65,7 @@ export const Filter = styled.div`
   }
 `;
 
-const StyledHowToPlay = styled.div`
+export const StyledHowToPlay = styled.div`
   display: grid;
   place-content: center;
   gap: 20px;
