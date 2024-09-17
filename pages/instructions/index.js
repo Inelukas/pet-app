@@ -7,7 +7,8 @@ import Link from "next/link";
 const StyledFirstWord = styled.span`
   display: inline-block;
   margin: 5px;
-  font-size: 1.3rem;
+
+  font-size: 1.2rem;
   border-radius: 10px;
   padding: 5px;
   cursor: pointer;
@@ -48,7 +49,7 @@ const StyledFirstWord = styled.span`
 `;
 
 const ListItem = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,10 +70,6 @@ const ExpandedText = styled.span`
   @media (min-width: 900px) {
     font-size: larger;
   }
-
-  @media (min-width: 1200px) {
-    font-size: x-large;
-  }
 `;
 
 const InstructionsWrapper = styled.section`
@@ -80,6 +77,10 @@ const InstructionsWrapper = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 900px) {
+    margin-top: -50px;
+  }
 `;
 
 export default function Instructions() {
@@ -103,11 +104,11 @@ export default function Instructions() {
   const instructions = [
     {
       firstWord: "Creating a new pet",
-      rest: `To create a new pet, go to the Pet List by clicking the Staple of Books Button on the main screen. Tap the Plus (+) Button on the Pet List page to create your own pet. Customize your pet by giving it a name, choosing its type, and assigning characteristics. The characteristics affect the initial values of your pet as well as their increase and decrease rate.`,
+      rest: `To create a new pet, go to the Pet List by clicking the Staple of Books Button on the main screen. Tap the Plus (+) Button on the Pet List page to create your own pet. Customize your pet by giving it a name, choosing its type, and assigning characteristics. `,
     },
     {
       firstWord: "View pet details",
-      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: Intelligence, Energy, Hunger, and Happiness.`,
+      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: Intelligence, Energy, Hunger, and Happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. `,
     },
     {
       firstWord: "The pet garden",
@@ -122,17 +123,17 @@ export default function Instructions() {
       rest: `If your pet dies, it will be transferred to the Graveyard. To access the Graveyard, go to the Pet List Page and click on the Graveyard section. In the Graveyard, you can Revive your pet, but it will return as a Ghost.`,
     },
     {
-      firstWord: "The graveyard",
+      firstWord: "Pet ghosts",
       rest: `A Pet that has become a Ghost cannot die again but also cannot participate in mini-games or interact the same way as living pets. You have the option to delete any pet or ghost. Be careful, as this will result in their permanent removal from the app.`,
     },
   ];
 
   return (
     <StyledStartPage>
-      <h1>
+      <h3>
         Follow these instructions to create, manage, and care for your virtual
         pets.{" "}
-      </h1>
+      </h3>
       <InstructionsWrapper>
         {instructions.map((item, index) => (
           <ListItem key={index} onClick={() => toggleExpanded(index)}>

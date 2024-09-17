@@ -25,22 +25,22 @@ export const StyledStartPage = styled.section`
 `;
 
 export const StyledImage = styled(Image)`
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
 
   @media (min-width: 600px) {
+    width: 450px;
+    height: 450px;
+  }
+
+  @media (min-width: 900px) {
     width: 500px;
     height: 500px;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1200px) {
     width: 600px;
     height: 600px;
-  }
-
-  @media (min-width: 1200px) {
-    width: 700px;
-    height: 700px;
   }
 `;
 
@@ -65,8 +65,8 @@ export const StartPageGardenLink = styled(StyledLink)`
   }
 
   @media (min-width: 900px) {
-    font-size: 1.75rem;
-    padding: 50px 100px;
+    font-size: 1.6rem;
+    padding: 40px 90px;
   }
 
   @media (min-width: 1200px) {
