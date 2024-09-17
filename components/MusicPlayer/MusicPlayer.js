@@ -22,6 +22,7 @@ const NoteIcon = styled.div`
 
   @media screen and (min-width: 600px) {
     transform: scale(1.2);
+    right: 33%;
   }
 `;
 
@@ -34,6 +35,7 @@ const PlayerContainer = styled(motion.aside)`
   position: fixed;
   background-color: var(--secondary-color);
   border: 2px solid black;
+  border-radius: 10px;
   width: 50px;
   height: 375px;
   right: 0px;
@@ -45,6 +47,7 @@ const PlayerContainer = styled(motion.aside)`
 
   @media screen and (min-width: 600px) {
     transform: scale(1.2);
+    right: 33%;
     top: 45%;
   }
 `;
@@ -65,7 +68,6 @@ const ArrowIcon = styled.div`
   width: 20px;
   height: 20px;
   cursor: pointer;
-  transform: rotate(90deg);
   margin: 5px;
   opacity: 0.6;
 
@@ -89,16 +91,16 @@ const VolumeControl = styled(motion.input)`
   &::-webkit-slider-runnable-track {
     -webkit-appearance: none;
     background: black;
+    width: 8px;
     height: 8px;
     border-radius: 5px;
   }
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    position: relative;
-    width: 12px;
-    height: 12px;
-    margin: -2px;
+
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--signal-color);
     cursor: pointer;
