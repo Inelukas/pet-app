@@ -99,8 +99,9 @@ const VolumeControl = styled(motion.input)`
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
 
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
+    margin-top: -2px;
     border-radius: 50%;
     background: var(--signal-color);
     cursor: pointer;
