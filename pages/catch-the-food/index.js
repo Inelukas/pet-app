@@ -128,15 +128,16 @@ export default function GamePage({
   }, []);
 
   useEffect(() => {
-    if (gameStates.counter) {
+    if (gameStates.counter > 0) {
       onTotalPoints("catchfood");
-      handleAchievementUpdate();
     }
   }, [gameStates.counter]);
 
   useEffect(() => {
-    handleAchievementUpdate();
-  }, [totalPoints]);
+    if (gameStates.counter > 0) {
+      handleAchievementUpdate();
+    }
+  }, [gameStates.counter, totalPoints.catchfood]);
 
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
@@ -275,14 +276,14 @@ export default function GamePage({
   }, [gameStates.gameOn, gameStates.gameHeight]);
 
   useEffect(() => {
-    if (gameStates.gameOn && gameStates.hunger <= 0) {
+    if (gameStates.hunger <= 0) {
       setGameStates((prevValues) => ({
         ...prevValues,
         gameOn: false,
       }));
-      onUpdatePetIndicator(0, "hunger");
+      onUpdatePetIndicator(gameStates.counter, "hunger");
     }
-  }, [gameStates.hunger, gameStates.gameOn, onUpdatePetIndicator]);
+  }, [gameStates.hunger]);
 
   useEffect(() => {
     if (gameStates.gameOn) {

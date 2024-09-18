@@ -152,8 +152,8 @@ export default function SnakeGame({
   useEffect(() => {
     function movePlayer() {
       if (!gameStates.gameOn) return;
+      moveChildren(gameStates.playerPosition);
       setGameStates((prevValues) => {
-        let prevPlayerPosition = { ...prevValues.playerPosition };
         let newPosition = { ...prevValues.playerPosition };
         let newFoodPosition;
         if (prevValues.direction === "ArrowUp") {
@@ -183,7 +183,6 @@ export default function SnakeGame({
           if (checkGameLost(newPosition, prevValues.children)) {
             return { playerPosition: prevValues.playerPosition, gameOn: false };
           }
-          moveChildren(prevPlayerPosition);
           return {
             playerPosition: newPosition,
             prevDirection: prevValues.direction,
