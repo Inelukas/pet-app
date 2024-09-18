@@ -7,14 +7,22 @@ import { uid } from "uid";
 import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 import { useRef } from "react";
 import PageButtons from "@/components/PageButtons/PageButtons";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function App({ Component, pageProps }) {
-  const [petCollection, setPetCollection] = useState([...pets]);
-  const [currentPetID, setCurrentPetID] = useState(
-    petCollection[0]?.id || null
+  const [petCollection, setPetCollection] = useLocalStorageState(
+    "PetCollection",
+    { defaultValue: [] }
   );
-  const [totalTimeSpent, setTotalTimeSpent] = useState(0);
-  const activePet = petCollection.find((pet) => pet.id === currentPetID);
+  const [currentPetID, setCurrentPetID] = useLocalStorageState(
+    "CurrentPetID",
+    /* petCollection[0]?.id  ||*/ null
+  );
+  const [totalTimeSpent, setTotalTimeSpent] = useLocalStorageState(
+    "TotalTimeSpent",
+    0
+  );
+  const activePet = petCollection?.find((pet) => pet.id === currentPetID);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -23,16 +31,20 @@ export default function App({ Component, pageProps }) {
   const router = useRouter();
 
   // Achievement state managed here
-  const [achievements, setAchievements] = useState({
-    food: [false, false, false, false, false],
-    play: [false, false, false, false, false],
-    furniture: [false, false, false, false, false],
+  const [achievements, setAchievements] = useLocalStorageState("Achievements", {
+    defaultValue: {
+      food: [false, false, false, false, false],
+      play: [false, false, false, false, false],
+      furniture: [false, false, false, false, false],
+    },
   });
 
-  const [totalPoints, setTotalPoints] = useState({
-    snake: 0,
-    tapping: 0,
-    catchfood: 0,
+  const [totalPoints, setTotalPoints] = useLocalStorageState("TotalPoints", {
+    defaultValue: {
+      snake: 0,
+      tapping: 0,
+      catchfood: 0,
+    },
   });
 
   // Function to update achievements

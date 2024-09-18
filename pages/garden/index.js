@@ -157,6 +157,7 @@ export default function Garden({
   setPetCollection,
   currentPetID,
   onCurrentPetID,
+  onCurrentPet,
   onDeadPet,
   onHealthFactor,
   onEnergyFactor,
@@ -217,40 +218,6 @@ export default function Garden({
       return () => clearTimeout(timer);
     }
   }, [showPopup]);
-
-  const [selectedAchievements] = useState({
-    food: null,
-    play: null,
-    furniture: null,
-  });
-  const achievementImages = {
-    food: [
-      { src: "/achievements/brokkoli.png" },
-      { src: "/achievements/ham.png" },
-      { src: "/achievements/sandwich.png" },
-      { src: "/achievements/burger.png" },
-      { src: "/achievements/cake.png" },
-    ],
-    play: [
-      { src: "/achievements/twig.png" },
-      { src: "/achievements/ball.png" },
-      { src: "/achievements/yarn.png" },
-      { src: "/achievements/rattle.png" },
-      { src: "/achievements/teddy.png" },
-    ],
-    furniture: [
-      { src: "/achievements/doghouse.png" },
-      { src: "/achievements/litter_box.png" },
-      { src: "/achievements/castle.png" },
-      { src: "/achievements/litter_box_throne.png" },
-      { src: "/achievements/hammock.png" },
-    ],
-  };
-  const achievementpositions = {
-    food: { top: "70vh", left: "-35vw" },
-    play: { top: "80vh", left: "0vw" },
-    furniture: { top: "65vh", left: "25vw" },
-  };
 
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
@@ -439,6 +406,7 @@ export default function Garden({
           activePet={activePet}
           petCollection={petCollection}
           onCurrentPetID={onCurrentPetID}
+          onCurrentPet={onCurrentPet}
         />
         {showPopup && <Popup message={unlockedAchievement} />}
       </GardenContainer>

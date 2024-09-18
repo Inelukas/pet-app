@@ -111,6 +111,7 @@ export default function PetSelection({
   animalList,
   currentImageIndex,
   hideButtons = false,
+  createPet,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -189,5 +190,5 @@ export default function PetSelection({
     );
   }
 
-  return !hideButtons ? renderNavBar() : renderPetSelection();
+  return !createPet ? renderNavBar() : renderPetSelection();
 }

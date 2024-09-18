@@ -91,8 +91,8 @@ export const StyledStartSpan = styled.span`
 `;
 
 export default function StartPage({ petCollection }) {
-  const buttonText = petCollection.length > 0 ? "Go to Garden" : "Create Pet";
-  const buttonLink = petCollection.length > 0 ? "/garden" : "/create";
+  const buttonText = petCollection?.length > 0 ? "Go to Garden" : "Create Pet";
+  const buttonLink = petCollection?.length > 0 ? "/garden" : "/create";
 
   return (
     <StyledStartPage>
