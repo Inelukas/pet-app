@@ -49,6 +49,18 @@ export const GameButton = styled.button`
   margin: 0 6px;
   background: ${({ $color }) => ($color ? $color : "var(--signal-gradient)")};
   box-shadow: var(--global-shadow);
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--secondary-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--neutral-gradient);
+  }
 `;
 
 export default function ButtonContainer({

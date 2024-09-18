@@ -260,7 +260,7 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           </StyledUpdateButton>
         </PetPictureContainer>
         <PetCharContainer>
-          Personality: {pet.characteristics.join(", ")}
+          <b>Personality:&nbsp;</b> {pet.characteristics.join(", ")}
         </PetCharContainer>
         <PetStatusContainer>
           {petStatus.map((status, index) => (

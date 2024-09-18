@@ -62,7 +62,6 @@ const VerticalBarContainer = styled.section`
   align-items: flex-end;
   margin-top: 10px;
 `;
-
 const VerticalBar = styled.section`
   width: 20px;
   height: 100px;
@@ -72,7 +71,12 @@ const VerticalBar = styled.section`
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-  border: ${({ $critical }) => ($critical ? "2px solid red" : "none")};
+
+  border: 1px solid
+    ${({ $critical }) => ($critical ? "red" : "var(--neutral-gradient)")};
+
+  box-sizing: border-box;
+
   animation: ${({ $critical }) =>
     $critical
       ? css`
@@ -80,7 +84,6 @@ const VerticalBar = styled.section`
         `
       : "none"};
 `;
-
 const VerticalBarFill = styled.section`
   width: 100%;
   background: ${(props) => props.$bgcolor};
@@ -99,7 +102,8 @@ const HorizontalBar = styled.section`
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
-  border: ${({ $critical }) => ($critical ? "2px solid red" : "none")};
+  border: 1px solid
+    ${({ $critical }) => ($critical ? "red" : "var(--neutral-gradient)")};
   animation: ${({ $critical }) =>
     $critical
       ? css`
@@ -182,10 +186,10 @@ export default function Garden({
   onCurrentPetID,
   onCurrentPet,
   onDeadPet,
-  onHealthFactor,
-  onEnergyFactor,
-  onHappinessFactor,
-  onHungerFactor,
+  onhealthFactor,
+  onenergyFactor,
+  onhappinessFactor,
+  onhungerFactor,
   onSpeedFactor,
 }) {
   useEffect(() => {
@@ -204,28 +208,28 @@ export default function Garden({
                 hunger: calculateIndicatorValue(
                   "hunger",
                   hunger,
-                  onHungerFactor(activePet.characteristics),
+                  onhungerFactor(activePet.characteristics),
                   intelligenceFactor
                 ),
 
                 happiness: calculateIndicatorValue(
                   "happiness",
                   happiness,
-                  onHappinessFactor(activePet.characteristics),
+                  onhappinessFactor(activePet.characteristics),
                   intelligenceFactor
                 ),
 
                 energy: calculateIndicatorValue(
                   "energy",
                   energy,
-                  onEnergyFactor(activePet.characteristics),
+                  onenergyFactor(activePet.characteristics),
                   intelligenceFactor
                 ),
 
                 health: calculateIndicatorValue(
                   "health",
                   health,
-                  onHealthFactor(activePet.characteristics),
+                  onhealthFactor(activePet.characteristics),
                   intelligenceFactor,
                   hunger,
                   happiness,
@@ -281,7 +285,7 @@ export default function Garden({
                 activePet.status.health <= 25 && activePet.status.health !== 0
               }
             >
-              <HeartIcon src={heartIcon} alt="Heart Icon" width={20} />
+              <HeartIcon src={heartIcon} alt="Heart Icon" width={18} />
               <HorizontalBarFill value={activePet.status.health} />
             </HorizontalBar>
             <VerticalBarContainer>
@@ -290,7 +294,7 @@ export default function Garden({
                   activePet.status.hunger >= 75 && activePet.status.health !== 0
                 }
               >
-                <Icon src={hungerIcon} alt="Hunger Icon" width={20} />
+                <Icon src={hungerIcon} alt="hunger Icon" width={18} />
                 <VerticalBarFill
                   $bgcolor="var(--hunger-gradient)"
                   value={activePet.status.hunger}
@@ -302,7 +306,7 @@ export default function Garden({
                   activePet.status.health !== 0
                 }
               >
-                <Icon src={happinessIcon} alt="Happiness Icon" width={20} />
+                <Icon src={happinessIcon} alt="happiness Icon" width={18} />
                 <VerticalBarFill
                   $bgcolor="var(--happiness-gradient)"
                   value={activePet.status.happiness}
@@ -313,7 +317,7 @@ export default function Garden({
                   activePet.status.energy <= 25 && activePet.status.health !== 0
                 }
               >
-                <Icon src={energyIcon} alt="Energy Icon" width={20} />
+                <Icon src={energyIcon} alt="energy Icon" width={18} />
                 <VerticalBarFill
                   $bgcolor="var(--energy-gradient)"
                   value={activePet.status.energy}
@@ -329,21 +333,21 @@ export default function Garden({
               $bgcolor="var(--hunger-gradient)"
               disabled={!activePet.isAlive || activePet.status.hunger === 0}
             >
-              <Image src={hungerIcon} alt="Hunger Icon" width={30} />
+              <Image src={hungerIcon} alt="hunger Icon" width={30} />
             </StatusLink>
             <StatusLink
               href={activePet.isAlive ? "/snake" : ""}
               $bgcolor="var(--happiness-gradient)"
               disabled={!activePet.isAlive}
             >
-              <Image src={happinessIcon} alt="Happiness Icon" width={30} />
+              <Image src={happinessIcon} alt="happiness Icon" width={30} />
             </StatusLink>
             <StatusLink
               href={activePet.isAlive ? "/tapping" : ""}
               $bgcolor="var(--energy-gradient)"
               disabled={!activePet.isAlive}
             >
-              <Image src={energyIcon} alt="Energy Icon" width={30} />
+              <Image src={energyIcon} alt="energy Icon" width={30} />
             </StatusLink>
           </ButtonContainer>
         )}

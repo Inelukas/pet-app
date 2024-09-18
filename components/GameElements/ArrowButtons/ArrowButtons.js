@@ -19,6 +19,18 @@ const StyledMoveButton = styled.button`
   top: ${({ $topPosition }) => $topPosition};
   left: ${({ $leftPosition }) => $leftPosition};
   box-shadow: var(--global-shadow);
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--signal-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 `;
 
 export default function ArrowButtons({ onDirection, hide, gameOn }) {

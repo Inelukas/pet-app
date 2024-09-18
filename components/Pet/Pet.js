@@ -47,6 +47,8 @@ const StyledPortrait = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 5px solid var(--secondary-gradient);
+
   box-shadow: var(--global-shadow);
   border-radius: 50%;
   background: ${({ $currentPet }) =>

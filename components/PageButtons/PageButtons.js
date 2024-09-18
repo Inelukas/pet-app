@@ -94,7 +94,7 @@ export default function PageButtons({ router, activePet }) {
               <StyledImage
                 src={achievementsIcon}
                 alt="Achievements Icon"
-                width={40}
+                width={30}
               />
             </Link>
           </PageButton>

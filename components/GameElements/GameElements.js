@@ -11,7 +11,7 @@ export const StyledGamePage = styled.main`
   background: var(--neutral-gradient);
   position: fixed;
   @media screen and (min-width: 1200px) {
-    width: 60%;
+    width: 100%;
   }
 `;
 
