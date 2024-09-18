@@ -40,7 +40,8 @@ input, select, textarea {
 
 
 body {
-    background: var(--primary-gradient); 
+    background: ${({ $isGraveyard }) =>
+      $isGraveyard ? "var(--graveyard-gradient)" : "var(--primary-gradient)"};
     background-size: cover; 
     background-repeat: no-repeat; 
     background-attachment: fixed; 

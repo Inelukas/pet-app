@@ -18,7 +18,7 @@ export const StyledPet = styled.li`
       : "var(--secondary-gradient)"};
   width: 80vw;
   max-width: 600px;
-  height: ${({ $onGraveyard }) => ($onGraveyard ? "25vh" : "20vh")};
+  height: 20vh;
   min-height: 150px;
   gap: 10%;
   position: relative;

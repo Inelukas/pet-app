@@ -199,7 +199,7 @@ export default function App({ Component, pageProps }) {
   }
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle $isGraveyard={router.pathname === "/graveyard"} />
       <Header />
       <Component
         {...pageProps}

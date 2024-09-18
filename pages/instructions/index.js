@@ -23,21 +23,29 @@ const StyledFirstWord = styled.span`
   border-radius: 10px;
   padding: 5px;
   cursor: pointer;
-  background-color: var(--signal-color);
-  background-image: var(--button-image);
-  font-family: sans-serif;
+  background: var(--signal-gradient);
 
-  color: #000000;
   box-shadow: var(--global-shadow);
   text-decoration: none;
   min-width: 350px;
+
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--secondary-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 
   &:hover {
     transform: scale(1.1);
   }
 
   &:active {
-    background-color: var(--secondary-color);
+    background: var(--neutral-gradient);
   }
 
   @media (min-width: 600px) {
