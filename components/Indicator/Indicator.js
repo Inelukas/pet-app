@@ -36,11 +36,11 @@ const StyledBarContainer = styled.div`
 `;
 
 const colorMap = {
-  health: "#90ee90",
-  happiness: "#ffc0cb",
-  hunger: "#ffa500",
-  energy: "#ffff00",
-  intelligence: "#add8e6",
+  health: "linear-gradient(90deg, #76c893, #90ee90, #c7e9b0)",
+  happiness: "linear-gradient(90deg, #ff69b4, #ffc0cb, #ffb6c1)",
+  hunger: "linear-gradient(90deg, #ff8c00, #ffa500, #ffd700)",
+  energy: "linear-gradient(90deg, #ffff99, #ffff00, #ffd700)",
+  intelligence: "linear-gradient(90deg, #87cefa, #add8e6, #b0e0e6)",
 };
 
 const StyledBar = styled.div`

@@ -73,11 +73,13 @@ export const StartPageGardenLink = styled(StyledLink)`
     font-size: 2rem;
     padding: 50px 120px;
   }
+
+  background: var(--signal-gradient);
 `;
 
 const InstructionsLink = styled(StyledLink)`
   border-radius: 10px;
-
+  background: var(--signal-gradient);
   height: 2rem;
   font-size: 0.7rem;
   padding: 15px 35px;
@@ -96,28 +98,6 @@ const InstructionsLink = styled(StyledLink)`
   @media (min-width: 1200px) {
     font-size: 1.7rem;
     padding: 30px 90px;
-  }
-`;
-
-export const StyledStartSpan = styled.span`
-  font-size: large;
-  background: linear-gradient(90deg, #d5ed9f, #ff9100, #fffbe6);
-  background-clip: border-box;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900;
-  text-align: center;
-
-  @media (min-width: 600px) {
-    font-size: 2rem;
-  }
-
-  @media (min-width: 900px) {
-    font-size: 2.5rem;
-  }
-
-  @media (min-width: 1200px) {
-    font-size: 3rem;
   }
 `;
 
@@ -140,9 +120,6 @@ export default function StartPage({ petCollection }) {
         </StartPageGardenLink>
         <InstructionsLink href="/instructions">Instructions</InstructionsLink>
       </StartButtonContainer>
-      <StyledStartSpan>
-        Create your own Pet - Feed it, train it, keep it happy!
-      </StyledStartSpan>
     </StyledStartPage>
   );
 }

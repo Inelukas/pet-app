@@ -18,15 +18,16 @@ const DetailsContainer = styled.section`
   flex-direction: column;
   align-items: center;
   margin: 0 5vw;
+
   padding: 10px;
   width: 90%;
   max-width: 800px;
   height: 500px;
   min-height: 60vh;
-  background-color: var(--secondary-color);
-  border: 3px solid #000000;
+  background: transparent;
+
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+
   font-size: 1rem;
 
   @media screen and (min-width: 600px) {
@@ -36,14 +37,14 @@ const DetailsContainer = styled.section`
 
 const PetPictureContainer = styled.section`
   display: flex;
+  box-shadow: 3px 3px 3px #000;
   flex-direction: column;
   align-items: center;
   position: absolute;
-  background-color: var(--secondary-color);
+  background: var(--secondary-gradient);
   padding: 15px;
   border-radius: 10px;
-  border: 3px solid #000000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+
   margin-bottom: 20px;
   width: 100%;
   position: relative;
@@ -55,8 +56,8 @@ const PetPicture = styled.section`
   justify-content: center;
   position: relative;
   border-radius: 10px;
-  border: 1.5px solid #000000;
-  background-color: var(--neutral-color);
+  box-shadow: 3px 3px 3px #000;
+  background: var(--signal-gradient);
   margin-bottom: 10px;
   padding: 5px;
 `;
@@ -68,24 +69,24 @@ const PetName = styled.p`
   text-align: center;
   margin: 5px;
   padding: 5px;
-  background-color: var(--neutral-color);
-  border: 1.5px solid #000000;
+  background: var(--signal-gradient);
+
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 3px 3px 3px #000;
 `;
 
 const PetCharContainer = styled.section`
   display: flex;
   justify-content: center;
-  background-color: var(--secondary-color);
+  background: var(--secondary-gradient);
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 20px;
   width: 100%;
   text-align: center;
-  border: 3px solid #000000;
+
   color: var(--text-color);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 3px 3px 3px #000;
 `;
 
 const PetStatusContainer = styled.section`
@@ -93,12 +94,12 @@ const PetStatusContainer = styled.section`
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  background-color: var(--secondary-color);
+  background: var(--secondary-gradient);
   border-radius: 10px;
   padding: 15px;
   width: 100%;
-  border: 3px solid #000000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  box-shadow: 3px 3px 3px #000;
   margin-bottom: 20px;
 `;
 
@@ -115,11 +116,10 @@ const StyledDeleteContainer = styled.section`
   width: 300px;
   font-size: 0.9rem;
   padding: 20px;
-  background-color: var(--primary-color);
-  color: #ffffff;
-  border: 2px solid #ff0000;
+  background: var(--primary-gradient);
+
   border-radius: 15px;
-  box-shadow: 2px 2px #000000;
+  box-shadow: 3px 3px 3px #000;
   z-index: 2;
   cursor: pointer;
 

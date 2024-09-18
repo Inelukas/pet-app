@@ -28,11 +28,11 @@ const StyledIndicatorContainer = styled.div`
   width: 70%;
   max-width: 600px;
   height: 30%;
-  min-height: 200px;
-  border: 2px solid #000000;
-  background: var(--secondary-color);
+  min-height: 120px;
+
+  background: var(--secondary-gradient);
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px #000000;
+  box-shadow: 3px 3px 3px #000;
   padding: 0 15px;
 `;
 
@@ -42,12 +42,11 @@ const StyledForm = styled.form`
   width: 80vw;
   max-width: 800px;
   height: 30vh;
-  min-height: 250px;
-  border: 3px solid #000000;
+  min-height: 150px;
   padding: 10px;
-  background: var(--secondary-color);
+  background: var(--secondary-gradient);
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px #000000;
+  box-shadow: 3px 3px 3px #000;
   font-size: 0.8rem;
   font-weight: 800;
 
@@ -71,7 +70,7 @@ const StyledFormArticle = styled.article`
 
   label,
   input {
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     padding: 5px;
     width: 70%;
     border-radius: 10px;
@@ -203,6 +202,7 @@ export default function CreatePetForm({
         animalList={animalList}
         currentImageIndex={currentImageIndex}
         hideButtons={hideButtons}
+        size="small"
       />
 
       <StyledForm onSubmit={handleSubmit} id="create-pet">

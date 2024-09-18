@@ -5,16 +5,14 @@ import reviveIcon from "../../public/assets/revive.png";
 
 export const StyledPet = styled.li`
   display: flex;
-  border: ${({ $currentPet }) =>
-    $currentPet ? "5px solid orange" : "5px solid black"};
+  box-shadow: 3px 3px 3px #000;
+  border: ${({ $currentPet }) => ($currentPet ? "2px solid orange" : "none")};
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
   align-items: center;
   background: ${({ $onGraveyard }) =>
-    $onGraveyard
-      ? "linear-gradient(90deg, #ffffff, #d3d3d3, #808080)"
-      : "var(--secondary-color)"};
+    $onGraveyard ? "var(--graveyard-gradient)" : "var(--secondary-gradient)"};
   width: 80vw;
   max-width: 600px;
   height: ${({ $onGraveyard }) => ($onGraveyard ? "25vh" : "20vh")};
@@ -45,9 +43,9 @@ const StyledPortrait = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid black;
+  box-shadow: 3px 3px 3px #000;
   border-radius: 50%;
-  background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
+  background: var(--signal-gradient);
   position: relative;
   width: 90px;
   height: 90px;
@@ -84,9 +82,9 @@ export const StyledList = styled.ul`
 
 const ReviveButton = styled(ConfirmButton)`
   align-self: flex-end;
-  background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
-  width: 2.3rem;
-  height: 2.3rem;
+  background: var(--signal-gradient);
+  width: 2.5rem;
+  height: 2.5rem;
 `;
 
 export default function Pet({ petData, onGraveyard, currentPetID }) {

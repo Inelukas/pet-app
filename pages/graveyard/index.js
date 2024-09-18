@@ -6,6 +6,7 @@ import { StyledPetList } from "../pet-list";
 const GraveyardMain = styled.main`
   display: flex;
   justify-content: center;
+  background: var(--graveyard-gradient);
 `;
 
 const GraveyardContainer = styled(GardenContainer)`
