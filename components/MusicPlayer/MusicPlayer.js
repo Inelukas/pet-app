@@ -112,7 +112,7 @@ const VolumeControl = styled(motion.input)`
   }
 `;
 
-const MusicPlayer = ({
+function MusicPlayer({
   isPlaying,
   volume,
   isExpanded,
@@ -120,7 +120,7 @@ const MusicPlayer = ({
   onVolumeChange,
   onTogglePlayer,
   onPlay,
-}) => {
+}) {
   return (
     <>
       <PlayerWrapper>
@@ -186,6 +186,6 @@ const MusicPlayer = ({
       </PlayerWrapper>
     </>
   );
-};
+}
 
 export default MusicPlayer;

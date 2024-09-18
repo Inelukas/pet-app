@@ -224,7 +224,7 @@ export default function App({ Component, pageProps }) {
     }
   }, [router.pathname]);
 
-  const togglePlayPause = () => {
+  function togglePlayPause() {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -233,18 +233,18 @@ export default function App({ Component, pageProps }) {
       }
       setIsPlaying(!isPlaying);
     }
-  };
+  }
 
-  const handleVolumeChange = (value) => {
+  function handleVolumeChange(value) {
     if (audioRef.current) {
       audioRef.current.volume = value / 100;
     }
     setVolume(value);
-  };
+  }
 
-  const togglePlayer = () => {
+  function togglePlayer() {
     setIsExpanded(!isExpanded);
-  };
+  }
 
   function handlePlay() {
     audioRef.current.currentTime = 0;
@@ -256,6 +256,14 @@ export default function App({ Component, pageProps }) {
       audioRef.current.volume = volume / 100;
     }
   }, [volume]);
+
+  const includedRoutes = [
+    "/",
+    "/garden",
+    "/snake",
+    "/tapping",
+    "/game-catch-the-food",
+  ];
 
   return (
     <>
@@ -284,22 +292,18 @@ export default function App({ Component, pageProps }) {
         onPetCollection={setPetCollection}
       />
       <audio ref={audioRef} src={soundtrack} preload="auto" loop />
-      {router.pathname !== "/pet-list" &&
-        !router.pathname.includes("/pet-details") &&
-        router.pathname !== "/create" &&
-        router.pathname !== "/update" &&
-        router.pathname !== "/graveyard" && (
-          <MusicPlayer
-            isPlaying={isPlaying}
-            volume={volume}
-            isExpanded={isExpanded}
-            audioRef={audioRef}
-            onTogglePlayPause={togglePlayPause}
-            onVolumeChange={handleVolumeChange}
-            onTogglePlayer={togglePlayer}
-            onPlay={handlePlay}
-          />
-        )}
+      {includedRoutes.includes(router.pathname) && (
+        <MusicPlayer
+          isPlaying={isPlaying}
+          volume={volume}
+          isExpanded={isExpanded}
+          audioRef={audioRef}
+          onTogglePlayPause={togglePlayPause}
+          onVolumeChange={handleVolumeChange}
+          onTogglePlayer={togglePlayer}
+          onPlay={handlePlay}
+        />
+      )}
     </>
   );
 }
