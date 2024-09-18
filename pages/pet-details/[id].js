@@ -6,6 +6,9 @@ import { useState } from "react";
 import Image from "next/image";
 import deleteIcon from "../../public/assets/delete.png";
 import updateIcon from "../../public/assets/edit.png";
+import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
+import cancelIcon from "../../public/assets/cancel.png";
+import confirmIcon from "../../public/assets/confirm.png";
 
 const DetailsPage = styled.main`
   height: 80vh;
@@ -85,7 +88,6 @@ const PetCharContainer = styled.section`
   width: 100%;
   text-align: center;
 
-  color: var(--text-color);
   box-shadow: var(--global-shadow);
 `;
 
@@ -98,7 +100,7 @@ const PetStatusContainer = styled.section`
   border-radius: 10px;
   padding: 15px;
   width: 100%;
-
+  text-transform: capitalize;
   box-shadow: var(--global-shadow);
   margin-bottom: 20px;
 `;
@@ -134,42 +136,45 @@ const DeleteButtonContainer = styled.div`
   gap: 30px;
 `;
 
-const DeleteButtonChoice = styled.span`
-  &:hover {
-    transform: scale(1.2);
-    text-decoration: underline;
-  }
-`;
-
 const StyledDeleteButton = styled.button`
   border: none;
-  background: none;
+  background: var(--signal-gradient);
   cursor: pointer;
+  width: 35px;
+  height: 35px;
   position: absolute;
   right: 12px;
-  opacity: 0.5;
-  color: #ffffff;
-
+  box-shadow: var(--global-shadow);
+  border-radius: 50px;
+  background-size: contain;
   &:hover {
     transform: scale(1.2);
-    opacity: 1;
-    box-shadow: var(--global-shadow);
-    border-radius: 20px;
+
+    background: var(--secondary-gradient);
   }
 `;
 
-const StyledUpdateButton = styled.div`
+const StyledUpdateButton = styled.button`
+  border: none;
   position: absolute;
   top: 60px;
-  right: 10px;
-  opacity: 0.5;
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  background: var(--signal-gradient);
+  right: 12px;
+  background-size: contain;
   cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
-
+  box-shadow: var(--global-shadow);
   &:hover {
     transform: scale(1.2);
-    opacity: 1;
-    box-shadow: var(--global-shadow);
-    border-radius: 20px;
+    background: var(--secondary-gradient);
+  }
+`;
+
+const DeleteChoiceButton = styled(ConfirmButton)`
+  &:hover {
+    background: var(--primary-gradient);
   }
 `;
 
@@ -202,11 +207,11 @@ export default function PetDetails({ petCollection, onDeletePet }) {
   }
 
   const petStatus = [
-    { name: "Health", count: pet.status.Health },
-    { name: "Happiness", count: pet.status.Happiness },
-    { name: "Hunger", count: pet.status.Hunger },
-    { name: "Energy", count: pet.status.Energy },
-    { name: "Intelligence", count: pet.status.Intelligence },
+    { name: "health", count: pet.status.health },
+    { name: "happiness", count: pet.status.happiness },
+    { name: "hunger", count: pet.status.hunger },
+    { name: "energy", count: pet.status.energy },
+    { name: "intelligence", count: pet.status.intelligence },
   ];
 
   return (
@@ -235,12 +240,22 @@ export default function PetDetails({ petCollection, onDeletePet }) {
               <StyledDeleteContainer>
                 <p>Are you sure you want to delete your Pet?</p>
                 <DeleteButtonContainer>
-                  <DeleteButtonChoice onClick={confirmDelete}>
-                    Yes
-                  </DeleteButtonChoice>
-                  <DeleteButtonChoice onClick={handleDelete}>
-                    No
-                  </DeleteButtonChoice>
+                  <DeleteChoiceButton onClick={confirmDelete}>
+                    <Image
+                      src={confirmIcon}
+                      alt="Confirm Icon"
+                      width={40}
+                      height={40}
+                    />
+                  </DeleteChoiceButton>
+                  <DeleteChoiceButton onClick={handleDelete}>
+                    <Image
+                      src={cancelIcon}
+                      alt="Cancel Icon"
+                      width={40}
+                      height={40}
+                    />
+                  </DeleteChoiceButton>
                 </DeleteButtonContainer>
               </StyledDeleteContainer>
             )}

@@ -81,7 +81,7 @@ export default function GamePage({
     gameTime: 0,
     startTime: null,
     score: 0,
-    Hunger: activePet?.status.Hunger,
+    hunger: activePet?.status.hunger,
     instructions: false,
     gameWidth: 270,
     gameHeight: 400,
@@ -189,7 +189,7 @@ export default function GamePage({
         counter: 0,
         items: [],
         startTime: Date.now(),
-        Hunger: activePet?.status.Hunger,
+        hunger: activePet?.status.hunger,
       }));
     }
   }
@@ -256,10 +256,10 @@ export default function GamePage({
                 setGameStates((prevState) => ({
                   ...prevState,
                   counter: prevState.counter + 1,
-                  Hunger:
+                  hunger:
                     item.type === "good"
-                      ? prevState.Hunger - 5
-                      : prevState.Hunger + 5,
+                      ? prevState.hunger - 5
+                      : prevState.hunger + 5,
                 }));
                 return false;
               }
@@ -275,14 +275,14 @@ export default function GamePage({
   }, [gameStates.gameOn, gameStates.gameHeight]);
 
   useEffect(() => {
-    if (gameStates.gameOn && gameStates.Hunger <= 0) {
+    if (gameStates.gameOn && gameStates.hunger <= 0) {
       setGameStates((prevValues) => ({
         ...prevValues,
         gameOn: false,
       }));
-      onUpdatePetIndicator(0, "Hunger");
+      onUpdatePetIndicator(0, "hunger");
     }
-  }, [gameStates.Hunger, gameStates.gameOn, onUpdatePetIndicator]);
+  }, [gameStates.hunger, gameStates.gameOn, onUpdatePetIndicator]);
 
   useEffect(() => {
     if (gameStates.gameOn) {
@@ -300,7 +300,7 @@ export default function GamePage({
     }
   }, [gameStates.gameOn, gameStates.startTime]);
 
-  if (!gameStates.gameOn && gameStates.Hunger <= 0) {
+  if (!gameStates.gameOn && gameStates.hunger <= 0) {
     return (
       <SummaryScreen
         itemsCaught={gameStates.counter}
@@ -324,8 +324,8 @@ export default function GamePage({
         <StyledIndicatorContainer>
           <Indicator
             data={{
-              name: "Hunger",
-              count: gameStates.Hunger,
+              name: "hunger",
+              count: gameStates.hunger,
             }}
             showBarName={false}
           />

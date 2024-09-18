@@ -27,7 +27,7 @@ const StyledBarContainer = styled.div`
   border: 2px solid #000000;
   text-align: right;
   padding: 1px 5px;
-  background-color: #ffffff;
+  background: var(--neutral-gradient);
   position: relative;
   box-shadow: var(--global-shadow);
 
@@ -37,11 +37,11 @@ const StyledBarContainer = styled.div`
 `;
 
 const colorMap = {
-  Health: "var(--Health-gradient)",
-  Happiness: "var(--Happiness-gradient)",
-  Hunger: "var(--Hunger-gradient)",
-  Energy: "var(--Energy-gradient)",
-  Intelligence: "var(--Intelligence-gradient)",
+  health: "var(--health-gradient)",
+  happiness: "var(--happiness-gradient)",
+  hunger: "var(--hunger-gradient)",
+  energy: "var(--energy-gradient)",
+  intelligence: "var(--intelligence-gradient)",
 };
 
 const StyledBar = styled.div`
@@ -52,7 +52,8 @@ const StyledBar = styled.div`
   top: 0;
 
   width: ${({ width }) => width};
-  background: ${({ name }) => colorMap[name] || "#808080"};
+  background: ${({ width, name }) =>
+    parseInt(width) > 0 ? colorMap[name] : "none"};
 `;
 
 export default function Indicator({ data, showBarName = true }) {
@@ -61,7 +62,7 @@ export default function Indicator({ data, showBarName = true }) {
       {showBarName ? <h3>{data.name}:</h3> : null}
       <StyledBarContainer>
         <StyledBar width={`${data.count}%`} name={data.name}>
-          {data.count}/100&nbsp;
+          {data.count || 0}/100&nbsp;
         </StyledBar>
       </StyledBarContainer>
     </StyledIndicator>

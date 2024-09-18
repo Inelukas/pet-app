@@ -92,7 +92,7 @@ export default function SnakeGame({
       const itemSound = new Audio("/assets/music/fail.mp3");
       itemSound.volume = 0.05;
       itemSound.play();
-      onUpdatePetIndicator(gameStates.score, "Happiness");
+      onUpdatePetIndicator(gameStates.score, "happiness");
     }
   }, [gameStates.gameOn]);
 
@@ -327,7 +327,7 @@ export default function SnakeGame({
     });
   }
 
-  if (!gameStates.gameOn && activePet?.status.Happiness === 100) {
+  if (!gameStates.gameOn && activePet?.status.happiness === 100) {
     return <SummaryScreen itemsCaught={gameStates.score} snake={true} />;
   }
 
@@ -361,13 +361,13 @@ export default function SnakeGame({
           <Indicator
             showBarName={false}
             data={{
-              name: "Happiness",
+              name: "happiness",
               count: gameStates.gameOn
                 ? Math.min(
-                    activePet?.status.Happiness + gameStates.score * 5,
+                    activePet?.status.happiness + gameStates.score * 5,
                     100
                   )
-                : activePet?.status.Happiness,
+                : activePet?.status.happiness,
             }}
           />
         </StyledIndicatorContainer>

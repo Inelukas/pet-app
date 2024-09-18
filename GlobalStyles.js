@@ -15,11 +15,11 @@ export const GlobalStyle = createGlobalStyle`
     --signal-gradient: linear-gradient(135deg, #FFFFFF, #FF9100, #FF5722); 
     --neutral-gradient: linear-gradient(135deg, #FFFFFF, #F7E9D7, #D2BDA6);
     --graveyard-gradient: linear-gradient(135deg, #2c3e50, #4a6572, #95a5a6);
-    --Energy-gradient: linear-gradient(90deg, #ffff99, #ffff00, #ffd700);
-    --Happiness-gradient: linear-gradient(90deg, #ff69b4, #ffc0cb, #ffb6c1);
-    --Hunger-gradient: linear-gradient(90deg, #ff8c00, #ffa500, #ffd700);
-    --Health-gradient: linear-gradient(90deg, #76c893, #90ee90, #c7e9b0);
-    --Intelligence-gradient: linear-gradient(90deg, #87cefa, #add8e6, #b0e0e6); 
+    --energy-gradient: linear-gradient(90deg, #ffff99, #ffff00, #ffd700);
+    --happiness-gradient: linear-gradient(90deg, #ff69b4, #ffc0cb, #ffb6c1);
+    --hunger-gradient: linear-gradient(90deg, #ff8c00, #ffa500, #ffd700);
+    --health-gradient: linear-gradient(90deg, #76c893, #90ee90, #c7e9b0);
+    --intelligence-gradient: linear-gradient(90deg, #87cefa, #add8e6, #b0e0e6); 
     --global-shadow: 3px 3px 3px #000; 
 }
 
@@ -36,6 +36,7 @@ input, select, textarea {
     font-family: 'Ink Free', sans-serif; 
     color: black; 
     font-weight: bold; 
+    background: var(--neutral-gradient); 
 }
 
 
