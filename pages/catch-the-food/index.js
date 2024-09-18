@@ -310,8 +310,6 @@ export default function GamePage({
     );
   }
 
-  console.log(gameStates.counter);
-
   return (
     <StyledGamePage>
       {gameStates.showPopup && (

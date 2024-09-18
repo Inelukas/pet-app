@@ -181,8 +181,6 @@ export default function Garden({
     return () => clearInterval(interval);
   }, [onTotalTimeSpent, activePet.isAlive]);
 
-  console.log(activePet.isAlive, totalTimeSpent);
-
   useEffect(() => {
     if (totalTimeSpent >= 10) {
       let achievementUnlocked = false;
