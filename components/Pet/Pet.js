@@ -102,7 +102,6 @@ export default function Pet({ petData, onGraveyard, currentPetID }) {
             alt={petData.name || "A cute pet"}
             width={50}
             height={50}
-            quality={100}
           />
         ) : petData.isRevived ? (
           <Image
@@ -110,15 +109,13 @@ export default function Pet({ petData, onGraveyard, currentPetID }) {
             alt="Ghost"
             width={75}
             height={75}
-            quality={100}
           />
         ) : (
           <Image
             src="/assets/images/tombstone.png"
-            alt="Tombstone"
+            alt={petData.name || "Tombstone"}
             width={75}
             height={75}
-            quality={100}
           />
         )}
       </StyledPortrait>
@@ -153,12 +150,6 @@ export default function Pet({ petData, onGraveyard, currentPetID }) {
               <Image src={reviveIcon} alt="Confirm Icon" width={40} />
             </ReviveButton>
           </>
-        )}
-
-        {petData.isRevived && (
-          <p>
-            <span>Status:</span> Revived
-          </p>
         )}
       </StyledPetData>
     </StyledPet>
