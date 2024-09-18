@@ -32,6 +32,11 @@ const Column = styled.div`
   box-shadow: var(--global-shadow);
 `;
 
+const ColumnHeading = styled.h1`
+  margin-bottom: 10px;
+  text-transform: capitalize;
+`;
+
 const ImageList = styled.ul`
   list-style-type: none;
   padding: 0;
@@ -76,7 +81,7 @@ export default function AchievementsPage({ achievements }) {
       <Columns>
         {Object.keys(achievementImages).map((category) => (
           <Column key={category}>
-            <h1>{category}</h1>
+            <ColumnHeading>{category}</ColumnHeading>
             <ImageList>
               {achievementImages[category].map((item, index) => (
                 <ImageListItem

@@ -40,6 +40,21 @@ export const GardenContainer = styled.div`
   }
 `;
 
+const PetName = styled.h1`
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+
+  background: var(--signal-gradient);
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-align: center;
+  z-index: 5;
+  box-shadow: var(--global-shadow);
+`;
+
 const PetWrapper = styled.div`
   position: absolute;
   bottom: 10%;
@@ -331,6 +346,7 @@ export default function Garden({
   return (
     <GardenPage>
       <GardenContainer>
+        {activePet && <PetName>{activePet?.name}</PetName>}
         {activePet && (
           <StatusContainer>
             <HorizontalBar
