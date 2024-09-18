@@ -150,7 +150,7 @@ const StyledDeleteButton = styled.button`
   &:hover {
     transform: scale(1.2);
 
-    background: var(--secondary-gradient);
+    background: var(--neutral-gradient);
   }
 `;
 
@@ -168,7 +168,7 @@ const StyledUpdateButton = styled.button`
   box-shadow: var(--global-shadow);
   &:hover {
     transform: scale(1.2);
-    background: var(--secondary-gradient);
+    background: var(--neutral-gradient);
   }
 `;
 
