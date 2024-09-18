@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }) {
   );
   const [currentPetID, setCurrentPetID] = useLocalStorageState(
     "CurrentPetID",
-    /* petCollection[0]?.id  ||*/ null
+    null
   );
   const [totalTimeSpent, setTotalTimeSpent] = useLocalStorageState(
     "TotalTimeSpent",

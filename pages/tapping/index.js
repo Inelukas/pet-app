@@ -343,7 +343,7 @@ export default function TappingGame({
     }
   }
 
-  if (!gameStates.gameOn && activePet.status.energy === 100) {
+  if (!gameStates.gameOn && activePet?.status.energy === 100) {
     return <SummaryScreen itemsCaught={gameStates.score} tapping={true} />;
   }
 
@@ -372,8 +372,8 @@ export default function TappingGame({
             data={{
               name: "energy",
               count: gameStates.gameOn
-                ? Math.min(activePet.status.energy + gameStates.score * 2, 100)
-                : activePet.status.energy,
+                ? Math.min(activePet?.status.energy + gameStates.score * 2, 100)
+                : activePet?.status.energy,
             }}
           />
         </StyledIndicatorContainer>
@@ -389,7 +389,7 @@ export default function TappingGame({
             key={index}
             $isActive={gameStates.activeCircles.includes(index)}
             $isWrongActive={gameStates.activeWrongCircles.includes(index)}
-            $petImage={activePet.picture}
+            $petImage={activePet?.picture}
             onClick={() => handleCircleClick(index)}
           />
         ))}

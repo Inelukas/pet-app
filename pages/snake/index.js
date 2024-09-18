@@ -213,7 +213,7 @@ export default function SnakeGame({
 
     const moveInterval = setInterval(
       movePlayer,
-      100 * onSpeedFactor(activePet.characteristics) + 50
+      100 * onSpeedFactor(activePet?.characteristics) + 50
     );
     return () => clearInterval(moveInterval);
   }, [
@@ -327,7 +327,7 @@ export default function SnakeGame({
     });
   }
 
-  if (!gameStates.gameOn && activePet.status.happiness === 100) {
+  if (!gameStates.gameOn && activePet?.status.happiness === 100) {
     return <SummaryScreen itemsCaught={gameStates.score} snake={true} />;
   }
 
@@ -364,10 +364,10 @@ export default function SnakeGame({
               name: "happiness",
               count: gameStates.gameOn
                 ? Math.min(
-                    activePet.status.happiness + gameStates.score * 5,
+                    activePet?.status.happiness + gameStates.score * 5,
                     100
                   )
-                : activePet.status.happiness,
+                : activePet?.status.happiness,
             }}
           />
         </StyledIndicatorContainer>

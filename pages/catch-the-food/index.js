@@ -81,7 +81,7 @@ export default function GamePage({
     gameTime: 0,
     startTime: null,
     score: 0,
-    hunger: activePet.status.hunger,
+    hunger: activePet?.status.hunger,
     instructions: false,
     gameWidth: 270,
     gameHeight: 400,
@@ -189,7 +189,7 @@ export default function GamePage({
         counter: 0,
         items: [],
         startTime: Date.now(),
-        hunger: activePet.status.hunger,
+        hunger: activePet?.status.hunger,
       }));
     }
   }
@@ -201,7 +201,7 @@ export default function GamePage({
           ...prevValues,
           items: [...prevValues.items, getRandomItem(gameStates.gameWidth)],
         }));
-      }, 200 + 1000 * onSpeedFactor(activePet.characteristics));
+      }, 200 + 1000 * onSpeedFactor(activePet?.characteristics));
       return () => clearInterval(interval);
     }
   }, [gameStates.gameOn, gameStates.gameWidth]);
@@ -268,7 +268,7 @@ export default function GamePage({
               return true;
             }),
         }));
-      }, 20 + 30 * onSpeedFactor(activePet.characteristics));
+      }, 20 + 30 * onSpeedFactor(activePet?.characteristics));
     }
 
     return () => clearInterval(interval);
@@ -336,7 +336,7 @@ export default function GamePage({
         <AvatarContainer>
           <PlayerAvatar
             x={gameStates.avatarX}
-            picture={activePet.picture}
+            picture={activePet?.picture}
             onDirection={handleDirection}
           />
         </AvatarContainer>
