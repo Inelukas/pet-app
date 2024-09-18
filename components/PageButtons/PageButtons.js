@@ -19,7 +19,6 @@ const PageButtonContainer = styled.div`
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  z-index: 100;
 
   @media screen and (min-width: 1200px) {
     max-width: 800px;
@@ -28,10 +27,11 @@ const PageButtonContainer = styled.div`
 
 const PageButton = styled.div`
   position: absolute;
-  bottom: 10px;
+  bottom: ${({ $top }) => ($top ? "auto" : "10px")};
+  top: ${({ $top }) => ($top ? $top : "auto")};
   right: ${({ $right }) => ($right ? $right : "auto")};
   left: ${({ $left }) => ($left ? $left : "auto")};
-  top: ${({ $top }) => ($top ? $top : "auto")};
+
   width: 60px;
   height: 60px;
   border-radius: 50%;

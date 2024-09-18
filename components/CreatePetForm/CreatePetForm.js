@@ -116,6 +116,7 @@ export default function CreatePetForm({
   onCreatePet,
   hideButtons = false,
   onUpdatePet,
+  createPet,
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [characteristics, setCharacteristics] = useState({
@@ -215,6 +216,7 @@ export default function CreatePetForm({
         currentImageIndex={currentImageIndex}
         hideButtons={hideButtons}
         size="small"
+        createPet={createPet}
       />
 
       <StyledForm onSubmit={handleSubmit} id="create-pet">

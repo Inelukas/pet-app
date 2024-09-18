@@ -13,6 +13,7 @@ import ButtonContainer from "../../components/GameElements/ButtonContainer/Butto
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
 import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
 import toggleInstructions from "@/utils/toggleInstructions";
+import Popup from "@/components/Popup/Popup";
 
 const StyledTappingGameField = styled(StyledGameField)`
   display: grid;
@@ -110,7 +111,14 @@ const CountdownMessage = styled(SpeedUpMessage)`
   white-space: nowrap;
 `;
 
-export default function TappingGame({ onUpdatePetIndicator, activePet }) {
+export default function TappingGame({
+  onUpdatePetIndicator,
+  activePet,
+  achievements,
+  onUpdateAchievements,
+  totalPoints,
+  onTotalPoints,
+}) {
   const [gameStates, setGameStates] = useState({
     gameOn: false,
     activeCircles: [],
@@ -122,7 +130,21 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
     score: 0,
     highscore: 0,
     instructions: false,
+    unlockedAchievement: null,
+    showPopup: false,
   });
+
+  useEffect(() => {
+    if (gameStates.showPopup) {
+      const timer = setTimeout(() => {
+        setGameStates((prevValues) => ({
+          ...prevValues,
+          showPopup: false,
+        }));
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [gameStates.showPopup]);
 
   useEffect(() => {
     let interval;
@@ -156,6 +178,59 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
 
     return () => clearInterval(interval);
   }, [gameStates.gameOn, gameStates.intervalTime]);
+
+  useEffect(() => {
+    if (gameStates.score) {
+      onTotalPoints("tapping");
+      handleAchievementUpdate();
+    }
+  }, [gameStates.score]);
+
+  useEffect(() => {
+    handleAchievementUpdate();
+  }, [gameStates.score, totalPoints]);
+
+  function handleAchievementUpdate() {
+    let achievementUnlocked = false;
+
+    if (gameStates.score >= 5 && !achievements.play[3]) {
+      onUpdateAchievements("play", 3);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Rattle unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (gameStates.score >= 8 && !achievements.play[4]) {
+      onUpdateAchievements("play", 4);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Teddy unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+
+    if (totalPoints.tapping >= 12 && !achievements.food[4]) {
+      onUpdateAchievements("food", 4);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Cake unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (totalPoints.tapping >= 20 && !achievements.food[4]) {
+      onUpdateAchievements("food", 4);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Hammock unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+  }
 
   useEffect(() => {
     let timer;
@@ -253,7 +328,11 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
       ...prevValues,
       gameOn: true,
       score: 0,
+<<<<<<< HEAD
       countdown: 60,
+=======
+      countdown: 30,
+>>>>>>> main
     }));
   }
 
@@ -271,24 +350,39 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
         setGameStates((prevValues) => ({
           ...prevValues,
           intervalTime: 1600,
+<<<<<<< HEAD
           countdown: 60,
+=======
+          countdown: 30,
+>>>>>>> main
         }));
       }, 1800);
     } else {
       setGameStates((prevValues) => ({
         ...prevValues,
         intervalTime: 1600,
+<<<<<<< HEAD
         countdown: 60,
+=======
+        countdown: 30,
+>>>>>>> main
       }));
     }
   }
 
+<<<<<<< HEAD
   if (!gameStates.gameOn && activePet.status.Energy === 100) {
+=======
+  if (!gameStates.gameOn && activePet?.status.energy === 100) {
+>>>>>>> main
     return <SummaryScreen itemsCaught={gameStates.score} tapping={true} />;
   }
 
   return (
     <StyledGamePage>
+      {gameStates.showPopup && (
+        <Popup message={gameStates.unlockedAchievement} />
+      )}
       {gameStates.instructions && (
         <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>
       )}
@@ -309,8 +403,13 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
             data={{
               name: "Energy",
               count: gameStates.gameOn
+<<<<<<< HEAD
                 ? Math.min(activePet.status.Energy + gameStates.score * 2, 100)
                 : activePet.status.Energy,
+=======
+                ? Math.min(activePet?.status.energy + gameStates.score * 2, 100)
+                : activePet?.status.energy,
+>>>>>>> main
             }}
           />
         </StyledIndicatorContainer>
@@ -326,7 +425,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
             key={index}
             $isActive={gameStates.activeCircles.includes(index)}
             $isWrongActive={gameStates.activeWrongCircles.includes(index)}
-            $petImage={activePet.picture}
+            $petImage={activePet?.picture}
             onClick={() => handleCircleClick(index)}
           />
         ))}

@@ -63,6 +63,8 @@ export default function Header() {
     isGraveyard = true;
   } else if (router.pathname === "/instructions") {
     pageTitle = "Instructions";
+  } else if (router.pathname === "/achievements") {
+    pageTitle = "Achievements";
   }
 
   if (!pageTitle) return null;

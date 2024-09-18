@@ -35,8 +35,8 @@ export default function Player({ onDirection, playerPosition, gameOn, pet }) {
       $gameOn={gameOn}
     >
       <Image
-        src={pet.picture}
-        alt={pet.name || "A cute pet"}
+        src={pet?.picture}
+        alt={pet?.name || "A cute pet"}
         width={30}
         height={30}
         quality={100}

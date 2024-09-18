@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Image from "next/image";
+import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 
 export const StyledStartPage = styled.section`
   display: flex;
@@ -100,8 +101,8 @@ const InstructionsLink = styled(StyledLink)`
 `;
 
 export default function StartPage({ petCollection }) {
-  const buttonText = petCollection.length > 0 ? "Go to Garden" : "Create Pet";
-  const buttonLink = petCollection.length > 0 ? "/garden" : "/create";
+  const buttonText = petCollection?.length > 0 ? "Go to Garden" : "Create Pet";
+  const buttonLink = petCollection?.length > 0 ? "/garden" : "/create";
 
   return (
     <StyledStartPage>
@@ -112,12 +113,20 @@ export default function StartPage({ petCollection }) {
         height={400}
         priority
       />
+<<<<<<< HEAD
       <StartButtonContainer>
         <StartPageGardenLink href={buttonLink}>
           {buttonText}
         </StartPageGardenLink>
         <InstructionsLink href="/instructions">Instructions</InstructionsLink>
       </StartButtonContainer>
+=======
+      <StyledButtonLink href={buttonLink}>{buttonText}</StyledButtonLink>
+      <StyledStartSpan>
+        Create your own Pet - Feed it, train it, keep it happy!
+      </StyledStartSpan>
+      <MusicPlayer />
+>>>>>>> main
     </StyledStartPage>
   );
 }
