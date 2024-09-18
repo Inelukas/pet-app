@@ -123,15 +123,15 @@ export default function Instructions() {
     },
     {
       firstWord: "View pet details",
-      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: intelligence, energy, hunger, and happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. `,
+      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: Intelligence, Energy, Hunger, and Happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. `,
     },
     {
       firstWord: "The pet garden",
-      rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s Indicators. energy and happiness decrease over time but can be replenished by playing games. Your pet’s hunger increases as time passes and needs to be reduced, also by playing a mini-game. Danger: If energy and happiness drop to 0 and hunger reaches 100, your pet’s health will decline. If health reaches 0, your pet will die.`,
+      rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s Indicators. Energy and Happiness decrease over time but can be replenished by playing games. Your pet’s Hunger increases as time passes and needs to be reduced, also by playing a mini-game. Danger: If Energy and Happiness drop to 0 and Hunger reaches 100, your pet’s Health will decline. If Health reaches 0, your pet will die.`,
     },
     {
       firstWord: "Keep your pet happy and alive",
-      rest: `To keep your pet alive and healthy, you can play mini-games that boost its stats. These mini-games are accessible via the top-right corner of the Garden page. The Tapping Game increases your pet’s energy. The Happy Family Game (Snake) raises your pet’s happiness. Catch the Food Game reduces your pet’s hunger.`,
+      rest: `To keep your pet alive and Healthy, you can play mini-games that boost its stats. These mini-games are accessible via the top-right corner of the Garden page. The Tapping Game increases your pet’s Energy. The Happy Family Game (Snake) raises your pet’s Happiness. Catch the Food Game reduces your pet’s Hunger.`,
     },
     {
       firstWord: "The unthinkable: your pet dies!",

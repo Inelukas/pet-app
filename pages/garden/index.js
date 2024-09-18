@@ -5,10 +5,10 @@ import AnimatedPet from "@/components/AnimatedPet/AnimatedPet";
 import Image from "next/image";
 import { indicatorZoomKeyframes } from "@/lib/data";
 import PetSelection from "@/components/PetSelection/PetSelection";
-import energyIcon from "../../public/assets/energy.png";
+import EnergyIcon from "../../public/assets/Energy.png";
 import heartIcon from "../../public/assets/heart.png";
-import hungerIcon from "../../public/assets/hunger.png";
-import happinessIcon from "../../public/assets/happiness.png";
+import HungerIcon from "../../public/assets/Hunger.png";
+import HappinessIcon from "../../public/assets/Happiness.png";
 
 const GardenPage = styled.main`
   width: 100%;
@@ -115,7 +115,7 @@ const HorizontalBar = styled.section`
 const HorizontalBarFill = styled.section`
   width: ${({ value }) => value}%;
   height: 100%;
-  background: var(--health-gradient);
+  background: var(--Health-gradient);
   position: absolute;
   left: 0;
 `;
@@ -186,10 +186,10 @@ export default function Garden({
   onCurrentPetID,
   onCurrentPet,
   onDeadPet,
-  onhealthFactor,
-  onenergyFactor,
-  onhappinessFactor,
-  onhungerFactor,
+  onHealthFactor,
+  onEnergyFactor,
+  onHappinessFactor,
+  onHungerFactor,
   onSpeedFactor,
 }) {
   useEffect(() => {
@@ -197,52 +197,52 @@ export default function Garden({
       setPetCollection((prevPets) =>
         prevPets.map((pet) => {
           if (pet.id === currentPetID && !pet.isRevived) {
-            const { hunger, happiness, energy, health, intelligence } =
+            const { Hunger, Happiness, Energy, Health, Intelligence } =
               pet.status;
-            const intelligenceFactor = 1 - (intelligence / 100) * 0.9;
+            const IntelligenceFactor = 1 - (Intelligence / 100) * 0.9;
 
             return {
               ...pet,
               status: {
                 ...pet.status,
-                hunger: calculateIndicatorValue(
-                  "hunger",
-                  hunger,
-                  onhungerFactor(activePet.characteristics),
-                  intelligenceFactor
+                Hunger: calculateIndicatorValue(
+                  "Hunger",
+                  Hunger,
+                  onHungerFactor(activePet.characteristics),
+                  IntelligenceFactor
                 ),
 
-                happiness: calculateIndicatorValue(
-                  "happiness",
-                  happiness,
-                  onhappinessFactor(activePet.characteristics),
-                  intelligenceFactor
+                Happiness: calculateIndicatorValue(
+                  "Happiness",
+                  Happiness,
+                  onHappinessFactor(activePet.characteristics),
+                  IntelligenceFactor
                 ),
 
-                energy: calculateIndicatorValue(
-                  "energy",
-                  energy,
-                  onenergyFactor(activePet.characteristics),
-                  intelligenceFactor
+                Energy: calculateIndicatorValue(
+                  "Energy",
+                  Energy,
+                  onEnergyFactor(activePet.characteristics),
+                  IntelligenceFactor
                 ),
 
-                health: calculateIndicatorValue(
-                  "health",
-                  health,
-                  onhealthFactor(activePet.characteristics),
-                  intelligenceFactor,
-                  hunger,
-                  happiness,
-                  energy
+                Health: calculateIndicatorValue(
+                  "Health",
+                  Health,
+                  onHealthFactor(activePet.characteristics),
+                  IntelligenceFactor,
+                  Hunger,
+                  Happiness,
+                  Energy
                 ),
               },
-              isDying: pet.status.health === 0 ? true : false,
+              isDying: pet.status.Health === 0 ? true : false,
             };
           }
           return pet;
         })
       );
-    }, 1000);
+    }, 10);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
@@ -253,20 +253,20 @@ export default function Garden({
     indicatorName,
     indicator,
     indicatorFactor,
-    intelligenceFactor,
-    hunger,
-    happiness,
-    energy
+    IntelligenceFactor,
+    Hunger,
+    Happiness,
+    Energy
   ) {
     const indicatorChangeAmount =
-      (5 * Math.round(indicatorFactor * intelligenceFactor * 10)) / 10;
+      (5 * Math.round(indicatorFactor * IntelligenceFactor * 10)) / 10;
 
-    if (indicatorName === "health") {
-      const healthChangeAmount = (5 * Math.round(indicatorFactor * 10)) / 10;
-      return hunger === 100 && happiness === 0 && energy === 0
-        ? Math.max(indicator - healthChangeAmount, 0)
+    if (indicatorName === "Health") {
+      const HealthChangeAmount = (5 * Math.round(indicatorFactor * 10)) / 10;
+      return Hunger === 100 && Happiness === 0 && Energy === 0
+        ? Math.max(indicator - HealthChangeAmount, 0)
         : indicator;
-    } else if (indicatorName === "hunger") {
+    } else if (indicatorName === "Hunger") {
       return indicator < 100
         ? Math.min(indicator + indicatorChangeAmount, 100)
         : 100;
@@ -282,45 +282,45 @@ export default function Garden({
           <StatusContainer>
             <HorizontalBar
               $critical={
-                activePet.status.health <= 25 && activePet.status.health !== 0
+                activePet.status.Health <= 25 && activePet.status.Health !== 0
               }
             >
               <HeartIcon src={heartIcon} alt="Heart Icon" width={18} />
-              <HorizontalBarFill value={activePet.status.health} />
+              <HorizontalBarFill value={activePet.status.Health} />
             </HorizontalBar>
             <VerticalBarContainer>
               <VerticalBar
                 $critical={
-                  activePet.status.hunger >= 75 && activePet.status.health !== 0
+                  activePet.status.Hunger >= 75 && activePet.status.Health !== 0
                 }
               >
-                <Icon src={hungerIcon} alt="hunger Icon" width={18} />
+                <Icon src={HungerIcon} alt="Hunger Icon" width={18} />
                 <VerticalBarFill
-                  $bgcolor="var(--hunger-gradient)"
-                  value={activePet.status.hunger}
+                  $bgcolor="var(--Hunger-gradient)"
+                  value={activePet.status.Hunger}
                 />
               </VerticalBar>
               <VerticalBar
                 $critical={
-                  activePet.status.happiness <= 25 &&
-                  activePet.status.health !== 0
+                  activePet.status.Happiness <= 25 &&
+                  activePet.status.Health !== 0
                 }
               >
-                <Icon src={happinessIcon} alt="happiness Icon" width={18} />
+                <Icon src={HappinessIcon} alt="Happiness Icon" width={18} />
                 <VerticalBarFill
-                  $bgcolor="var(--happiness-gradient)"
-                  value={activePet.status.happiness}
+                  $bgcolor="var(--Happiness-gradient)"
+                  value={activePet.status.Happiness}
                 />
               </VerticalBar>
               <VerticalBar
                 $critical={
-                  activePet.status.energy <= 25 && activePet.status.health !== 0
+                  activePet.status.Energy <= 25 && activePet.status.Health !== 0
                 }
               >
-                <Icon src={energyIcon} alt="energy Icon" width={18} />
+                <Icon src={EnergyIcon} alt="Energy Icon" width={18} />
                 <VerticalBarFill
-                  $bgcolor="var(--energy-gradient)"
-                  value={activePet.status.energy}
+                  $bgcolor="var(--Energy-gradient)"
+                  value={activePet.status.Energy}
                 />
               </VerticalBar>
             </VerticalBarContainer>
@@ -330,24 +330,24 @@ export default function Garden({
           <ButtonContainer>
             <StatusLink
               href={activePet.isAlive ? "/catch-the-food" : ""}
-              $bgcolor="var(--hunger-gradient)"
-              disabled={!activePet.isAlive || activePet.status.hunger === 0}
+              $bgcolor="var(--Hunger-gradient)"
+              disabled={!activePet.isAlive || activePet.status.Hunger === 0}
             >
-              <Image src={hungerIcon} alt="hunger Icon" width={30} />
+              <Image src={HungerIcon} alt="Hunger Icon" width={30} />
             </StatusLink>
             <StatusLink
               href={activePet.isAlive ? "/snake" : ""}
-              $bgcolor="var(--happiness-gradient)"
+              $bgcolor="var(--Happiness-gradient)"
               disabled={!activePet.isAlive}
             >
-              <Image src={happinessIcon} alt="happiness Icon" width={30} />
+              <Image src={HappinessIcon} alt="Happiness Icon" width={30} />
             </StatusLink>
             <StatusLink
               href={activePet.isAlive ? "/tapping" : ""}
-              $bgcolor="var(--energy-gradient)"
+              $bgcolor="var(--Energy-gradient)"
               disabled={!activePet.isAlive}
             >
-              <Image src={energyIcon} alt="energy Icon" width={30} />
+              <Image src={EnergyIcon} alt="Energy Icon" width={30} />
             </StatusLink>
           </ButtonContainer>
         )}

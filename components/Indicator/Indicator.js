@@ -37,11 +37,11 @@ const StyledBarContainer = styled.div`
 `;
 
 const colorMap = {
-  health: "var(--health-gradient)",
-  happiness: "var(--happiness-gradient)",
-  hunger: "var(--hunger-gradient)",
-  energy: "var(--energy-gradient)",
-  intelligence: "var(--intelligence-gradient)",
+  Health: "var(--Health-gradient)",
+  Happiness: "var(--Happiness-gradient)",
+  Hunger: "var(--Hunger-gradient)",
+  Energy: "var(--Energy-gradient)",
+  Intelligence: "var(--Intelligence-gradient)",
 };
 
 const StyledBar = styled.div`

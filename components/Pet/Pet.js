@@ -21,6 +21,7 @@ export const StyledPet = styled.li`
   height: ${({ $onGraveyard }) => ($onGraveyard ? "25vh" : "20vh")};
   min-height: 150px;
   gap: 10%;
+  position: relative;
 
   @media screen and (min-width: 600px) {
     gap: 15%;
@@ -47,7 +48,6 @@ const StyledPortrait = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 5px solid var(--secondary-gradient);
 
   box-shadow: var(--global-shadow);
   border-radius: 50%;
@@ -89,10 +89,14 @@ export const StyledList = styled.ul`
 
 const ReviveButton = styled(ConfirmButton)`
   align-self: flex-end;
+  position: absolute;
   background: var(--signal-gradient);
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
 
+  margin-bottom: 5px;
+  bottom: -15px;
+  right: -10px;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
@@ -166,7 +170,7 @@ export default function Pet({ petData, onGraveyard, currentPetID }) {
               {new Date(petData.timeOfDeath).toLocaleString()}
             </p>
             <ReviveButton onClick={() => onGraveyard(petData.id)}>
-              <Image src={reviveIcon} alt="Confirm Icon" width={40} />
+              <Image src={reviveIcon} alt="Confirm Icon" width={30} />
             </ReviveButton>
           </>
         )}

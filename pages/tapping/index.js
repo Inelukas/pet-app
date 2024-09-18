@@ -171,7 +171,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
 
           if (newCountdown === 0) {
             handleReset(true);
-            onUpdatePetIndicator(gameStates.score, "energy");
+            onUpdatePetIndicator(gameStates.score, "Energy");
           }
 
           return {
@@ -221,27 +221,27 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
       }));
     }, 200);
 
-    const energyChange = gameStates.activeCircles.includes(index)
+    const EnergyChange = gameStates.activeCircles.includes(index)
       ? 2
       : gameStates.activeWrongCircles.includes(index)
       ? -2
       : 0;
 
-    if (energyChange === 2) {
+    if (EnergyChange === 2) {
       const itemSound = new Audio("/assets/music/item.mp3");
       itemSound.volume = 0.05;
       itemSound.play();
-    } else if (energyChange === -2) {
+    } else if (EnergyChange === -2) {
       const itemSound = new Audio("/assets/music/fail.mp3");
       itemSound.volume = 0.05;
       itemSound.play();
     }
-    if (energyChange !== 0) {
+    if (EnergyChange !== 0) {
       setGameStates((prevValues) => ({
         ...prevValues,
-        score: Math.max(prevValues.score + energyChange / 2, 0),
+        score: Math.max(prevValues.score + EnergyChange / 2, 0),
         highscore:
-          energyChange === 2 && prevValues.score >= prevValues.highscore
+          EnergyChange === 2 && prevValues.score >= prevValues.highscore
             ? prevValues.score + 1
             : prevValues.highscore,
       }));
@@ -283,7 +283,7 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
     }
   }
 
-  if (!gameStates.gameOn && activePet.status.energy === 100) {
+  if (!gameStates.gameOn && activePet.status.Energy === 100) {
     return <SummaryScreen itemsCaught={gameStates.score} tapping={true} />;
   }
 
@@ -307,10 +307,10 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
           <Indicator
             showBarName={false}
             data={{
-              name: "energy",
+              name: "Energy",
               count: gameStates.gameOn
-                ? Math.min(activePet.status.energy + gameStates.score * 2, 100)
-                : activePet.status.energy,
+                ? Math.min(activePet.status.Energy + gameStates.score * 2, 100)
+                : activePet.status.Energy,
             }}
           />
         </StyledIndicatorContainer>

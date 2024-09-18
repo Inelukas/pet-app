@@ -7,6 +7,9 @@ const GraveyardMain = styled.main`
   display: flex;
   justify-content: center;
   background: var(--graveyard-gradient);
+  background-size: contain;
+  min-height: 100vh;
+  background-repeat: repeat;
 `;
 
 const GraveyardContainer = styled(GardenContainer)`
@@ -14,7 +17,7 @@ const GraveyardContainer = styled(GardenContainer)`
   background-size: 100% 100%;
   padding-top: 80px;
   background-repeat: repeat;
-
+  min-height: 100vh;
   @media (min-width: 1200px) {
     max-width: 800px;
   }
@@ -46,11 +49,11 @@ export default function Graveyard({ petCollection, onPetCollection }) {
             position: 100,
           },
           status: {
-            health: 0,
-            hunger: 0,
-            happiness: 0,
-            energy: 0,
-            intelligence: 0,
+            Health: 0,
+            Hunger: 0,
+            Happiness: 0,
+            Energy: 0,
+            Intelligence: 0,
           },
           picture: "/assets/images/ghost_front.png",
           image: "/assets/images/ghost.png",

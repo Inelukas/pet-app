@@ -119,11 +119,11 @@ export function HowToPlay({ game }) {
               over your children.
             </li>
             <li>
-              More children = more happiness! Each child adds +1 to your
-              animal&apos;s happiness bar.
+              More children = more Happiness! Each child adds +1 to your
+              animal&apos;s Happiness bar.
             </li>
             <li>
-              To increase the intelligence of your pet you need a score of at
+              To increase the Intelligence of your pet you need a score of at
               least 5.
             </li>
             <li>Try to have a family of more than 100 children!</li>
@@ -145,8 +145,8 @@ export function HowToPlay({ game }) {
               deduction.
             </li>
             <li>
-              More tapped pets = more energy! Each pet adds +2 to your
-              animal&apos;s energy bar. Try to tap as many as possible.
+              More tapped pets = more Energy! Each pet adds +2 to your
+              animal&apos;s Energy bar. Try to tap as many as possible.
             </li>
             <li>
               Every 10 seconds, the game speeds up, increasing difficulty. Each
@@ -169,16 +169,16 @@ export function HowToPlay({ game }) {
             </li>
             <li>
               Good items (like Broccoli, Carrots, Bananas) decrease your
-              pet&apos;s hunger.
+              pet&apos;s Hunger.
             </li>
             <li>
               Bad items (like Oil Drums and Toilets) increase your pet&apos;s
-              hunger—avoid them!
+              Hunger—avoid them!
             </li>
-            <li>If your pet&apos;s hunger reaches zero, the game ends.</li>
+            <li>If your pet&apos;s Hunger reaches zero, the game ends.</li>
             <li>
               Try to catch as many good items as possible to keep your pet
-              healthy and happy!
+              Healthy and happy!
             </li>
           </ul>
         </StyledHowToPlay>

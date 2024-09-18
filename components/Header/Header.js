@@ -21,6 +21,7 @@ const StyledHeader = styled.h1`
   margin: 20px;
   padding: 10px;
   border-radius: 10px;
+  max-width: 600px;
 
   background: var(--secondary-gradient);
   width: 80vw;
@@ -30,7 +31,6 @@ const StyledHeader = styled.h1`
     props.$isGraveyard &&
     css`
       background: var(--graveyard-gradient);
-      width: 40vw;
     `}
 
   @media screen and (min-width: 600px) {

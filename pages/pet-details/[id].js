@@ -202,11 +202,11 @@ export default function PetDetails({ petCollection, onDeletePet }) {
   }
 
   const petStatus = [
-    { name: "health", count: pet.status.health },
-    { name: "happiness", count: pet.status.happiness },
-    { name: "hunger", count: pet.status.hunger },
-    { name: "energy", count: pet.status.energy },
-    { name: "intelligence", count: pet.status.intelligence },
+    { name: "Health", count: pet.status.Health },
+    { name: "Happiness", count: pet.status.Happiness },
+    { name: "Hunger", count: pet.status.Hunger },
+    { name: "Energy", count: pet.status.Energy },
+    { name: "Intelligence", count: pet.status.Intelligence },
   ];
 
   return (
