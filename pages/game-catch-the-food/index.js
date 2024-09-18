@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useState, useEffect, useCallback, useRef } from "react";
-import PlayerAvatar from "@/components/GameCatchTheFood/PlayerAvatar/PlayerAvatar";
-import FallingBlocks from "@/components/GameCatchTheFood/FallingBlocks/FallingBlocks";
-import SummaryScreen from "@/components/GameCatchTheFood/SummaryScreen/SummaryScreen";
+import PlayerAvatar from "@/components/GameElements/CatchFood/PlayerAvatar/PlayerAvatar";
+import FallingBlocks from "@/components/GameElements/CatchFood/FallingBlocks/FallingBlocks";
+import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
 import Indicator from "@/components/Indicator/Indicator";
 import Link from "next/link";
-import GameButton from "@/components/GameButton/GameButton";
+import { GameButton } from "@/components/GameElements/ButtonContainer/ButtonContainer";
 import { uid } from "uid";
 
 const MainGameContainer = styled.main`
