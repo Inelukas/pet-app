@@ -81,11 +81,7 @@ export default function GamePage({
     gameTime: 0,
     startTime: null,
     score: 0,
-<<<<<<< HEAD
-    Hunger: activePet.status.Hunger,
-=======
-    hunger: activePet?.status.hunger,
->>>>>>> main
+    Hunger: activePet?.status.Hunger,
     instructions: false,
     gameWidth: 270,
     gameHeight: 400,
@@ -193,11 +189,7 @@ export default function GamePage({
         counter: 0,
         items: [],
         startTime: Date.now(),
-<<<<<<< HEAD
-        Hunger: activePet.status.Hunger,
-=======
-        hunger: activePet?.status.hunger,
->>>>>>> main
+        Hunger: activePet?.status.Hunger,
       }));
     }
   }

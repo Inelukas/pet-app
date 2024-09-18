@@ -327,11 +327,7 @@ export default function SnakeGame({
     });
   }
 
-<<<<<<< HEAD
-  if (!gameStates.gameOn && activePet.status.Happiness === 100) {
-=======
-  if (!gameStates.gameOn && activePet?.status.happiness === 100) {
->>>>>>> main
+  if (!gameStates.gameOn && activePet?.status.Happiness === 100) {
     return <SummaryScreen itemsCaught={gameStates.score} snake={true} />;
   }
 
@@ -368,17 +364,10 @@ export default function SnakeGame({
               name: "Happiness",
               count: gameStates.gameOn
                 ? Math.min(
-<<<<<<< HEAD
-                    activePet.status.Happiness + gameStates.score * 5,
+                    activePet?.status.Happiness + gameStates.score * 5,
                     100
                   )
-                : activePet.status.Happiness,
-=======
-                    activePet?.status.happiness + gameStates.score * 5,
-                    100
-                  )
-                : activePet?.status.happiness,
->>>>>>> main
+                : activePet?.status.Happiness,
             }}
           />
         </StyledIndicatorContainer>

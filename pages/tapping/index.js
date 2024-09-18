@@ -328,11 +328,7 @@ export default function TappingGame({
       ...prevValues,
       gameOn: true,
       score: 0,
-<<<<<<< HEAD
       countdown: 60,
-=======
-      countdown: 30,
->>>>>>> main
     }));
   }
 
@@ -350,31 +346,19 @@ export default function TappingGame({
         setGameStates((prevValues) => ({
           ...prevValues,
           intervalTime: 1600,
-<<<<<<< HEAD
           countdown: 60,
-=======
-          countdown: 30,
->>>>>>> main
         }));
       }, 1800);
     } else {
       setGameStates((prevValues) => ({
         ...prevValues,
         intervalTime: 1600,
-<<<<<<< HEAD
         countdown: 60,
-=======
-        countdown: 30,
->>>>>>> main
       }));
     }
   }
 
-<<<<<<< HEAD
-  if (!gameStates.gameOn && activePet.status.Energy === 100) {
-=======
-  if (!gameStates.gameOn && activePet?.status.energy === 100) {
->>>>>>> main
+  if (!gameStates.gameOn && activePet?.status.Energy === 100) {
     return <SummaryScreen itemsCaught={gameStates.score} tapping={true} />;
   }
 
@@ -403,13 +387,8 @@ export default function TappingGame({
             data={{
               name: "Energy",
               count: gameStates.gameOn
-<<<<<<< HEAD
-                ? Math.min(activePet.status.Energy + gameStates.score * 2, 100)
-                : activePet.status.Energy,
-=======
-                ? Math.min(activePet?.status.energy + gameStates.score * 2, 100)
-                : activePet?.status.energy,
->>>>>>> main
+                ? Math.min(activePet?.status.Energy + gameStates.score * 2, 100)
+                : activePet?.status.Energy,
             }}
           />
         </StyledIndicatorContainer>

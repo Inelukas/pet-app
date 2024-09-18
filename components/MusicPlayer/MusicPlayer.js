@@ -22,6 +22,9 @@ const NoteIcon = styled.div`
 
   @media screen and (min-width: 600px) {
     transform: scale(1.2);
+  }
+
+  @media (min-width: 650px) {
     right: 33%;
   }
 `;

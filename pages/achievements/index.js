@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 
 const AchievementsContainer = styled.div`
@@ -25,11 +24,12 @@ const Columns = styled.div`
 const Column = styled.div`
   flex: 1;
   margin: 0 20px;
-  background-color: var(--secondary-color);
+  background: var(--signal-gradient);
   border-radius: 10px;
   color: var(--text-color);
   font-size: 0.5rem;
   min-width: 80px;
+  box-shadow: var(--global-shadow);
 `;
 
 const ImageList = styled.ul`

@@ -113,20 +113,12 @@ export default function StartPage({ petCollection }) {
         height={400}
         priority
       />
-<<<<<<< HEAD
       <StartButtonContainer>
         <StartPageGardenLink href={buttonLink}>
           {buttonText}
         </StartPageGardenLink>
         <InstructionsLink href="/instructions">Instructions</InstructionsLink>
       </StartButtonContainer>
-=======
-      <StyledButtonLink href={buttonLink}>{buttonText}</StyledButtonLink>
-      <StyledStartSpan>
-        Create your own Pet - Feed it, train it, keep it happy!
-      </StyledStartSpan>
-      <MusicPlayer />
->>>>>>> main
     </StyledStartPage>
   );
 }

@@ -57,10 +57,6 @@ const PageButton = styled.div`
   }
 `;
 
-const StyledImage = styled(Image)`
-  position: relative;
-  top: 4px;
-`;
 export default function PageButtons({ router, activePet }) {
   return (
     <PageButtonContainer>
@@ -69,7 +65,7 @@ export default function PageButtons({ router, activePet }) {
         router.pathname.includes("/pet-details")) && (
         <Link href="/garden" aria-label="A golf hole indicating the Garden">
           <PageButton $color={"lightgreen"} $left={"10px"}>
-            <StyledImage src={gardenIcon} alt="Garden Icon" width={40} />
+            <Image src={gardenIcon} alt="Garden Icon" width={40} />
           </PageButton>
         </Link>
       )}
@@ -83,7 +79,7 @@ export default function PageButtons({ router, activePet }) {
             aria-label="Magnifying Glass indicating Details"
           >
             <PageButton $color={"lightblue"} $left={"10px"}>
-              <StyledImage src={detailsIcon} alt="Details Icon" width={40} />
+              <Image src={detailsIcon} alt="Details Icon" width={40} />
             </PageButton>
           </Link>
 
@@ -94,7 +90,7 @@ export default function PageButtons({ router, activePet }) {
             aria-label="Pokal indicating Achievements"
           >
             <PageButton $color={"green"} $top={"-98vh"} $right={"100px"}>
-              <StyledImage
+              <Image
                 src={achievementsIcon}
                 alt="Achievements Icon"
                 width={30}
@@ -109,7 +105,7 @@ export default function PageButtons({ router, activePet }) {
         router.pathname.includes("/pet-details")) && (
         <Link href="/pet-list" aria-label="Staple of Books indicating List">
           <PageButton $color={"red"} $right={"10px"}>
-            <StyledImage src={listIcon} alt="List Icon" width={40} />
+            <Image src={listIcon} alt="List Icon" width={40} />
           </PageButton>
         </Link>
       )}
@@ -118,17 +114,13 @@ export default function PageButtons({ router, activePet }) {
         <>
           <Link href="/create" aria-label="Create Icon">
             <PageButton $color={"orange"} $right={"45%"}>
-              <StyledImage src={createIcon} alt="Create Icon" width={40} />
+              <Image src={createIcon} alt="Create Icon" width={40} />
             </PageButton>
           </Link>
 
           <Link href="/graveyard" aria-label="Coffin indicating Graveyard">
             <PageButton $color={"grey"} $right={"10px"}>
-              <StyledImage
-                src={graveyardIcon}
-                alt="Graveyard Icon"
-                width={40}
-              />
+              <Image src={graveyardIcon} alt="Graveyard Icon" width={40} />
             </PageButton>
           </Link>
         </>
@@ -137,7 +129,7 @@ export default function PageButtons({ router, activePet }) {
       {router.pathname === "/instructions" && (
         <Link href="/" aria-label="House indicating Homepage">
           <PageButton $color={"lightblue"} $left={"10px"}>
-            <StyledImage src={homeIcon} alt="Home Icon" width={40} />
+            <Image src={homeIcon} alt="Home Icon" width={40} />
           </PageButton>
         </Link>
       )}
