@@ -47,27 +47,12 @@ const ImageListItem = styled.li`
 `;
 
 export default function AchievementsPage({ achievements }) {
-  //   const [selectedAchievements, setSelectedAchievements] = useState({
-  //     food: null,
-  //     play: null,
-  //     furniture: null,
-  //   });
-
-  //   const handleSelect = (category, index) => {
-  //     if (achievements[category][index]) {
-  //       setSelectedAchievements((prev) => ({
-  //         ...prev,
-  //         [category]: prev[category] === index ? null : index,
-  //       }));
-  //     }
-  //   };
-
   const achievementImages = {
     food: [
       { src: "/achievements/brokkoli.png", alt: "Broccoli" },
       { src: "/achievements/ham.png", alt: "Ham" },
-      { src: "/achievements/sandwich.png", alt: "Sandwich" },
-      { src: "/achievements/burger.png", alt: "Burger" },
+      { src: "/achievements/Sandwich.png", alt: "Sandwich" },
+      { src: "/achievements/Burger.png", alt: "Burger" },
       { src: "/achievements/cake.png", alt: "Cake" },
     ],
     play: [
@@ -97,8 +82,6 @@ export default function AchievementsPage({ achievements }) {
                 <ImageListItem
                   key={item.alt}
                   $isUnlocked={achievements[category][index]}
-                  //   $isSelected={selectedAchievements[category] === index}
-                  //   onClick={() => handleSelect(category, index)}
                 >
                   <img src={item.src} alt={item.alt} width={50} height={50} />
                 </ImageListItem>

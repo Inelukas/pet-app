@@ -12,22 +12,12 @@ const PopupContainer = styled.div`
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
-  opacity: ${({ $show }) => ($show ? 1 : 0)};
   transition: opacity 0.5s ease-in-out;
 `;
 
 // Popup-Komponente
-const Popup = ({ show, message, onClose }) => {
-  useEffect(() => {
-    if (show) {
-      const timer = setTimeout(() => {
-        onClose(); // Schließt das Popup nach 3 Sekunden
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [show, onClose]);
-
-  return <PopupContainer $show={show}>{message}</PopupContainer>;
-};
+function Popup({ message }) {
+  return <PopupContainer> {message}</PopupContainer>;
+}
 
 export default Popup;

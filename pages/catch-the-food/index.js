@@ -141,8 +141,8 @@ export default function GamePage({
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
 
-    if (gameStates.counter >= 5 && !achievements.furniture[0]) {
-      onUpdateAchievements("furniture", 0);
+    if (gameStates.counter >= 5 && !achievements.furniture[2]) {
+      onUpdateAchievements("furniture", 2);
       setGameStates((prevValues) => ({
         ...prevValues,
         unlockedAchievement: "Pet Castle unlocked!",
@@ -150,8 +150,8 @@ export default function GamePage({
       }));
       achievementUnlocked = true;
     }
-    if (gameStates.counter >= 8 && !achievements.furniture[1]) {
-      onUpdateAchievements("furniture", 1);
+    if (gameStates.counter >= 8 && !achievements.furniture[3]) {
+      onUpdateAchievements("furniture", 3);
       setGameStates((prevValues) => ({
         ...prevValues,
         unlockedAchievement: "Litter Box Throne unlocked!",
@@ -315,11 +315,7 @@ export default function GamePage({
   return (
     <StyledGamePage>
       {gameStates.showPopup && (
-        <Popup
-          show={gameStates.showPopup}
-          message={gameStates.unlockedAchievement}
-          onClose={() => setShowPopup(false)}
-        />
+        <Popup message={gameStates.unlockedAchievement} />
       )}
       {gameStates.instructions && (
         <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>

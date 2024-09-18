@@ -197,7 +197,7 @@ export default function TappingGame({
       achievementUnlocked = true;
     }
 
-    if (totalPoints.snake >= 12 && !achievements.food[4]) {
+    if (totalPoints.tapping >= 12 && !achievements.food[4]) {
       onUpdateAchievements("food", 4);
       setGameStates((prevValues) => ({
         ...prevValues,
@@ -206,7 +206,7 @@ export default function TappingGame({
       }));
       achievementUnlocked = true;
     }
-    if (totalPoints.snake >= 20 && !achievements.food[4]) {
+    if (totalPoints.tapping >= 20 && !achievements.food[4]) {
       onUpdateAchievements("food", 4);
       setGameStates((prevValues) => ({
         ...prevValues,
@@ -313,7 +313,7 @@ export default function TappingGame({
       ...prevValues,
       gameOn: true,
       score: 0,
-      countdown: 10,
+      countdown: 30,
     }));
   }
 
@@ -331,14 +331,14 @@ export default function TappingGame({
         setGameStates((prevValues) => ({
           ...prevValues,
           intervalTime: 1600,
-          countdown: 10,
+          countdown: 30,
         }));
       }, 1800);
     } else {
       setGameStates((prevValues) => ({
         ...prevValues,
         intervalTime: 1600,
-        countdown: 10,
+        countdown: 30,
       }));
     }
   }
@@ -350,11 +350,7 @@ export default function TappingGame({
   return (
     <StyledGamePage>
       {gameStates.showPopup && (
-        <Popup
-          show={gameStates.showPopup}
-          message={gameStates.unlockedAchievement}
-          onClose={() => setShowPopup(false)}
-        />
+        <Popup message={gameStates.unlockedAchievement} />
       )}
       {gameStates.instructions && (
         <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>

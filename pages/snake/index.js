@@ -334,11 +334,7 @@ export default function SnakeGame({
   return (
     <StyledGamePage>
       {gameStates.showPopup && (
-        <Popup
-          show={gameStates.showPopup}
-          message={gameStates.unlockedAchievement}
-          onClose={() => setShowPopup(false)}
-        />
+        <Popup message={gameStates.unlockedAchievement} />
       )}
       {gameStates.instructions && (
         <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>

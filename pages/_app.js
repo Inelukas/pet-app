@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }) {
   const [currentPetID, setCurrentPetID] = useState(
     petCollection[0]?.id || null
   );
+  const [totalTimeSpent, setTotalTimeSpent] = useState(0);
   const activePet = petCollection.find((pet) => pet.id === currentPetID);
   const router = useRouter();
 
@@ -269,6 +270,8 @@ export default function App({ Component, pageProps }) {
         onUpdateAchievements={handleUpdateAchievements}
         totalPoints={totalPoints}
         onTotalPoints={handleTotalPoints}
+        totalTimeSpent={totalTimeSpent}
+        onTotalTimeSpent={setTotalTimeSpent}
       />
       <PageButtons router={router} activePet={activePet} />
     </>

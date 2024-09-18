@@ -151,53 +151,12 @@ const StatusLink = styled(Link)`
   font-size: 1.5rem;
 `;
 
-const ImageContainer = styled.div`
-  // Container for Achievements
-  position: relative;
-`;
-const PositionedImage = styled(Image)`
-  // Achievements
-  position: absolute;
-  top: ${(props) => props.top};
-  left: ${(props) => props.left};
-`;
-const AchievementsLink = styled.div`
-  position: fixed;
-  top: 10px;
-  right: calc(50% - 10vw);
-  width: 4rem;
-  height: 4rem;
-  box-shadow: 2px 2px #000000;
-  background-color: red;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 32px;
-  color: var(--text-color);
-  opacity: 75%;
-  @media screen and (min-width: 1024px) {
-    right: calc(50% - 20vw);
-  }
-  @media screen and (min-width: 667px) {
-    right: calc(50% - 40vw);
-    &:hover {
-      transform: scale(1.2);
-    }
-    &:active {
-      background-color: var(--secondary-color);
-    }
-  }
-`;
-
 export default function Garden({
   activePet,
   petCollection,
   setPetCollection,
   currentPetID,
   onCurrentPetID,
-  onCurrentPet,
   onDeadPet,
   onHealthFactor,
   onEnergyFactor,
@@ -206,17 +165,22 @@ export default function Garden({
   onSpeedFactor,
   achievements,
   onUpdateAchievements,
+  onTotalTimeSpent,
+  totalTimeSpent,
 }) {
   const [unlockedAchievement, setUnlockedAchievement] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [totalTimeSpent, setTotalTimeSpent] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTotalTimeSpent((prevTime) => prevTime + 1);
+      onTotalTimeSpent((prevTime) =>
+        activePet.isAlive ? prevTime + 1 : prevTime
+      );
     }, 1000);
     return () => clearInterval(interval);
-  }, [setTotalTimeSpent]);
+  }, [onTotalTimeSpent, activePet.isAlive]);
+
+  console.log(activePet.isAlive, totalTimeSpent);
 
   useEffect(() => {
     if (totalTimeSpent >= 10) {
@@ -236,7 +200,7 @@ export default function Garden({
         achievementUnlocked = true;
       }
 
-      if (totalTimeSpent >= 30 && !achievements.furniture[1]) {
+      if (totalTimeSpent >= 40 && !achievements.furniture[1]) {
         onUpdateAchievements("furniture", 1);
         setUnlockedAchievement("Throne unlocked!");
         setShowPopup(true);
@@ -374,40 +338,6 @@ export default function Garden({
   return (
     <GardenPage>
       <GardenContainer>
-        <ImageContainer>
-          {selectedAchievements.food !== null && (
-            <PositionedImage
-              src={achievementImages.food[selectedAchievements.food].src}
-              alt="Selected Food Achievement"
-              width={50}
-              height={50}
-              top={achievementpositions.food.top}
-              left={achievementpositions.food.left}
-            />
-          )}
-          {selectedAchievements.play !== null && (
-            <PositionedImage
-              src={achievementImages.play[selectedAchievements.play].src}
-              alt="Selected Play Achievement"
-              width={50}
-              height={50}
-              top={achievementpositions.play.top}
-              left={achievementpositions.play.left}
-            />
-          )}
-          {selectedAchievements.furniture !== null && (
-            <PositionedImage
-              src={
-                achievementImages.furniture[selectedAchievements.furniture].src
-              }
-              alt="Selected Furniture Achievement"
-              width={50}
-              height={50}
-              top={achievementpositions.furniture.top}
-              left={achievementpositions.furniture.left}
-            />
-          )}
-        </ImageContainer>
         {activePet && (
           <StatusContainer>
             <HorizontalBar
@@ -508,16 +438,9 @@ export default function Garden({
         <PetSelection
           activePet={activePet}
           petCollection={petCollection}
-          onCurrentPet={onCurrentPet}
           onCurrentPetID={onCurrentPetID}
         />
-        {showPopup && (
-          <Popup
-            show={showPopup}
-            message={unlockedAchievement}
-            onClose={() => setShowPopup(false)}
-          />
-        )}
+        {showPopup && <Popup message={unlockedAchievement} />}
       </GardenContainer>
     </GardenPage>
   );
