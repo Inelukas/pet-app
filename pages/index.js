@@ -109,8 +109,8 @@ export default function StartPage({ petCollection }) {
       <StyledImage
         alt="Pet App Logo"
         src="/assets/images/logo.png"
-        width={400}
-        height={400}
+        width={350}
+        height={350}
         priority
       />
       <StartButtonContainer>
