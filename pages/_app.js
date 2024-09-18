@@ -1,16 +1,64 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
+import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
+import { useRef } from "react";
 import PageButtons from "@/components/PageButtons/PageButtons";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function App({ Component, pageProps }) {
-  const [petCollection, setPetCollection] = useState(pets);
-  const [currentPetID, setCurrentPetID] = useState(pets[0].id);
-  const activePet = petCollection.find((pet) => pet.id === currentPetID);
+  const [petCollection, setPetCollection] = useLocalStorageState(
+    "PetCollection",
+    { defaultValue: [] }
+  );
+  const [currentPetID, setCurrentPetID] = useLocalStorageState(
+    "CurrentPetID",
+    null
+  );
+  const [totalTimeSpent, setTotalTimeSpent] = useLocalStorageState(
+    "TotalTimeSpent",
+    0
+  );
+  const activePet = petCollection?.find((pet) => pet.id === currentPetID);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(50);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const audioRef = useRef(null);
+
   const router = useRouter();
+
+  // Achievement state managed here
+  const [achievements, setAchievements] = useLocalStorageState("Achievements", {
+    defaultValue: {
+      food: [false, false, false, false, false],
+      play: [false, false, false, false, false],
+      furniture: [false, false, false, false, false],
+    },
+  });
+
+  const [totalPoints, setTotalPoints] = useLocalStorageState("TotalPoints", {
+    defaultValue: {
+      snake: 0,
+      tapping: 0,
+      catchfood: 0,
+    },
+  });
+
+  // Function to update achievements
+  function handleUpdateAchievements(category, index) {
+    setAchievements((prevAchievements) => {
+      // Check if achievement is already unlocked
+      if (prevAchievements[category][index]) return prevAchievements;
+
+      const updatedCategory = [...prevAchievements[category]];
+      updatedCategory[index] = true; // Unlock the achievement
+
+      return { ...prevAchievements, [category]: updatedCategory };
+    });
+  }
 
   function handleCreatePet(petData) {
     const { characteristic1, characteristic2, ...restPetData } = petData;
@@ -28,7 +76,7 @@ export default function App({ Component, pageProps }) {
 
   function handleDeletePet(id) {
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
-    setCurrentPetID(pets[0].id);
+    setCurrentPetID(pets[0].id || null);
   }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
@@ -129,6 +177,20 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  function handleTotalPoints(game) {
+    setTotalPoints((prevValues) => {
+      return {
+        snake: game === "snake" ? prevValues.snake + 1 : prevValues.snake,
+        tapping:
+          game === "tapping" ? prevValues.tapping + 1 : prevValues.tapping,
+        catchfood:
+          game === "catchfood"
+            ? prevValues.catchfood + 1
+            : prevValues.catchfood,
+      };
+    });
+  }
+
   function getHappinessFactor(characteristics) {
     const moodFactor = characteristics.includes("cheerful")
       ? 0.5
@@ -197,6 +259,68 @@ export default function App({ Component, pageProps }) {
       })
     );
   }
+
+  let soundtrack;
+
+  if (router.pathname === "/snake") {
+    soundtrack = "/assets/music/snake-game-soundtrack.mp3";
+  } else if (router.pathname === "/tapping") {
+    soundtrack = "/assets/music/tapping-game-soundtrack.mp3";
+  } else if (router.pathname === "/game-catch-the-food") {
+    soundtrack = "/assets/music/catch-the-food-game-soundtrack.mp3";
+  } else if (router.pathname === "/graveyard") {
+    soundtrack = "/assets/music/graveyard-soundtrack.mp3";
+  } else {
+    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
+  }
+
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current.play();
+    }
+  }, [router.pathname]);
+
+  function togglePlayPause() {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  }
+
+  function handleVolumeChange(value) {
+    if (audioRef.current) {
+      audioRef.current.volume = value / 100;
+    }
+    setVolume(value);
+  }
+
+  function togglePlayer() {
+    setIsExpanded(!isExpanded);
+  }
+
+  function handlePlay() {
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
+  }
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  const includedRoutes = [
+    "/",
+    "/garden",
+    "/snake",
+    "/tapping",
+    "/game-catch-the-food",
+  ];
+
   return (
     <>
       <GlobalStyle />
@@ -222,7 +346,26 @@ export default function App({ Component, pageProps }) {
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
         onPetCollection={setPetCollection}
+        achievements={achievements}
+        onUpdateAchievements={handleUpdateAchievements}
+        totalPoints={totalPoints}
+        onTotalPoints={handleTotalPoints}
+        totalTimeSpent={totalTimeSpent}
+        onTotalTimeSpent={setTotalTimeSpent}
       />
+      <audio ref={audioRef} src={soundtrack} preload="auto" loop />
+      {includedRoutes.includes(router.pathname) && (
+        <MusicPlayer
+          isPlaying={isPlaying}
+          volume={volume}
+          isExpanded={isExpanded}
+          audioRef={audioRef}
+          onTogglePlayPause={togglePlayPause}
+          onVolumeChange={handleVolumeChange}
+          onTogglePlayer={togglePlayer}
+          onPlay={handlePlay}
+        />
+      )}
       <PageButtons router={router} activePet={activePet} />
     </>
   );

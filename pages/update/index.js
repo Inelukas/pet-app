@@ -20,6 +20,7 @@ export default function UpdatePetPage({
         initialData={activePet}
         onUpdatePet={onUpdatePet}
         hideButtons={true}
+        createPet={true}
       />
     </StyledCreatePage>
   );

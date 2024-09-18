@@ -22,8 +22,8 @@ export default function PetChild({ childPosition, gameOn, pet }) {
       $gameOn={gameOn}
     >
       <Image
-        src={pet.picture}
-        alt={pet.name || "A cute pet"}
+        src={pet?.picture}
+        alt={pet?.name || "A cute pet"}
         width={15}
         height={15}
         quality={100}

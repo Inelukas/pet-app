@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Image from "next/image";
+import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 
 export const StyledStartPage = styled.section`
   display: flex;
@@ -122,8 +123,8 @@ export const StyledStartSpan = styled.span`
 `;
 
 export default function StartPage({ petCollection }) {
-  const buttonText = petCollection.length > 0 ? "Go to Garden" : "Create Pet";
-  const buttonLink = petCollection.length > 0 ? "/garden" : "/create";
+  const buttonText = petCollection?.length > 0 ? "Go to Garden" : "Create Pet";
+  const buttonLink = petCollection?.length > 0 ? "/garden" : "/create";
 
   return (
     <StyledStartPage>
@@ -143,6 +144,7 @@ export default function StartPage({ petCollection }) {
       <StyledStartSpan>
         Create your own Pet - Feed it, train it, keep it happy!
       </StyledStartSpan>
+      <MusicPlayer />
     </StyledStartPage>
   );
 }
