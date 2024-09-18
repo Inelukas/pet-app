@@ -138,8 +138,8 @@ export default function Instructions() {
       rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s Indicators. Energy and Happiness decrease over time but can be replenished by playing games. Your pet’s Hunger increases as time passes and needs to be reduced, also by playing a mini-game. Danger: If Energy and Happiness drop to 0 and Hunger reaches 100, your pet’s Health will decline. If Health reaches 0, your pet will die.`,
     },
     {
-      firstWord: "Keep your pet happy and alive",
-      rest: `To keep your pet alive and Healthy, you can play mini-games that boost its stats. These mini-games are accessible via the top-right corner of the Garden page. The Tapping Game increases your pet’s Energy. The Happy Family Game (Snake) raises your pet’s Happiness. Catch the Food Game reduces your pet’s Hunger.`,
+      firstWord: "Mini-games and achievements",
+      rest: `To keep your pet alive and healthy, you can play mini-games that boost its stats. These mini-games are accessible via the top-right corner of the Garden page. The Tapping Game increases your pet’s Energy. The Happy Family Game (Snake) raises your pet’s Happiness. Catch the Food Game reduces your pet’s Hunger. Also, playing games will unlock achievements. Unlocking achievements will result in fantastic rewards for your pet!`,
     },
     {
       firstWord: "The unthinkable: your pet dies!",
