@@ -1,15 +1,22 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
+import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
+import { useRef } from "react";
 import PageButtons from "@/components/PageButtons/PageButtons";
 
 export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useState(pets);
   const [currentPetID, setCurrentPetID] = useState(pets[0].id);
   const activePet = petCollection.find((pet) => pet.id === currentPetID);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(50);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const audioRef = useRef(null);
+
   const router = useRouter();
 
   function handleCreatePet(petData) {
@@ -197,6 +204,68 @@ export default function App({ Component, pageProps }) {
       })
     );
   }
+
+  let soundtrack;
+
+  if (router.pathname === "/snake") {
+    soundtrack = "/assets/music/snake-game-soundtrack.mp3";
+  } else if (router.pathname === "/tapping") {
+    soundtrack = "/assets/music/tapping-game-soundtrack.mp3";
+  } else if (router.pathname === "/game-catch-the-food") {
+    soundtrack = "/assets/music/catch-the-food-game-soundtrack.mp3";
+  } else if (router.pathname === "/graveyard") {
+    soundtrack = "/assets/music/graveyard-soundtrack.mp3";
+  } else {
+    soundtrack = "/assets/music/birds-chirping-main-sound.mp3";
+  }
+
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current.play();
+    }
+  }, [router.pathname]);
+
+  function togglePlayPause() {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  }
+
+  function handleVolumeChange(value) {
+    if (audioRef.current) {
+      audioRef.current.volume = value / 100;
+    }
+    setVolume(value);
+  }
+
+  function togglePlayer() {
+    setIsExpanded(!isExpanded);
+  }
+
+  function handlePlay() {
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
+  }
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  const includedRoutes = [
+    "/",
+    "/garden",
+    "/snake",
+    "/tapping",
+    "/game-catch-the-food",
+  ];
+
   return (
     <>
       <GlobalStyle />
@@ -223,6 +292,19 @@ export default function App({ Component, pageProps }) {
         onSpeedFactor={getSpeedFactor}
         onPetCollection={setPetCollection}
       />
+      <audio ref={audioRef} src={soundtrack} preload="auto" loop />
+      {includedRoutes.includes(router.pathname) && (
+        <MusicPlayer
+          isPlaying={isPlaying}
+          volume={volume}
+          isExpanded={isExpanded}
+          audioRef={audioRef}
+          onTogglePlayPause={togglePlayPause}
+          onVolumeChange={handleVolumeChange}
+          onTogglePlayer={togglePlayer}
+          onPlay={handlePlay}
+        />
+      )}
       <PageButtons router={router} activePet={activePet} />
     </>
   );
