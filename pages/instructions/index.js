@@ -26,9 +26,9 @@ const StyledFirstWord = styled.span`
   background-color: var(--signal-color);
   background-image: var(--button-image);
   font-family: sans-serif;
-  border: 1px solid #000000;
+
   color: #000000;
-  box-shadow: 2px 2px #000000;
+  box-shadow: var(--global-shadow);
   text-decoration: none;
   min-width: 350px;
 

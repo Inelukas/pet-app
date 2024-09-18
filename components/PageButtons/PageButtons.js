@@ -2,6 +2,11 @@ import Link from "next/link";
 import styled from "styled-components";
 import Image from "next/image";
 import createIcon from "../../public/assets/create.png";
+import listIcon from "../../public/assets/list.png";
+import detailsIcon from "../../public/assets/details.png";
+import achievementsIcon from "../../public/assets/trophy.png";
+import gardenIcon from "../../public/assets/garden.png";
+import graveyardIcon from "../../public/assets/graveyard.png";
 
 const PageButtonContainer = styled.div`
   display: flex;
@@ -28,7 +33,7 @@ const PageButton = styled.div`
   top: ${({ $top }) => ($top ? $top : "auto")};
   width: 4rem;
   height: 4rem;
-  box-shadow: 2px 2px #000000;
+  box-shadow: var(--global-shadow);
   background-color: ${({ $color }) => $color};
   border-radius: 50%;
   display: flex;
@@ -40,35 +45,56 @@ const PageButton = styled.div`
   opacity: 75%;
 `;
 
+const StyledImage = styled(Image)`
+  position: relative;
+  top: 4px;
+`;
 export default function PageButtons({ router, activePet }) {
   return (
     <PageButtonContainer>
       {(router.pathname === "/pet-list" ||
+        router.pathname === "/achievements" ||
         router.pathname.includes("/pet-details")) && (
         <PageButton $color={"lightgreen"} $left={"10px"}>
           <Link href="/garden" aria-label="A golf hole indicating the Garden">
-            ⛳
+            <StyledImage src={gardenIcon} alt="Garden Icon" width={40} />
           </Link>
         </PageButton>
       )}
       {activePet && router.pathname === "/garden" && (
-        <PageButton $color={"lightblue"} $left={"10px"}>
-          <Link
-            href={{
-              pathname: `/pet-details/${activePet.id}`,
-            }}
-            aria-label="Magnifying Glass indicating Details"
-          >
-            🔎
-          </Link>
-        </PageButton>
+        <>
+          <PageButton $color={"lightblue"} $left={"10px"}>
+            <Link
+              href={{
+                pathname: `/pet-details/${activePet.id}`,
+              }}
+              aria-label="Magnifying Glass indicating Details"
+            >
+              <StyledImage src={detailsIcon} alt="Details Icon" width={40} />
+            </Link>
+          </PageButton>
+          <PageButton $color={"green"} $top={"-98vh"} $right={"100px"}>
+            <Link
+              href={{
+                pathname: `/achievements`,
+              }}
+              aria-label="Pokal indicating Achievements"
+            >
+              <StyledImage
+                src={achievementsIcon}
+                alt="Achievements Icon"
+                width={40}
+              />
+            </Link>
+          </PageButton>
+        </>
       )}
       {(router.pathname === "/garden" ||
         router.pathname === "/graveyard" ||
         router.pathname.includes("/pet-details")) && (
         <PageButton $color={"red"} $right={"10px"}>
           <Link href="/pet-list" aria-label="Staple of Books indicating List">
-            📚
+            <StyledImage src={listIcon} alt="List Icon" width={40} />
           </Link>
         </PageButton>
       )}
@@ -76,23 +102,19 @@ export default function PageButtons({ router, activePet }) {
         <>
           <PageButton $color={"orange"} $right={"45%"}>
             <Link href="/create" aria-label="Create Icon">
-              <Image src={createIcon} alt="Create Icon" width={30} />
+              <StyledImage src={createIcon} alt="Create Icon" width={40} />
             </Link>
           </PageButton>
           <PageButton $color={"grey"} $right={"10px"}>
             <Link href="/graveyard" aria-label="Coffing indicating Graveyard">
-              ⚰️
+              <StyledImage
+                src={graveyardIcon}
+                alt="Graveyard Icon"
+                width={40}
+              />
             </Link>
           </PageButton>
         </>
-      )}
-
-      {activePet && router.pathname === "/instructions" && (
-        <PageButton $color={"green"} $left={"10px"}>
-          <Link href="/" aria-label="House indicating Homepage Link">
-            🏠
-          </Link>
-        </PageButton>
       )}
     </PageButtonContainer>
   );

@@ -29,6 +29,7 @@ const StyledBarContainer = styled.div`
   padding: 1px 5px;
   background-color: #ffffff;
   position: relative;
+  box-shadow: var(--global-shadow);
 
   @media screen and (min-width: 600px) {
     width: 60%;
@@ -36,11 +37,11 @@ const StyledBarContainer = styled.div`
 `;
 
 const colorMap = {
-  health: "linear-gradient(90deg, #76c893, #90ee90, #c7e9b0)",
-  happiness: "linear-gradient(90deg, #ff69b4, #ffc0cb, #ffb6c1)",
-  hunger: "linear-gradient(90deg, #ff8c00, #ffa500, #ffd700)",
-  energy: "linear-gradient(90deg, #ffff99, #ffff00, #ffd700)",
-  intelligence: "linear-gradient(90deg, #87cefa, #add8e6, #b0e0e6)",
+  health: "var(--health-gradient)",
+  happiness: "var(--happiness-gradient)",
+  hunger: "var(-hunger-gradient)",
+  energy: "var(-energy-gradient)",
+  intelligence: "var(--intelligence-gradient)",
 };
 
 const StyledBar = styled.div`
@@ -49,6 +50,7 @@ const StyledBar = styled.div`
   position: absolute;
   left: 0;
   top: 0;
+
   width: ${({ width }) => width};
   background: ${({ name }) => colorMap[name] || "#808080"};
 `;

@@ -37,7 +37,7 @@ const DetailsContainer = styled.section`
 
 const PetPictureContainer = styled.section`
   display: flex;
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   flex-direction: column;
   align-items: center;
   position: absolute;
@@ -56,7 +56,7 @@ const PetPicture = styled.section`
   justify-content: center;
   position: relative;
   border-radius: 10px;
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   background: var(--signal-gradient);
   margin-bottom: 10px;
   padding: 5px;
@@ -72,7 +72,7 @@ const PetName = styled.p`
   background: var(--signal-gradient);
 
   border-radius: 10px;
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
 `;
 
 const PetCharContainer = styled.section`
@@ -86,7 +86,7 @@ const PetCharContainer = styled.section`
   text-align: center;
 
   color: var(--text-color);
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
 `;
 
 const PetStatusContainer = styled.section`
@@ -99,7 +99,7 @@ const PetStatusContainer = styled.section`
   padding: 15px;
   width: 100%;
 
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   margin-bottom: 20px;
 `;
 
@@ -119,7 +119,7 @@ const StyledDeleteContainer = styled.section`
   background: var(--primary-gradient);
 
   border-radius: 15px;
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   z-index: 2;
   cursor: pointer;
 
@@ -153,7 +153,7 @@ const StyledDeleteButton = styled.button`
   &:hover {
     transform: scale(1.2);
     opacity: 1;
-    box-shadow: 3px 3px var(--signal-color);
+    box-shadow: var(--global-shadow);
     border-radius: 20px;
   }
 `;
@@ -168,7 +168,7 @@ const StyledUpdateButton = styled.div`
   &:hover {
     transform: scale(1.2);
     opacity: 1;
-    box-shadow: 3px 3px var(--signal-color);
+    box-shadow: var(--global-shadow);
     border-radius: 20px;
   }
 `;

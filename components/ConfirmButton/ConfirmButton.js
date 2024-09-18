@@ -7,7 +7,7 @@ export default styled.button`
   height: 3rem;
   border-radius: 100px;
   margin: 0 20px;
-  box-shadow: 2px 2px #000000;
+  box-shadow: var(--global-shadow);
   cursor: pointer;
   background-color: var(--signal-color);
   background-image: var(--button-image);

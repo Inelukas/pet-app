@@ -37,9 +37,9 @@ const NavButtonContainer = styled.div`
 `;
 
 export const GameButton = styled.button`
-  width: 45px;
-  height: 30px;
-  color: #fff;
+  width: 55px;
+  height: 40px;
+  color: var(--neutral-gradient);
   cursor: pointer;
   outline: none;
   border: none;
@@ -47,8 +47,8 @@ export const GameButton = styled.button`
   transition: all 0.3s ease;
   border-radius: 10px;
   margin: 0 6px;
-  background-color: ${({ $color }) =>
-    $color ? $color : "var(--signal-color)"};
+  background: ${({ $color }) => ($color ? $color : "var(--signal-gradient)")};
+  box-shadow: var(--global-shadow);
 `;
 
 export default function ButtonContainer({
@@ -93,7 +93,7 @@ export default function ButtonContainer({
           </GameButton>
         )}
         <GameButton
-          $color="#4caf50"
+          $color="var(--primary-gradient)"
           onClick={() => {
             (snake && gameOn) || !snake ? onInstructions() : onNewGame();
           }}

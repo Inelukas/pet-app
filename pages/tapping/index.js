@@ -19,39 +19,54 @@ const StyledTappingGameField = styled(StyledGameField)`
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
-
+  box-shadow: var(--global-shadow);
   min-height: 375px;
   padding: 10px;
   box-sizing: border-box;
+  border: none;
 `;
 
 const TappingCircle = styled.button`
-  background-image: ${({ $isActive, $petImage, $isWrongActive }) =>
+  position: relative;
+  background: ${({ $isActive, $isWrongActive }) =>
     $isWrongActive
-      ? `url("/assets/images/ghost_front.png")`
+      ? `var(--signal-gradient)`
       : $isActive
-      ? `url(${$petImage})`
-      : "none"};
-  background-size: contain, contain;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
-
-  background-color: ${({ $isActive, $isWrongActive }) =>
-    $isWrongActive
-      ? `var(--signal-color)`
-      : $isActive
-      ? `var(--signal-color)`
-      : `var(--neutral-color)`};
+      ? `var(--signal-gradient)`
+      : `var(--neutral-gradient)`};
 
   border: 2px solid #ccc;
   cursor: pointer;
   width: 100%;
   height: 100%;
   border-radius: 100%;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--global-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 
   &:hover {
     transform: scale(1.05);
+  }
+
+  &::before {
+    content: "";
+    background-image: ${({ $isActive, $petImage, $isWrongActive }) =>
+      $isWrongActive
+        ? `url("/assets/images/ghost_front.png")`
+        : $isActive && $petImage
+        ? `url(${$petImage})`
+        : "none"};
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
   }
 `;
 
@@ -60,15 +75,15 @@ const SpeedUpMessage = styled.span`
   top: 5px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--signal-color);
+  background: var(--signal-gradient);
   background-size: cover;
   background-repeat: no-repeat;
-  color: #fff;
+
   font-size: 1.5rem;
   padding: 10px 20px;
   border-radius: 10px;
   animation: fadeInOut 2s ease;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--global-shadow);
   white-space: nowrap;
   z-index: 1000;
 
@@ -256,14 +271,14 @@ export default function TappingGame({ onUpdatePetIndicator, activePet }) {
         setGameStates((prevValues) => ({
           ...prevValues,
           intervalTime: 1600,
-          countdown: 10,
+          countdown: 60,
         }));
       }, 1800);
     } else {
       setGameStates((prevValues) => ({
         ...prevValues,
         intervalTime: 1600,
-        countdown: 10,
+        countdown: 60,
       }));
     }
   }

@@ -17,7 +17,7 @@ const StyledHeader = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--text-color);
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   margin: 20px;
   padding: 10px;
   border-radius: 10px;

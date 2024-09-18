@@ -32,7 +32,7 @@ const StyledIndicatorContainer = styled.div`
 
   background: var(--secondary-gradient);
   border-radius: 20px;
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   padding: 0 15px;
 `;
 
@@ -46,7 +46,7 @@ const StyledForm = styled.form`
   padding: 10px;
   background: var(--secondary-gradient);
   border-radius: 20px;
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   font-size: 0.8rem;
   font-weight: 800;
 

@@ -13,12 +13,13 @@ const StyledScoreContainer = styled.div`
 
 const StyledCountdown = styled.span`
   font-size: 2rem;
-  background-color: var(--signal-color);
+  background: var(--signal-gradient);
   border-radius: 100px;
   padding: 5px;
   position: absolute;
   right: -25px;
-  bottom: -25px;
+  bottom: -30px;
+  box-shadow: var(--global-shadow);
 `;
 
 export default function ScoreContainer({

@@ -73,13 +73,11 @@ export const StartPageGardenLink = styled(StyledLink)`
     font-size: 2rem;
     padding: 50px 120px;
   }
-
-  background: var(--signal-gradient);
 `;
 
 const InstructionsLink = styled(StyledLink)`
   border-radius: 10px;
-  background: var(--signal-gradient);
+
   height: 2rem;
   font-size: 0.7rem;
   padding: 15px 35px;

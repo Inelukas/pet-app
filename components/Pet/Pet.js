@@ -5,14 +5,17 @@ import reviveIcon from "../../public/assets/revive.png";
 
 export const StyledPet = styled.li`
   display: flex;
-  box-shadow: 3px 3px 3px #000;
-  border: ${({ $currentPet }) => ($currentPet ? "2px solid orange" : "none")};
+  box-shadow: var(--global-shadow);
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
   align-items: center;
-  background: ${({ $onGraveyard }) =>
-    $onGraveyard ? "var(--graveyard-gradient)" : "var(--secondary-gradient)"};
+  background: ${({ $onGraveyard, $currentPet }) =>
+    $currentPet
+      ? "var(--signal-gradient)"
+      : $onGraveyard
+      ? "var(--graveyard-gradient)"
+      : "var(--secondary-gradient)"};
   width: 80vw;
   max-width: 600px;
   height: ${({ $onGraveyard }) => ($onGraveyard ? "25vh" : "20vh")};
@@ -23,6 +26,7 @@ export const StyledPet = styled.li`
     gap: 15%;
   }
 `;
+
 const StyledPetData = styled.section`
   display: flex;
   flex-direction: column;
@@ -43,9 +47,10 @@ const StyledPortrait = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   border-radius: 50%;
-  background: var(--signal-gradient);
+  background: ${({ $currentPet }) =>
+    $currentPet ? "var(--secondary-gradient)" : "var(--signal-gradient)"};
   position: relative;
   width: 90px;
   height: 90px;
@@ -88,12 +93,11 @@ const ReviveButton = styled(ConfirmButton)`
 `;
 
 export default function Pet({ petData, onGraveyard, currentPetID }) {
+  const isCurrentPet = petData.id === currentPetID;
+
   return (
-    <StyledPet
-      $onGraveyard={!!onGraveyard}
-      $currentPet={petData.id === currentPetID}
-    >
-      <StyledPortrait>
+    <StyledPet $onGraveyard={!!onGraveyard} $currentPet={isCurrentPet}>
+      <StyledPortrait $currentPet={isCurrentPet}>
         {petData.isAlive ? (
           <Image
             src={petData.image}

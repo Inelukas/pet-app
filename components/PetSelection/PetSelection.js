@@ -17,31 +17,34 @@ const NavbarContainer = styled.nav`
   align-items: center;
   gap: 20px;
   padding: 5px;
-  background-color: var(--secondary-color);
+  background: var(--primary-gradient);
   border-radius: 8px;
   width: 50%;
   max-width: 250px;
   position: absolute;
   bottom: 10px;
+  box-shadow: var(--global-shadow);
 `;
 
 const NavButton = styled.button`
   ${buttonStyles}
-  background-color: var(--primary-color);
-  color: var(--neutral-color);
+  background: var(--secondary-gradient);
+  color: var(--neutral-gradient);
+  box-shadow: var(--global-shadow);
 `;
 
 const DropdownButton = styled.button`
   ${buttonStyles}
-  background-color: var(--signal-color);
+  background: var(--signal-gradient);
   position: relative;
+  box-shadow: var(--global-shadow);
 `;
 
 const DropdownMenu = styled.ul`
   position: absolute;
   bottom: 85%;
-  background-color: var(--neutral-color);
-  border: 1px solid var(--text-color);
+  background: var(--neutral-gradient);
+  box-shadow: var(--global-shadow);
   list-style: none;
   text-align: center;
   right: 50%;
@@ -74,7 +77,7 @@ const StyledSelectionButton = styled.button`
   border-radius: 10px;
   border: none;
   margin: 0 20px;
-  box-shadow: 2px 2px #000;
+  box-shadow: var(--global-shadow);
   cursor: pointer;
   background: var(--signal-gradient);
 
@@ -83,7 +86,7 @@ const StyledSelectionButton = styled.button`
     transform: scale(1.2);
   }
   &:active {
-    background-color: var(--secondary-color);
+    background: var(--secondary-gradient);
   }
 `;
 
@@ -95,7 +98,7 @@ const StyledPetIcon = styled.div`
   border-radius: 20px;
   background: var(--signal-gradient);
   font-size: ${({ size }) => (size === "small" ? "60px" : "80px")};
-  box-shadow: 3px 3px 3px #000;
+  box-shadow: var(--global-shadow);
   cursor: pointer;
   image-rendering: optimizeQuality;
 `;
