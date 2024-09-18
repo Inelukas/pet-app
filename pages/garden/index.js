@@ -45,7 +45,7 @@ const PetName = styled.h1`
   top: 8%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2rem;
+  font-size: 1.8rem;
 
   background: var(--secondary-gradient);
   padding: 10px 20px;

@@ -89,7 +89,7 @@ export default function PageButtons({ router, activePet }) {
             }}
             aria-label="Pokal indicating Achievements"
           >
-            <PageButton $color={"green"} $top={"-98vh"} $right={"100px"}>
+            <PageButton $color={"green"} $top={"-73.5vh"} $left={"10px"}>
               <Image
                 src={achievementsIcon}
                 alt="Achievements Icon"

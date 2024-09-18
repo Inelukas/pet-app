@@ -30,7 +30,6 @@ export default function App({ Component, pageProps }) {
 
   const router = useRouter();
 
-  // Achievement state managed here
   const [achievements, setAchievements] = useLocalStorageState("Achievements", {
     defaultValue: {
       food: [false, false, false, false, false],
@@ -47,14 +46,12 @@ export default function App({ Component, pageProps }) {
     },
   });
 
-  // Function to update achievements
   function handleUpdateAchievements(category, index) {
     setAchievements((prevAchievements) => {
-      // Check if achievement is already unlocked
       if (prevAchievements[category][index]) return prevAchievements;
 
       const updatedCategory = [...prevAchievements[category]];
-      updatedCategory[index] = true; // Unlock the achievement
+      updatedCategory[index] = true;
 
       return { ...prevAchievements, [category]: updatedCategory };
     });
@@ -166,7 +163,7 @@ export default function App({ Component, pageProps }) {
                 intelligence: Math.min(
                   pet.status.intelligence +
                     (score >= 5 || indicator === "hunger"
-                      ? getintelligenceFactor(activePet.characteristics)
+                      ? getIntelligenceFactor(activePet.characteristics)
                       : 0),
                   100
                 ),
@@ -191,7 +188,7 @@ export default function App({ Component, pageProps }) {
     });
   }
 
-  function gethappinessFactor(characteristics) {
+  function getHappinessFactor(characteristics) {
     const moodFactor = characteristics.includes("cheerful")
       ? 0.5
       : characteristics.includes("melancholy")
@@ -200,7 +197,7 @@ export default function App({ Component, pageProps }) {
     return moodFactor;
   }
 
-  function gethungerFactor(characteristics) {
+  function getHungerFactor(characteristics) {
     const hungerFactor = characteristics.includes("gluttonous")
       ? 1.5
       : characteristics.includes("temperate")
@@ -209,7 +206,7 @@ export default function App({ Component, pageProps }) {
     return hungerFactor;
   }
 
-  function getenergyFactor(characteristics) {
+  function getEnergyFactor(characteristics) {
     const energyFactor = characteristics.includes("gluttonous")
       ? 0.5
       : characteristics.includes("temperate")
@@ -227,7 +224,7 @@ export default function App({ Component, pageProps }) {
     return speedFactor;
   }
 
-  function getintelligenceFactor(characteristics) {
+  function getIntelligenceFactor(characteristics) {
     const intelligenceFactor = characteristics.includes("cheerful")
       ? 0.5
       : characteristics.includes("melancholy")
@@ -236,7 +233,7 @@ export default function App({ Component, pageProps }) {
     return intelligenceFactor;
   }
 
-  function gethealthFactor(characteristics) {
+  function getHealthFactor(characteristics) {
     const healthFactor = characteristics.includes("foolish")
       ? 0.5
       : characteristics.includes("smart")
@@ -339,11 +336,11 @@ export default function App({ Component, pageProps }) {
         onCurrentPet={handleCurrentPet}
         onUpdatePetIndicator={handleUpdatePetIndicator}
         onDeadPet={handleDeadPet}
-        onhealthFactor={gethealthFactor}
-        onintelligenceFactor={getintelligenceFactor}
-        onenergyFactor={getenergyFactor}
-        onhappinessFactor={gethappinessFactor}
-        onhungerFactor={gethungerFactor}
+        onhealthFactor={getHealthFactor}
+        onintelligenceFactor={getIntelligenceFactor}
+        onenergyFactor={getEnergyFactor}
+        onhappinessFactor={getHappinessFactor}
+        onhungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
         onPetCollection={setPetCollection}
         achievements={achievements}
