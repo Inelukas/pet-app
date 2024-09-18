@@ -119,7 +119,7 @@ export default function Instructions() {
   const instructions = [
     {
       firstWord: "Creating a new pet",
-      rest: `To create a new pet, go to the Pet List by clicking the Staple of Books Button on the main screen. Tap the Plus (+) Button on the Pet List page to create your own pet. Customize your pet by giving it a name, choosing its type, and assigning characteristics. `,
+      rest: `To create a new pet, go to the Pet List by clicking the List Button on the main screen. Tap the Plus (+) Button on the Pet List page to create your own pet. Customize your pet by giving it a name, choosing its type, and assigning characteristics. `,
     },
     {
       firstWord: "View pet details",
