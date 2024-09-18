@@ -14,6 +14,15 @@ const GraveyardContainer = styled(GardenContainer)`
   background-size: 100% 100%;
   padding-top: 80px;
   background-repeat: repeat;
+
+  @media (min-width: 1200px) {
+    max-width: 800px;
+  }
+
+  @media (min-width: 650px) {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+  }
 `;
 
 export default function Graveyard({ petCollection, onPetCollection }) {

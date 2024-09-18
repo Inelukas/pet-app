@@ -31,6 +31,18 @@ const NavButton = styled.button`
   background: var(--secondary-gradient);
   color: var(--neutral-gradient);
   box-shadow: var(--global-shadow);
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--signal-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 `;
 
 const DropdownButton = styled.button`
@@ -84,6 +96,7 @@ const StyledSelectionButton = styled.button`
   font-size: ${({ size }) => (size === "small" ? "1.2rem" : "2rem")};
   &:hover {
     transform: scale(1.2);
+    background: var(--secondary-gradient);
   }
   &:active {
     background: var(--secondary-gradient);

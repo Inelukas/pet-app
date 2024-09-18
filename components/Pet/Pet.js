@@ -88,8 +88,20 @@ export const StyledList = styled.ul`
 const ReviveButton = styled(ConfirmButton)`
   align-self: flex-end;
   background: var(--signal-gradient);
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 60px;
+  height: 60px;
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--secondary-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 `;
 
 export default function Pet({ petData, onGraveyard, currentPetID }) {

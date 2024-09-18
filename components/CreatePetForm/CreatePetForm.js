@@ -99,6 +99,18 @@ const StyledCharacteristicsContainer = styled.div`
   }
 `;
 
+const StyledCancelButton = styled(StyledLink)`
+  width: 65px;
+  height: 65px;
+  border-radius: 100px;
+  font-size: 1.5rem;
+  box-shadow: var(--global-shadow);
+  cursor: pointer;
+  margin: 0 20px;
+  transition: none;
+  margin-top: -2px;
+`;
+
 export default function CreatePetForm({
   initialData,
   onCreatePet,
@@ -307,11 +319,11 @@ export default function CreatePetForm({
         })}
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
-        <StyledLink href="/pet-list">
-          <Image src={cancelIcon} alt="Cancel Icon" width={40} />
-        </StyledLink>
+        <StyledCancelButton href="/pet-list">
+          <Image src={cancelIcon} alt="Cancel Icon" width={40} height={40} />
+        </StyledCancelButton>
         <ConfirmButton type="submit" form="create-pet">
-          <Image src={confirmIcon} alt="Confirm Icon" width={40} />
+          <Image src={confirmIcon} alt="Confirm Icon" width={40} height={40} />
         </ConfirmButton>
       </StyledConfirmButtonContainer>
     </CreatePage>

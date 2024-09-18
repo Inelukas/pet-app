@@ -31,18 +31,29 @@ const PageButton = styled.div`
   right: ${({ $right }) => ($right ? $right : "auto")};
   left: ${({ $left }) => ($left ? $left : "auto")};
   top: ${({ $top }) => ($top ? $top : "auto")};
-  width: 4rem;
-  height: 4rem;
-  box-shadow: var(--global-shadow);
-  background-color: ${({ $color }) => $color};
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  font-size: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 32px;
-  color: var(--text-color);
-  opacity: 75%;
+  box-shadow: var(--global-shadow);
+
+  background: var(--secondary-gradient);
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--signal-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 `;
 
 const StyledImage = styled(Image)`

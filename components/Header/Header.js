@@ -30,11 +30,18 @@ const StyledHeader = styled.h1`
     props.$isGraveyard &&
     css`
       background: var(--graveyard-gradient);
+      width: 40vw;
     `}
 
   @media screen and (min-width: 600px) {
     width: 60vw;
     font-size: 2rem;
+
+    ${(props) =>
+      props.$isGraveyard &&
+      css`
+        width: 40vw;
+      `}
   }
 `;
 

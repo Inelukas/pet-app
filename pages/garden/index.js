@@ -30,6 +30,10 @@ export const GardenContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
+  @media (min-width: 650px) {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+  }
   @media (min-width: 1200px) {
     max-width: 800px;
   }
@@ -146,12 +150,28 @@ const StatusLink = styled(Link)`
   box-shadow: var(--global-shadow);
   margin-bottom: 8px;
   border-radius: 4px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   width: 60px;
   text-decoration: none;
   text-align: center;
   font-size: 1.5rem;
+
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
+  transition: all 0.2s ease-in-out;
+
+  ${({ disabled }) =>
+    !disabled &&
+    `
+      &:hover {
+        background: var(--primary-gradient);
+        box-shadow: var(--global-shadow);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        background: var(--secondary-gradient);
+      }
+    `}
 `;
 
 export default function Garden({
