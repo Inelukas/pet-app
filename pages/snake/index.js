@@ -15,11 +15,16 @@ import ButtonContainer from "@/components/GameElements/ButtonContainer/ButtonCon
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
 import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
 import toggleInstructions from "@/utils/toggleInstructions";
+import Popup from "@/components/Popup/Popup";
 
 export default function SnakeGame({
   onUpdatePetIndicator,
   activePet,
   onSpeedFactor,
+  achievements,
+  onUpdateAchievements,
+  totalPoints,
+  onTotalPoints,
 }) {
   const [gameStates, setGameStates] = useState({
     gameOn: true,
@@ -33,7 +38,21 @@ export default function SnakeGame({
     instructions: false,
     gameWidth: 300,
     gameHeight: 300,
+    unlockedAchievement: null,
+    showPopup: false,
   });
+
+  useEffect(() => {
+    if (gameStates.showPopup) {
+      const timer = setTimeout(() => {
+        setGameStates((prevValues) => ({
+          ...prevValues,
+          showPopup: false,
+        }));
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [gameStates.showPopup]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -76,6 +95,59 @@ export default function SnakeGame({
       onUpdatePetIndicator(gameStates.score, "happiness");
     }
   }, [gameStates.gameOn]);
+
+  useEffect(() => {
+    if (gameStates.score) {
+      onTotalPoints("snake");
+      handleAchievementUpdate();
+    }
+  }, [gameStates.score]);
+
+  useEffect(() => {
+    handleAchievementUpdate();
+  }, [gameStates.score, totalPoints]);
+
+  function handleAchievementUpdate() {
+    let achievementUnlocked = false;
+
+    if (gameStates.score >= 5 && !achievements.play[1]) {
+      onUpdateAchievements("play", 1);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Ball unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (gameStates.score >= 8 && !achievements.play[2]) {
+      onUpdateAchievements("play", 2);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Yarn unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+
+    if (totalPoints.snake >= 12 && !achievements.food[0]) {
+      onUpdateAchievements("food", 0);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Broccoli unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (totalPoints.snake >= 20 && !achievements.food[1]) {
+      onUpdateAchievements("food", 1);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Ham unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+  }
 
   useEffect(() => {
     function movePlayer() {
@@ -141,7 +213,7 @@ export default function SnakeGame({
 
     const moveInterval = setInterval(
       movePlayer,
-      100 * onSpeedFactor(activePet.characteristics) + 50
+      100 * onSpeedFactor(activePet?.characteristics) + 50
     );
     return () => clearInterval(moveInterval);
   }, [
@@ -255,12 +327,15 @@ export default function SnakeGame({
     });
   }
 
-  if (!gameStates.gameOn && activePet.status.happiness === 100) {
+  if (!gameStates.gameOn && activePet?.status.happiness === 100) {
     return <SummaryScreen itemsCaught={gameStates.score} snake={true} />;
   }
 
   return (
     <StyledGamePage>
+      {gameStates.showPopup && (
+        <Popup message={gameStates.unlockedAchievement} />
+      )}
       {gameStates.instructions && (
         <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>
       )}
@@ -289,10 +364,10 @@ export default function SnakeGame({
               name: "happiness",
               count: gameStates.gameOn
                 ? Math.min(
-                    activePet.status.happiness + gameStates.score * 5,
+                    activePet?.status.happiness + gameStates.score * 5,
                     100
                   )
-                : activePet.status.happiness,
+                : activePet?.status.happiness,
             }}
           />
         </StyledIndicatorContainer>

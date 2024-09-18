@@ -19,8 +19,8 @@ export default function Food({ foodPosition, pet }) {
       $leftPosition={`${foodPosition.x}px`}
     >
       <Image
-        src={pet.picture}
-        alt={pet.name || "A cute pet"}
+        src={pet?.picture}
+        alt={pet?.name || "A cute pet"}
         width={20}
         height={20}
         quality={100}

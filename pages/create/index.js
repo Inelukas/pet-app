@@ -15,7 +15,7 @@ export const StyledCreatePage = styled.main`
 export default function CreatePetPage({ onCreatePet }) {
   return (
     <StyledCreatePage>
-      <CreatePetForm onCreatePet={onCreatePet} />
+      <CreatePetForm onCreatePet={onCreatePet} createPet={true} />
     </StyledCreatePage>
   );
 }

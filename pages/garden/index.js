@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Link from "next/link";
 import AnimatedPet from "@/components/AnimatedPet/AnimatedPet";
 import Image from "next/image";
 import { indicatorZoomKeyframes } from "@/lib/data";
 import PetSelection from "@/components/PetSelection/PetSelection";
+import Popup from "@/components/Popup/Popup";
 
 const GardenPage = styled.main`
   width: 100%;
@@ -163,7 +164,59 @@ export default function Garden({
   onHappinessFactor,
   onHungerFactor,
   onSpeedFactor,
+  achievements,
+  onUpdateAchievements,
+  onTotalTimeSpent,
+  totalTimeSpent,
 }) {
+  const [unlockedAchievement, setUnlockedAchievement] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      onTotalTimeSpent((prevTime) =>
+        activePet?.isAlive ? prevTime + 1 : prevTime
+      );
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [onTotalTimeSpent, activePet?.isAlive]);
+
+  useEffect(() => {
+    if (totalTimeSpent >= 10) {
+      let achievementUnlocked = false;
+
+      if (!achievements.play[0]) {
+        onUpdateAchievements("play", 0);
+        setUnlockedAchievement("Twig unlocked!");
+        setShowPopup(true);
+        achievementUnlocked = true;
+      }
+
+      if (totalTimeSpent >= 20 && !achievements.furniture[0]) {
+        onUpdateAchievements("furniture", 0);
+        setUnlockedAchievement("Doghouse unlocked!");
+        setShowPopup(true);
+        achievementUnlocked = true;
+      }
+
+      if (totalTimeSpent >= 40 && !achievements.furniture[1]) {
+        onUpdateAchievements("furniture", 1);
+        setUnlockedAchievement("Throne unlocked!");
+        setShowPopup(true);
+        achievementUnlocked = true;
+      }
+    }
+  }, [totalTimeSpent, achievements, onUpdateAchievements]);
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
+
   useEffect(() => {
     const updateIndicatorsTimer = setInterval(() => {
       setPetCollection((prevPets) =>
@@ -180,28 +233,28 @@ export default function Garden({
                 hunger: calculateIndicatorValue(
                   "hunger",
                   hunger,
-                  onHungerFactor(activePet.characteristics),
+                  onHungerFactor(activePet?.characteristics),
                   intelligenceFactor
                 ),
 
                 happiness: calculateIndicatorValue(
                   "happiness",
                   happiness,
-                  onHappinessFactor(activePet.characteristics),
+                  onHappinessFactor(activePet?.characteristics),
                   intelligenceFactor
                 ),
 
                 energy: calculateIndicatorValue(
                   "energy",
                   energy,
-                  onEnergyFactor(activePet.characteristics),
+                  onEnergyFactor(activePet?.characteristics),
                   intelligenceFactor
                 ),
 
                 health: calculateIndicatorValue(
                   "health",
                   health,
-                  onHealthFactor(activePet.characteristics),
+                  onHealthFactor(activePet?.characteristics),
                   intelligenceFactor,
                   hunger,
                   happiness,
@@ -254,16 +307,17 @@ export default function Garden({
           <StatusContainer>
             <HorizontalBar
               $critical={
-                activePet.status.health <= 25 && activePet.status.health !== 0
+                activePet?.status.health <= 25 && activePet?.status.health !== 0
               }
             >
               <HeartIcon aria-label="A heart indicating Health">❤️</HeartIcon>
-              <HorizontalBarFill value={activePet.status.health} />
+              <HorizontalBarFill value={activePet?.status.health} />
             </HorizontalBar>
             <VerticalBarContainer>
               <VerticalBar
                 $critical={
-                  activePet.status.hunger >= 75 && activePet.status.health !== 0
+                  activePet?.status.hunger >= 75 &&
+                  activePet?.status.health !== 0
                 }
               >
                 <Icon aria-label="A bowl of ice-cream indicating hunger">
@@ -271,56 +325,57 @@ export default function Garden({
                 </Icon>
                 <VerticalBarFill
                   $bgcolor="orange"
-                  value={activePet.status.hunger}
+                  value={activePet?.status.hunger}
                 />
               </VerticalBar>
               <VerticalBar
                 $critical={
-                  activePet.status.happiness <= 25 &&
-                  activePet.status.health !== 0
+                  activePet?.status.happiness <= 25 &&
+                  activePet?.status.health !== 0
                 }
               >
                 <Icon aria-label="Some confetti indicating happiness">🎉</Icon>
                 <VerticalBarFill
                   $bgcolor="pink"
-                  value={activePet.status.happiness}
+                  value={activePet?.status.happiness}
                 />
               </VerticalBar>
               <VerticalBar
                 $critical={
-                  activePet.status.energy <= 25 && activePet.status.health !== 0
+                  activePet?.status.energy <= 25 &&
+                  activePet?.status.health !== 0
                 }
               >
                 <Icon aria-label="A battery indicating energy">🔋</Icon>
                 <VerticalBarFill
                   $bgcolor="yellow"
-                  value={activePet.status.energy}
+                  value={activePet?.status.energy}
                 />
               </VerticalBar>
             </VerticalBarContainer>
           </StatusContainer>
         )}
-        {activePet && !activePet.isRevived && (
+        {activePet && !activePet?.isRevived && (
           <ButtonContainer>
             <StatusLink
-              href={activePet.isAlive ? "/catch-the-food" : ""}
+              href={activePet?.isAlive ? "/catch-the-food" : ""}
               $bgcolor="orange"
-              disabled={!activePet.isAlive || activePet.status.hunger === 0}
+              disabled={!activePet?.isAlive || activePet?.status.hunger === 0}
             >
               <span aria-label="celebration">🍽️</span>
             </StatusLink>
 
             <StatusLink
-              href={activePet.isAlive ? "/snake" : ""}
+              href={activePet?.isAlive ? "/snake" : ""}
               $bgcolor="pink"
-              disabled={!activePet.isAlive}
+              disabled={!activePet?.isAlive}
             >
               <span aria-label="celebration">🎉</span>
             </StatusLink>
             <StatusLink
-              href={activePet.isAlive ? "/tapping" : ""}
+              href={activePet?.isAlive ? "/tapping" : ""}
               $bgcolor="yellow"
-              disabled={!activePet.isAlive}
+              disabled={!activePet?.isAlive}
             >
               <span aria-label="energy">🔋</span>
             </StatusLink>
@@ -329,17 +384,17 @@ export default function Garden({
 
         {activePet && (
           <PetWrapper>
-            {activePet.isAlive || activePet.isRevived ? (
+            {activePet?.isAlive || activePet?.isRevived ? (
               <AnimatedPet
-                pet={activePet.animations}
-                isDying={activePet.isDying}
-                movingSpeedFactor={onSpeedFactor(activePet.characteristics)}
+                pet={activePet?.animations}
+                isDying={activePet?.isDying}
+                movingSpeedFactor={onSpeedFactor(activePet?.characteristics)}
                 onDeadPet={onDeadPet}
               />
             ) : (
               <Image
                 src="/assets/images/tombstone.png"
-                alt={activePet.name || "A Tombstone"}
+                alt={activePet?.name || "A Tombstone"}
                 width={100}
                 height={100}
               />
@@ -350,9 +405,10 @@ export default function Garden({
         <PetSelection
           activePet={activePet}
           petCollection={petCollection}
-          onCurrentPet={onCurrentPet}
           onCurrentPetID={onCurrentPetID}
+          onCurrentPet={onCurrentPet}
         />
+        {showPopup && <Popup message={unlockedAchievement} />}
       </GardenContainer>
     </GardenPage>
   );

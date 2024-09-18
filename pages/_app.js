@@ -7,17 +7,58 @@ import { uid } from "uid";
 import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 import { useRef } from "react";
 import PageButtons from "@/components/PageButtons/PageButtons";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function App({ Component, pageProps }) {
-  const [petCollection, setPetCollection] = useState(pets);
-  const [currentPetID, setCurrentPetID] = useState(pets[0].id);
-  const activePet = petCollection.find((pet) => pet.id === currentPetID);
+  const [petCollection, setPetCollection] = useLocalStorageState(
+    "PetCollection",
+    { defaultValue: [] }
+  );
+  const [currentPetID, setCurrentPetID] = useLocalStorageState(
+    "CurrentPetID",
+    null
+  );
+  const [totalTimeSpent, setTotalTimeSpent] = useLocalStorageState(
+    "TotalTimeSpent",
+    0
+  );
+  const activePet = petCollection?.find((pet) => pet.id === currentPetID);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
   const [isExpanded, setIsExpanded] = useState(false);
   const audioRef = useRef(null);
 
   const router = useRouter();
+
+  // Achievement state managed here
+  const [achievements, setAchievements] = useLocalStorageState("Achievements", {
+    defaultValue: {
+      food: [false, false, false, false, false],
+      play: [false, false, false, false, false],
+      furniture: [false, false, false, false, false],
+    },
+  });
+
+  const [totalPoints, setTotalPoints] = useLocalStorageState("TotalPoints", {
+    defaultValue: {
+      snake: 0,
+      tapping: 0,
+      catchfood: 0,
+    },
+  });
+
+  // Function to update achievements
+  function handleUpdateAchievements(category, index) {
+    setAchievements((prevAchievements) => {
+      // Check if achievement is already unlocked
+      if (prevAchievements[category][index]) return prevAchievements;
+
+      const updatedCategory = [...prevAchievements[category]];
+      updatedCategory[index] = true; // Unlock the achievement
+
+      return { ...prevAchievements, [category]: updatedCategory };
+    });
+  }
 
   function handleCreatePet(petData) {
     const { characteristic1, characteristic2, ...restPetData } = petData;
@@ -35,7 +76,7 @@ export default function App({ Component, pageProps }) {
 
   function handleDeletePet(id) {
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
-    setCurrentPetID(pets[0].id);
+    setCurrentPetID(pets[0].id || null);
   }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
@@ -134,6 +175,20 @@ export default function App({ Component, pageProps }) {
           : pet;
       })
     );
+  }
+
+  function handleTotalPoints(game) {
+    setTotalPoints((prevValues) => {
+      return {
+        snake: game === "snake" ? prevValues.snake + 1 : prevValues.snake,
+        tapping:
+          game === "tapping" ? prevValues.tapping + 1 : prevValues.tapping,
+        catchfood:
+          game === "catchfood"
+            ? prevValues.catchfood + 1
+            : prevValues.catchfood,
+      };
+    });
   }
 
   function getHappinessFactor(characteristics) {
@@ -291,6 +346,12 @@ export default function App({ Component, pageProps }) {
         onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
         onPetCollection={setPetCollection}
+        achievements={achievements}
+        onUpdateAchievements={handleUpdateAchievements}
+        totalPoints={totalPoints}
+        onTotalPoints={handleTotalPoints}
+        totalTimeSpent={totalTimeSpent}
+        onTotalTimeSpent={setTotalTimeSpent}
       />
       <audio ref={audioRef} src={soundtrack} preload="auto" loop />
       {includedRoutes.includes(router.pathname) && (

@@ -54,6 +54,8 @@ export default function Header() {
   } else if (router.pathname === "/graveyard") {
     pageTitle = "Pet Cemetery";
     isGraveyard = true;
+  } else if (router.pathname === "/achievements") {
+    pageTitle = "Achievements";
   }
 
   if (!pageTitle) return null;

@@ -79,15 +79,11 @@ export default function ButtonContainer({
         </Link>
         {!snake && (
           <GameButton
-            onClick={
-              !gameOn || (!snake && !tapping) ? onStart : () => onReset(false)
-            }
+            onClick={!gameOn || !tapping ? onStart : () => onReset(false)}
           >
             <Image
-              src={!gameOn || (!snake && !tapping) ? startIcon : replayIcon}
-              alt={
-                !gameOn || (!snake && !tapping) ? "Start Icon" : "Replay Icon"
-              }
+              src={!gameOn || !tapping ? startIcon : replayIcon}
+              alt={!gameOn || !tapping ? "Start Icon" : "Replay Icon"}
               width={30}
             />
           </GameButton>
