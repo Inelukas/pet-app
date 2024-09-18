@@ -41,13 +41,13 @@ const AvatarContainer = styled.div`
 `;
 const getRandomItem = (gameWidth) => {
   const items = [
-    { type: "good", name: "Broccoli", icon: ":brokkoli:" },
-    { type: "good", name: "Carrot", icon: ":karotte:" },
-    { type: "good", name: "Banana", icon: ":banane:" },
-    { type: "good", name: "Hamburger", icon: ":hamburger:" },
-    { type: "bad", name: "Oildrum", icon: ":ölfass:" },
-    { type: "bad", name: "Toilet", icon: ":toilette:" },
-    { type: "bad", name: "Pool 8 Ball", icon: ":schwarze_8:" },
+    { type: "good", name: "Broccoli", icon: "🥦" },
+    { type: "good", name: "Carrot", icon: "🥕" },
+    { type: "good", name: "Banana", icon: "🍌" },
+    { type: "good", name: "Hamburger", icon: "🍔" },
+    { type: "bad", name: "Oildrum", icon: "🛢️" },
+    { type: "bad", name: "Toilet", icon: "🚽" },
+    { type: "bad", name: "Pool 8 Ball", icon: "🎱" },
   ];
   const randomX = Math.floor(Math.random() * (gameWidth - 40));
   return {

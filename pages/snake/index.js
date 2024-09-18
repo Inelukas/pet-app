@@ -16,7 +16,6 @@ import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContai
 import SummaryScreen from "@/components/GameElements/SummaryScreen/SummaryScreen";
 import toggleInstructions from "@/utils/toggleInstructions";
 import Popup from "@/components/Popup/Popup";
-
 export default function SnakeGame({
   onUpdatePetIndicator,
   activePet,
@@ -41,7 +40,6 @@ export default function SnakeGame({
     unlockedAchievement: null,
     showPopup: false,
   });
-
   useEffect(() => {
     if (gameStates.showPopup) {
       const timer = setTimeout(() => {
@@ -53,7 +51,6 @@ export default function SnakeGame({
       return () => clearTimeout(timer);
     }
   }, [gameStates.showPopup]);
-
   useEffect(() => {
     const handleResize = () => {
       setGameStates((prevValues) => ({
@@ -73,20 +70,15 @@ export default function SnakeGame({
         foodPosition: generateNewFoodPosition(),
       }));
     };
-
     window.addEventListener("resize", handleResize);
-
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   useEffect(() => {
     setGameStates((prevValues) => {
       return { ...prevValues, foodPosition: generateNewFoodPosition() };
     });
   }, []);
-
   useEffect(() => {
     if (!gameStates.gameOn) {
       const itemSound = new Audio("/assets/music/fail.mp3");
@@ -95,21 +87,17 @@ export default function SnakeGame({
       onUpdatePetIndicator(gameStates.score, "happiness");
     }
   }, [gameStates.gameOn]);
-
   useEffect(() => {
     if (gameStates.score) {
       onTotalPoints("snake");
       handleAchievementUpdate();
     }
   }, [gameStates.score]);
-
   useEffect(() => {
     handleAchievementUpdate();
   }, [gameStates.score, totalPoints]);
-
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
-
     if (gameStates.score >= 5 && !achievements.play[1]) {
       onUpdateAchievements("play", 1);
       setGameStates((prevValues) => ({
@@ -128,7 +116,6 @@ export default function SnakeGame({
       }));
       achievementUnlocked = true;
     }
-
     if (totalPoints.snake >= 12 && !achievements.food[0]) {
       onUpdateAchievements("food", 0);
       setGameStates((prevValues) => ({
@@ -148,12 +135,11 @@ export default function SnakeGame({
       achievementUnlocked = true;
     }
   }
-
   useEffect(() => {
     function movePlayer() {
       if (!gameStates.gameOn) return;
+      moveChildren(gameStates.playerPosition);
       setGameStates((prevValues) => {
-        let prevPlayerPosition = { ...prevValues.playerPosition };
         let newPosition = { ...prevValues.playerPosition };
         let newFoodPosition;
         if (prevValues.direction === "ArrowUp") {
@@ -165,7 +151,6 @@ export default function SnakeGame({
         } else if (prevValues.direction === "ArrowRight") {
           newPosition.x += 20;
         }
-
         function setNewValues(prevValues) {
           if (
             newPosition.x === prevValues.foodPosition.x &&
@@ -179,11 +164,9 @@ export default function SnakeGame({
               newFoodPosition = generateNewFoodPosition();
             }
           }
-
           if (checkGameLost(newPosition, prevValues.children)) {
             return { playerPosition: prevValues.playerPosition, gameOn: false };
           }
-          moveChildren(prevPlayerPosition);
           return {
             playerPosition: newPosition,
             prevDirection: prevValues.direction,
@@ -206,11 +189,9 @@ export default function SnakeGame({
               : prevValues.children,
           };
         }
-
         return { ...prevValues, ...setNewValues(prevValues) };
       });
     }
-
     const moveInterval = setInterval(
       movePlayer,
       100 * onSpeedFactor(activePet?.characteristics) + 50
@@ -221,10 +202,8 @@ export default function SnakeGame({
     gameStates.playerPosition,
     gameStates.foodPosition,
   ]);
-
   function handleDirection(event) {
     const currentKey = typeof event === "string" ? event : event.key;
-
     if (currentKey === "ArrowUp" && gameStates.prevDirection !== "ArrowDown") {
       setGameStates((prevVal) => ({ ...prevVal, direction: "ArrowUp" }));
     } else if (
@@ -253,14 +232,12 @@ export default function SnakeGame({
       }));
     }
   }
-
   function generateNewFoodPosition() {
     return {
       x: Math.floor(Math.random() * ((gameStates.gameWidth - 20) / 20)) * 20,
       y: Math.floor(Math.random() * ((gameStates.gameHeight - 20) / 20)) * 20,
     };
   }
-
   function handleNewGame() {
     setGameStates((prevVal) => {
       return {
@@ -275,7 +252,6 @@ export default function SnakeGame({
       };
     });
   }
-
   function checkGameLost(newPlayerPosition, children) {
     if (
       newPlayerPosition.x < 0 ||
@@ -296,7 +272,6 @@ export default function SnakeGame({
     }
     return false;
   }
-
   function checkNewFoodOverlap(food) {
     if (
       (food.x === gameStates.foodPosition.x &&
@@ -313,7 +288,6 @@ export default function SnakeGame({
     }
     return false;
   }
-
   function moveChildren(prevPlayerPosition) {
     setGameStates((prevValues) => {
       const newChildren = prevValues.children.map((child, index) => {
@@ -326,11 +300,9 @@ export default function SnakeGame({
       return { ...prevValues, children: newChildren };
     });
   }
-
   if (!gameStates.gameOn && activePet?.status.happiness === 100) {
     return <SummaryScreen itemsCaught={gameStates.score} snake={true} />;
   }
-
   return (
     <StyledGamePage>
       {gameStates.showPopup && (

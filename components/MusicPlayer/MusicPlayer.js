@@ -12,6 +12,7 @@ const NoteIcon = styled.div`
   height: 25px;
   right: 0px;
   top: 50%;
+
   cursor: pointer;
   opacity: 0.6;
 
@@ -36,12 +37,12 @@ const PlayerContainer = styled(motion.aside)`
   justify-content: space-between;
   gap: 25px;
   position: fixed;
-  background-color: var(--secondary-color);
-  border: 2px solid black;
+  background: var(--secondary-gradient);
+  box-shadow: var(--global-shadow);
   border-radius: 10px;
   width: 50px;
   height: 375px;
-  right: 0px;
+  right: 10px;
   top: 42%;
 
   &:hover {
@@ -85,6 +86,7 @@ const VolumeControl = styled(motion.input)`
   outline: none;
   margin: 5px;
   width: 50px;
+
   cursor: pointer;
 
   &:hover {
@@ -96,6 +98,7 @@ const VolumeControl = styled(motion.input)`
     background: black;
     width: 8px;
     height: 8px;
+
     border-radius: 5px;
   }
 
@@ -106,7 +109,8 @@ const VolumeControl = styled(motion.input)`
     height: 12px;
     margin-top: -2px;
     border-radius: 50%;
-    background: var(--signal-color);
+    background: var(--signal-gradient);
+
     cursor: pointer;
   }
 
