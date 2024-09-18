@@ -8,6 +8,7 @@ export const StyledPet = styled.li`
   box-shadow: var(--global-shadow);
   border-radius: 10px;
   margin: 10px;
+
   padding: 10px;
   align-items: center;
   background: ${({ $onGraveyard, $currentPet }) =>
@@ -22,6 +23,10 @@ export const StyledPet = styled.li`
   min-height: 150px;
   gap: 10%;
   position: relative;
+
+  &:hover {
+    background: var(--neutral-gradient);
+  }
 
   @media screen and (min-width: 600px) {
     gap: 15%;
@@ -93,7 +98,7 @@ const ReviveButton = styled(ConfirmButton)`
   background: var(--signal-gradient);
   width: 40px;
   height: 40px;
-
+  box-shadow: var(--global-shadow);
   margin-bottom: 5px;
   bottom: -15px;
   right: -10px;
@@ -102,7 +107,7 @@ const ReviveButton = styled(ConfirmButton)`
   transition: all 0.2s ease-in-out;
   &:hover {
     background: var(--secondary-gradient);
-    box-shadow: var(--global-shadow);
+
     transform: scale(1.1);
   }
   &:active {

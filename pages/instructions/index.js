@@ -81,6 +81,10 @@ const ExpandedText = styled.span`
   max-width: 500px;
   display: block;
   font-size: medium;
+  background: var(--secondary-gradient);
+  border-radius: 10px;
+  padding: 7px;
+  box-shadow: var(--global-shadow);
 
   @media (min-width: 600px) {
     font-size: large;
@@ -135,7 +139,7 @@ export default function Instructions() {
     },
     {
       firstWord: "The pet garden",
-      rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s Indicators. energy and happiness decrease over time but can be replenished by playing games. Your pet’s hunger increases as time passes and needs to be reduced, also by playing a mini-game. Danger: If energy and happiness drop to 0 and hunger reaches 100, your pet’s health will decline. If health reaches 0, your pet will die.`,
+      rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s Indicators. Energy and happiness decrease over time but can be replenished by playing games. Your pet’s hunger increases as time passes and needs to be reduced, also by playing a mini-game. Danger: If energy and happiness drop to 0 and hunger reaches 100, your pet’s health will decline. If health reaches 0, your pet will die.`,
     },
     {
       firstWord: "Mini-games and achievements",
