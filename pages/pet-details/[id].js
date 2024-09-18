@@ -114,9 +114,10 @@ const StyledDeleteContainer = styled.section`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 300px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   padding: 20px;
-  background: var(--primary-gradient);
+  background: var(--signal-gradient);
+  font-weight: bold;
 
   border-radius: 15px;
   box-shadow: var(--global-shadow);
@@ -124,7 +125,6 @@ const StyledDeleteContainer = styled.section`
   cursor: pointer;
 
   @media screen and (min-width: 600px) {
-    font-size: 1rem;
     width: 350px;
   }
 `;
