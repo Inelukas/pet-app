@@ -8,6 +8,7 @@ import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 import { useRef } from "react";
 import PageButtons from "@/components/PageButtons/PageButtons";
 import useLocalStorageState from "use-local-storage-state";
+import ToastMessage from "@/components/ToastMessage/ToastMessage";
 
 export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useLocalStorageState(
@@ -26,11 +27,25 @@ export default function App({ Component, pageProps }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showToastMessage, setShowToastMessage] = useState({
+    show: false,
+    toastText: "",
+  });
   const audioRef = useRef(null);
 
   const router = useRouter();
 
-  // Achievement state managed here
+  useEffect(() => {
+    if (showToastMessage.show) {
+      const toastMessage = setTimeout(
+        () => setShowToastMessage({ show: false, toastText: "" }),
+        5000
+      );
+
+      return () => clearTimeout(toastMessage);
+    }
+  }, [showToastMessage.show]);
+
   const [achievements, setAchievements] = useLocalStorageState("Achievements", {
     defaultValue: {
       food: [false, false, false, false, false],
@@ -47,14 +62,12 @@ export default function App({ Component, pageProps }) {
     },
   });
 
-  // Function to update achievements
   function handleUpdateAchievements(category, index) {
     setAchievements((prevAchievements) => {
-      // Check if achievement is already unlocked
       if (prevAchievements[category][index]) return prevAchievements;
 
       const updatedCategory = [...prevAchievements[category]];
-      updatedCategory[index] = true; // Unlock the achievement
+      updatedCategory[index] = true;
 
       return { ...prevAchievements, [category]: updatedCategory };
     });
@@ -72,11 +85,22 @@ export default function App({ Component, pageProps }) {
     setPetCollection((prevData) => [newPet, ...prevData]);
     router.push("/pet-list");
     setCurrentPetID(newPet.id);
+    setShowToastMessage({
+      show: true,
+      toastText: `${newPet.name} has been born`,
+    });
   }
 
   function handleDeletePet(id) {
+    const deletedPet = petCollection.find((pet) => pet.id === id);
     setPetCollection((prevPets) => prevPets.filter((pet) => pet.id != id));
-    setCurrentPetID(pets[0].id || null);
+    setShowToastMessage({
+      show: true,
+      toastText: `${deletedPet.name} has been deleted!`,
+    });
+    setCurrentPetID((prevID) =>
+      deletedPet.id === activePet?.id ? petCollection[1]?.id || null : prevID
+    );
   }
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
@@ -98,6 +122,10 @@ export default function App({ Component, pageProps }) {
       )
     );
     router.push(`/pet-details/${updatedPetData.id}`);
+    setShowToastMessage({
+      show: true,
+      toastText: `${activePet.name} has been updated!`,
+    });
   }
   function handleInteractPet(updatedPetData) {
     setPetCollection((prevData) =>
@@ -258,6 +286,17 @@ export default function App({ Component, pageProps }) {
         return pet;
       })
     );
+    setShowToastMessage({
+      show: true,
+      toastText: `${activePet.name} has died!`,
+    });
+  }
+
+  function handlePetRevivedMessage(name) {
+    setShowToastMessage({
+      show: true,
+      toastText: `${name} has come back to haunt you!`,
+    });
   }
 
   let soundtrack;
@@ -352,6 +391,7 @@ export default function App({ Component, pageProps }) {
         onTotalPoints={handleTotalPoints}
         totalTimeSpent={totalTimeSpent}
         onTotalTimeSpent={setTotalTimeSpent}
+        onPetRevivedMessage={handlePetRevivedMessage}
       />
       <audio ref={audioRef} src={soundtrack} preload="auto" loop />
       {includedRoutes.includes(router.pathname) && (
@@ -367,6 +407,9 @@ export default function App({ Component, pageProps }) {
         />
       )}
       <PageButtons router={router} activePet={activePet} />
+      {showToastMessage.show && (
+        <ToastMessage messageContent={showToastMessage.toastText} />
+      )}
     </>
   );
 }
