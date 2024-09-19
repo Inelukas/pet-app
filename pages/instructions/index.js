@@ -135,11 +135,11 @@ export default function Instructions() {
     },
     {
       firstWord: "Pet details and characteristics",
-      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: intelligence, energy, hunger, and happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. For example: a smart pet has a higher initial intelligence, a gluttonous one becomes hungry more easily. Every characteristic has silver linings and downsides - have fun exploring them!`,
+      rest: `To view Pet Details, tap any pet on the Pet List. You will see information such as the pet’s name, type, characteristics, and all the stats: Health, intelligence, energy, hunger, and happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. For example: a smart pet has a higher initial intelligence, a gluttonous one becomes hungry more easily. Every characteristic has silver linings and downsides - have fun exploring them!`,
     },
     {
       firstWord: "The pet garden",
-      rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s Indicators. Energy and happiness decrease over time but can be replenished by playing games. Your pet’s hunger increases as time passes and needs to be reduced, also by playing a mini-game. Danger: If energy and happiness drop to 0 and hunger reaches 100, your pet’s health will decline. If health reaches 0, your pet will die.`,
+      rest: `In the Pet Garden, your currently selected pet is displayed. It is crucial to monitor your pet’s Indicators. Energy and happiness decrease over time but can be replenished by playing games. Your pet’s hunger increases as time passes and needs to be reduced, also by playing a mini-game. Careful though: If energy and happiness drop to zero and hunger reaches 100, your pet’s health will decline. If health reaches zero, your pet will die.`,
     },
     {
       firstWord: "Mini-games and achievements",
@@ -147,7 +147,7 @@ export default function Instructions() {
     },
     {
       firstWord: "The unthinkable: your pet dies!",
-      rest: `If your pet dies, it will be transferred to the Graveyard. To access the Graveyard, go to the Pet List Page and click on the Graveyard section. In the Graveyard, you can Revive your pet, but it will return as a Ghost.`,
+      rest: `If your pet dies, it will be transferred to the Graveyard. To access the Graveyard, go to the Pet List Page and click on the Graveyard section. In the Graveyard, you can resurrect your pet, but it will return as a Ghost.`,
     },
     {
       firstWord: "Pet ghosts",
