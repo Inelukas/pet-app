@@ -88,7 +88,7 @@ export default function App({ Component, pageProps }) {
               ].filter(Boolean),
               status: {
                 ...pet.status,
-                intelligence: updateintelligence(pet, updatedPetData),
+                intelligence: updateIntelligence(pet, updatedPetData),
               },
             }
           : pet
@@ -104,7 +104,7 @@ export default function App({ Component, pageProps }) {
     );
   }
 
-  function updateintelligence(pet, updatedPetData) {
+  function updateIntelligence(pet, updatedPetData) {
     const { characteristic1, characteristic2 } = updatedPetData;
 
     if (characteristic1 === "smart" || characteristic2 === "smart") {
@@ -336,11 +336,11 @@ export default function App({ Component, pageProps }) {
         onCurrentPet={handleCurrentPet}
         onUpdatePetIndicator={handleUpdatePetIndicator}
         onDeadPet={handleDeadPet}
-        onhealthFactor={getHealthFactor}
-        onintelligenceFactor={getIntelligenceFactor}
-        onenergyFactor={getEnergyFactor}
-        onhappinessFactor={getHappinessFactor}
-        onhungerFactor={getHungerFactor}
+        onHealthFactor={getHealthFactor}
+        onIntelligenceFactor={getIntelligenceFactor}
+        onEnergyFactor={getEnergyFactor}
+        onHappinessFactor={getHappinessFactor}
+        onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
         onPetCollection={setPetCollection}
         achievements={achievements}

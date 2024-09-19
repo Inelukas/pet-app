@@ -171,7 +171,7 @@ export default function CreatePetForm({
       status: {
         [happiness.name]: happiness.count,
         [energy.name]: energy.count,
-        [intelligence.name]: calculateintelligence(
+        [intelligence.name]: calculateIntelligence(
           characteristics.characteristic1,
           characteristics.characteristic2
         ),
@@ -194,15 +194,15 @@ export default function CreatePetForm({
     setPetName("");
   }
 
-  function calculateintelligence(characteristic1, characteristic2) {
-    const currentPetintelligenceCount = animalList[
+  function calculateIntelligence(characteristic1, characteristic2) {
+    const currentPetIntelligenceCount = animalList[
       currentImageIndex
     ].indicators.find((indicator) => indicator.name === "intelligence").count;
-    let intelligenceCount = currentPetintelligenceCount;
+    let intelligenceCount = currentPetIntelligenceCount;
     if (characteristic1 === "smart" || characteristic2 === "smart") {
-      intelligenceCount = Math.min(currentPetintelligenceCount + 20, 100);
+      intelligenceCount = Math.min(currentPetIntelligenceCount + 20, 100);
     } else if (characteristic1 === "foolish" || characteristic2 === "foolish") {
-      intelligenceCount = Math.min(currentPetintelligenceCount - 20, 100);
+      intelligenceCount = Math.min(currentPetIntelligenceCount - 20, 100);
     }
     return intelligenceCount;
   }
@@ -304,7 +304,7 @@ export default function CreatePetForm({
           let indicatorCount = indicator.count;
 
           if (indicator.name === "intelligence") {
-            indicatorCount = calculateintelligence(
+            indicatorCount = calculateIntelligence(
               characteristics.characteristic1,
               characteristics.characteristic2
             );
