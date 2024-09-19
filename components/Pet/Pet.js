@@ -8,7 +8,6 @@ export const StyledPet = styled.li`
   box-shadow: var(--global-shadow);
   border-radius: 10px;
   margin: 10px;
-
   padding: 10px;
   align-items: center;
   background: ${({ $onGraveyard, $currentPet }) =>
@@ -25,7 +24,8 @@ export const StyledPet = styled.li`
   position: relative;
 
   &:hover {
-    background: var(--neutral-gradient);
+    background: ${({ $onGraveyard }) =>
+      $onGraveyard ? "var(--grey-gradient)" : "var(--neutral-gradient)"};
   }
 
   @media screen and (min-width: 600px) {

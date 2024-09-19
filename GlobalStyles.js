@@ -20,6 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     --hunger-gradient: linear-gradient(90deg, #ff8c00, #ffa500, #ffd700);
     --health-gradient: linear-gradient(90deg, #76c893, #90ee90, #c7e9b0);
     --intelligence-gradient: linear-gradient(90deg, #87cefa, #add8e6, #b0e0e6); 
+    --grey-gradient: linear-gradient(to right, #d3d3d3, #bfbfbf, #808080);
     --global-shadow: 3px 3px 3px #000; 
 }
 
@@ -41,7 +42,7 @@ input, select, textarea {
 
 
 input:disabled, select:disabled, textarea:disabled {
-    background: linear-gradient(to right, #d3d3d3, #bfbfbf, #808080);
+    background: var(--grey-gradient); 
     
     cursor: not-allowed; 
 }
