@@ -9,7 +9,7 @@ export const StyledStartPage = styled.section`
   justify-content: center;
   height: 100vh;
   gap: 30px;
-  max-height: -webkit-fill-available;
+  position: fixed;
 `;
 
 export const StyledImage = styled(Image)`

@@ -14,8 +14,7 @@ import Popup from "@/components/Popup/Popup";
 const GardenPage = styled.main`
   display: flex;
   justify-content: center;
-  overflow: hidden;
-  max-height: -webkit-fill-available;
+  position: fixed;
 `;
 
 export const GardenContainer = styled.div`
@@ -30,8 +29,6 @@ export const GardenContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
-  max-height: -webkit-fill-available;
 
   @media (min-width: 650px) {
     border-left: 2px solid black;
