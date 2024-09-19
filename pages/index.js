@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Image from "next/image";
-import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 
 export const StyledStartPage = styled.section`
   display: flex;
@@ -37,11 +36,6 @@ export const StyledImage = styled(Image)`
   @media (min-width: 900px) {
     width: 500px;
     height: 500px;
-  }
-
-  @media (min-width: 1200px) {
-    width: 600px;
-    height: 600px;
   }
 `;
 
@@ -108,7 +102,7 @@ export default function StartPage({ petCollection }) {
     <StyledStartPage>
       <StyledImage
         alt="Pet App Logo"
-        src="/assets/images/logo.png"
+        src="/assets/images/app-logo.png"
         width={350}
         height={350}
         priority
