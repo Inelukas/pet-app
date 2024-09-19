@@ -25,6 +25,7 @@ export default function UpdatePetPage({
         hideButtons={true}
         createPet={true}
         animalChoices={animalChoices}
+        petToEdit={pet}
       />
     </StyledCreatePage>
   );

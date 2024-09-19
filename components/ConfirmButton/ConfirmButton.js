@@ -6,13 +6,12 @@ export default styled.button`
   width: 60px;
   height: 60px;
   border-radius: 100px;
-
+  margin: 0 10px;
   box-shadow: var(--global-shadow);
   cursor: pointer;
   background: var(--secondary-gradient);
   border: none;
   font-size: 1.5rem;
-
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s ease-in-out;

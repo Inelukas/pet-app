@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import PetSelection from "../PetSelection/PetSelection";
 import Indicator from "../Indicator/Indicator";
-import StyledLink from "../StyledLink/StyledLink";
 import ConfirmButton from "../ConfirmButton/ConfirmButton";
 import { characteristicOptions } from "@/lib/data";
 import cancelIcon from "../../public/assets/cancel.png";
 import confirmIcon from "../../public/assets/confirm.png";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const CreatePage = styled.main`
   padding-top: 80px;
@@ -99,18 +99,6 @@ const StyledCharacteristicsContainer = styled.div`
   }
 `;
 
-const StyledCancelButton = styled(StyledLink)`
-  width: 65px;
-  height: 65px;
-  border-radius: 100px;
-  font-size: 1.5rem;
-  box-shadow: var(--global-shadow);
-  cursor: pointer;
-  margin: 0 20px;
-  transition: none;
-  margin-top: -2px;
-`;
-
 export default function CreatePetForm({
   initialData,
   onCreatePet,
@@ -118,6 +106,7 @@ export default function CreatePetForm({
   onUpdatePet,
   createPet,
   animalChoices,
+  petToEdit,
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [characteristics, setCharacteristics] = useState({
@@ -126,6 +115,8 @@ export default function CreatePetForm({
   });
 
   const [petName, setPetName] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     if (initialData) {
@@ -325,9 +316,17 @@ export default function CreatePetForm({
         <ConfirmButton type="submit" form="create-pet">
           <Image src={confirmIcon} alt="Confirm Icon" width={40} height={40} />
         </ConfirmButton>
-        <StyledCancelButton href="/pet-list">
+        <ConfirmButton
+          onClick={() =>
+            router.push(
+              router.pathname === "/create"
+                ? "/pet-list"
+                : `/pet-details/${petToEdit.id}`
+            )
+          }
+        >
           <Image src={cancelIcon} alt="Cancel Icon" width={40} height={40} />
-        </StyledCancelButton>
+        </ConfirmButton>
       </StyledConfirmButtonContainer>
     </CreatePage>
   );
