@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const PopupContainer = styled.div`
   position: fixed;
-  bottom: 50px;
+  bottom: 85px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--signal-gradient);
-  width: 150px;
-  height: 50px;
+  box-shadow: var(--global-shadow);
+  font-size: x-large;
+  font-weight: bold;
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
@@ -17,7 +17,7 @@ const PopupContainer = styled.div`
 `;
 
 function Popup({ message }) {
-  return <PopupContainer> {message}</PopupContainer>;
+  return <PopupContainer>{message} </PopupContainer>;
 }
 
 export default Popup;

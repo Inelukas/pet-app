@@ -245,10 +245,7 @@ export default function TappingGame({
               : prevValues.intervalTime;
 
           if (newCountdown === 0) {
-            setGameStates((prev) => ({
-              ...prev,
-              gameOn: false,
-            }));
+            setGameStates((prev) => ({ ...prev, gameOn: false }));
             handleReset(true);
             onUpdatePetIndicator(gameStates.score, "energy");
           }

@@ -46,11 +46,21 @@ const NavButton = styled.button`
   }
 `;
 
+const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
 const DropdownButton = styled.button`
   ${buttonStyles}
   background: var(--signal-gradient);
   position: relative;
   box-shadow: var(--global-shadow);
+
+  &:hover {
+    background: var(--secondary-gradient);
+    transform: scale(1.1);
+  }
 `;
 
 const DropdownMenu = styled.ul`
@@ -63,13 +73,19 @@ const DropdownMenu = styled.ul`
   right: 50%;
   transform: translateX(50%);
   opacity: 75%;
+  width: 70px;
+  display: none;
+
+  ${DropdownContainer}:hover & {
+    display: block;
+  }
 `;
 
 const DropdownItem = styled.li`
   padding: 8px;
   cursor: pointer;
   &:hover {
-    background-color: var(--primary-color);
+    background: var(--primary-gradient);
   }
 `;
 
@@ -130,11 +146,8 @@ export default function PetSelection({
   createPet,
   animalChoices,
 }) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const handlePetSelect = (petId) => {
     onCurrentPetID(petId);
-    setIsDropdownOpen(false);
   };
 
   function renderNavBar() {
@@ -143,20 +156,16 @@ export default function PetSelection({
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton
-              onClick={() =>
-                petCollection.length > 1 && setIsDropdownOpen(!isDropdownOpen)
-              }
-            >
-              <Image
-                src={activePet.picture}
-                alt={activePet.name || "A cute pet"}
-                width={30}
-                height={30}
-                quality={100}
-              />
-            </DropdownButton>
-            {isDropdownOpen && (
+            <DropdownContainer>
+              <DropdownButton>
+                <Image
+                  src={activePet.picture}
+                  alt={activePet.name || "A cute pet"}
+                  width={30}
+                  height={30}
+                  quality={100}
+                />
+              </DropdownButton>
               <DropdownMenu>
                 {petCollection.map((pet) => (
                   <DropdownItem
@@ -166,14 +175,14 @@ export default function PetSelection({
                     <Image
                       src={pet.picture}
                       alt={pet.name || "A cute pet"}
-                      width={20}
-                      height={20}
+                      width={30}
+                      height={30}
                       quality={100}
                     />
                   </DropdownItem>
                 ))}
               </DropdownMenu>
-            )}
+            </DropdownContainer>
             <NavButton onClick={() => onCurrentPet("next")}>→</NavButton>
           </NavbarContainer>
         )}

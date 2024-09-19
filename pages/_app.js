@@ -173,7 +173,7 @@ export default function App({ Component, pageProps }) {
               ].filter(Boolean),
               status: {
                 ...pet.status,
-                intelligence: updateintelligence(pet, updatedPetData),
+                intelligence: updateIntelligence(pet, updatedPetData),
               },
             }
           : pet
@@ -193,7 +193,7 @@ export default function App({ Component, pageProps }) {
     );
   }
 
-  function updateintelligence(pet, updatedPetData) {
+  function updateIntelligence(pet, updatedPetData) {
     const { characteristic1, characteristic2 } = updatedPetData;
 
     if (characteristic1 === "smart" || characteristic2 === "smart") {
@@ -252,7 +252,7 @@ export default function App({ Component, pageProps }) {
                 intelligence: Math.min(
                   pet.status.intelligence +
                     (score >= 5
-                      ? getintelligenceFactor(activePet.characteristics)
+                      ? getIntelligenceFactor(activePet.characteristics)
                       : 0),
                   100
                 ),
@@ -277,7 +277,7 @@ export default function App({ Component, pageProps }) {
     });
   }
 
-  function gethappinessFactor(characteristics) {
+  function getHappinessFactor(characteristics) {
     const moodFactor = characteristics.includes("cheerful")
       ? 0.5
       : characteristics.includes("melancholy")
@@ -286,7 +286,7 @@ export default function App({ Component, pageProps }) {
     return moodFactor;
   }
 
-  function gethungerFactor(characteristics) {
+  function getHungerFactor(characteristics) {
     const hungerFactor = characteristics.includes("gluttonous")
       ? 1.5
       : characteristics.includes("temperate")
@@ -295,7 +295,7 @@ export default function App({ Component, pageProps }) {
     return hungerFactor;
   }
 
-  function getenergyFactor(characteristics) {
+  function getEnergyFactor(characteristics) {
     const energyFactor = characteristics.includes("gluttonous")
       ? 0.5
       : characteristics.includes("temperate")
@@ -313,7 +313,7 @@ export default function App({ Component, pageProps }) {
     return speedFactor;
   }
 
-  function getintelligenceFactor(characteristics) {
+  function getIntelligenceFactor(characteristics) {
     const intelligenceFactor = characteristics.includes("cheerful")
       ? 0.5
       : characteristics.includes("melancholy")
@@ -322,7 +322,7 @@ export default function App({ Component, pageProps }) {
     return intelligenceFactor;
   }
 
-  function gethealthFactor(characteristics) {
+  function getHealthFactor(characteristics) {
     const healthFactor = characteristics.includes("foolish")
       ? 0.5
       : characteristics.includes("smart")
@@ -437,11 +437,11 @@ export default function App({ Component, pageProps }) {
         onCurrentPet={handleCurrentPet}
         onUpdatePetIndicator={handleUpdatePetIndicator}
         onDeadPet={handleDeadPet}
-        onhealthFactor={gethealthFactor}
-        onintelligenceFactor={getintelligenceFactor}
-        onenergyFactor={getenergyFactor}
-        onhappinessFactor={gethappinessFactor}
-        onhungerFactor={gethungerFactor}
+        onHealthFactor={getHealthFactor}
+        onIntelligenceFactor={getIntelligenceFactor}
+        onEnergyFactor={getEnergyFactor}
+        onHappinessFactor={getHappinessFactor}
+        onHungerFactor={getHungerFactor}
         onSpeedFactor={getSpeedFactor}
         onPetCollection={setPetCollection}
         achievements={achievements}

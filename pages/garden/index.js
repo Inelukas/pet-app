@@ -45,7 +45,7 @@ const PetName = styled.h1`
   top: 8%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2rem;
+  font-size: 1.8rem;
 
   background: var(--secondary-gradient);
   padding: 10px 20px;
@@ -202,10 +202,10 @@ export default function Garden({
   onCurrentPetID,
   onCurrentPet,
   onDeadPet,
-  onhealthFactor,
-  onenergyFactor,
-  onhappinessFactor,
-  onhungerFactor,
+  onHealthFactor,
+  onEnergyFactor,
+  onHappinessFactor,
+  onHungerFactor,
   onSpeedFactor,
   achievements,
   onUpdateAchievements,
@@ -276,28 +276,28 @@ export default function Garden({
                 hunger: calculateIndicatorValue(
                   "hunger",
                   hunger,
-                  onhungerFactor(activePet?.characteristics),
+                  onHungerFactor(activePet?.characteristics),
                   intelligenceFactor
                 ),
 
                 happiness: calculateIndicatorValue(
                   "happiness",
                   happiness,
-                  onhappinessFactor(activePet?.characteristics),
+                  onHappinessFactor(activePet?.characteristics),
                   intelligenceFactor
                 ),
 
                 energy: calculateIndicatorValue(
                   "energy",
                   energy,
-                  onenergyFactor(activePet?.characteristics),
+                  onEnergyFactor(activePet?.characteristics),
                   intelligenceFactor
                 ),
 
                 health: calculateIndicatorValue(
                   "health",
                   health,
-                  onhealthFactor(activePet?.characteristics),
+                  onHealthFactor(activePet?.characteristics),
                   intelligenceFactor,
                   hunger,
                   happiness,

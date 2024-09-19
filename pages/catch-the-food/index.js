@@ -17,7 +17,6 @@ import ButtonContainer from "@/components/GameElements/ButtonContainer/ButtonCon
 import ScoreContainer from "@/components/GameElements/ScoreContainer/ScoreContainer";
 import toggleInstructions from "@/utils/toggleInstructions";
 import Popup from "@/components/Popup/Popup";
-
 const GameFieldContainer = styled(StyledGameField)`
   display: flex;
   place-content: unset;
@@ -25,7 +24,6 @@ const GameFieldContainer = styled(StyledGameField)`
   min-height: 400px;
   border: 4px solid black;
   box-sizing: border-box;
-
   @media screen and (min-width: 600px) {
     width: 324px;
     min-height: 480px;
@@ -35,14 +33,12 @@ const GameFieldContainer = styled(StyledGameField)`
     min-height: 560px;
   }
 `;
-
 const AvatarContainer = styled.div`
   position: absolute;
   width: 40px;
   height: 40px;
   bottom: 0px;
 `;
-
 const getRandomItem = (gameWidth) => {
   const items = [
     { type: "good", name: "Broccoli", icon: "🥦" },
@@ -53,9 +49,7 @@ const getRandomItem = (gameWidth) => {
     { type: "bad", name: "Toilet", icon: "🚽" },
     { type: "bad", name: "Pool 8 Ball", icon: "🎱" },
   ];
-
   const randomX = Math.floor(Math.random() * (gameWidth - 40));
-
   return {
     ...items[Math.floor(Math.random() * items.length)],
     x: randomX,
@@ -63,7 +57,6 @@ const getRandomItem = (gameWidth) => {
     id: uid(),
   };
 };
-
 export default function GamePage({
   activePet,
   onUpdatePetIndicator,
@@ -88,7 +81,6 @@ export default function GamePage({
     unlockedAchievement: null,
     showPopup: false,
   });
-
   useEffect(() => {
     if (gameStates.showPopup) {
       const timer = setTimeout(() => {
@@ -100,7 +92,6 @@ export default function GamePage({
       return () => clearTimeout(timer);
     }
   }, [gameStates.showPopup]);
-
   useEffect(() => {
     const handleResize = () => {
       setGameStates((prevValues) => ({
@@ -119,20 +110,15 @@ export default function GamePage({
             : 400,
       }));
     };
-
     window.addEventListener("resize", handleResize);
-
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   useEffect(() => {
     if (gameStates.counter > 0) {
       onTotalPoints("catchfood");
     }
   }, [gameStates.counter]);
-
   useEffect(() => {
     if (gameStates.counter > 0) {
       handleAchievementUpdate();
@@ -141,7 +127,6 @@ export default function GamePage({
 
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
-
     if (gameStates.counter >= 5 && !achievements.furniture[2]) {
       onUpdateAchievements("furniture", 2);
       setGameStates((prevValues) => ({
@@ -160,7 +145,6 @@ export default function GamePage({
       }));
       achievementUnlocked = true;
     }
-
     if (totalPoints.catchfood >= 12 && !achievements.food[2]) {
       onUpdateAchievements("food", 2);
       setGameStates((prevValues) => ({
@@ -180,7 +164,6 @@ export default function GamePage({
       achievementUnlocked = true;
     }
   }
-
   function startGame() {
     if (!gameStates.gameOn) {
       setGameStates((prevValues) => ({
@@ -194,7 +177,6 @@ export default function GamePage({
       }));
     }
   }
-
   useEffect(() => {
     if (gameStates.gameOn) {
       const interval = setInterval(() => {
@@ -206,17 +188,14 @@ export default function GamePage({
       return () => clearInterval(interval);
     }
   }, [gameStates.gameOn, gameStates.gameWidth]);
-
   function handleDirection(event) {
     const currentKey = typeof event === "string" ? event : event.key;
-
     if (currentKey === "ArrowLeft") {
       moveAvatar(-15);
     } else if (currentKey === "ArrowRight") {
       moveAvatar(15);
     }
   }
-
   function moveAvatar(moveAmount) {
     setGameStates((prevValues) => ({
       ...prevValues,
@@ -226,10 +205,8 @@ export default function GamePage({
       ),
     }));
   }
-
   useEffect(() => {
     let interval;
-
     if (gameStates.gameOn) {
       interval = setInterval(() => {
         setGameStates((prevValues) => ({
@@ -243,7 +220,6 @@ export default function GamePage({
               const isCaught =
                 item.y >= gameStates.gameHeight - 60 &&
                 Math.abs(item.x - prevValues.avatarX) < 20;
-
               if (isCaught) {
                 if (item.type === "good") {
                   const itemSound = new Audio("/assets/music/item.mp3");
@@ -264,17 +240,14 @@ export default function GamePage({
                 }));
                 return false;
               }
-
               if (item.y >= gameStates.gameHeight - 30) return false;
               return true;
             }),
         }));
       }, 20 + 30 * onSpeedFactor(activePet?.characteristics));
     }
-
     return () => clearInterval(interval);
   }, [gameStates.gameOn, gameStates.gameHeight]);
-
   useEffect(() => {
     if (gameStates.hunger <= 0) {
       setGameStates((prevValues) => ({
@@ -296,11 +269,9 @@ export default function GamePage({
           gameTime: timeElapsed,
         }));
       }, 1000);
-
       return () => clearInterval(timeInterval);
     }
   }, [gameStates.gameOn, gameStates.startTime]);
-
   if (!gameStates.gameOn && gameStates.hunger <= 0) {
     return (
       <SummaryScreen
@@ -310,7 +281,6 @@ export default function GamePage({
       />
     );
   }
-
   return (
     <StyledGamePage>
       {gameStates.showPopup && (
@@ -320,7 +290,6 @@ export default function GamePage({
         <Filter onClick={() => toggleInstructions(setGameStates)}></Filter>
       )}
       <StyledTitle>Catch The Food</StyledTitle>
-
       <GameFieldContainer>
         <StyledIndicatorContainer>
           <Indicator
