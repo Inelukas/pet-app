@@ -124,6 +124,7 @@ export default function GamePage({
       handleAchievementUpdate();
     }
   }, [gameStates.counter, totalPoints.catchfood]);
+
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
     if (gameStates.counter >= 5 && !achievements.furniture[2]) {
@@ -256,6 +257,7 @@ export default function GamePage({
       onUpdatePetIndicator(gameStates.counter, "hunger");
     }
   }, [gameStates.hunger]);
+
   useEffect(() => {
     if (gameStates.gameOn) {
       const timeInterval = setInterval(() => {

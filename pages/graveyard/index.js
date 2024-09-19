@@ -28,7 +28,11 @@ const GraveyardContainer = styled(GardenContainer)`
   }
 `;
 
-export default function Graveyard({ petCollection, onPetCollection }) {
+export default function Graveyard({
+  petCollection,
+  onPetCollection,
+  onPetRevivedMessage,
+}) {
   const deadPets = petCollection.filter(
     (pet) => !pet.isAlive && !pet.isRevived
   );
@@ -63,6 +67,8 @@ export default function Graveyard({ petCollection, onPetCollection }) {
     });
 
     onPetCollection(updatedPets);
+    const revivedPet = petCollection.find((pet) => pet.id === petId);
+    onPetRevivedMessage(revivedPet.name);
   }
 
   return (

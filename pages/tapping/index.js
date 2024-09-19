@@ -338,6 +338,7 @@ export default function TappingGame({
       ...prevValues,
       gameOn: false,
       activeCircles: [],
+      gameOn: false,
       activeWrongCircles: [],
       clickedCircles: [],
     }));
