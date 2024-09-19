@@ -193,7 +193,26 @@ export default function TappingGame({
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
 
-    if (gameStates.score >= 5 && !achievements.play[3]) {
+    if (gameStates.score >= 5 && !achievements.play[1]) {
+      onUpdateAchievements("play", 1);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Ball unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (gameStates.score >= 15 && !achievements.play[2]) {
+      onUpdateAchievements("play", 2);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Yarn unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+
+    if (totalPoints.tapping >= 50 && !achievements.play[3]) {
       onUpdateAchievements("play", 3);
       setGameStates((prevValues) => ({
         ...prevValues,
@@ -202,30 +221,11 @@ export default function TappingGame({
       }));
       achievementUnlocked = true;
     }
-    if (gameStates.score >= 8 && !achievements.play[4]) {
+    if (totalPoints.tapping >= 100 && !achievements.play[4]) {
       onUpdateAchievements("play", 4);
       setGameStates((prevValues) => ({
         ...prevValues,
         unlockedAchievement: "Teddy unlocked!",
-        showPopup: true,
-      }));
-      achievementUnlocked = true;
-    }
-
-    if (totalPoints.tapping >= 12 && !achievements.food[4]) {
-      onUpdateAchievements("food", 4);
-      setGameStates((prevValues) => ({
-        ...prevValues,
-        unlockedAchievement: "Cake unlocked!",
-        showPopup: true,
-      }));
-      achievementUnlocked = true;
-    }
-    if (totalPoints.tapping >= 20 && !achievements.food[4]) {
-      onUpdateAchievements("food", 4);
-      setGameStates((prevValues) => ({
-        ...prevValues,
-        unlockedAchievement: "Hammock unlocked!",
         showPopup: true,
       }));
       achievementUnlocked = true;

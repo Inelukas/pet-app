@@ -127,25 +127,16 @@ export default function GamePage({
 
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
-    if (gameStates.counter >= 5 && !achievements.furniture[2]) {
-      onUpdateAchievements("furniture", 2);
+    if (gameStates.counter >= 5 && !achievements.food[1]) {
+      onUpdateAchievements("food", 1);
       setGameStates((prevValues) => ({
         ...prevValues,
-        unlockedAchievement: "Pet Castle unlocked!",
+        unlockedAchievement: "Ham unlocked!",
         showPopup: true,
       }));
       achievementUnlocked = true;
     }
-    if (gameStates.counter >= 8 && !achievements.furniture[3]) {
-      onUpdateAchievements("furniture", 3);
-      setGameStates((prevValues) => ({
-        ...prevValues,
-        unlockedAchievement: "Litter Box Throne unlocked!",
-        showPopup: true,
-      }));
-      achievementUnlocked = true;
-    }
-    if (totalPoints.catchfood >= 12 && !achievements.food[2]) {
+    if (gameStates.counter >= 15 && !achievements.food[2]) {
       onUpdateAchievements("food", 2);
       setGameStates((prevValues) => ({
         ...prevValues,
@@ -154,11 +145,20 @@ export default function GamePage({
       }));
       achievementUnlocked = true;
     }
-    if (totalPoints.catchfood >= 20 && !achievements.food[3]) {
+    if (totalPoints.catchfood >= 50 && !achievements.food[3]) {
       onUpdateAchievements("food", 3);
       setGameStates((prevValues) => ({
         ...prevValues,
         unlockedAchievement: "Burger unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (totalPoints.catchfood >= 100 && !achievements.food[4]) {
+      onUpdateAchievements("food", 4);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Cake unlocked!",
         showPopup: true,
       }));
       achievementUnlocked = true;

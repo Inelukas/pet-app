@@ -149,8 +149,8 @@ export function HowToPlay({ game }) {
               animal&apos;s energy bar. Try to tap as many as possible.
             </li>
             <li>
-              Every 10 seconds, the game speeds up, increasing difficulty. Each
-              round lasts for 60 seconds. Happy tapping!
+              Every 10 seconds, the game speeds up. Each round lasts for 60
+              seconds. Happy tapping!
             </li>
           </ul>
         </StyledHowToPlay>

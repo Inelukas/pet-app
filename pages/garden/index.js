@@ -53,7 +53,7 @@ const PetName = styled.h1`
   box-shadow: var(--global-shadow);
 
   font-size: ${(props) =>
-    `calc(${Math.max(1.5 - (props.nameLength - 6) * 0.1, 0.8)}rem)`};
+    `calc(${Math.max(1.5 - (props.$nameLength - 6) * 0.1, 0.8)}rem)`};
 `;
 
 const PetWrapper = styled.div`
@@ -226,26 +226,26 @@ export default function Garden({
   }, [onTotalTimeSpent, activePet?.isAlive]);
 
   useEffect(() => {
-    if (totalTimeSpent >= 10) {
+    if (totalTimeSpent >= 60) {
       let achievementUnlocked = false;
 
-      if (!achievements.play[0]) {
+      if (!achievements.food[0]) {
+        onUpdateAchievements("food", 0);
+        setUnlockedAchievement("Broccoli unlocked!");
+        setShowPopup(true);
+        achievementUnlocked = true;
+      }
+
+      if (totalTimeSpent >= 300 && !achievements.play[0]) {
         onUpdateAchievements("play", 0);
         setUnlockedAchievement("Twig unlocked!");
         setShowPopup(true);
         achievementUnlocked = true;
       }
 
-      if (totalTimeSpent >= 20 && !achievements.furniture[0]) {
+      if (totalTimeSpent >= 600 && !achievements.furniture[0]) {
         onUpdateAchievements("furniture", 0);
         setUnlockedAchievement("Doghouse unlocked!");
-        setShowPopup(true);
-        achievementUnlocked = true;
-      }
-
-      if (totalTimeSpent >= 40 && !achievements.furniture[1]) {
-        onUpdateAchievements("furniture", 1);
-        setUnlockedAchievement("Throne unlocked!");
         setShowPopup(true);
         achievementUnlocked = true;
       }
@@ -311,7 +311,7 @@ export default function Garden({
           return pet;
         })
       );
-    }, 100);
+    }, 1000);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
@@ -348,7 +348,7 @@ export default function Garden({
     <GardenPage>
       <GardenContainer>
         {activePet && (
-          <PetName nameLength={activePet?.name.length}>
+          <PetName $nameLength={activePet?.name.length}>
             {activePet?.name}
           </PetName>
         )}

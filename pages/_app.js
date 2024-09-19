@@ -59,7 +59,6 @@ export default function App({ Component, pageProps }) {
       !animalChoices.some((pet) => pet.type === "Samantha")
     ) {
       const delayTimer = setTimeout(() => {
-        // This part will execute after 3 seconds
         setAnimalChoices((prevValues) => {
           return [
             ...prevValues,
@@ -85,7 +84,6 @@ export default function App({ Component, pageProps }) {
 
         setShowToastMessage({ show: false, toastText: "" });
 
-        // Show the toast message after 5 seconds (set by the inner timeout)
         const toastMessage = setTimeout(
           () =>
             setShowToastMessage({
@@ -95,11 +93,9 @@ export default function App({ Component, pageProps }) {
           1000
         );
 
-        // Clean up the toast message timeout
         return () => clearTimeout(toastMessage);
-      }, 3000); // Delay of 3 seconds
+      }, 3000);
 
-      // Clean up the 3-second delay timer if component unmounts before it finishes
       return () => clearTimeout(delayTimer);
     }
   }, [ghostNumber]);
@@ -145,7 +141,7 @@ export default function App({ Component, pageProps }) {
     setCurrentPetID(newPet.id);
     setShowToastMessage({
       show: true,
-      toastText: `${newPet.name} has been born`,
+      toastText: `${newPet.name} has been born!`,
     });
   }
 

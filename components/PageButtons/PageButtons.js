@@ -31,7 +31,7 @@ const PageButton = styled.div`
   top: ${({ $top }) => ($top ? $top : "auto")};
   right: ${({ $right }) => ($right ? $right : "auto")};
   left: ${({ $left }) => ($left ? $left : "auto")};
-
+  transform: ${({ $transform }) => ($transform ? $transform : "none")};
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -50,7 +50,8 @@ const PageButton = styled.div`
   &:hover {
     background: var(--signal-gradient);
     box-shadow: var(--global-shadow);
-    transform: scale(1.1);
+    transform: ${({ $transform }) =>
+      $transform ? `${$transform} scale(1.1)` : "scale(1.1)"};
   }
   &:active {
     background: var(--secondary-gradient);
@@ -113,7 +114,7 @@ export default function PageButtons({ router, activePet }) {
       {router.pathname === "/pet-list" && (
         <>
           <Link href="/create" aria-label="Create Icon">
-            <PageButton $color={"orange"} $right={"45%"}>
+            <PageButton $color={"orange"} $transform={"translateX(-50%)"}>
               <Image src={createIcon} alt="Create Icon" width={40} />
             </PageButton>
           </Link>
