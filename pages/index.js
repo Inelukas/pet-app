@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import StyledLink from "@/components/StyledLink/StyledLink";
 import Image from "next/image";
-import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 
 export const StyledStartPage = styled.section`
   display: flex;
@@ -26,29 +25,32 @@ export const StyledStartPage = styled.section`
 `;
 
 export const StyledImage = styled(Image)`
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
 
   @media (min-width: 600px) {
-    width: 500px;
-    height: 500px;
+    width: 450px;
+    height: 450px;
   }
 
   @media (min-width: 900px) {
-    width: 600px;
-    height: 600px;
-  }
-
-  @media (min-width: 1200px) {
-    width: 700px;
-    height: 700px;
+    width: 500px;
+    height: 500px;
   }
 `;
 
-export const StyledButtonLink = styled(StyledLink)`
+const StartButtonContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+`;
+
+export const StartPageGardenLink = styled(StyledLink)`
   border-radius: 10px;
 
-  font-size: small;
+  font-size: 0.9rem;
   padding: 20px 50px;
   white-space: nowrap;
 
@@ -58,8 +60,8 @@ export const StyledButtonLink = styled(StyledLink)`
   }
 
   @media (min-width: 900px) {
-    font-size: 1.75rem;
-    padding: 50px 100px;
+    font-size: 1.6rem;
+    padding: 40px 90px;
   }
 
   @media (min-width: 1200px) {
@@ -68,25 +70,27 @@ export const StyledButtonLink = styled(StyledLink)`
   }
 `;
 
-export const StyledStartSpan = styled.span`
-  font-size: large;
-  background: linear-gradient(90deg, #d5ed9f, #ff9100, #fffbe6);
-  background-clip: border-box;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900;
-  text-align: center;
+const InstructionsLink = styled(StyledLink)`
+  border-radius: 10px;
+
+  height: 2rem;
+  font-size: 0.7rem;
+  padding: 15px 35px;
+  white-space: nowrap;
 
   @media (min-width: 600px) {
-    font-size: 2rem;
+    font-size: 1rem;
+    padding: 15px 60px;
   }
 
   @media (min-width: 900px) {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
+    padding: 30px 70px;
   }
 
   @media (min-width: 1200px) {
-    font-size: 3rem;
+    font-size: 1.7rem;
+    padding: 30px 90px;
   }
 `;
 
@@ -98,16 +102,17 @@ export default function StartPage({ petCollection }) {
     <StyledStartPage>
       <StyledImage
         alt="Pet App Logo"
-        src="/assets/images/logo.png"
-        width={500}
-        height={500}
+        src="/assets/images/app-logo.png"
+        width={350}
+        height={350}
         priority
       />
-      <StyledButtonLink href={buttonLink}>{buttonText}</StyledButtonLink>
-      <StyledStartSpan>
-        Create your own Pet - Feed it, train it, keep it happy!
-      </StyledStartSpan>
-      <MusicPlayer />
+      <StartButtonContainer>
+        <StartPageGardenLink href={buttonLink}>
+          {buttonText}
+        </StartPageGardenLink>
+        <InstructionsLink href="/instructions">Instructions</InstructionsLink>
+      </StartButtonContainer>
     </StyledStartPage>
   );
 }

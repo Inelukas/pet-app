@@ -10,31 +10,38 @@ const HeaderContainer = styled.header`
   top: 10px;
   left: 0;
   width: 100%;
-  height: 70px; /* Explicit height for the header */
+  height: 70px;
 `;
 
 const StyledHeader = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--text-color);
+  box-shadow: var(--global-shadow);
   margin: 20px;
   padding: 10px;
   border-radius: 10px;
-  border: 5px solid #000000;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08);
-  background-color: var(--secondary-color);
+  max-width: 600px;
+
+  background: var(--secondary-gradient);
   width: 80vw;
   text-align: center;
 
   ${(props) =>
     props.$isGraveyard &&
     css`
-      background-color: gray;
+      background: var(--graveyard-gradient);
     `}
 
   @media screen and (min-width: 600px) {
     width: 60vw;
     font-size: 2rem;
+
+    ${(props) =>
+      props.$isGraveyard &&
+      css`
+        width: 40vw;
+      `}
   }
 `;
 
@@ -54,6 +61,8 @@ export default function Header() {
   } else if (router.pathname === "/graveyard") {
     pageTitle = "Pet Cemetery";
     isGraveyard = true;
+  } else if (router.pathname === "/instructions") {
+    pageTitle = "Instructions";
   } else if (router.pathname === "/achievements") {
     pageTitle = "Achievements";
   }

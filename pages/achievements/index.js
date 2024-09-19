@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 
 const AchievementsContainer = styled.div`
@@ -25,11 +24,17 @@ const Columns = styled.div`
 const Column = styled.div`
   flex: 1;
   margin: 0 20px;
-  background-color: var(--secondary-color);
+  background: var(--signal-gradient);
   border-radius: 10px;
   color: var(--text-color);
   font-size: 0.5rem;
   min-width: 80px;
+  box-shadow: var(--global-shadow);
+`;
+
+const ColumnHeading = styled.h1`
+  margin-bottom: 10px;
+  text-transform: capitalize;
 `;
 
 const ImageList = styled.ul`
@@ -76,7 +81,7 @@ export default function AchievementsPage({ achievements }) {
       <Columns>
         {Object.keys(achievementImages).map((category) => (
           <Column key={category}>
-            <h1>{category}</h1>
+            <ColumnHeading>{category}</ColumnHeading>
             <ImageList>
               {achievementImages[category].map((item, index) => (
                 <ImageListItem

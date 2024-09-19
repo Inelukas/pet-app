@@ -8,10 +8,10 @@ export const StyledGamePage = styled.main`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background: #f1f3c2;
+  background: var(--neutral-gradient);
   position: fixed;
   @media screen and (min-width: 1200px) {
-    width: 60%;
+    width: 100%;
   }
 `;
 
@@ -20,12 +20,12 @@ export const StyledGameField = styled.div`
   place-content: center;
   width: 300px;
   min-height: 300px;
-  background: #008000;
-  background-image: var(--game-image);
+  background: var(--primary-gradient);
+  box-shadow: var(--global-shadow);
   border: 2px solid #000000;
   border-radius: 20px;
   position: relative;
-  border: 5px solid #000000;
+
   @media screen and (min-width: 600px) {
     width: 360px;
     min-height: 360px;
@@ -68,11 +68,11 @@ export const Filter = styled.div`
   }
 `;
 
-const StyledHowToPlay = styled.div`
+export const StyledHowToPlay = styled.div`
   display: grid;
   place-content: center;
   gap: 20px;
-  background: var(--secondary-color);
+  background: var(--secondary-gradient);
   font-size: 0.8rem;
   line-height: 2;
   width: 120%;
@@ -137,20 +137,20 @@ export function HowToPlay({ game }) {
           <ul>
             <li>Use your mouse or finger to tap the circles on the screen.</li>
             <li>
-              Try to tap the circles lighting up, but only those displaying a
-              capybara. Tapping a capybara rewards one point.
+              Try to tap the circles lighting up, but only those displaying your
+              pet. Tapping your pet rewards one point.
             </li>
             <li>
               Tapping a circle displaying a ghost will result in point
               deduction.
             </li>
             <li>
-              More tapped capybaras = more energy! Each capybara adds +1 to your
+              More tapped pets = more energy! Each pet adds +2 to your
               animal&apos;s energy bar. Try to tap as many as possible.
             </li>
             <li>
-              Every 10 seconds, the game speeds up, increasing difficulty. Each
-              round lasts for 60 seconds. Happy tapping!
+              Every 10 seconds, the game speeds up. Each round lasts for 60
+              seconds. Happy tapping!
             </li>
           </ul>
         </StyledHowToPlay>

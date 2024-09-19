@@ -6,6 +6,10 @@ import { StyledPetList } from "../pet-list";
 const GraveyardMain = styled.main`
   display: flex;
   justify-content: center;
+  background: var(--graveyard-gradient);
+  background-size: contain;
+  min-height: 100vh;
+  background-repeat: repeat;
 `;
 
 const GraveyardContainer = styled(GardenContainer)`
@@ -13,9 +17,22 @@ const GraveyardContainer = styled(GardenContainer)`
   background-size: 100% 100%;
   padding-top: 80px;
   background-repeat: repeat;
+  min-height: 100vh;
+  @media (min-width: 1200px) {
+    max-width: 800px;
+  }
+
+  @media (min-width: 650px) {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+  }
 `;
 
-export default function Graveyard({ petCollection, onPetCollection }) {
+export default function Graveyard({
+  petCollection,
+  onPetCollection,
+  onPetRevivedMessage,
+}) {
   const deadPets = petCollection.filter(
     (pet) => !pet.isAlive && !pet.isRevived
   );
@@ -50,6 +67,8 @@ export default function Graveyard({ petCollection, onPetCollection }) {
     });
 
     onPetCollection(updatedPets);
+    const revivedPet = petCollection.find((pet) => pet.id === petId);
+    onPetRevivedMessage(revivedPet.name);
   }
 
   return (

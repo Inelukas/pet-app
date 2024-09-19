@@ -4,7 +4,7 @@ import PetSelection from "../PetSelection/PetSelection";
 import Indicator from "../Indicator/Indicator";
 import StyledLink from "../StyledLink/StyledLink";
 import ConfirmButton from "../ConfirmButton/ConfirmButton";
-import { animalList, characteristicOptions } from "@/lib/data";
+import { characteristicOptions } from "@/lib/data";
 import cancelIcon from "../../public/assets/cancel.png";
 import confirmIcon from "../../public/assets/confirm.png";
 import Image from "next/image";
@@ -28,11 +28,11 @@ const StyledIndicatorContainer = styled.div`
   width: 70%;
   max-width: 600px;
   height: 30%;
-  min-height: 200px;
-  border: 2px solid #000000;
-  background: var(--secondary-color);
+  min-height: 120px;
+  text-transform: capitalize;
+  background: var(--secondary-gradient);
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px #000000;
+  box-shadow: var(--global-shadow);
   padding: 0 15px;
 `;
 
@@ -42,12 +42,11 @@ const StyledForm = styled.form`
   width: 80vw;
   max-width: 800px;
   height: 30vh;
-  min-height: 250px;
-  border: 3px solid #000000;
+  min-height: 150px;
   padding: 10px;
-  background: var(--secondary-color);
+  background: var(--secondary-gradient);
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px #000000;
+  box-shadow: var(--global-shadow);
   font-size: 0.8rem;
   font-weight: 800;
 
@@ -71,7 +70,7 @@ const StyledFormArticle = styled.article`
 
   label,
   input {
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     padding: 5px;
     width: 70%;
     border-radius: 10px;
@@ -100,12 +99,25 @@ const StyledCharacteristicsContainer = styled.div`
   }
 `;
 
+const StyledCancelButton = styled(StyledLink)`
+  width: 65px;
+  height: 65px;
+  border-radius: 100px;
+  font-size: 1.5rem;
+  box-shadow: var(--global-shadow);
+  cursor: pointer;
+  margin: 0 20px;
+  transition: none;
+  margin-top: -2px;
+`;
+
 export default function CreatePetForm({
   initialData,
   onCreatePet,
   hideButtons = false,
   onUpdatePet,
   createPet,
+  animalChoices,
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [characteristics, setCharacteristics] = useState({
@@ -117,7 +129,7 @@ export default function CreatePetForm({
 
   useEffect(() => {
     if (initialData) {
-      const petIndex = animalList.findIndex(
+      const petIndex = animalChoices.findIndex(
         (animal) => animal.type === initialData.type
       );
       setCurrentImageIndex(petIndex);
@@ -131,12 +143,12 @@ export default function CreatePetForm({
 
   function handlePreviousPet() {
     const prevPetId =
-      currentImageIndex > 0 ? currentImageIndex - 1 : animalList.length - 1;
+      currentImageIndex > 0 ? currentImageIndex - 1 : animalChoices.length - 1;
     setCurrentImageIndex(prevPetId);
   }
 
   function handleNextPet() {
-    const nextPetId = (currentImageIndex + 1) % animalList.length;
+    const nextPetId = (currentImageIndex + 1) % animalChoices.length;
     setCurrentImageIndex(nextPetId);
   }
 
@@ -144,7 +156,7 @@ export default function CreatePetForm({
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    const petInfo = animalList[currentImageIndex];
+    const petInfo = animalChoices[currentImageIndex];
     const [happiness, energy, intelligence] = petInfo.indicators;
     const petData = {
       ...data,
@@ -184,7 +196,7 @@ export default function CreatePetForm({
   }
 
   function calculateIntelligence(characteristic1, characteristic2) {
-    const currentPetIntelligenceCount = animalList[
+    const currentPetIntelligenceCount = animalChoices[
       currentImageIndex
     ].indicators.find((indicator) => indicator.name === "intelligence").count;
     let intelligenceCount = currentPetIntelligenceCount;
@@ -201,10 +213,11 @@ export default function CreatePetForm({
       <PetSelection
         onPreviousPet={handlePreviousPet}
         onNextPet={handleNextPet}
-        animalList={animalList}
         currentImageIndex={currentImageIndex}
         hideButtons={hideButtons}
+        size="small"
         createPet={createPet}
+        animalChoices={animalChoices}
       />
 
       <StyledForm onSubmit={handleSubmit} id="create-pet">
@@ -213,7 +226,7 @@ export default function CreatePetForm({
           <input
             name="type"
             id="type"
-            value={animalList[currentImageIndex].type}
+            value={animalChoices[currentImageIndex].type}
             disabled
           />
         </StyledFormArticle>
@@ -224,7 +237,7 @@ export default function CreatePetForm({
             id="name"
             value={petName}
             placeholder="Choose your pet name"
-            maxLength={30}
+            maxLength={20}
             required
             onChange={(e) => setPetName(e.target.value)}
           />
@@ -288,7 +301,7 @@ export default function CreatePetForm({
         </StyledFormArticle>
       </StyledForm>
       <StyledIndicatorContainer>
-        {animalList[currentImageIndex].indicators.map((indicator, index) => {
+        {animalChoices[currentImageIndex].indicators.map((indicator, index) => {
           let indicatorCount = indicator.count;
 
           if (indicator.name === "intelligence") {
@@ -309,12 +322,12 @@ export default function CreatePetForm({
         })}
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
-        <StyledLink href="/pet-list">
-          <Image src={cancelIcon} alt="Cancel Icon" width={40} />
-        </StyledLink>
         <ConfirmButton type="submit" form="create-pet">
-          <Image src={confirmIcon} alt="Confirm Icon" width={40} />
+          <Image src={confirmIcon} alt="Confirm Icon" width={40} height={40} />
         </ConfirmButton>
+        <StyledCancelButton href="/pet-list">
+          <Image src={cancelIcon} alt="Cancel Icon" width={40} height={40} />
+        </StyledCancelButton>
       </StyledConfirmButtonContainer>
     </CreatePage>
   );

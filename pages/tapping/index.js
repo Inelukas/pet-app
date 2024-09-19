@@ -20,39 +20,54 @@ const StyledTappingGameField = styled(StyledGameField)`
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
-
+  box-shadow: var(--global-shadow);
   min-height: 375px;
   padding: 10px;
   box-sizing: border-box;
+  border: none;
 `;
 
 const TappingCircle = styled.button`
-  background-image: ${({ $isActive, $petImage, $isWrongActive }) =>
+  position: relative;
+  background: ${({ $isActive, $isWrongActive }) =>
     $isWrongActive
-      ? `url("/assets/images/ghost_front.png")`
+      ? `var(--signal-gradient)`
       : $isActive
-      ? `url(${$petImage})`
-      : "none"};
-  background-size: contain, contain;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
-
-  background-color: ${({ $isActive, $isWrongActive }) =>
-    $isWrongActive
-      ? `var(--signal-color)`
-      : $isActive
-      ? `var(--signal-color)`
-      : `var(--neutral-color)`};
+      ? `var(--signal-gradient)`
+      : `var(--neutral-gradient)`};
 
   border: 2px solid #ccc;
   cursor: pointer;
   width: 100%;
   height: 100%;
   border-radius: 100%;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--global-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 
   &:hover {
     transform: scale(1.05);
+  }
+
+  &::before {
+    content: "";
+    background-image: ${({ $isActive, $petImage, $isWrongActive }) =>
+      $isWrongActive
+        ? `url("/assets/images/ghost_front.png")`
+        : $isActive && $petImage
+        ? `url(${$petImage})`
+        : "none"};
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
   }
 `;
 
@@ -61,15 +76,15 @@ const SpeedUpMessage = styled.span`
   top: 5px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--signal-color);
+  background: var(--signal-gradient);
   background-size: cover;
   background-repeat: no-repeat;
-  color: #fff;
+
   font-size: 1.5rem;
   padding: 10px 20px;
   border-radius: 10px;
   animation: fadeInOut 2s ease;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--global-shadow);
   white-space: nowrap;
   z-index: 1000;
 
@@ -178,7 +193,26 @@ export default function TappingGame({
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
 
-    if (gameStates.score >= 5 && !achievements.play[3]) {
+    if (gameStates.score >= 5 && !achievements.play[1]) {
+      onUpdateAchievements("play", 1);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Ball unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+    if (gameStates.score >= 15 && !achievements.play[2]) {
+      onUpdateAchievements("play", 2);
+      setGameStates((prevValues) => ({
+        ...prevValues,
+        unlockedAchievement: "Yarn unlocked!",
+        showPopup: true,
+      }));
+      achievementUnlocked = true;
+    }
+
+    if (totalPoints.tapping >= 50 && !achievements.play[3]) {
       onUpdateAchievements("play", 3);
       setGameStates((prevValues) => ({
         ...prevValues,
@@ -187,30 +221,11 @@ export default function TappingGame({
       }));
       achievementUnlocked = true;
     }
-    if (gameStates.score >= 8 && !achievements.play[4]) {
+    if (totalPoints.tapping >= 100 && !achievements.play[4]) {
       onUpdateAchievements("play", 4);
       setGameStates((prevValues) => ({
         ...prevValues,
         unlockedAchievement: "Teddy unlocked!",
-        showPopup: true,
-      }));
-      achievementUnlocked = true;
-    }
-
-    if (totalPoints.tapping >= 12 && !achievements.food[4]) {
-      onUpdateAchievements("food", 4);
-      setGameStates((prevValues) => ({
-        ...prevValues,
-        unlockedAchievement: "Cake unlocked!",
-        showPopup: true,
-      }));
-      achievementUnlocked = true;
-    }
-    if (totalPoints.tapping >= 20 && !achievements.food[4]) {
-      onUpdateAchievements("food", 4);
-      setGameStates((prevValues) => ({
-        ...prevValues,
-        unlockedAchievement: "Hammock unlocked!",
         showPopup: true,
       }));
       achievementUnlocked = true;
@@ -230,6 +245,7 @@ export default function TappingGame({
               : prevValues.intervalTime;
 
           if (newCountdown === 0) {
+            setGameStates((prev) => ({ ...prev, gameOn: false }));
             handleReset(true);
             onUpdatePetIndicator(gameStates.score, "energy");
           }
@@ -313,7 +329,7 @@ export default function TappingGame({
       ...prevValues,
       gameOn: true,
       score: 0,
-      countdown: 30,
+      countdown: 60,
     }));
   }
 
@@ -322,6 +338,7 @@ export default function TappingGame({
       ...prevValues,
       gameOn: false,
       activeCircles: [],
+      gameOn: false,
       activeWrongCircles: [],
       clickedCircles: [],
     }));
@@ -331,14 +348,14 @@ export default function TappingGame({
         setGameStates((prevValues) => ({
           ...prevValues,
           intervalTime: 1600,
-          countdown: 30,
+          countdown: 60,
         }));
       }, 1800);
     } else {
       setGameStates((prevValues) => ({
         ...prevValues,
         intervalTime: 1600,
-        countdown: 30,
+        countdown: 60,
       }));
     }
   }

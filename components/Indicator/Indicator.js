@@ -27,8 +27,9 @@ const StyledBarContainer = styled.div`
   border: 2px solid #000000;
   text-align: right;
   padding: 1px 5px;
-  background-color: #ffffff;
+  background: var(--neutral-gradient);
   position: relative;
+  box-shadow: var(--global-shadow);
 
   @media screen and (min-width: 600px) {
     width: 60%;
@@ -36,11 +37,11 @@ const StyledBarContainer = styled.div`
 `;
 
 const colorMap = {
-  health: "#90ee90",
-  happiness: "#ffc0cb",
-  hunger: "#ffa500",
-  energy: "#ffff00",
-  intelligence: "#add8e6",
+  health: "var(--health-gradient)",
+  happiness: "var(--happiness-gradient)",
+  hunger: "var(--hunger-gradient)",
+  energy: "var(--energy-gradient)",
+  intelligence: "var(--intelligence-gradient)",
 };
 
 const StyledBar = styled.div`
@@ -49,8 +50,15 @@ const StyledBar = styled.div`
   position: absolute;
   left: 0;
   top: 0;
+
   width: ${({ width }) => width};
-  background: ${({ name }) => colorMap[name] || "#808080"};
+  background: ${({ width, name }) =>
+    parseInt(width) > 0 ? colorMap[name] : "none"};
+`;
+
+const StyledSpan = styled.span`
+  position: absolute;
+  right: 0;
 `;
 
 export default function Indicator({ data, showBarName = true }) {
@@ -58,9 +66,8 @@ export default function Indicator({ data, showBarName = true }) {
     <StyledIndicator>
       {showBarName ? <h3>{data.name}:</h3> : null}
       <StyledBarContainer>
-        <StyledBar width={`${data.count}%`} name={data.name}>
-          {data.count}/100&nbsp;
-        </StyledBar>
+        <StyledBar width={`${data.count}%`} name={data.name}></StyledBar>
+        <StyledSpan> {data.count || 0}/100&nbsp;</StyledSpan>
       </StyledBarContainer>
     </StyledIndicator>
   );

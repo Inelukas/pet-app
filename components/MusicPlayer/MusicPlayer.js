@@ -4,51 +4,48 @@ import Image from "next/image";
 
 const PlayerWrapper = styled.aside`
   display: flex;
-`;
-
-const NoteIcon = styled.div`
+  justify-content: center;
   position: fixed;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  @media screen and (min-width: 1200px) {
+    max-width: 800px;
+  }
+`;
+const NoteIcon = styled.div`
+  position: absolute;
   width: 25px;
   height: 25px;
   right: 0px;
-  top: 50%;
+  bottom: 50vh;
   cursor: pointer;
   opacity: 0.6;
-
   &:hover {
     opacity: 1;
     transform: scale(1.1);
   }
-
-  @media screen and (min-width: 600px) {
-    transform: scale(1.2);
-    right: 33%;
-  }
 `;
-
 const PlayerContainer = styled(motion.aside)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  position: absolute;
+  margin-right: 10px;
   gap: 25px;
-  position: fixed;
-  background-color: var(--secondary-color);
-  border: 2px solid black;
+  background: var(--secondary-gradient);
+  box-shadow: var(--global-shadow);
   border-radius: 10px;
   width: 50px;
   height: 375px;
   right: 0px;
-  top: 42%;
-
+  bottom: 45vh;
   &:hover {
     opacity: 1;
-  }
-
-  @media screen and (min-width: 600px) {
-    transform: scale(1.2);
-    right: 33%;
-    top: 45%;
   }
 `;
 
@@ -82,6 +79,7 @@ const VolumeControl = styled(motion.input)`
   outline: none;
   margin: 5px;
   width: 50px;
+
   cursor: pointer;
 
   &:hover {
@@ -93,6 +91,7 @@ const VolumeControl = styled(motion.input)`
     background: black;
     width: 8px;
     height: 8px;
+
     border-radius: 5px;
   }
 
@@ -103,7 +102,8 @@ const VolumeControl = styled(motion.input)`
     height: 12px;
     margin-top: -2px;
     border-radius: 50%;
-    background: var(--signal-color);
+    background: var(--signal-gradient);
+
     cursor: pointer;
   }
 

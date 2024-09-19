@@ -18,9 +18,10 @@ const SummaryContainer = styled.div`
   width: 600px;
   height: 400px;
   justify-content: center;
-  border: 2px solid black;
+
   border-radius: 20px;
-  background-color: #f1f3c2;
+  background: var(--neutral-gradient);
+  box-shadow: var(--global-shadow);
 `;
 
 const ButtonContainer = styled.div`
@@ -44,7 +45,9 @@ export default function SummaryScreen({
             <h2>Your pet has been fed!</h2>
             <p>Items caught: {itemsCaught}</p>
             <p>Time taken: {timeTaken} seconds</p>
-            <p>Your pet&apos;s intelligence has increased</p>
+            {itemsCaught >= 5 && (
+              <p>Your pet&apos;s intelligence has increased</p>
+            )}
           </>
         )}
         {snake && (
