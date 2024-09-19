@@ -22,13 +22,12 @@ export const GardenContainer = styled.div`
   max-width: 650px;
   height: 100vh;
   background-image: url("/Background/garden.png");
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: -webkit-fill-available;
 
   @media (min-width: 650px) {
     border-left: 2px solid black;
