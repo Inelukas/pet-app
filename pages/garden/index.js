@@ -14,14 +14,15 @@ import Popup from "@/components/Popup/Popup";
 const GardenPage = styled.main`
   display: flex;
   justify-content: center;
-  height: var(--vh, 100vh);
+  overflow: hidden;
+  max-height: -webkit-fill-available;
 `;
 
 export const GardenContainer = styled.div`
   position: relative;
   width: 100vw;
   max-width: 650px;
-  height: var(--vh, 100vh);
+  height: 100vh;
   background-image: url("/Background/garden.png");
   background-size: cover;
   background-position: center;
@@ -29,6 +30,8 @@ export const GardenContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
+  max-height: -webkit-fill-available;
 
   @media (min-width: 650px) {
     border-left: 2px solid black;
@@ -214,23 +217,6 @@ export default function Garden({
 }) {
   const [unlockedAchievement, setUnlockedAchievement] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    // Function to set --vh to the current height of the viewport
-    const setVh = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    };
-
-    // Initial call
-    setVh();
-
-    // Listen for resize events to recalculate height
-    window.addEventListener("resize", setVh);
-
-    // Cleanup event listener on unmount
-    return () => window.removeEventListener("resize", setVh);
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
