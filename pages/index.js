@@ -7,8 +7,9 @@ export const StyledStartPage = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 95vh;
+  height: 100vh;
   gap: 30px;
+  overflow: hidden;
 `;
 
 export const StyledImage = styled(Image)`
