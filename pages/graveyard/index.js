@@ -7,8 +7,7 @@ const GraveyardMain = styled.main`
   display: flex;
   justify-content: center;
   background: var(--graveyard-gradient);
-  background-size: contain;
-  background-repeat: repeat;
+  height: 90vh;
 `;
 
 const GraveyardContainer = styled(GardenContainer)`
