@@ -98,38 +98,38 @@ export default function SnakeGame({
   }, [gameStates.score, totalPoints]);
   function handleAchievementUpdate() {
     let achievementUnlocked = false;
-    if (gameStates.score >= 5 && !achievements.play[1]) {
-      onUpdateAchievements("play", 1);
+    if (gameStates.score >= 5 && !achievements.furniture[1]) {
+      onUpdateAchievements("furniture", 1);
       setGameStates((prevValues) => ({
         ...prevValues,
-        unlockedAchievement: "Ball unlocked!",
+        unlockedAchievement: "Litter Box unlocked!",
         showPopup: true,
       }));
       achievementUnlocked = true;
     }
-    if (gameStates.score >= 8 && !achievements.play[2]) {
-      onUpdateAchievements("play", 2);
+    if (gameStates.score >= 15 && !achievements.furniture[2]) {
+      onUpdateAchievements("furniture", 2);
       setGameStates((prevValues) => ({
         ...prevValues,
-        unlockedAchievement: "Yarn unlocked!",
+        unlockedAchievement: "Whizz Palace unlocked!",
         showPopup: true,
       }));
       achievementUnlocked = true;
     }
-    if (totalPoints.snake >= 12 && !achievements.food[0]) {
-      onUpdateAchievements("food", 0);
+    if (totalPoints.snake >= 50 && !achievements.furniture[3]) {
+      onUpdateAchievements("furniture", 3);
       setGameStates((prevValues) => ({
         ...prevValues,
-        unlockedAchievement: "Broccoli unlocked!",
+        unlockedAchievement: "Litter Box Throne unlocked!",
         showPopup: true,
       }));
       achievementUnlocked = true;
     }
-    if (totalPoints.snake >= 20 && !achievements.food[1]) {
-      onUpdateAchievements("food", 1);
+    if (totalPoints.snake >= 100 && !achievements.furniture[4]) {
+      onUpdateAchievements("furniture", 4);
       setGameStates((prevValues) => ({
         ...prevValues,
-        unlockedAchievement: "Ham unlocked!",
+        unlockedAchievement: "Hammock unlocked!",
         showPopup: true,
       }));
       achievementUnlocked = true;

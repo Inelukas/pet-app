@@ -56,14 +56,18 @@ const StyledBar = styled.div`
     parseInt(width) > 0 ? colorMap[name] : "none"};
 `;
 
+const StyledSpan = styled.span`
+  position: absolute;
+  right: 0;
+`;
+
 export default function Indicator({ data, showBarName = true }) {
   return (
     <StyledIndicator>
       {showBarName ? <h3>{data.name}:</h3> : null}
       <StyledBarContainer>
-        <StyledBar width={`${data.count}%`} name={data.name}>
-          {data.count || 0}/100&nbsp;
-        </StyledBar>
+        <StyledBar width={`${data.count}%`} name={data.name}></StyledBar>
+        <StyledSpan> {data.count || 0}/100&nbsp;</StyledSpan>
       </StyledBarContainer>
     </StyledIndicator>
   );
