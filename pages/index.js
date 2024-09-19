@@ -8,6 +8,7 @@ export const StyledStartPage = styled.section`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  width: 100vw;
   gap: 30px;
   position: fixed;
 `;

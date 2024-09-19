@@ -14,7 +14,6 @@ import Popup from "@/components/Popup/Popup";
 const GardenPage = styled.main`
   display: flex;
   justify-content: center;
-  position: fixed;
 `;
 
 export const GardenContainer = styled.div`
@@ -23,7 +22,7 @@ export const GardenContainer = styled.div`
   max-width: 650px;
   height: 100vh;
   background-image: url("/Background/garden.png");
-  background-size: cover;
+  background-size: auto;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
