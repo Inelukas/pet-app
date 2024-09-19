@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import cancelIcon from "../../public/assets/cancel.png";
 import Image from "next/image";
 
@@ -84,16 +84,27 @@ const DeleteButton = styled.button`
   }
 `;
 
-export default function ToastMessage({ messageContent }) {
+export default function ToastMessage({ messageContent, onToastMessage }) {
   const [isVisible, setIsVisible] = useState(true);
+  const timerRef = useRef(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // Start the auto-close timer
+    timerRef.current = setTimeout(() => {
       setIsVisible(false);
     }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timerRef.current); // Clean up the timer on unmount
   }, []);
+
+  const handleClose = () => {
+    // Clear the active timer when the user manually closes the toast
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    setIsVisible(false);
+    onToastMessage();
+  };
 
   return (
     <ToastMessageContainer
@@ -103,7 +114,7 @@ export default function ToastMessage({ messageContent }) {
     >
       <MessageWrapper>
         <MessageText>{messageContent}</MessageText>
-        <DeleteButton onClick={() => setIsVisible(false)}>
+        <DeleteButton onClick={handleClose}>
           <Image src={cancelIcon} alt={"Delete Icon"} height={30} width={30} />
         </DeleteButton>
       </MessageWrapper>

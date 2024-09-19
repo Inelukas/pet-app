@@ -1,7 +1,6 @@
 import { GlobalStyle } from "@/GlobalStyles";
 import Header from "@/components/Header/Header";
 import { useState, useEffect } from "react";
-import { pets } from "@/lib/data";
 import { useRouter } from "next/router";
 import { uid } from "uid";
 import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
@@ -9,6 +8,7 @@ import { useRef } from "react";
 import PageButtons from "@/components/PageButtons/PageButtons";
 import useLocalStorageState from "use-local-storage-state";
 import ToastMessage from "@/components/ToastMessage/ToastMessage";
+import { animalList } from "@/lib/data";
 
 export default function App({ Component, pageProps }) {
   const [petCollection, setPetCollection] = useLocalStorageState(
@@ -31,6 +31,13 @@ export default function App({ Component, pageProps }) {
     show: false,
     toastText: "",
   });
+  const [animalChoices, setAnimalChoices] = useLocalStorageState(
+    "animalChoices",
+    { defaultValue: [...animalList] }
+  );
+  const [ghostNumber, setGhostNumber] = useLocalStorageState("ghostNumber", {
+    defaultValue: 0,
+  });
   const audioRef = useRef(null);
 
   const router = useRouter();
@@ -39,12 +46,63 @@ export default function App({ Component, pageProps }) {
     if (showToastMessage.show) {
       const toastMessage = setTimeout(
         () => setShowToastMessage({ show: false, toastText: "" }),
-        5000
+        4000
       );
 
       return () => clearTimeout(toastMessage);
     }
   }, [showToastMessage.show]);
+
+  useEffect(() => {
+    if (
+      ghostNumber === 3 &&
+      !animalChoices.some((pet) => pet.type === "Samantha")
+    ) {
+      const delayTimer = setTimeout(() => {
+        // This part will execute after 3 seconds
+        setAnimalChoices((prevValues) => {
+          return [
+            ...prevValues,
+            {
+              type: "Samantha",
+              icon: "/assets/images/samantha_front.png",
+              image: "/assets/images/samantha.png",
+              animations: {
+                slug: "samantha",
+                size: "136",
+                spriteNumber: { normal: 5, sleepy: 5, dead: 5 },
+                scale: 0.6,
+                position: 40,
+              },
+              indicators: [
+                { name: "happiness", count: 100 },
+                { name: "energy", count: 100 },
+                { name: "intelligence", count: 100 },
+              ],
+            },
+          ];
+        });
+
+        setShowToastMessage({ show: false, toastText: "" });
+
+        // Show the toast message after 5 seconds (set by the inner timeout)
+        const toastMessage = setTimeout(
+          () =>
+            setShowToastMessage({
+              show: true,
+              toastText: "Samantha Unlocked!",
+            }),
+          1000
+        );
+
+        // Clean up the toast message timeout
+        return () => clearTimeout(toastMessage);
+      }, 3000); // Delay of 3 seconds
+
+      // Clean up the 3-second delay timer if component unmounts before it finishes
+      return () => clearTimeout(delayTimer);
+    }
+  }, [ghostNumber]);
 
   const [achievements, setAchievements] = useLocalStorageState("Achievements", {
     defaultValue: {
@@ -297,6 +355,7 @@ export default function App({ Component, pageProps }) {
       show: true,
       toastText: `${name} has come back to haunt you!`,
     });
+    if (ghostNumber <= 2) setGhostNumber((prevValue) => prevValue + 1);
   }
 
   let soundtrack;
@@ -305,7 +364,7 @@ export default function App({ Component, pageProps }) {
     soundtrack = "/assets/music/snake-game-soundtrack.mp3";
   } else if (router.pathname === "/tapping") {
     soundtrack = "/assets/music/tapping-game-soundtrack.mp3";
-  } else if (router.pathname === "/game-catch-the-food") {
+  } else if (router.pathname === "/catch-the-food") {
     soundtrack = "/assets/music/catch-the-food-game-soundtrack.mp3";
   } else if (router.pathname === "/graveyard") {
     soundtrack = "/assets/music/graveyard-soundtrack.mp3";
@@ -357,7 +416,7 @@ export default function App({ Component, pageProps }) {
     "/garden",
     "/snake",
     "/tapping",
-    "/game-catch-the-food",
+    "/catch-the-food",
   ];
 
   return (
@@ -392,6 +451,7 @@ export default function App({ Component, pageProps }) {
         totalTimeSpent={totalTimeSpent}
         onTotalTimeSpent={setTotalTimeSpent}
         onPetRevivedMessage={handlePetRevivedMessage}
+        animalChoices={animalChoices}
       />
       <audio ref={audioRef} src={soundtrack} preload="auto" loop />
       {includedRoutes.includes(router.pathname) && (
@@ -408,7 +468,12 @@ export default function App({ Component, pageProps }) {
       )}
       <PageButtons router={router} activePet={activePet} />
       {showToastMessage.show && (
-        <ToastMessage messageContent={showToastMessage.toastText} />
+        <ToastMessage
+          messageContent={showToastMessage.toastText}
+          onToastMessage={() =>
+            setShowToastMessage({ show: false, toastText: "" })
+          }
+        />
       )}
     </>
   );

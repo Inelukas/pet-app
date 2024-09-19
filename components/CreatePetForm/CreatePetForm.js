@@ -4,7 +4,7 @@ import PetSelection from "../PetSelection/PetSelection";
 import Indicator from "../Indicator/Indicator";
 import StyledLink from "../StyledLink/StyledLink";
 import ConfirmButton from "../ConfirmButton/ConfirmButton";
-import { animalList, characteristicOptions } from "@/lib/data";
+import { characteristicOptions } from "@/lib/data";
 import cancelIcon from "../../public/assets/cancel.png";
 import confirmIcon from "../../public/assets/confirm.png";
 import Image from "next/image";
@@ -117,6 +117,7 @@ export default function CreatePetForm({
   hideButtons = false,
   onUpdatePet,
   createPet,
+  animalChoices,
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [characteristics, setCharacteristics] = useState({
@@ -128,7 +129,7 @@ export default function CreatePetForm({
 
   useEffect(() => {
     if (initialData) {
-      const petIndex = animalList.findIndex(
+      const petIndex = animalChoices.findIndex(
         (animal) => animal.type === initialData.type
       );
       setCurrentImageIndex(petIndex);
@@ -142,12 +143,12 @@ export default function CreatePetForm({
 
   function handlePreviousPet() {
     const prevPetId =
-      currentImageIndex > 0 ? currentImageIndex - 1 : animalList.length - 1;
+      currentImageIndex > 0 ? currentImageIndex - 1 : animalChoices.length - 1;
     setCurrentImageIndex(prevPetId);
   }
 
   function handleNextPet() {
-    const nextPetId = (currentImageIndex + 1) % animalList.length;
+    const nextPetId = (currentImageIndex + 1) % animalChoices.length;
     setCurrentImageIndex(nextPetId);
   }
 
@@ -155,7 +156,7 @@ export default function CreatePetForm({
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    const petInfo = animalList[currentImageIndex];
+    const petInfo = animalChoices[currentImageIndex];
     const [happiness, energy, intelligence] = petInfo.indicators;
     const petData = {
       ...data,
@@ -195,7 +196,7 @@ export default function CreatePetForm({
   }
 
   function calculateintelligence(characteristic1, characteristic2) {
-    const currentPetintelligenceCount = animalList[
+    const currentPetintelligenceCount = animalChoices[
       currentImageIndex
     ].indicators.find((indicator) => indicator.name === "intelligence").count;
     let intelligenceCount = currentPetintelligenceCount;
@@ -212,11 +213,11 @@ export default function CreatePetForm({
       <PetSelection
         onPreviousPet={handlePreviousPet}
         onNextPet={handleNextPet}
-        animalList={animalList}
         currentImageIndex={currentImageIndex}
         hideButtons={hideButtons}
         size="small"
         createPet={createPet}
+        animalChoices={animalChoices}
       />
 
       <StyledForm onSubmit={handleSubmit} id="create-pet">
@@ -225,7 +226,7 @@ export default function CreatePetForm({
           <input
             name="type"
             id="type"
-            value={animalList[currentImageIndex].type}
+            value={animalChoices[currentImageIndex].type}
             disabled
           />
         </StyledFormArticle>
@@ -300,7 +301,7 @@ export default function CreatePetForm({
         </StyledFormArticle>
       </StyledForm>
       <StyledIndicatorContainer>
-        {animalList[currentImageIndex].indicators.map((indicator, index) => {
+        {animalChoices[currentImageIndex].indicators.map((indicator, index) => {
           let indicatorCount = indicator.count;
 
           if (indicator.name === "intelligence") {

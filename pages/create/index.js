@@ -12,10 +12,14 @@ export const StyledCreatePage = styled.main`
   padding: 5vh 0;
 `;
 
-export default function CreatePetPage({ onCreatePet }) {
+export default function CreatePetPage({ onCreatePet, animalChoices }) {
   return (
     <StyledCreatePage>
-      <CreatePetForm onCreatePet={onCreatePet} createPet={true} />
+      <CreatePetForm
+        onCreatePet={onCreatePet}
+        createPet={true}
+        animalChoices={animalChoices}
+      />
     </StyledCreatePage>
   );
 }

@@ -124,11 +124,11 @@ export default function PetSelection({
   onCurrentPet,
   onPreviousPet,
   onNextPet,
-  animalList,
   currentImageIndex,
   hideButtons = false,
   size = "normal",
   createPet,
+  animalChoices,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -195,8 +195,8 @@ export default function PetSelection({
         )}
         <StyledPetIcon onClick={!hideButtons ? onNextPet : null} size={size}>
           <Image
-            src={animalList[currentImageIndex].image}
-            alt={animalList[currentImageIndex].name || "A cute pet"}
+            src={animalChoices[currentImageIndex].image}
+            alt={animalChoices[currentImageIndex].name || "A cute pet"}
             width={size === "small" ? 60 : 100} //
             height={size === "small" ? 60 : 100}
             quality={100}

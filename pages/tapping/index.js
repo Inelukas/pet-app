@@ -340,6 +340,7 @@ export default function TappingGame({
     setGameStates((prevValues) => ({
       ...prevValues,
       activeCircles: [],
+      gameOn: false,
       activeWrongCircles: [],
       clickedCircles: [],
     }));

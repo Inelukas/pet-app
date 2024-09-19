@@ -6,6 +6,7 @@ export default function UpdatePetPage({
   petCollection,
   onUpdatePet,
   activePet,
+  animalChoices,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -23,6 +24,7 @@ export default function UpdatePetPage({
         onUpdatePet={onUpdatePet}
         hideButtons={true}
         createPet={true}
+        animalChoices={animalChoices}
       />
     </StyledCreatePage>
   );
