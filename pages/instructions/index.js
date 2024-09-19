@@ -73,10 +73,9 @@ const ExpandedText = styled.span`
   max-width: 500px;
   display: block;
   font-size: medium;
-  background: var(--secondary-gradient);
+  background: var(--secondary-color);
   border-radius: 10px;
   padding: 7px;
-  box-shadow: var(--global-shadow);
 
   @media (min-width: 600px) {
     font-size: large;
