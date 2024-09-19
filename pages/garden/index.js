@@ -14,6 +14,7 @@ import Popup from "@/components/Popup/Popup";
 const GardenPage = styled.main`
   display: flex;
   justify-content: center;
+  overflow: hidden;
 `;
 
 export const GardenContainer = styled.div`
