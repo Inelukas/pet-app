@@ -7,14 +7,13 @@ const GraveyardMain = styled.main`
   display: flex;
   justify-content: center;
   background: var(--graveyard-gradient);
-  height: 90vh;
+  position: ${({ $enableScrolling }) => ($enableScrolling ? "fixed" : "unset")};
 `;
 
 const GraveyardContainer = styled(GardenContainer)`
   background-image: url("/Background/graveyard.png");
   background-size: 100% 100%;
   padding-top: 80px;
-  background-repeat: repeat;
   @media (min-width: 1200px) {
     max-width: 800px;
   }
@@ -69,7 +68,7 @@ export default function Graveyard({
   }
 
   return (
-    <GraveyardMain>
+    <GraveyardMain $enableScrolling={deadPets.length >= 3}>
       <GraveyardContainer>
         <StyledPetList>
           {deadPets.length > 0 ? (

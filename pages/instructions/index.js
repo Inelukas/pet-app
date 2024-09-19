@@ -18,17 +18,14 @@ const InstructionsHeading = styled.span`
 const StyledFirstWord = styled.span`
   display: inline-block;
   margin: 5px;
-
   font-size: 1.2rem;
   border-radius: 10px;
   padding: 5px;
   cursor: pointer;
   background: var(--signal-gradient);
-
   box-shadow: var(--global-shadow);
   text-decoration: none;
   min-width: 350px;
-
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   &:hover {
