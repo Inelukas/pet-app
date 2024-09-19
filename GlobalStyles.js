@@ -52,7 +52,7 @@ body {
     background-size: cover; 
     background-repeat: no-repeat; 
     background-attachment: fixed; 
-    font-family: Ink Free; 
+    font-family: Skia; 
 }
 
    

@@ -263,7 +263,7 @@ export default function App({ Component, pageProps }) {
     soundtrack = "/assets/music/snake-game-soundtrack.mp3";
   } else if (router.pathname === "/tapping") {
     soundtrack = "/assets/music/tapping-game-soundtrack.mp3";
-  } else if (router.pathname === "/game-catch-the-food") {
+  } else if (router.pathname === "/catch-the-food") {
     soundtrack = "/assets/music/catch-the-food-game-soundtrack.mp3";
   } else if (router.pathname === "/graveyard") {
     soundtrack = "/assets/music/graveyard-soundtrack.mp3";
@@ -315,7 +315,7 @@ export default function App({ Component, pageProps }) {
     "/garden",
     "/snake",
     "/tapping",
-    "/game-catch-the-food",
+    "/catch-the-food",
   ];
 
   return (
