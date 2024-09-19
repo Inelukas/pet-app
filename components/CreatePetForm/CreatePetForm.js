@@ -237,7 +237,7 @@ export default function CreatePetForm({
             id="name"
             value={petName}
             placeholder="Choose your pet name"
-            maxLength={30}
+            maxLength={20}
             required
             onChange={(e) => setPetName(e.target.value)}
           />
@@ -322,12 +322,12 @@ export default function CreatePetForm({
         })}
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
-        <StyledCancelButton href="/pet-list">
-          <Image src={cancelIcon} alt="Cancel Icon" width={40} height={40} />
-        </StyledCancelButton>
         <ConfirmButton type="submit" form="create-pet">
           <Image src={confirmIcon} alt="Confirm Icon" width={40} height={40} />
         </ConfirmButton>
+        <StyledCancelButton href="/pet-list">
+          <Image src={cancelIcon} alt="Cancel Icon" width={40} height={40} />
+        </StyledCancelButton>
       </StyledConfirmButtonContainer>
     </CreatePage>
   );
