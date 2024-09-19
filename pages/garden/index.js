@@ -53,7 +53,7 @@ const PetName = styled.h1`
   box-shadow: var(--global-shadow);
 
   font-size: ${(props) =>
-    `calc(${Math.max(1.5 - (props.nameLength - 6) * 0.1, 0.8)}rem)`};
+    `calc(${Math.max(1.5 - (props.$nameLength - 6) * 0.1, 0.8)}rem)`};
 `;
 
 const PetWrapper = styled.div`
@@ -348,7 +348,7 @@ export default function Garden({
     <GardenPage>
       <GardenContainer>
         {activePet && (
-          <PetName nameLength={activePet?.name.length}>
+          <PetName $nameLength={activePet?.name.length}>
             {activePet?.name}
           </PetName>
         )}

@@ -23,7 +23,7 @@ const ToastMessageContainer = styled(motion.div)`
   width: 80%;
   background: var(--signal-gradient);
   padding: 15px;
-  border: 2px solid #f5c6c6;
+  box-shadow: var (--global-shadow);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,6 @@ const ToastMessageContainer = styled(motion.div)`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  box-shadow: var(--global-shadow);
 `;
 
 const ProgressBarContainer = styled.div`
@@ -40,13 +39,13 @@ const ProgressBarContainer = styled.div`
   width: 100%;
   height: 6px;
   border-radius: 3px;
-  background: #f5c6c6;
+  background: var(--neutral-gradient);
   margin-top: 10px;
 `;
 
 const ProgressBar = styled.div`
   height: 100%;
-  background-color: #28a745;
+  background: var(--primary-gradient);
   animation: ${progressBarAnimation} 3s linear forwards;
 `;
 
@@ -60,7 +59,7 @@ const MessageWrapper = styled.div`
 const MessageText = styled.p`
   font-weight: bold;
   font-size: 1rem;
-  color: #333;
+
   margin: 0;
   white-space: nowrap;
 `;
@@ -69,7 +68,7 @@ const DeleteButton = styled.button`
   position: absolute;
   top: -10px;
   right: -10px;
-  background: transparent;
+  background: var(--secondary-gradient);
   border: none;
   cursor: pointer;
   padding: 5px;
@@ -80,7 +79,8 @@ const DeleteButton = styled.button`
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: rgba(255, 0, 0, 0.1);
+    background: var(--primary-gradient);
+    transform: scale(1.1);
   }
 `;
 
@@ -89,16 +89,14 @@ export default function ToastMessage({ messageContent, onToastMessage }) {
   const timerRef = useRef(null);
 
   useEffect(() => {
-    // Start the auto-close timer
     timerRef.current = setTimeout(() => {
       setIsVisible(false);
     }, 3000);
 
-    return () => clearTimeout(timerRef.current); // Clean up the timer on unmount
+    return () => clearTimeout(timerRef.current);
   }, []);
 
   const handleClose = () => {
-    // Clear the active timer when the user manually closes the toast
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
