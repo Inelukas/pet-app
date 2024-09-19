@@ -40,6 +40,12 @@ input, select, textarea {
 }
 
 
+input:disabled, select:disabled, textarea:disabled {
+    background: linear-gradient(to right, #d3d3d3, #bfbfbf, #808080);
+    
+    cursor: not-allowed; 
+}
+
 body {
     background: ${({ $isGraveyard }) =>
       $isGraveyard ? "var(--graveyard-gradient)" : "var(--primary-gradient)"};
