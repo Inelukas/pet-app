@@ -5,26 +5,34 @@ import reviveIcon from "../../public/assets/revive.png";
 
 export const StyledPet = styled.li`
   display: flex;
-  border: ${({ $currentPet }) =>
-    $currentPet ? "5px solid orange" : "5px solid black"};
+  box-shadow: var(--global-shadow);
   border-radius: 10px;
   margin: 10px;
+
   padding: 10px;
   align-items: center;
-  background: ${({ $onGraveyard }) =>
-    $onGraveyard
-      ? "linear-gradient(90deg, #ffffff, #d3d3d3, #808080)"
-      : "var(--secondary-color)"};
+  background: ${({ $onGraveyard, $currentPet }) =>
+    $currentPet
+      ? "var(--signal-gradient)"
+      : $onGraveyard
+      ? "var(--graveyard-gradient)"
+      : "var(--secondary-gradient)"};
   width: 80vw;
   max-width: 600px;
-  height: ${({ $onGraveyard }) => ($onGraveyard ? "25vh" : "20vh")};
+  height: 20vh;
   min-height: 150px;
   gap: 10%;
+  position: relative;
+
+  &:hover {
+    background: var(--neutral-gradient);
+  }
 
   @media screen and (min-width: 600px) {
     gap: 15%;
   }
 `;
+
 const StyledPetData = styled.section`
   display: flex;
   flex-direction: column;
@@ -45,9 +53,11 @@ const StyledPortrait = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid black;
+
+  box-shadow: var(--global-shadow);
   border-radius: 50%;
-  background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
+  background: ${({ $currentPet }) =>
+    $currentPet ? "var(--secondary-gradient)" : "var(--signal-gradient)"};
   position: relative;
   width: 90px;
   height: 90px;
@@ -84,18 +94,33 @@ export const StyledList = styled.ul`
 
 const ReviveButton = styled(ConfirmButton)`
   align-self: flex-end;
-  background: linear-gradient(90deg, #ffcc99, #ff9900, #cc6600);
-  width: 2.3rem;
-  height: 2.3rem;
+  position: absolute;
+  background: var(--signal-gradient);
+  width: 40px;
+  height: 40px;
+  box-shadow: var(--global-shadow);
+  margin-bottom: 5px;
+  bottom: -15px;
+  right: -10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--secondary-gradient);
+
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 `;
 
 export default function Pet({ petData, onGraveyard, currentPetID }) {
+  const isCurrentPet = petData.id === currentPetID;
+
   return (
-    <StyledPet
-      $onGraveyard={!!onGraveyard}
-      $currentPet={petData.id === currentPetID}
-    >
-      <StyledPortrait>
+    <StyledPet $onGraveyard={!!onGraveyard} $currentPet={isCurrentPet}>
+      <StyledPortrait $currentPet={isCurrentPet}>
         {petData.isAlive ? (
           <Image
             src={petData.image}
@@ -147,7 +172,7 @@ export default function Pet({ petData, onGraveyard, currentPetID }) {
               {new Date(petData.timeOfDeath).toLocaleString()}
             </p>
             <ReviveButton onClick={() => onGraveyard(petData.id)}>
-              <Image src={reviveIcon} alt="Confirm Icon" width={40} />
+              <Image src={reviveIcon} alt="Confirm Icon" width={30} />
             </ReviveButton>
           </>
         )}

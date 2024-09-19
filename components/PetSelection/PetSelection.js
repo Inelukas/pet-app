@@ -17,44 +17,75 @@ const NavbarContainer = styled.nav`
   align-items: center;
   gap: 20px;
   padding: 5px;
-  background-color: var(--secondary-color);
+  background: var(--primary-gradient);
   border-radius: 8px;
   min-width: 200px;
   width: 50%;
   max-width: 250px;
   position: absolute;
   bottom: 10px;
+  box-shadow: var(--global-shadow);
 `;
 
 const NavButton = styled.button`
   ${buttonStyles}
-  background-color: var(--primary-color);
-  color: var(--neutral-color);
+  background: var(--secondary-gradient);
+  color: var(--neutral-gradient);
+  box-shadow: var(--global-shadow);
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--signal-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
+`;
+
+const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
 `;
 
 const DropdownButton = styled.button`
   ${buttonStyles}
-  background-color: var(--signal-color);
+  background: var(--signal-gradient);
   position: relative;
+  box-shadow: var(--global-shadow);
+
+  &:hover {
+    background: var(--secondary-gradient);
+    transform: scale(1.1);
+  }
 `;
 
 const DropdownMenu = styled.ul`
   position: absolute;
   bottom: 85%;
-  background-color: var(--neutral-color);
-  border: 1px solid var(--text-color);
+  background: var(--neutral-gradient);
+  box-shadow: var(--global-shadow);
   list-style: none;
   text-align: center;
   right: 50%;
   transform: translateX(50%);
   opacity: 75%;
+  width: 70px;
+  display: none;
+
+  ${DropdownContainer}:hover & {
+    display: block;
+  }
 `;
 
 const DropdownItem = styled.li`
   padding: 8px;
   cursor: pointer;
   &:hover {
-    background-color: var(--primary-color);
+    background: var(--primary-gradient);
   }
 `;
 
@@ -69,34 +100,35 @@ const StyledPetSelection = styled.div`
 const StyledSelectionButton = styled.button`
   display: grid;
   place-content: center;
-  width: 4rem;
+  width: ${({ size }) => (size === "small" ? "2.5rem" : "4rem")};
+  height: ${({ size }) => (size === "small" ? "30px" : "40px")};
   max-width: 100px;
-  height: 40px;
   border-radius: 10px;
   border: none;
   margin: 0 20px;
-  box-shadow: 2px 2px #000;
+  box-shadow: var(--global-shadow);
   cursor: pointer;
-  background-color: var(--signal-color);
-  background-image: var(--button-image);
-  font-size: 2rem;
+  background: var(--signal-gradient);
+
+  font-size: ${({ size }) => (size === "small" ? "1.2rem" : "2rem")};
   &:hover {
     transform: scale(1.2);
+    background: var(--secondary-gradient);
   }
   &:active {
-    background-color: var(--secondary-color);
+    background: var(--secondary-gradient);
   }
 `;
 
 const StyledPetIcon = styled.div`
-  width: 120px;
-  height: 120px;
+  width: ${({ size }) => (size === "small" ? "80px" : "120px")};
+  height: ${({ size }) => (size === "small" ? "80px" : "120px")};
   display: grid;
   place-content: center;
   border-radius: 20px;
-  background: var(--secondary-color);
-  font-size: 80px;
-  box-shadow: 3px 3px 3px #000;
+  background: var(--signal-gradient);
+  font-size: ${({ size }) => (size === "small" ? "60px" : "80px")};
+  box-shadow: var(--global-shadow);
   cursor: pointer;
   image-rendering: optimizeQuality;
 `;
@@ -111,13 +143,11 @@ export default function PetSelection({
   animalList,
   currentImageIndex,
   hideButtons = false,
+  size = "normal",
   createPet,
 }) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const handlePetSelect = (petId) => {
     onCurrentPetID(petId);
-    setIsDropdownOpen(false);
   };
 
   function renderNavBar() {
@@ -126,20 +156,16 @@ export default function PetSelection({
         {activePet && (
           <NavbarContainer>
             <NavButton onClick={() => onCurrentPet("previous")}>←</NavButton>
-            <DropdownButton
-              onClick={() =>
-                petCollection.length > 1 && setIsDropdownOpen(!isDropdownOpen)
-              }
-            >
-              <Image
-                src={activePet.picture}
-                alt={activePet.name || "A cute pet"}
-                width={30}
-                height={30}
-                quality={100}
-              />
-            </DropdownButton>
-            {isDropdownOpen && (
+            <DropdownContainer>
+              <DropdownButton>
+                <Image
+                  src={activePet.picture}
+                  alt={activePet.name || "A cute pet"}
+                  width={30}
+                  height={30}
+                  quality={100}
+                />
+              </DropdownButton>
               <DropdownMenu>
                 {petCollection.map((pet) => (
                   <DropdownItem
@@ -149,14 +175,14 @@ export default function PetSelection({
                     <Image
                       src={pet.picture}
                       alt={pet.name || "A cute pet"}
-                      width={20}
-                      height={20}
+                      width={30}
+                      height={30}
                       quality={100}
                     />
                   </DropdownItem>
                 ))}
               </DropdownMenu>
-            )}
+            </DropdownContainer>
             <NavButton onClick={() => onCurrentPet("next")}>→</NavButton>
           </NavbarContainer>
         )}
@@ -166,23 +192,27 @@ export default function PetSelection({
 
   function renderPetSelection() {
     return (
-      <StyledPetSelection>
+      <StyledPetSelection size={size}>
         {!hideButtons && (
-          <StyledSelectionButton type="button" onClick={onPreviousPet}>
+          <StyledSelectionButton
+            type="button"
+            onClick={onPreviousPet}
+            size={size}
+          >
             ←
           </StyledSelectionButton>
         )}
-        <StyledPetIcon onClick={!hideButtons ? onNextPet : null}>
+        <StyledPetIcon onClick={!hideButtons ? onNextPet : null} size={size}>
           <Image
             src={animalList[currentImageIndex].image}
             alt={animalList[currentImageIndex].name || "A cute pet"}
-            width={100}
-            height={100}
+            width={size === "small" ? 60 : 100}
+            height={size === "small" ? 60 : 100}
             quality={100}
           />
         </StyledPetIcon>
         {!hideButtons && (
-          <StyledSelectionButton type="button" onClick={onNextPet}>
+          <StyledSelectionButton type="button" onClick={onNextPet} size={size}>
             →
           </StyledSelectionButton>
         )}

@@ -6,6 +6,9 @@ import { useState } from "react";
 import Image from "next/image";
 import deleteIcon from "../../public/assets/delete.png";
 import updateIcon from "../../public/assets/edit.png";
+import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
+import cancelIcon from "../../public/assets/cancel.png";
+import confirmIcon from "../../public/assets/confirm.png";
 
 const DetailsPage = styled.main`
   height: 80vh;
@@ -18,15 +21,16 @@ const DetailsContainer = styled.section`
   flex-direction: column;
   align-items: center;
   margin: 0 5vw;
+
   padding: 10px;
   width: 90%;
   max-width: 800px;
   height: 500px;
   min-height: 60vh;
-  background-color: var(--secondary-color);
-  border: 3px solid #000000;
+  background: transparent;
+
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+
   font-size: 1rem;
 
   @media screen and (min-width: 600px) {
@@ -36,14 +40,14 @@ const DetailsContainer = styled.section`
 
 const PetPictureContainer = styled.section`
   display: flex;
+  box-shadow: var(--global-shadow);
   flex-direction: column;
   align-items: center;
   position: absolute;
-  background-color: var(--secondary-color);
+  background: var(--secondary-gradient);
   padding: 15px;
   border-radius: 10px;
-  border: 3px solid #000000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+
   margin-bottom: 20px;
   width: 100%;
   position: relative;
@@ -55,8 +59,8 @@ const PetPicture = styled.section`
   justify-content: center;
   position: relative;
   border-radius: 10px;
-  border: 1.5px solid #000000;
-  background-color: var(--neutral-color);
+  box-shadow: var(--global-shadow);
+  background: var(--signal-gradient);
   margin-bottom: 10px;
   padding: 5px;
 `;
@@ -68,24 +72,23 @@ const PetName = styled.p`
   text-align: center;
   margin: 5px;
   padding: 5px;
-  background-color: var(--neutral-color);
-  border: 1.5px solid #000000;
+  background: var(--signal-gradient);
+
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--global-shadow);
 `;
 
 const PetCharContainer = styled.section`
   display: flex;
   justify-content: center;
-  background-color: var(--secondary-color);
+  background: var(--secondary-gradient);
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 20px;
   width: 100%;
   text-align: center;
-  border: 3px solid #000000;
-  color: var(--text-color);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  box-shadow: var(--global-shadow);
 `;
 
 const PetStatusContainer = styled.section`
@@ -93,12 +96,12 @@ const PetStatusContainer = styled.section`
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  background-color: var(--secondary-color);
+  background: var(--secondary-gradient);
   border-radius: 10px;
   padding: 15px;
   width: 100%;
-  border: 3px solid #000000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  text-transform: capitalize;
+  box-shadow: var(--global-shadow);
   margin-bottom: 20px;
 `;
 
@@ -113,18 +116,17 @@ const StyledDeleteContainer = styled.section`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 300px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   padding: 20px;
-  background-color: var(--primary-color);
-  color: #ffffff;
-  border: 2px solid #ff0000;
+  background: var(--signal-gradient);
+  font-weight: bold;
+
   border-radius: 15px;
-  box-shadow: 2px 2px #000000;
+  box-shadow: var(--global-shadow);
   z-index: 2;
   cursor: pointer;
 
   @media screen and (min-width: 600px) {
-    font-size: 1rem;
     width: 350px;
   }
 `;
@@ -134,42 +136,45 @@ const DeleteButtonContainer = styled.div`
   gap: 30px;
 `;
 
-const DeleteButtonChoice = styled.span`
-  &:hover {
-    transform: scale(1.2);
-    text-decoration: underline;
-  }
-`;
-
 const StyledDeleteButton = styled.button`
   border: none;
-  background: none;
+  background: var(--signal-gradient);
   cursor: pointer;
+  width: 35px;
+  height: 35px;
   position: absolute;
   right: 12px;
-  opacity: 0.5;
-  color: #ffffff;
-
+  box-shadow: var(--global-shadow);
+  border-radius: 50px;
+  background-size: contain;
   &:hover {
     transform: scale(1.2);
-    opacity: 1;
-    box-shadow: 3px 3px var(--signal-color);
-    border-radius: 20px;
+
+    background: var(--neutral-gradient);
   }
 `;
 
-const StyledUpdateButton = styled.div`
+const StyledUpdateButton = styled.button`
+  border: none;
   position: absolute;
   top: 60px;
-  right: 10px;
-  opacity: 0.5;
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  background: var(--signal-gradient);
+  right: 12px;
+  background-size: contain;
   cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
-
+  box-shadow: var(--global-shadow);
   &:hover {
     transform: scale(1.2);
-    opacity: 1;
-    box-shadow: 3px 3px var(--signal-color);
-    border-radius: 20px;
+    background: var(--neutral-gradient);
+  }
+`;
+
+const DeleteChoiceButton = styled(ConfirmButton)`
+  &:hover {
+    background: var(--primary-gradient);
   }
 `;
 
@@ -235,12 +240,22 @@ export default function PetDetails({ petCollection, onDeletePet }) {
               <StyledDeleteContainer>
                 <p>Are you sure you want to delete your Pet?</p>
                 <DeleteButtonContainer>
-                  <DeleteButtonChoice onClick={confirmDelete}>
-                    Yes
-                  </DeleteButtonChoice>
-                  <DeleteButtonChoice onClick={handleDelete}>
-                    No
-                  </DeleteButtonChoice>
+                  <DeleteChoiceButton onClick={confirmDelete}>
+                    <Image
+                      src={confirmIcon}
+                      alt="Confirm Icon"
+                      width={40}
+                      height={40}
+                    />
+                  </DeleteChoiceButton>
+                  <DeleteChoiceButton onClick={handleDelete}>
+                    <Image
+                      src={cancelIcon}
+                      alt="Cancel Icon"
+                      width={40}
+                      height={40}
+                    />
+                  </DeleteChoiceButton>
                 </DeleteButtonContainer>
               </StyledDeleteContainer>
             )}
@@ -260,7 +275,7 @@ export default function PetDetails({ petCollection, onDeletePet }) {
           </StyledUpdateButton>
         </PetPictureContainer>
         <PetCharContainer>
-          Personality: {pet.characteristics.join(", ")}
+          <b>Personality:&nbsp;</b> {pet.characteristics.join(", ")}
         </PetCharContainer>
         <PetStatusContainer>
           {petStatus.map((status, index) => (

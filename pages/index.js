@@ -100,28 +100,6 @@ const InstructionsLink = styled(StyledLink)`
   }
 `;
 
-export const StyledStartSpan = styled.span`
-  font-size: large;
-  background: linear-gradient(90deg, #d5ed9f, #ff9100, #fffbe6);
-  background-clip: border-box;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900;
-  text-align: center;
-
-  @media (min-width: 600px) {
-    font-size: 2rem;
-  }
-
-  @media (min-width: 900px) {
-    font-size: 2.5rem;
-  }
-
-  @media (min-width: 1200px) {
-    font-size: 3rem;
-  }
-`;
-
 export default function StartPage({ petCollection }) {
   const buttonText = petCollection?.length > 0 ? "Go to Garden" : "Create Pet";
   const buttonLink = petCollection?.length > 0 ? "/garden" : "/create";
@@ -131,8 +109,8 @@ export default function StartPage({ petCollection }) {
       <StyledImage
         alt="Pet App Logo"
         src="/assets/images/logo.png"
-        width={400}
-        height={400}
+        width={350}
+        height={350}
         priority
       />
       <StartButtonContainer>
@@ -141,10 +119,6 @@ export default function StartPage({ petCollection }) {
         </StartPageGardenLink>
         <InstructionsLink href="/instructions">Instructions</InstructionsLink>
       </StartButtonContainer>
-      <StyledStartSpan>
-        Create your own Pet - Feed it, train it, keep it happy!
-      </StyledStartSpan>
-      <MusicPlayer />
     </StyledStartPage>
   );
 }

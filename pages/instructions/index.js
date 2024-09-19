@@ -23,21 +23,29 @@ const StyledFirstWord = styled.span`
   border-radius: 10px;
   padding: 5px;
   cursor: pointer;
-  background-color: var(--signal-color);
-  background-image: var(--button-image);
-  font-family: sans-serif;
-  border: 1px solid #000000;
-  color: #000000;
-  box-shadow: 2px 2px #000000;
+  background: var(--signal-gradient);
+
+  box-shadow: var(--global-shadow);
   text-decoration: none;
   min-width: 350px;
+
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--secondary-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 
   &:hover {
     transform: scale(1.1);
   }
 
   &:active {
-    background-color: var(--secondary-color);
+    background: var(--neutral-gradient);
   }
 
   @media (min-width: 600px) {
@@ -73,9 +81,16 @@ const ExpandedText = styled.span`
   max-width: 500px;
   display: block;
   font-size: medium;
+<<<<<<< HEAD
   background: var(--secondary-color);
   border-radius: 10px;
   padding: 7px;
+=======
+  background: var(--secondary-gradient);
+  border-radius: 10px;
+  padding: 7px;
+  box-shadow: var(--global-shadow);
+>>>>>>> design
 
   @media (min-width: 600px) {
     font-size: large;
@@ -126,7 +141,7 @@ export default function Instructions() {
     },
     {
       firstWord: "View pet details",
-      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: Intelligence, Energy, Hunger, and Happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. `,
+      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: intelligence, energy, hunger, and happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. `,
     },
     {
       firstWord: "The pet garden",

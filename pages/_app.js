@@ -30,7 +30,6 @@ export default function App({ Component, pageProps }) {
 
   const router = useRouter();
 
-  // Achievement state managed here
   const [achievements, setAchievements] = useLocalStorageState("Achievements", {
     defaultValue: {
       food: [false, false, false, false, false],
@@ -47,14 +46,12 @@ export default function App({ Component, pageProps }) {
     },
   });
 
-  // Function to update achievements
   function handleUpdateAchievements(category, index) {
     setAchievements((prevAchievements) => {
-      // Check if achievement is already unlocked
       if (prevAchievements[category][index]) return prevAchievements;
 
       const updatedCategory = [...prevAchievements[category]];
-      updatedCategory[index] = true; // Unlock the achievement
+      updatedCategory[index] = true;
 
       return { ...prevAchievements, [category]: updatedCategory };
     });
@@ -323,7 +320,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle $isGraveyard={router.pathname === "/graveyard"} />
       <Header />
       <Component
         {...pageProps}

@@ -1,30 +1,33 @@
 import Link from "next/link";
 import styled from "styled-components";
-
 export default styled(Link)`
   display: grid;
   place-content: center;
-  width: 3rem;
-  height: 3rem;
-  font-size: 1.5rem;
-  border-radius: 100px;
+  width: 32px;
+  height: 32px;
+  font-size: 0.9rem;
+  border-radius: 10px;
   margin: 0 20px;
-  box-shadow: 2px 2px #000000;
-  cursor: pointer;
-  background-color: var(--signal-color);
-  background-image: var(--button-image);
-  font-family: sans-serif;
-  border: 1px solid #000000;
-  color: #000000;
+
+  background: var(--secondary-gradient);
+
+  font-family: Ink Free;
+
+  color: black;
   text-decoration: none;
+  transition: all 0.2s ease-in-out 0ms;
+  outline: none;
+  box-shadow: var(--global-shadow);
+  &:hover {
+    background: var(--signal-gradient);
 
+    transform: scale(0.95);
+  }
+  &:active {
+    background: var(--primary-gradient);
+  }
   @media screen and (min-width: 600px) {
-    &:hover {
-      transform: scale(1.2);
-    }
-
-    &:active {
-      background-color: var(--secondary-color);
-    }
+    transform: scale(0.9);
+    font-size: 1.5rem;
   }
 `;

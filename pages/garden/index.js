@@ -5,6 +5,10 @@ import AnimatedPet from "@/components/AnimatedPet/AnimatedPet";
 import Image from "next/image";
 import { indicatorZoomKeyframes } from "@/lib/data";
 import PetSelection from "@/components/PetSelection/PetSelection";
+import energyIcon from "../../public/assets/energy.png";
+import heartIcon from "../../public/assets/heart.png";
+import hungerIcon from "../../public/assets/hunger.png";
+import happinessIcon from "../../public/assets/happiness.png";
 import Popup from "@/components/Popup/Popup";
 
 const GardenPage = styled.main`
@@ -27,9 +31,28 @@ export const GardenContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
+  @media (min-width: 650px) {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+  }
   @media (min-width: 1200px) {
     max-width: 800px;
   }
+`;
+
+const PetName = styled.h1`
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+
+  background: var(--secondary-gradient);
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-align: center;
+  z-index: 5;
+  box-shadow: var(--global-shadow);
 `;
 
 const PetWrapper = styled.div`
@@ -55,16 +78,21 @@ const VerticalBarContainer = styled.section`
   align-items: flex-end;
   margin-top: 10px;
 `;
-
 const VerticalBar = styled.section`
   width: 20px;
   height: 100px;
-  background-color: var(--neutral-color);
+  background: var(--neutral-gradient);
   margin-right: 5px;
+  box-shadow: var(--global-shadow);
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-  border: ${({ $critical }) => ($critical ? "2px solid red" : "none")};
+
+  border: 1px solid
+    ${({ $critical }) => ($critical ? "red" : "var(--neutral-gradient)")};
+
+  box-sizing: border-box;
+
   animation: ${({ $critical }) =>
     $critical
       ? css`
@@ -72,10 +100,9 @@ const VerticalBar = styled.section`
         `
       : "none"};
 `;
-
 const VerticalBarFill = styled.section`
   width: 100%;
-  background-color: ${(props) => props.$bgcolor};
+  background: ${(props) => props.$bgcolor};
   height: ${({ value }) => value}%;
   position: absolute;
   bottom: 0;
@@ -85,12 +112,14 @@ const VerticalBarFill = styled.section`
 const HorizontalBar = styled.section`
   width: 100px;
   height: 20px;
-  background-color: var(--neutral-color);
+  box-shadow: var(--global-shadow);
+  background: var(--neutral-gradient);
   border-radius: 4px;
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
-  border: ${({ $critical }) => ($critical ? "2px solid red" : "none")};
+  border: 1px solid
+    ${({ $critical }) => ($critical ? "red" : "var(--neutral-gradient)")};
   animation: ${({ $critical }) =>
     $critical
       ? css`
@@ -102,29 +131,26 @@ const HorizontalBar = styled.section`
 const HorizontalBarFill = styled.section`
   width: ${({ value }) => value}%;
   height: 100%;
-  background-color: green;
+  background: var(--health-gradient);
   position: absolute;
   left: 0;
 `;
 
-const Icon = styled.span`
+const Icon = styled(Image)`
   z-index: 2;
   padding-top: 5px;
-  width: 100%;
+  height: auto;
   position: absolute;
   display: flex;
   justify-content: center;
-  font-size: 0.8rem;
 `;
-
-const HeartIcon = styled.span`
+const HeartIcon = styled(Image)`
   z-index: 2;
   padding-left: 5px;
-  height: 100%;
+  width: auto;
   position: absolute;
   display: flex;
   align-items: center;
-  font-size: 0.8rem;
 `;
 
 const ButtonContainer = styled.section`
@@ -137,18 +163,35 @@ const ButtonContainer = styled.section`
 `;
 
 const StatusLink = styled(Link)`
-  background-color: ${(props) => props.$bgcolor};
+  background: ${(props) => props.$bgcolor};
   color: var(--text-color);
   border: none;
   padding: 10px;
+  box-shadow: var(--global-shadow);
   margin-bottom: 8px;
   border-radius: 4px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   width: 60px;
   text-decoration: none;
   text-align: center;
   font-size: 1.5rem;
+
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
+  transition: all 0.2s ease-in-out;
+
+  ${({ disabled }) =>
+    !disabled &&
+    `
+      &:hover {
+        background: var(--primary-gradient);
+        box-shadow: var(--global-shadow);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        background: var(--secondary-gradient);
+      }
+    `}
 `;
 
 export default function Garden({
@@ -303,6 +346,7 @@ export default function Garden({
   return (
     <GardenPage>
       <GardenContainer>
+        {activePet && <PetName>{activePet?.name}</PetName>}
         {activePet && (
           <StatusContainer>
             <HorizontalBar
@@ -310,7 +354,7 @@ export default function Garden({
                 activePet?.status.health <= 25 && activePet?.status.health !== 0
               }
             >
-              <HeartIcon aria-label="A heart indicating Health">❤️</HeartIcon>
+              <HeartIcon src={heartIcon} alt="Heart Icon" width={18} />
               <HorizontalBarFill value={activePet?.status.health} />
             </HorizontalBar>
             <VerticalBarContainer>
@@ -320,11 +364,9 @@ export default function Garden({
                   activePet?.status.health !== 0
                 }
               >
-                <Icon aria-label="A bowl of ice-cream indicating hunger">
-                  🍨
-                </Icon>
+                <Icon src={hungerIcon} alt="hunger Icon" width={18} />
                 <VerticalBarFill
-                  $bgcolor="orange"
+                  $bgcolor="var(--hunger-gradient)"
                   value={activePet?.status.hunger}
                 />
               </VerticalBar>
@@ -334,9 +376,9 @@ export default function Garden({
                   activePet?.status.health !== 0
                 }
               >
-                <Icon aria-label="Some confetti indicating happiness">🎉</Icon>
+                <Icon src={happinessIcon} alt="happiness Icon" width={18} />
                 <VerticalBarFill
-                  $bgcolor="pink"
+                  $bgcolor="var(--happiness-gradient)"
                   value={activePet?.status.happiness}
                 />
               </VerticalBar>
@@ -346,9 +388,9 @@ export default function Garden({
                   activePet?.status.health !== 0
                 }
               >
-                <Icon aria-label="A battery indicating energy">🔋</Icon>
+                <Icon src={energyIcon} alt="energy Icon" width={18} />
                 <VerticalBarFill
-                  $bgcolor="yellow"
+                  $bgcolor="var(--energy-gradient)"
                   value={activePet?.status.energy}
                 />
               </VerticalBar>
@@ -359,25 +401,24 @@ export default function Garden({
           <ButtonContainer>
             <StatusLink
               href={activePet?.isAlive ? "/catch-the-food" : ""}
-              $bgcolor="orange"
+              $bgcolor="var(--hunger-gradient)"
               disabled={!activePet?.isAlive || activePet?.status.hunger === 0}
             >
-              <span aria-label="celebration">🍽️</span>
+              <Image src={hungerIcon} alt="hunger Icon" width={30} />
             </StatusLink>
-
             <StatusLink
               href={activePet?.isAlive ? "/snake" : ""}
-              $bgcolor="pink"
+              $bgcolor="var(--happiness-gradient)"
               disabled={!activePet?.isAlive}
             >
-              <span aria-label="celebration">🎉</span>
+              <Image src={happinessIcon} alt="happiness Icon" width={30} />
             </StatusLink>
             <StatusLink
               href={activePet?.isAlive ? "/tapping" : ""}
-              $bgcolor="yellow"
+              $bgcolor="var(--energy-gradient)"
               disabled={!activePet?.isAlive}
             >
-              <span aria-label="energy">🔋</span>
+              <Image src={energyIcon} alt="energy Icon" width={30} />
             </StatusLink>
           </ButtonContainer>
         )}

@@ -2,6 +2,12 @@ import Link from "next/link";
 import styled from "styled-components";
 import Image from "next/image";
 import createIcon from "../../public/assets/create.png";
+import listIcon from "../../public/assets/list.png";
+import detailsIcon from "../../public/assets/details.png";
+import achievementsIcon from "../../public/assets/trophy.png";
+import gardenIcon from "../../public/assets/garden.png";
+import graveyardIcon from "../../public/assets/graveyard.png";
+import homeIcon from "../../public/assets/home.png";
 
 const PageButtonContainer = styled.div`
   display: flex;
@@ -25,18 +31,30 @@ const PageButton = styled.div`
   top: ${({ $top }) => ($top ? $top : "auto")};
   right: ${({ $right }) => ($right ? $right : "auto")};
   left: ${({ $left }) => ($left ? $left : "auto")};
-  width: 4rem;
-  height: 4rem;
-  box-shadow: 2px 2px #000000;
-  background-color: ${({ $color }) => $color};
+
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  font-size: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 32px;
-  color: var(--text-color);
-  opacity: 75%;
+  box-shadow: var(--global-shadow);
+
+  background: var(--secondary-gradient);
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--signal-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 `;
 
 export default function PageButtons({ router, activePet }) {
@@ -45,66 +63,75 @@ export default function PageButtons({ router, activePet }) {
       {(router.pathname === "/pet-list" ||
         router.pathname === "/achievements" ||
         router.pathname.includes("/pet-details")) && (
-        <PageButton $color={"lightgreen"} $left={"10px"}>
-          <Link href="/garden" aria-label="A golf hole indicating the Garden">
-            ⛳
-          </Link>
-        </PageButton>
+        <Link href="/garden" aria-label="A golf hole indicating the Garden">
+          <PageButton $color={"lightgreen"} $left={"10px"}>
+            <Image src={gardenIcon} alt="Garden Icon" width={40} />
+          </PageButton>
+        </Link>
       )}
+
       {activePet && router.pathname === "/garden" && (
         <>
-          <PageButton $color={"lightblue"} $left={"10px"}>
-            <Link
-              href={{
-                pathname: `/pet-details/${activePet.id}`,
-              }}
-              aria-label="Magnifying Glass indicating Details"
-            >
-              🔎
-            </Link>
-          </PageButton>
-          <PageButton $color={"green"} $top={"-98vh"} $right={"100px"}>
-            <Link
-              href={{
-                pathname: `/achievements`,
-              }}
-              aria-label="Pokal indicating Achievements"
-            >
-              🏆
-            </Link>
-          </PageButton>
-        </>
-      )}
-      {(router.pathname === "/garden" ||
-        router.pathname === "/graveyard" ||
-        router.pathname.includes("/pet-details")) && (
-        <PageButton $color={"red"} $right={"10px"}>
-          <Link href="/pet-list" aria-label="Staple of Books indicating List">
-            📚
+          <Link
+            href={{
+              pathname: `/pet-details/${activePet.id}`,
+            }}
+            aria-label="Magnifying Glass indicating Details"
+          >
+            <PageButton $color={"lightblue"} $left={"10px"}>
+              <Image src={detailsIcon} alt="Details Icon" width={40} />
+            </PageButton>
           </Link>
-        </PageButton>
-      )}
-      {router.pathname === "/pet-list" && (
-        <>
-          <PageButton $color={"orange"} $right={"45%"}>
-            <Link href="/create" aria-label="Create Icon">
-              <Image src={createIcon} alt="Create Icon" width={30} />
-            </Link>
-          </PageButton>
-          <PageButton $color={"grey"} $right={"10px"}>
-            <Link href="/graveyard" aria-label="Coffing indicating Graveyard">
-              ⚰️
-            </Link>
-          </PageButton>
+
+          <Link
+            href={{
+              pathname: `/achievements`,
+            }}
+            aria-label="Pokal indicating Achievements"
+          >
+            <PageButton $color={"green"} $top={"-73.5vh"} $left={"10px"}>
+              <Image
+                src={achievementsIcon}
+                alt="Achievements Icon"
+                width={30}
+              />
+            </PageButton>
+          </Link>
         </>
       )}
 
-      {activePet && router.pathname === "/instructions" && (
-        <PageButton $color={"green"} $left={"10px"}>
-          <Link href="/" aria-label="House indicating Homepage Link">
-            🏠
+      {(router.pathname === "/garden" ||
+        router.pathname === "/graveyard" ||
+        router.pathname.includes("/pet-details")) && (
+        <Link href="/pet-list" aria-label="Staple of Books indicating List">
+          <PageButton $color={"red"} $right={"10px"}>
+            <Image src={listIcon} alt="List Icon" width={40} />
+          </PageButton>
+        </Link>
+      )}
+
+      {router.pathname === "/pet-list" && (
+        <>
+          <Link href="/create" aria-label="Create Icon">
+            <PageButton $color={"orange"} $right={"45%"}>
+              <Image src={createIcon} alt="Create Icon" width={40} />
+            </PageButton>
           </Link>
-        </PageButton>
+
+          <Link href="/graveyard" aria-label="Coffin indicating Graveyard">
+            <PageButton $color={"grey"} $right={"10px"}>
+              <Image src={graveyardIcon} alt="Graveyard Icon" width={40} />
+            </PageButton>
+          </Link>
+        </>
+      )}
+
+      {router.pathname === "/instructions" && (
+        <Link href="/" aria-label="House indicating Homepage">
+          <PageButton $color={"lightblue"} $left={"10px"}>
+            <Image src={homeIcon} alt="Home Icon" width={40} />
+          </PageButton>
+        </Link>
       )}
     </PageButtonContainer>
   );

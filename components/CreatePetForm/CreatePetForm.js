@@ -28,11 +28,11 @@ const StyledIndicatorContainer = styled.div`
   width: 70%;
   max-width: 600px;
   height: 30%;
-  min-height: 200px;
-  border: 2px solid #000000;
-  background: var(--secondary-color);
+  min-height: 120px;
+  text-transform: capitalize;
+  background: var(--secondary-gradient);
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px #000000;
+  box-shadow: var(--global-shadow);
   padding: 0 15px;
 `;
 
@@ -42,12 +42,11 @@ const StyledForm = styled.form`
   width: 80vw;
   max-width: 800px;
   height: 30vh;
-  min-height: 250px;
-  border: 3px solid #000000;
+  min-height: 150px;
   padding: 10px;
-  background: var(--secondary-color);
+  background: var(--secondary-gradient);
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px #000000;
+  box-shadow: var(--global-shadow);
   font-size: 0.8rem;
   font-weight: 800;
 
@@ -71,7 +70,7 @@ const StyledFormArticle = styled.article`
 
   label,
   input {
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     padding: 5px;
     width: 70%;
     border-radius: 10px;
@@ -98,6 +97,18 @@ const StyledCharacteristicsContainer = styled.div`
       font-size: 1rem;
     }
   }
+`;
+
+const StyledCancelButton = styled(StyledLink)`
+  width: 65px;
+  height: 65px;
+  border-radius: 100px;
+  font-size: 1.5rem;
+  box-shadow: var(--global-shadow);
+  cursor: pointer;
+  margin: 0 20px;
+  transition: none;
+  margin-top: -2px;
 `;
 
 export default function CreatePetForm({
@@ -204,6 +215,7 @@ export default function CreatePetForm({
         animalList={animalList}
         currentImageIndex={currentImageIndex}
         hideButtons={hideButtons}
+        size="small"
         createPet={createPet}
       />
 
@@ -309,11 +321,11 @@ export default function CreatePetForm({
         })}
       </StyledIndicatorContainer>
       <StyledConfirmButtonContainer>
-        <StyledLink href="/pet-list">
-          <Image src={cancelIcon} alt="Cancel Icon" width={40} />
-        </StyledLink>
+        <StyledCancelButton href="/pet-list">
+          <Image src={cancelIcon} alt="Cancel Icon" width={40} height={40} />
+        </StyledCancelButton>
         <ConfirmButton type="submit" form="create-pet">
-          <Image src={confirmIcon} alt="Confirm Icon" width={40} />
+          <Image src={confirmIcon} alt="Confirm Icon" width={40} height={40} />
         </ConfirmButton>
       </StyledConfirmButtonContainer>
     </CreatePage>

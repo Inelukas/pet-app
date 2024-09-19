@@ -3,6 +3,7 @@ import styled from "styled-components";
 const StyledArrowContainer = styled.div`
   position: relative;
   height: 100px;
+
   @media screen and (min-width: 1200px) {
     padding-top: 20px;
   }
@@ -12,11 +13,24 @@ const StyledMoveButton = styled.button`
   position: absolute;
   width: 70px;
   height: 40px;
-  background: #90ee90;
+  background: var(--secondary-gradient);
   border-radius: 10px;
   font-size: 20px;
   top: ${({ $topPosition }) => $topPosition};
   left: ${({ $leftPosition }) => $leftPosition};
+  box-shadow: var(--global-shadow);
+
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--signal-gradient);
+    box-shadow: var(--global-shadow);
+    transform: scale(1.1);
+  }
+  &:active {
+    background: var(--secondary-gradient);
+  }
 `;
 
 export default function ArrowButtons({ onDirection, hide, gameOn }) {

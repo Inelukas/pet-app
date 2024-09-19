@@ -18,9 +18,10 @@ const SummaryContainer = styled.div`
   width: 600px;
   height: 400px;
   justify-content: center;
-  border: 2px solid black;
+
   border-radius: 20px;
-  background-color: #f1f3c2;
+  background: var(--neutral-gradient);
+  box-shadow: var(--global-shadow);
 `;
 
 const ButtonContainer = styled.div`
