@@ -12,8 +12,6 @@ import happinessIcon from "../../public/assets/happiness.png";
 import Popup from "@/components/Popup/Popup";
 
 const GardenPage = styled.main`
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
 `;
@@ -311,7 +309,7 @@ export default function Garden({
           return pet;
         })
       );
-    }, 1000);
+    }, 10);
 
     return () => {
       clearInterval(updateIndicatorsTimer);

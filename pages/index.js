@@ -7,6 +7,7 @@ export const StyledStartPage = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100vh;
   padding: 10px;
   margin: 10px;
   gap: 30px;

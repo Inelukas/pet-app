@@ -8,7 +8,6 @@ const GraveyardMain = styled.main`
   justify-content: center;
   background: var(--graveyard-gradient);
   background-size: contain;
-  min-height: 100vh;
   background-repeat: repeat;
 `;
 
@@ -17,7 +16,6 @@ const GraveyardContainer = styled(GardenContainer)`
   background-size: 100% 100%;
   padding-top: 80px;
   background-repeat: repeat;
-  min-height: 100vh;
   @media (min-width: 1200px) {
     max-width: 800px;
   }
