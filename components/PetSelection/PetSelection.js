@@ -65,7 +65,7 @@ const DropdownButton = styled.button`
 
 const DropdownMenu = styled.ul`
   position: absolute;
-  bottom: 85%;
+  bottom: 100%;
   background: var(--neutral-gradient);
   box-shadow: var(--global-shadow);
   list-style: none;

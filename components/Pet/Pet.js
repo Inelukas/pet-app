@@ -169,7 +169,11 @@ export default function Pet({ petData, onGraveyard, currentPetID }) {
           <>
             <p>
               <span>Time of Death: </span>
-              {new Date(petData.timeOfDeath).toLocaleString()}
+              {new Date(petData.timeOfDeath).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+              })}
             </p>
             <ReviveButton onClick={() => onGraveyard(petData.id)}>
               <Image src={reviveIcon} alt="Confirm Icon" width={30} />

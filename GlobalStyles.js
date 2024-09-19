@@ -52,10 +52,12 @@ body {
     background-size: cover; 
     background-repeat: no-repeat; 
     background-attachment: fixed; 
-    font-family: Ink Free; 
+    font-family: Ink Free, Skia;
 }
 
-   
+
+
+
 @media screen and (min-width: 1200px) {
     width: 60%;
     margin: 0 20%;
