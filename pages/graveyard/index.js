@@ -7,7 +7,7 @@ const GraveyardMain = styled.main`
   display: flex;
   justify-content: center;
   background: var(--graveyard-gradient);
-  position: ${({ $enableScrolling }) => ($enableScrolling ? "fixed" : "unset")};
+  position: ${({ $enableScrolling }) => ($enableScrolling ? "unset" : "fixed")};
   height: 100vh;
   width: 100vw;
 `;
