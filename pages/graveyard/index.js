@@ -8,6 +8,8 @@ const GraveyardMain = styled.main`
   justify-content: center;
   background: var(--graveyard-gradient);
   position: ${({ $enableScrolling }) => ($enableScrolling ? "fixed" : "unset")};
+  height: 100vh;
+  width: 100vw;
 `;
 
 const GraveyardContainer = styled(GardenContainer)`
@@ -68,7 +70,7 @@ export default function Graveyard({
   }
 
   return (
-    <GraveyardMain $enableScrolling={deadPets.length >= 3}>
+    <GraveyardMain $enableScrolling={deadPets.length > 3}>
       <GraveyardContainer>
         <StyledPetList>
           {deadPets.length > 0 ? (
