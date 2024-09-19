@@ -1,6 +1,8 @@
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import cancelIcon from "../../public/assets/cancel.png";
+import Image from "next/image";
 
 const slideIn = {
   hidden: { x: "100%", opacity: 0 },
@@ -63,6 +65,25 @@ const MessageText = styled.p`
   white-space: nowrap;
 `;
 
+const DeleteButton = styled.button`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+`;
+
 export default function ToastMessage({ messageContent }) {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -82,6 +103,9 @@ export default function ToastMessage({ messageContent }) {
     >
       <MessageWrapper>
         <MessageText>{messageContent}</MessageText>
+        <DeleteButton onClick={() => setIsVisible(false)}>
+          <Image src={cancelIcon} alt={"Delete Icon"} height={30} width={30} />
+        </DeleteButton>
       </MessageWrapper>
       <ProgressBarContainer>
         <ProgressBar />
