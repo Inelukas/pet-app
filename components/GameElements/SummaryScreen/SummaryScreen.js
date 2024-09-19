@@ -45,7 +45,9 @@ export default function SummaryScreen({
             <h2>Your pet has been fed!</h2>
             <p>Items caught: {itemsCaught}</p>
             <p>Time taken: {timeTaken} seconds</p>
-            <p>Your pet&apos;s intelligence has increased</p>
+            {itemsCaught >= 5 && (
+              <p>Your pet&apos;s intelligence has increased</p>
+            )}
           </>
         )}
         {snake && (

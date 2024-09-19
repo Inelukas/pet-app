@@ -45,14 +45,15 @@ const PetName = styled.h1`
   top: 8%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.8rem;
-
   background: var(--secondary-gradient);
   padding: 10px 20px;
   border-radius: 8px;
   text-align: center;
   z-index: 5;
   box-shadow: var(--global-shadow);
+
+  font-size: ${(props) =>
+    `calc(${Math.max(1.5 - (props.nameLength - 6) * 0.1, 0.8)}rem)`};
 `;
 
 const PetWrapper = styled.div`
@@ -310,7 +311,7 @@ export default function Garden({
           return pet;
         })
       );
-    }, 1000);
+    }, 100);
 
     return () => {
       clearInterval(updateIndicatorsTimer);
@@ -346,7 +347,11 @@ export default function Garden({
   return (
     <GardenPage>
       <GardenContainer>
-        {activePet && <PetName>{activePet?.name}</PetName>}
+        {activePet && (
+          <PetName nameLength={activePet?.name.length}>
+            {activePet?.name}
+          </PetName>
+        )}
         {activePet && (
           <StatusContainer>
             <HorizontalBar
@@ -400,23 +405,31 @@ export default function Garden({
         {activePet && !activePet?.isRevived && (
           <ButtonContainer>
             <StatusLink
-              href={activePet?.isAlive ? "/catch-the-food" : ""}
+              href={
+                activePet?.isAlive && !activePet?.isDying
+                  ? "/catch-the-food"
+                  : ""
+              }
               $bgcolor="var(--hunger-gradient)"
-              disabled={!activePet?.isAlive || activePet?.status.hunger === 0}
+              disabled={
+                !activePet?.isAlive ||
+                activePet?.isDying ||
+                activePet?.status.hunger === 0
+              }
             >
               <Image src={hungerIcon} alt="hunger Icon" width={30} />
             </StatusLink>
             <StatusLink
-              href={activePet?.isAlive ? "/snake" : ""}
+              href={activePet?.isAlive && !activePet?.isDying ? "/snake" : ""}
               $bgcolor="var(--happiness-gradient)"
-              disabled={!activePet?.isAlive}
+              disabled={!activePet?.isAlive || activePet?.isDying}
             >
               <Image src={happinessIcon} alt="happiness Icon" width={30} />
             </StatusLink>
             <StatusLink
-              href={activePet?.isAlive ? "/tapping" : ""}
+              href={activePet?.isAlive && !activePet?.isDying ? "/tapping" : ""}
               $bgcolor="var(--energy-gradient)"
-              disabled={!activePet?.isAlive}
+              disabled={!activePet?.isAlive || activePet?.isDying}
             >
               <Image src={energyIcon} alt="energy Icon" width={30} />
             </StatusLink>

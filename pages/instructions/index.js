@@ -134,8 +134,8 @@ export default function Instructions() {
       rest: `To create a new pet, go to the Pet List by clicking the List Button on the main screen. Tap the Plus (+) Button on the Pet List page to create your own pet. Customize your pet by giving it a name, choosing its type, and assigning characteristics. `,
     },
     {
-      firstWord: "View pet details",
-      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: intelligence, energy, hunger, and happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. `,
+      firstWord: "Pet details and characteristics",
+      rest: `To view Pet Details, tap any pet on the Pet List to view its details. You will see information such as the pet’s name, type, characteristics, and all the stats: intelligence, energy, hunger, and happiness. The characteristics affect the initial values of your pet as well as their increase and decrease rate. For example: a smart pet has a higher initial intelligence, a gluttonous one becomes hungry more easily. Every characteristic has silver linings and downsides - have fun exploring them!`,
     },
     {
       firstWord: "The pet garden",

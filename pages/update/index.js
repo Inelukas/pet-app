@@ -6,9 +6,12 @@ export default function UpdatePetPage({
   petCollection,
   onUpdatePet,
   activePet,
+  animalChoices,
 }) {
   const router = useRouter();
   const { id } = router.query;
+
+  const pet = petCollection.find((pet) => pet.id == id);
 
   if (!activePet) {
     return <p>Pet not found!</p>;
@@ -17,10 +20,11 @@ export default function UpdatePetPage({
   return (
     <StyledCreatePage>
       <CreatePetForm
-        initialData={activePet}
+        initialData={pet}
         onUpdatePet={onUpdatePet}
         hideButtons={true}
         createPet={true}
+        animalChoices={animalChoices}
       />
     </StyledCreatePage>
   );

@@ -336,8 +336,9 @@ export default function TappingGame({
   function handleReset(delay) {
     setGameStates((prevValues) => ({
       ...prevValues,
-
+      gameOn: false,
       activeCircles: [],
+      gameOn: false,
       activeWrongCircles: [],
       clickedCircles: [],
     }));
