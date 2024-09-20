@@ -5,12 +5,7 @@ Welcome to Furry Tails, the ultimate virtual pet care experience! Adopt, nurture
 ## Features
 
 🐾 Create and Interact with Your Pets
-Choose from a variety of cute animals, including:
-
--Capybara
--Frog
--Fox
-
+Choose from a variety of cute animals!
 Name your pet and start building your bond! Feed them, play with them, and ensure they're happy and healthy. Your pet’s characteristics influence its stats, so choose wisely when creating your virtual companion!
 
 ## 🎮 Play Fun Mini-Games
@@ -33,14 +28,15 @@ Sometimes, even the best caretakers experience loss. But in Furry Tails, it’s 
 
 There's a hidden challenge in Furry Tails – try to unlock the mysterious Samantha! What secrets does she hold? Play through the game to find out!
 
-### Getting Started
+#
 
-Download and Install the App
-Head over to your preferred app store to download Furry Tails.
+## Getting Started
+
+Head over to vercel and play Furry Tails for free!
 
 ### Create Your First Pet
 
-Choose from the capybara, frog, or fox, and customize your new friend’s characteristics. These choices will affect the way your pet interacts with the world!
+Choose from special animals like capybara, frog, or fox, and customize your new friend’s characteristics. These choices will affect the way your pet interacts with the world!
 
 ### Interact and Play
 
