@@ -43,7 +43,6 @@ input, select, textarea {
 
 input:disabled, select:disabled, textarea:disabled {
     background: var(--grey-gradient); 
-    
     cursor: not-allowed; 
 }
 
