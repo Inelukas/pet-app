@@ -15,7 +15,7 @@ Name your pet and start building your bond! Feed them, play with them, and ensur
 
 ## 🎮 Play Fun Mini-Games
 
-Boost your pet’s stats and mood by playing fun mini-games! Whether you're helping them jump over obstacles, solve puzzles, or complete unique challenges, each game helps you take care of your furry (or slimy!) friends. These mini-games don’t just improve stats – they’re also the key to unlocking cool achievements!
+Boost your pet’s stats and mood by playing fun mini-games! Whether you're helping them catch the food, build a family, or show your agility in the tapping game, each game helps you take care of your furry (or misterious) friends. These mini-games don’t just improve stats – they’re also the key to unlocking cool achievements!
 
 ## 🏆 Unlock Achievements
 
