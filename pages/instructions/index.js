@@ -4,6 +4,11 @@ import { useState } from "react";
 
 const StyledInstructionsPage = styled(StyledStartPage)`
   padding-top: 80px;
+  position: unset;
+
+  @media (min-width: 600px) {
+    gap: 60px;
+  }
 `;
 
 const InstructionsHeading = styled.span`
