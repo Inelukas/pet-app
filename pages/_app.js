@@ -153,9 +153,13 @@ export default function App({ Component, pageProps }) {
       toastText: `${deletedPet.name} has been deleted!`,
     });
     setCurrentPetID((prevID) =>
-      deletedPet.id === activePet?.id ? petCollection[1]?.id || null : prevID
+      deletedPet.id === activePet?.id
+        ? petCollection[petCollection[0].id === activePet.id ? 1 : 0]?.id ||
+          null
+        : prevID
     );
   }
+
   function handleUpdatePet(updatedPetData) {
     setPetCollection((prevData) =>
       prevData.map((pet) =>

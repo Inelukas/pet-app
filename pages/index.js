@@ -7,21 +7,10 @@ export const StyledStartPage = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  margin: 10px;
+  height: 100vh;
+  width: 100vw;
   gap: 30px;
-
-  @media (min-width: 600px) {
-    gap: 60px;
-  }
-
-  @media (min-width: 900px) {
-    gap: 70px;
-  }
-
-  @media (min-width: 1200px) {
-    gap: 80px;
-  }
+  position: fixed;
 `;
 
 export const StyledImage = styled(Image)`

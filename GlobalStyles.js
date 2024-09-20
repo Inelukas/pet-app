@@ -43,7 +43,6 @@ input, select, textarea {
 
 input:disabled, select:disabled, textarea:disabled {
     background: var(--grey-gradient); 
-    
     cursor: not-allowed; 
 }
 
@@ -53,7 +52,7 @@ body {
     background-size: cover; 
     background-repeat: no-repeat; 
     background-attachment: fixed; 
-    font-family: Ink Free, Skia;
+    font-family: Ink Free, Skia; 
 }
 
 
