@@ -32,7 +32,7 @@ There's a hidden challenge in Furry Tails – try to unlock the mysterious Saman
 
 ## Getting Started
 
-Head over to vercel and play Furry Tails for free!
+Head over to vercel and play Furry Tails for free! https://pet-app-pied.vercel.app/
 
 ### Create Your First Pet
 
