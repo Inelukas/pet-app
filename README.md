@@ -61,3 +61,6 @@ Developed by:
 [Johann Merck](https://github.com/JohannMerck)
 
 [Daniel Dorow](https://github.com/DanBorDor)
+
+All sounds and music: https://uppbeat.io/ <br>
+All sprites: https://elthen.itch.io/, https://eduardscarpato.itch.io/, https://niffirggames.itch.io/charliethecapybara
