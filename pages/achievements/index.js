@@ -33,7 +33,7 @@ const Column = styled.div`
 `;
 
 const ColumnHeading = styled.h1`
-  margin-bottom: 10px;
+  margin: 10px 0;
   text-transform: capitalize;
 `;
 

@@ -59,6 +59,7 @@ const StyledBar = styled.div`
 const StyledSpan = styled.span`
   position: absolute;
   right: 0;
+  top: 3px;
 `;
 
 export default function Indicator({ data, showBarName = true }) {

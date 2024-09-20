@@ -17,7 +17,7 @@ export const StyledPetList = styled.ul`
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  padding-bottom: 50px;
+  padding-bottom: 60px;
 `;
 
 const StyledPet = styled(Link)`
