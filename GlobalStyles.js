@@ -53,11 +53,7 @@ body {
     background-size: cover; 
     background-repeat: no-repeat; 
     background-attachment: fixed; 
-<<<<<<< HEAD
     font-family: Ink Free, Skia; 
-=======
-    font-family: Ink Free, Skia;
->>>>>>> refs/remotes/origin/design
 }
 
 
